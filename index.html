@@ -21,15 +21,32 @@
     <section class="calendar-section">
 
       <div class="calendar-header">
-        <button id="prevMonth" type="button" aria-label="前の月">
+
+        <button
+          id="prevMonth"
+          type="button"
+          aria-label="前の月"
+        >
           ‹
         </button>
 
-        <h2 id="currentMonth"></h2>
+        <button
+          id="monthPickerButton"
+          class="month-picker-button"
+          type="button"
+          aria-label="年月を選択"
+        >
+          <span id="currentMonth"></span>
+        </button>
 
-        <button id="nextMonth" type="button" aria-label="次の月">
+        <button
+          id="nextMonth"
+          type="button"
+          aria-label="次の月"
+        >
           ›
         </button>
+
       </div>
 
       <div class="weekdays">
@@ -42,7 +59,10 @@
         <div>日</div>
       </div>
 
-      <div id="calendar" class="calendar-grid"></div>
+      <div
+        id="calendar"
+        class="calendar-grid"
+      ></div>
 
       <div class="calendar-legend">
         <span class="dot youtube-dot"></span>
@@ -62,19 +82,76 @@
 
     </section>
 
+
+    <!-- 年月選択 -->
+    <div
+      id="monthPicker"
+      class="month-picker-overlay"
+      hidden
+    >
+
+      <div class="month-picker">
+
+        <h2>年月を選択</h2>
+
+        <div class="month-picker-selects">
+
+          <label>
+            <span>年</span>
+            <select id="yearSelect"></select>
+          </label>
+
+          <label>
+            <span>月</span>
+            <select id="monthSelect"></select>
+          </label>
+
+        </div>
+
+        <div class="month-picker-actions">
+
+          <button
+            id="monthPickerCancel"
+            type="button"
+          >
+            キャンセル
+          </button>
+
+          <button
+            id="monthPickerGo"
+            type="button"
+          >
+            移動
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
   </main>
 
+
+  <!-- 下部ナビゲーション -->
   <nav class="bottom-nav">
 
-    <button class="nav-item active" type="button">
+    <button
+      class="nav-item active"
+      type="button"
+    >
       <span>CALENDAR</span>
     </button>
 
-    <button class="nav-item" type="button">
+    <button
+      class="nav-item"
+      type="button"
+    >
       <span>EXPLORE</span>
     </button>
 
   </nav>
+
 
   <script src="app.js"></script>
 
