@@ -1,10 +1,22 @@
-const calendar = document.getElementById("calendar");
-const currentMonth = document.getElementById("currentMonth");
-const selectedDate = document.getElementById("selectedDate");
-const supplyList = document.getElementById("supplyList");
+const calendar =
+  document.getElementById("calendar");
 
-const prevMonthButton = document.getElementById("prevMonth");
-const nextMonthButton = document.getElementById("nextMonth");
+const currentMonth =
+  document.getElementById("currentMonth");
+
+const selectedDate =
+  document.getElementById("selectedDate");
+
+const supplyList =
+  document.getElementById("supplyList");
+
+
+const prevMonthButton =
+  document.getElementById("prevMonth");
+
+const nextMonthButton =
+  document.getElementById("nextMonth");
+
 
 const monthPickerButton =
   document.getElementById("monthPickerButton");
@@ -24,6 +36,7 @@ const monthPickerCancel =
 const monthPickerGo =
   document.getElementById("monthPickerGo");
 
+
 /* =========================
    画面
 ========================= */
@@ -31,11 +44,46 @@ const monthPickerGo =
 const calendarView =
   document.getElementById("calendarView");
 
+const exploreView =
+  document.getElementById("exploreView");
+
 const detailView =
   document.getElementById("detailView");
 
 const bottomNav =
   document.getElementById("bottomNav");
+
+
+/* =========================
+   下部ナビ
+========================= */
+
+const calendarNavButton =
+  document.getElementById("calendarNavButton");
+
+const exploreNavButton =
+  document.getElementById("exploreNavButton");
+
+
+/* =========================
+   EXPLORE
+========================= */
+
+const exploreSearchInput =
+  document.getElementById("exploreSearchInput");
+
+const exploreResultLabel =
+  document.getElementById("exploreResultLabel");
+
+const exploreResultCount =
+  document.getElementById("exploreResultCount");
+
+const exploreList =
+  document.getElementById("exploreList");
+
+const exploreLoadMore =
+  document.getElementById("exploreLoadMore");
+
 
 /* =========================
    DETAIL
@@ -56,6 +104,7 @@ const detailDate =
 const detailYoutubeLink =
   document.getElementById("detailYoutubeLink");
 
+
 /* =========================
    基本データ
 ========================= */
@@ -64,36 +113,74 @@ let supplies = [];
 
 const today = new Date();
 
-let displayYear = today.getFullYear();
-let displayMonth = today.getMonth();
+let displayYear =
+  today.getFullYear();
 
-let selectedDateKey = formatDateKey(
-  today.getFullYear(),
-  today.getMonth(),
-  today.getDate()
-);
+let displayMonth =
+  today.getMonth();
+
+let selectedDateKey =
+  formatDateKey(
+    today.getFullYear(),
+    today.getMonth(),
+    today.getDate()
+  );
+
+
+/* =========================
+   現在のメイン画面
+========================= */
+
+/*
+  "calendar"
+  "explore"
+
+  DETAILから戻るときに使用する
+*/
+
+let currentMainView = "calendar";
+
+
+/* =========================
+   EXPLORE表示設定
+========================= */
+
+const EXPLORE_PAGE_SIZE = 50;
+
+let exploreVisibleCount =
+  EXPLORE_PAGE_SIZE;
+
 
 /* =========================
    供給データを読み込む
 ========================= */
 
 async function loadSupplies() {
+
   try {
+
     const response =
       await fetch("data/supplies.json");
 
     if (!response.ok) {
+
       throw new Error(
         "供給データを読み込めませんでした。"
       );
+
     }
 
-    supplies = await response.json();
+    supplies =
+      await response.json();
 
     renderCalendar();
+
     renderSelectedDate();
 
+    renderExplore();
+
   } catch (error) {
+
     console.error(error);
 
     supplyList.innerHTML = `
@@ -101,46 +188,84 @@ async function loadSupplies() {
         データの読み込みに失敗しました。
       </p>
     `;
+
+    exploreList.innerHTML = `
+      <p class="explore-empty">
+        データの読み込みに失敗しました。
+      </p>
+    `;
+
   }
+
 }
+
 
 /* =========================
    日付を YYYY-MM-DD にする
 ========================= */
 
-function formatDateKey(year, month, day) {
+function formatDateKey(
+  year,
+  month,
+  day
+) {
+
   const formattedMonth =
-    String(month + 1).padStart(2, "0");
+    String(month + 1)
+      .padStart(2, "0");
 
   const formattedDay =
-    String(day).padStart(2, "0");
+    String(day)
+      .padStart(2, "0");
 
   return (
     `${year}-${formattedMonth}-${formattedDay}`
   );
+
 }
+
+
+/* =========================
+   YYYY-MM-DD を
+   日本語の日付にする
+========================= */
+
+function formatDisplayDate(dateString) {
+
+  const [year, month, day] =
+    dateString
+      .split("-")
+      .map(Number);
+
+  return `${year}年${month}月${day}日`;
+
+}
+
 
 /* =========================
    カレンダーを描画
 ========================= */
 
 function renderCalendar() {
+
   calendar.innerHTML = "";
 
   currentMonth.textContent =
     `${displayYear}年${displayMonth + 1}月`;
 
-  const firstDay = new Date(
-    displayYear,
-    displayMonth,
-    1
-  );
+  const firstDay =
+    new Date(
+      displayYear,
+      displayMonth,
+      1
+    );
 
-  const lastDate = new Date(
-    displayYear,
-    displayMonth + 1,
-    0
-  ).getDate();
+  const lastDate =
+    new Date(
+      displayYear,
+      displayMonth + 1,
+      0
+    ).getDate();
 
   /*
     JavaScriptでは
@@ -148,8 +273,10 @@ function renderCalendar() {
 
     今回は月曜始まりなので変換
   */
+
   const startPosition =
     (firstDay.getDay() + 6) % 7;
+
 
   /* 月初より前の空白 */
 
@@ -158,14 +285,19 @@ function renderCalendar() {
     i < startPosition;
     i++
   ) {
+
     const emptyCell =
       document.createElement("div");
 
     emptyCell.className =
       "calendar-day empty";
 
-    calendar.appendChild(emptyCell);
+    calendar.appendChild(
+      emptyCell
+    );
+
   }
+
 
   /* 日付 */
 
@@ -175,59 +307,86 @@ function renderCalendar() {
     day++
   ) {
 
-    const dateKey = formatDateKey(
-      displayYear,
-      displayMonth,
-      day
-    );
+    const dateKey =
+      formatDateKey(
+        displayYear,
+        displayMonth,
+        day
+      );
 
     const dayButton =
       document.createElement("button");
 
     dayButton.type = "button";
-    dayButton.className = "calendar-day";
+
+    dayButton.className =
+      "calendar-day";
+
 
     /* 今日 */
 
     if (
-      displayYear === today.getFullYear() &&
-      displayMonth === today.getMonth() &&
-      day === today.getDate()
+      displayYear ===
+        today.getFullYear() &&
+      displayMonth ===
+        today.getMonth() &&
+      day ===
+        today.getDate()
     ) {
-      dayButton.classList.add("today");
+
+      dayButton.classList.add(
+        "today"
+      );
+
     }
+
 
     /* 選択中の日 */
 
-    if (dateKey === selectedDateKey) {
-      dayButton.classList.add("selected");
+    if (
+      dateKey === selectedDateKey
+    ) {
+
+      dayButton.classList.add(
+        "selected"
+      );
+
     }
+
 
     const dayNumber =
       document.createElement("span");
 
-    dayNumber.className = "day-number";
-    dayNumber.textContent = day;
+    dayNumber.className =
+      "day-number";
 
-    dayButton.appendChild(dayNumber);
+    dayNumber.textContent =
+      day;
+
+    dayButton.appendChild(
+      dayNumber
+    );
+
 
     /*
       この日にYouTube供給があるか確認。
       動画が何本あっても赤い●は1つ。
     */
 
-    const hasYouTube = supplies.some(
-      supply =>
-        supply.date === dateKey &&
-        supply.type === "youtube"
-    );
+    const hasYouTube =
+      supplies.some(
+        supply =>
+          supply.date === dateKey &&
+          supply.type === "youtube"
+      );
 
     if (hasYouTube) {
 
       const dots =
         document.createElement("div");
 
-      dots.className = "supply-dots";
+      dots.className =
+        "supply-dots";
 
       const dot =
         document.createElement("span");
@@ -238,7 +397,9 @@ function renderCalendar() {
       dots.appendChild(dot);
 
       dayButton.appendChild(dots);
+
     }
+
 
     /* 日付をタップ */
 
@@ -246,17 +407,24 @@ function renderCalendar() {
       "click",
       () => {
 
-        selectedDateKey = dateKey;
+        selectedDateKey =
+          dateKey;
 
         renderCalendar();
+
         renderSelectedDate();
 
       }
     );
 
-    calendar.appendChild(dayButton);
+    calendar.appendChild(
+      dayButton
+    );
+
   }
+
 }
+
 
 /* =========================
    選択日の供給を表示
@@ -264,23 +432,23 @@ function renderCalendar() {
 
 function renderSelectedDate() {
 
-  const [year, month, day] =
-    selectedDateKey
-      .split("-")
-      .map(Number);
-
   selectedDate.textContent =
-    `${year}年${month}月${day}日`;
+    formatDisplayDate(
+      selectedDateKey
+    );
 
   const selectedSupplies =
     supplies.filter(
       supply =>
-        supply.date === selectedDateKey
+        supply.date ===
+        selectedDateKey
     );
 
   supplyList.innerHTML = "";
 
-  if (selectedSupplies.length === 0) {
+  if (
+    selectedSupplies.length === 0
+  ) {
 
     supplyList.innerHTML = `
       <p class="no-supplies">
@@ -289,7 +457,9 @@ function renderSelectedDate() {
     `;
 
     return;
+
   }
+
 
   /*
     現時点ではYouTubeのみ。
@@ -302,13 +472,16 @@ function renderSelectedDate() {
         supply.type === "youtube"
     );
 
-  if (youtubeSupplies.length > 0) {
+  if (
+    youtubeSupplies.length > 0
+  ) {
 
     const category =
       document.createElement("div");
 
     category.className =
       "supply-category";
+
 
     const categoryTitle =
       document.createElement("div");
@@ -325,13 +498,17 @@ function renderSelectedDate() {
       categoryTitle
     );
 
+
     youtubeSupplies.forEach(
       supply => {
 
         const item =
-          document.createElement("button");
+          document.createElement(
+            "button"
+          );
 
         item.type = "button";
+
         item.className =
           "supply-item";
 
@@ -341,35 +518,471 @@ function renderSelectedDate() {
         `;
 
         item
-          .querySelector(".supply-title")
+          .querySelector(
+            ".supply-title"
+          )
           .textContent =
           supply.title;
-
-        /*
-          タイトルを押したら
-          DETAIL画面を開く
-        */
 
         item.addEventListener(
           "click",
           () => {
-            openDetail(supply);
+
+            openDetail(
+              supply,
+              "calendar"
+            );
+
           }
         );
 
-        category.appendChild(item);
+        category.appendChild(
+          item
+        );
+
       }
     );
 
-    supplyList.appendChild(category);
+    supplyList.appendChild(
+      category
+    );
+
   }
+
 }
+
+
+/* =========================
+   EXPLORE用データを作る
+========================= */
+
+function getExploreSupplies() {
+
+  const query =
+    exploreSearchInput.value
+      .trim()
+      .toLocaleLowerCase();
+
+  /*
+    新しい公開日時から順にする。
+
+    publishedAtがない供給が
+    将来追加された場合はdateを使う。
+  */
+
+  const sortedSupplies =
+    [...supplies].sort(
+      (a, b) => {
+
+        const aDate =
+          a.publishedAt ||
+          a.date ||
+          "";
+
+        const bDate =
+          b.publishedAt ||
+          b.date ||
+          "";
+
+        return bDate.localeCompare(
+          aDate
+        );
+
+      }
+    );
+
+
+  /* 検索していない場合 */
+
+  if (!query) {
+
+    return sortedSupplies;
+
+  }
+
+
+  /*
+    現時点ではタイトル検索。
+
+    将来検索対象を増やす場合は
+    ここを拡張できる。
+  */
+
+  return sortedSupplies.filter(
+    supply => {
+
+      const title =
+        String(
+          supply.title || ""
+        ).toLocaleLowerCase();
+
+      return title.includes(query);
+
+    }
+  );
+
+}
+
+
+/* =========================
+   EXPLOREを描画
+========================= */
+
+function renderExplore() {
+
+  const query =
+    exploreSearchInput.value
+      .trim();
+
+  const filteredSupplies =
+    getExploreSupplies();
+
+
+  /* ヘッダー */
+
+  exploreResultLabel.textContent =
+    query
+      ? "SEARCH RESULTS"
+      : "ALL";
+
+  exploreResultCount.textContent =
+    `${filteredSupplies.length.toLocaleString()}件`;
+
+
+  /* 一覧を空にする */
+
+  exploreList.innerHTML = "";
+
+
+  /* 検索結果なし */
+
+  if (
+    filteredSupplies.length === 0
+  ) {
+
+    exploreList.innerHTML = `
+      <p class="explore-empty">
+        該当する供給はありません。
+      </p>
+    `;
+
+    exploreLoadMore.hidden =
+      true;
+
+    return;
+
+  }
+
+
+  /* 今回表示する分だけ取得 */
+
+  const visibleSupplies =
+    filteredSupplies.slice(
+      0,
+      exploreVisibleCount
+    );
+
+
+  visibleSupplies.forEach(
+    supply => {
+
+      const item =
+        document.createElement(
+          "button"
+        );
+
+      item.type = "button";
+
+      item.className =
+        "explore-item";
+
+
+      /* 公開日 */
+
+      const date =
+        document.createElement(
+          "span"
+        );
+
+      date.className =
+        "explore-item-date";
+
+      date.textContent =
+        formatDisplayDate(
+          supply.date
+        );
+
+
+      /* カテゴリ */
+
+      const category =
+        document.createElement(
+          "span"
+        );
+
+      category.className =
+        "explore-item-category";
+
+
+      if (
+        supply.type === "youtube"
+      ) {
+
+        category.innerHTML = `
+          <span class="dot youtube-dot"></span>
+          <span>YouTube</span>
+        `;
+
+      } else {
+
+        category.textContent =
+          supply.type || "";
+
+      }
+
+
+      /* タイトル＋矢印 */
+
+      const main =
+        document.createElement(
+          "span"
+        );
+
+      main.className =
+        "explore-item-main";
+
+
+      const title =
+        document.createElement(
+          "span"
+        );
+
+      title.className =
+        "explore-item-title";
+
+      title.textContent =
+        supply.title;
+
+
+      const arrow =
+        document.createElement(
+          "span"
+        );
+
+      arrow.className =
+        "explore-item-arrow";
+
+      arrow.textContent =
+        "›";
+
+
+      main.appendChild(title);
+
+      main.appendChild(arrow);
+
+
+      item.appendChild(date);
+
+      item.appendChild(category);
+
+      item.appendChild(main);
+
+
+      /* DETAILへ */
+
+      item.addEventListener(
+        "click",
+        () => {
+
+          openDetail(
+            supply,
+            "explore"
+          );
+
+        }
+      );
+
+
+      exploreList.appendChild(
+        item
+      );
+
+    }
+  );
+
+
+  /*
+    まだ表示していない供給が
+    残っている場合だけ
+    「さらに表示」を出す
+  */
+
+  exploreLoadMore.hidden =
+    exploreVisibleCount >=
+    filteredSupplies.length;
+
+}
+
+
+/* =========================
+   EXPLORE検索
+========================= */
+
+exploreSearchInput.addEventListener(
+  "input",
+  () => {
+
+    /*
+      検索語が変わったら
+      表示件数を最初の50件へ戻す
+    */
+
+    exploreVisibleCount =
+      EXPLORE_PAGE_SIZE;
+
+    renderExplore();
+
+  }
+);
+
+
+/* =========================
+   EXPLORE さらに表示
+========================= */
+
+exploreLoadMore.addEventListener(
+  "click",
+  () => {
+
+    exploreVisibleCount +=
+      EXPLORE_PAGE_SIZE;
+
+    renderExplore();
+
+  }
+);
+
+
+/* =========================
+   CALENDAR画面を開く
+========================= */
+
+function showCalendarView() {
+
+  currentMainView =
+    "calendar";
+
+  calendarView.hidden =
+    false;
+
+  exploreView.hidden =
+    true;
+
+  detailView.hidden =
+    true;
+
+  bottomNav.hidden =
+    false;
+
+
+  calendarNavButton
+    .classList.add("active");
+
+  exploreNavButton
+    .classList.remove("active");
+
+
+  renderCalendar();
+
+  renderSelectedDate();
+
+}
+
+
+/* =========================
+   EXPLORE画面を開く
+========================= */
+
+function showExploreView() {
+
+  currentMainView =
+    "explore";
+
+  calendarView.hidden =
+    true;
+
+  exploreView.hidden =
+    false;
+
+  detailView.hidden =
+    true;
+
+  bottomNav.hidden =
+    false;
+
+
+  calendarNavButton
+    .classList.remove("active");
+
+  exploreNavButton
+    .classList.add("active");
+
+
+  renderExplore();
+
+}
+
+
+/* =========================
+   下部ナビ
+========================= */
+
+calendarNavButton.addEventListener(
+  "click",
+  () => {
+
+    showCalendarView();
+
+    window.scrollTo({
+      top: 0,
+      behavior: "instant"
+    });
+
+  }
+);
+
+
+exploreNavButton.addEventListener(
+  "click",
+  () => {
+
+    showExploreView();
+
+    window.scrollTo({
+      top: 0,
+      behavior: "instant"
+    });
+
+  }
+);
+
 
 /* =========================
    DETAILを開く
 ========================= */
 
-function openDetail(supply) {
+function openDetail(
+  supply,
+  fromView
+) {
+
+  /*
+    DETAILをどこから開いたか記憶
+  */
+
+  currentMainView =
+    fromView;
+
 
   /*
     videoIdから
@@ -379,17 +992,15 @@ function openDetail(supply) {
   const youtubeUrl =
     `https://www.youtube.com/watch?v=${supply.videoId}`;
 
+
   /*
     videoIdから
     サムネイルURLを生成
-
-    maxresdefaultを使用。
-    将来API取得時には
-    サムネイル情報を直接使うことも可能。
   */
 
   const thumbnailUrl =
     `https://i.ytimg.com/vi/${supply.videoId}/maxresdefault.jpg`;
+
 
   /* サムネイル */
 
@@ -399,42 +1010,51 @@ function openDetail(supply) {
   detailThumbnail.alt =
     `${supply.title}のサムネイル`;
 
+
   /* タイトル */
 
   detailTitle.textContent =
     supply.title;
 
+
   /* 公開日 */
 
-  const [year, month, day] =
-    supply.date
-      .split("-")
-      .map(Number);
-
   detailDate.textContent =
-    `${year}年${month}月${day}日`;
+    formatDisplayDate(
+      supply.date
+    );
+
 
   /* YouTubeリンク */
 
   detailYoutubeLink.href =
     youtubeUrl;
 
+
   /* 画面切り替え */
 
-  calendarView.hidden = true;
-  detailView.hidden = false;
-  bottomNav.hidden = true;
+  calendarView.hidden =
+    true;
 
-  /*
-    DETAILを開いたら
-    ページ上部へ移動
-  */
+  exploreView.hidden =
+    true;
+
+  detailView.hidden =
+    false;
+
+  bottomNav.hidden =
+    true;
+
+
+  /* ページ上部へ */
 
   window.scrollTo({
     top: 0,
     behavior: "instant"
   });
+
 }
+
 
 /* =========================
    DETAILから戻る
@@ -442,25 +1062,60 @@ function openDetail(supply) {
 
 function closeDetail() {
 
-  detailView.hidden = true;
-  calendarView.hidden = false;
-  bottomNav.hidden = false;
+  detailView.hidden =
+    true;
 
-  /*
-    カレンダーの年月や
-    選択日は変更しない
-  */
+  bottomNav.hidden =
+    false;
+
+
+  if (
+    currentMainView ===
+    "explore"
+  ) {
+
+    calendarView.hidden =
+      true;
+
+    exploreView.hidden =
+      false;
+
+    calendarNavButton
+      .classList.remove("active");
+
+    exploreNavButton
+      .classList.add("active");
+
+  } else {
+
+    calendarView.hidden =
+      false;
+
+    exploreView.hidden =
+      true;
+
+    calendarNavButton
+      .classList.add("active");
+
+    exploreNavButton
+      .classList.remove("active");
+
+  }
 
 }
 
-/* 戻るボタン */
+
+/* DETAIL 戻るボタン */
 
 detailBackButton.addEventListener(
   "click",
   () => {
+
     closeDetail();
+
   }
 );
+
 
 /* =========================
    前月へ
@@ -472,15 +1127,21 @@ prevMonthButton.addEventListener(
 
     displayMonth--;
 
-    if (displayMonth < 0) {
+    if (
+      displayMonth < 0
+    ) {
+
       displayMonth = 11;
+
       displayYear--;
+
     }
 
     renderCalendar();
 
   }
 );
+
 
 /* =========================
    翌月へ
@@ -492,15 +1153,21 @@ nextMonthButton.addEventListener(
 
     displayMonth++;
 
-    if (displayMonth > 11) {
+    if (
+      displayMonth > 11
+    ) {
+
       displayMonth = 0;
+
       displayYear++;
+
     }
 
     renderCalendar();
 
   }
 );
+
 
 /* =========================
    年月選択の選択肢を作る
@@ -509,11 +1176,11 @@ nextMonthButton.addEventListener(
 function createMonthPickerOptions() {
 
   yearSelect.innerHTML = "";
+
   monthSelect.innerHTML = "";
 
-  /*
-    2021年から現在年まで
-  */
+
+  /* 2021年から現在年まで */
 
   const startYear = 2021;
 
@@ -527,15 +1194,22 @@ function createMonthPickerOptions() {
   ) {
 
     const option =
-      document.createElement("option");
+      document.createElement(
+        "option"
+      );
 
-    option.value = year;
+    option.value =
+      year;
 
     option.textContent =
       `${year}年`;
 
-    yearSelect.appendChild(option);
+    yearSelect.appendChild(
+      option
+    );
+
   }
+
 
   /* 1月〜12月 */
 
@@ -546,16 +1220,24 @@ function createMonthPickerOptions() {
   ) {
 
     const option =
-      document.createElement("option");
+      document.createElement(
+        "option"
+      );
 
-    option.value = month;
+    option.value =
+      month;
 
     option.textContent =
       `${month}月`;
 
-    monthSelect.appendChild(option);
+    monthSelect.appendChild(
+      option
+    );
+
   }
+
 }
+
 
 /* =========================
    年月選択を開く
@@ -571,10 +1253,12 @@ monthPickerButton.addEventListener(
     monthSelect.value =
       displayMonth + 1;
 
-    monthPicker.hidden = false;
+    monthPicker.hidden =
+      false;
 
   }
 );
+
 
 /* =========================
    年月選択をキャンセル
@@ -584,10 +1268,12 @@ monthPickerCancel.addEventListener(
   "click",
   () => {
 
-    monthPicker.hidden = true;
+    monthPicker.hidden =
+      true;
 
   }
 );
+
 
 /* =========================
    選択した年月へ移動
@@ -598,10 +1284,14 @@ monthPickerGo.addEventListener(
   () => {
 
     const selectedYear =
-      Number(yearSelect.value);
+      Number(
+        yearSelect.value
+      );
 
     const selectedMonth =
-      Number(monthSelect.value);
+      Number(
+        monthSelect.value
+      );
 
     displayYear =
       selectedYear;
@@ -609,12 +1299,14 @@ monthPickerGo.addEventListener(
     displayMonth =
       selectedMonth - 1;
 
-    monthPicker.hidden = true;
+    monthPicker.hidden =
+      true;
 
     renderCalendar();
 
   }
 );
+
 
 /* =========================
    背景を押したら年月選択を閉じる
@@ -624,12 +1316,19 @@ monthPicker.addEventListener(
   "click",
   event => {
 
-    if (event.target === monthPicker) {
-      monthPicker.hidden = true;
+    if (
+      event.target ===
+      monthPicker
+    ) {
+
+      monthPicker.hidden =
+        true;
+
     }
 
   }
 );
+
 
 /* =========================
    初期設定
