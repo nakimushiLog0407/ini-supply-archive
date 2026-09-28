@@ -31,6 +31,10 @@ button {
   -webkit-tap-highlight-color: transparent;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 /* =========================
    アプリ全体
 ========================= */
@@ -321,6 +325,133 @@ button {
 }
 
 /* =========================
+   DETAIL画面
+========================= */
+
+.detail-view {
+  width: 100%;
+}
+
+.detail-header {
+  display: grid;
+  grid-template-columns: 44px 1fr 44px;
+  align-items: center;
+
+  height: 72px;
+}
+
+.detail-header > span {
+  text-align: center;
+
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+}
+
+.detail-back-button {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  width: 44px;
+  height: 44px;
+
+  padding: 0;
+
+  border: 0;
+  background: transparent;
+
+  color: #222222;
+
+  font-size: 30px;
+
+  cursor: pointer;
+}
+
+.detail-header-space {
+  width: 44px;
+  height: 44px;
+}
+
+.detail-content {
+  width: 100%;
+  padding-top: 10px;
+}
+
+/* サムネイル */
+
+.detail-thumbnail-wrapper {
+  position: relative;
+
+  width: 100%;
+  aspect-ratio: 16 / 9;
+
+  overflow: hidden;
+
+  border-radius: 12px;
+
+  background: #f2f2f2;
+}
+
+.detail-thumbnail {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+}
+
+/* タイトル */
+
+.detail-title {
+  margin: 22px 0 0;
+
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 1.6;
+}
+
+/* 公開日 */
+
+.detail-date {
+  margin: 10px 0 0;
+
+  color: #777777;
+
+  font-size: 13px;
+}
+
+/* YouTubeリンク */
+
+.detail-youtube-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 7px;
+
+  width: 100%;
+  height: 50px;
+
+  margin-top: 30px;
+
+  border-radius: 12px;
+
+  background: #ff0000;
+  color: #ffffff;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  text-decoration: none;
+}
+
+.detail-youtube-link:active {
+  opacity: 0.8;
+}
+
+/* =========================
    年月選択
 ========================= */
 
@@ -478,6 +609,7 @@ button {
 ========================= */
 
 @media (min-width: 600px) {
+
   .app {
     padding-right: 28px;
     padding-left: 28px;
@@ -486,4 +618,5 @@ button {
   .calendar-grid {
     grid-auto-rows: 64px;
   }
+
 }
