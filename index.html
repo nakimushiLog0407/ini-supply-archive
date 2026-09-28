@@ -13,77 +13,167 @@
 
   <main class="app">
 
-    <header class="app-header">
-      <h1>INI SUPPLY ARCHIVE</h1>
-    </header>
+    <!-- =========================
+         CALENDAR画面
+    ========================== -->
 
-    <!-- カレンダー -->
-    <section class="calendar-section">
+    <div id="calendarView">
 
-      <div class="calendar-header">
+      <header class="app-header">
+        <h1>INI SUPPLY ARCHIVE</h1>
+      </header>
+
+      <section class="calendar-section">
+
+        <div class="calendar-header">
+
+          <button
+            id="prevMonth"
+            type="button"
+            aria-label="前の月"
+          >
+            ‹
+          </button>
+
+          <button
+            id="monthPickerButton"
+            class="month-picker-button"
+            type="button"
+            aria-label="年月を選択"
+          >
+            <span id="currentMonth"></span>
+          </button>
+
+          <button
+            id="nextMonth"
+            type="button"
+            aria-label="次の月"
+          >
+            ›
+          </button>
+
+        </div>
+
+        <div class="weekdays">
+          <div>月</div>
+          <div>火</div>
+          <div>水</div>
+          <div>木</div>
+          <div>金</div>
+          <div>土</div>
+          <div>日</div>
+        </div>
+
+        <div
+          id="calendar"
+          class="calendar-grid"
+        ></div>
+
+        <div class="calendar-legend">
+          <span class="dot youtube-dot"></span>
+          <span>YouTube</span>
+        </div>
+
+      </section>
+
+
+      <!-- 選択した日の供給 -->
+
+      <section class="supplies-section">
+
+        <h2 id="selectedDate">
+          日付を選択してください
+        </h2>
+
+        <div id="supplyList"></div>
+
+      </section>
+
+    </div>
+
+
+    <!-- =========================
+         DETAIL画面
+    ========================== -->
+
+    <div
+      id="detailView"
+      class="detail-view"
+      hidden
+    >
+
+      <header class="detail-header">
 
         <button
-          id="prevMonth"
+          id="detailBackButton"
+          class="detail-back-button"
           type="button"
-          aria-label="前の月"
+          aria-label="カレンダーに戻る"
         >
           ‹
         </button>
 
-        <button
-          id="monthPickerButton"
-          class="month-picker-button"
-          type="button"
-          aria-label="年月を選択"
+        <span>DETAIL</span>
+
+        <div class="detail-header-space"></div>
+
+      </header>
+
+
+      <section class="detail-content">
+
+        <!-- サムネイル -->
+
+        <div class="detail-thumbnail-wrapper">
+
+          <img
+            id="detailThumbnail"
+            class="detail-thumbnail"
+            src=""
+            alt=""
+          >
+
+        </div>
+
+
+        <!-- タイトル -->
+
+        <h1
+          id="detailTitle"
+          class="detail-title"
+        ></h1>
+
+
+        <!-- 公開日 -->
+
+        <p
+          id="detailDate"
+          class="detail-date"
+        ></p>
+
+
+        <!-- YouTubeリンク -->
+
+        <a
+          id="detailYoutubeLink"
+          class="detail-youtube-link"
+          href="#"
+          target="_blank"
+          rel="noopener noreferrer"
         >
-          <span id="currentMonth"></span>
-        </button>
+          YouTubeで見る
+          <span aria-hidden="true">↗</span>
+        </a>
 
-        <button
-          id="nextMonth"
-          type="button"
-          aria-label="次の月"
-        >
-          ›
-        </button>
+      </section>
 
-      </div>
-
-      <div class="weekdays">
-        <div>月</div>
-        <div>火</div>
-        <div>水</div>
-        <div>木</div>
-        <div>金</div>
-        <div>土</div>
-        <div>日</div>
-      </div>
-
-      <div
-        id="calendar"
-        class="calendar-grid"
-      ></div>
-
-      <div class="calendar-legend">
-        <span class="dot youtube-dot"></span>
-        <span>YouTube</span>
-      </div>
-
-    </section>
-
-    <!-- 選択した日の供給 -->
-    <section class="supplies-section">
-
-      <h2 id="selectedDate">
-        日付を選択してください
-      </h2>
-
-      <div id="supplyList"></div>
-
-    </section>
+    </div>
 
 
-    <!-- 年月選択 -->
+    <!-- =========================
+         年月選択
+    ========================== -->
+
     <div
       id="monthPicker"
       class="month-picker-overlay"
@@ -133,8 +223,14 @@
   </main>
 
 
-  <!-- 下部ナビゲーション -->
-  <nav class="bottom-nav">
+  <!-- =========================
+       下部ナビゲーション
+  ========================== -->
+
+  <nav
+    id="bottomNav"
+    class="bottom-nav"
+  >
 
     <button
       class="nav-item active"
