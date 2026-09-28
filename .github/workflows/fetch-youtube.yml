@@ -1,7 +1,14 @@
 name: Fetch YouTube Videos
 
 on:
+  # 手動実行
   workflow_dispatch:
+
+  # 毎日23:00（日本時間）に自動実行
+  # GitHub ActionsのcronはUTC基準
+  # 14:00 UTC = 23:00 JST
+  schedule:
+    - cron: "0 14 * * *"
 
 permissions:
   contents: write
