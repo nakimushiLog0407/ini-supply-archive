@@ -1,0 +1,284 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  background: #ffffff;
+  color: #222222;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Helvetica Neue",
+    "Hiragino Kaku Gothic ProN",
+    "Hiragino Sans",
+    Arial,
+    sans-serif;
+}
+
+button {
+  font: inherit;
+}
+
+/* =========================
+   アプリ全体
+========================= */
+
+.app {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 0 18px 100px;
+}
+
+.app-header {
+  padding: 28px 0 18px;
+  text-align: center;
+}
+
+.app-header h1 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+}
+
+/* =========================
+   カレンダー
+========================= */
+
+.calendar-section {
+  width: 100%;
+}
+
+.calendar-header {
+  display: grid;
+  grid-template-columns: 44px 1fr 44px;
+  align-items: center;
+  margin-bottom: 22px;
+}
+
+.calendar-header h2 {
+  margin: 0;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.calendar-header button {
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #222222;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-bottom: 7px;
+  color: #777777;
+  font-size: 12px;
+  text-align: center;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-auto-rows: 58px;
+}
+
+.calendar-day {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 6px;
+  padding-top: 8px;
+  border: 0;
+  background: transparent;
+  color: #222222;
+  cursor: pointer;
+}
+
+.calendar-day.empty {
+  cursor: default;
+}
+
+.day-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  font-size: 14px;
+}
+
+.calendar-day.today .day-number {
+  border: 1px solid #222222;
+}
+
+.calendar-day.selected {
+  background: #f5f5f5;
+  border-radius: 10px;
+}
+
+/* =========================
+   供給カテゴリの丸
+========================= */
+
+.supply-dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  min-height: 7px;
+}
+
+.dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+
+/* YouTube */
+.youtube-dot {
+  background: #ff0000;
+}
+
+/* =========================
+   凡例
+========================= */
+
+.calendar-legend {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  margin-top: 12px;
+  color: #666666;
+  font-size: 12px;
+}
+
+/* =========================
+   選択日の供給一覧
+========================= */
+
+.supplies-section {
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid #eeeeee;
+}
+
+.supplies-section > h2 {
+  margin: 0 0 22px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.supply-category {
+  margin-bottom: 28px;
+}
+
+.supply-category-title {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 10px;
+  color: #555555;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.supply-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 2px;
+  border: 0;
+  border-bottom: 1px solid #eeeeee;
+  background: transparent;
+  color: #222222;
+  text-align: left;
+  cursor: pointer;
+}
+
+.supply-title {
+  flex: 1;
+  padding-right: 16px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.supply-arrow {
+  flex-shrink: 0;
+  color: #aaaaaa;
+  font-size: 20px;
+}
+
+.no-supplies {
+  margin: 0;
+  color: #888888;
+  font-size: 14px;
+}
+
+/* =========================
+   下部ナビゲーション
+========================= */
+
+.bottom-nav {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  height: 68px;
+  border-top: 1px solid #eeeeee;
+  background: rgba(255, 255, 255, 0.96);
+}
+
+.nav-item {
+  width: 50%;
+  max-width: 300px;
+  border: 0;
+  background: transparent;
+  color: #999999;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+
+.nav-item.active {
+  color: #222222;
+}
+
+/* =========================
+   少し大きい画面
+========================= */
+
+@media (min-width: 600px) {
+  .app {
+    padding-right: 28px;
+    padding-left: 28px;
+  }
+
+  .calendar-grid {
+    grid-auto-rows: 64px;
+  }
+}
