@@ -93,6 +93,78 @@
 
 
     <!-- =========================
+         EXPLORE画面
+    ========================== -->
+
+    <div
+      id="exploreView"
+      hidden
+    >
+
+      <header class="app-header">
+        <h1>EXPLORE</h1>
+      </header>
+
+      <section class="explore-section">
+
+        <!-- 検索 -->
+
+        <div class="explore-search">
+
+          <span
+            class="explore-search-icon"
+            aria-hidden="true"
+          >
+            ⌕
+          </span>
+
+          <input
+            id="exploreSearchInput"
+            class="explore-search-input"
+            type="search"
+            placeholder="キーワードを入力"
+            autocomplete="off"
+            aria-label="供給を検索"
+          >
+
+        </div>
+
+
+        <!-- 検索結果情報 -->
+
+        <div class="explore-result-header">
+
+          <span id="exploreResultLabel">
+            ALL
+          </span>
+
+          <span id="exploreResultCount"></span>
+
+        </div>
+
+
+        <!-- 供給一覧 -->
+
+        <div id="exploreList"></div>
+
+
+        <!-- さらに表示 -->
+
+        <button
+          id="exploreLoadMore"
+          class="explore-load-more"
+          type="button"
+          hidden
+        >
+          さらに表示
+        </button>
+
+      </section>
+
+    </div>
+
+
+    <!-- =========================
          DETAIL画面
     ========================== -->
 
@@ -108,7 +180,7 @@
           id="detailBackButton"
           class="detail-back-button"
           type="button"
-          aria-label="カレンダーに戻る"
+          aria-label="前の画面に戻る"
         >
           ‹
         </button>
@@ -233,6 +305,7 @@
   >
 
     <button
+      id="calendarNavButton"
       class="nav-item active"
       type="button"
     >
@@ -240,6 +313,7 @@
     </button>
 
     <button
+      id="exploreNavButton"
       class="nav-item"
       type="button"
     >
