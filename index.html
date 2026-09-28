@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>INI Supply Archive</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <main class="app">
+
+    <header class="app-header">
+      <h1>INI SUPPLY ARCHIVE</h1>
+    </header>
+
+    <!-- カレンダー -->
+    <section class="calendar-section">
+
+      <div class="calendar-header">
+        <button id="prevMonth" type="button" aria-label="前の月">
+          ‹
+        </button>
+
+        <h2 id="currentMonth"></h2>
+
+        <button id="nextMonth" type="button" aria-label="次の月">
+          ›
+        </button>
+      </div>
+
+      <div class="weekdays">
+        <div>月</div>
+        <div>火</div>
+        <div>水</div>
+        <div>木</div>
+        <div>金</div>
+        <div>土</div>
+        <div>日</div>
+      </div>
+
+      <div id="calendar" class="calendar-grid"></div>
+
+      <div class="calendar-legend">
+        <span class="dot youtube-dot"></span>
+        <span>YouTube</span>
+      </div>
+
+    </section>
+
+    <!-- 選択した日の供給 -->
+    <section class="supplies-section">
+
+      <h2 id="selectedDate">
+        日付を選択してください
+      </h2>
+
+      <div id="supplyList"></div>
+
+    </section>
+
+  </main>
+
+  <nav class="bottom-nav">
+
+    <button class="nav-item active" type="button">
+      <span>CALENDAR</span>
+    </button>
+
+    <button class="nav-item" type="button">
+      <span>EXPLORE</span>
+    </button>
+
+  </nav>
+
+  <script src="app.js"></script>
+
+</body>
+</html>
