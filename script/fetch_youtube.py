@@ -12,7 +12,7 @@ from pathlib import Path
 API_KEY = os.environ.get("YOUTUBE_API_KEY")
 
 # INI公式YouTubeチャンネル
-CHANNEL_HANDLE = "@INI_official"
+CHANNEL_ID = "UCc-itdQHxLvUlPrDxIiSJrA"
 
 # 初回取得の開始日
 START_DATE = "2021-01-01T00:00:00Z"
@@ -58,39 +58,15 @@ def load_existing_supplies():
 
 
 # ========================================
-# INI公式チャンネルIDを取得
-# ========================================
-
-def get_channel_id():
-    data = youtube_api(
-        "channels",
-        {
-            "part": "id",
-            "forHandle": CHANNEL_HANDLE,
-        },
-    )
-
-    items = data.get("items", [])
-
-    if not items:
-        raise RuntimeError(
-            "INI公式YouTubeチャンネルを"
-            "見つけられませんでした。"
-        )
-
-    return items[0]["id"]
-
-
-# ========================================
 # UploadsプレイリストIDを取得
 # ========================================
 
-def get_uploads_playlist_id(channel_id):
+def get_uploads_playlist_id():
     data = youtube_api(
         "channels",
         {
             "part": "contentDetails",
-            "id": channel_id,
+            "id": CHANNEL_ID,
         },
     )
 
@@ -98,7 +74,8 @@ def get_uploads_playlist_id(channel_id):
 
     if not items:
         raise RuntimeError(
-            "チャンネル情報を取得できませんでした。"
+            "INI公式YouTubeチャンネルの"
+            "情報を取得できませんでした。"
         )
 
     return (
@@ -208,7 +185,7 @@ def fetch_initial_videos(uploads_playlist_id):
 
 
 # ========================================
-# 差分取得
+# 2回目以降：差分取得
 # ========================================
 
 def fetch_new_videos(
@@ -247,7 +224,8 @@ def fetch_new_videos(
 
             video_id = supply["videoId"]
 
-            # 既に保存済みの動画まで来たら終了
+            # 保存済みの動画まで来たら、
+            # それより古い動画の確認は不要
             if video_id in known_video_ids:
                 reached_known_video = True
                 break
@@ -268,7 +246,7 @@ def fetch_new_videos(
 
 
 # ========================================
-# 保存
+# データを保存
 # ========================================
 
 def save_supplies(supplies):
@@ -328,7 +306,7 @@ def main():
         load_existing_supplies()
     )
 
-    # 既存のYouTube供給だけを抽出
+    # 既存のYouTube供給を抽出
     existing_youtube = [
         supply
         for supply in existing_supplies
@@ -336,7 +314,7 @@ def main():
         and supply.get("videoId")
     ]
 
-    # 既に登録済みのvideoId
+    # 登録済みvideoId
     known_video_ids = {
         supply["videoId"]
         for supply in existing_youtube
@@ -351,12 +329,8 @@ def main():
         "INI公式YouTubeチャンネルを確認します..."
     )
 
-    channel_id = get_channel_id()
-
     uploads_playlist_id = (
-        get_uploads_playlist_id(
-            channel_id
-        )
+        get_uploads_playlist_id()
     )
 
     # ====================================
