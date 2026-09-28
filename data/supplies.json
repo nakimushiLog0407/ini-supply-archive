@@ -3,30 +3,35 @@
     "id": "youtube-test-001",
     "type": "youtube",
     "date": "2026-09-05",
-    "title": "テスト動画 1"
+    "title": "テスト動画 1",
+    "videoId": "M7lc1UVf-VE"
   },
   {
     "id": "youtube-test-002",
     "type": "youtube",
     "date": "2026-09-12",
-    "title": "テスト動画 2"
+    "title": "テスト動画 2",
+    "videoId": "M7lc1UVf-VE"
   },
   {
     "id": "youtube-test-003",
     "type": "youtube",
     "date": "2026-09-20",
-    "title": "テスト動画 3"
+    "title": "テスト動画 3",
+    "videoId": "M7lc1UVf-VE"
   },
   {
     "id": "youtube-test-004",
     "type": "youtube",
     "date": "2026-09-28",
-    "title": "テスト動画 4"
+    "title": "テスト動画 4",
+    "videoId": "M7lc1UVf-VE"
   },
   {
     "id": "youtube-test-005",
     "type": "youtube",
     "date": "2026-09-28",
-    "title": "テスト動画 5"
+    "title": "テスト動画 5",
+    "videoId": "M7lc1UVf-VE"
   }
 ]
