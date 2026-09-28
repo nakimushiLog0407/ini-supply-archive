@@ -2,7 +2,9 @@ import json
 import os
 import urllib.parse
 import urllib.request
+from datetime import datetime
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 
 # ========================================
@@ -14,8 +16,20 @@ API_KEY = os.environ.get("YOUTUBE_API_KEY")
 # INI公式YouTubeチャンネル
 CHANNEL_ID = "UCc-itdQHxLvUlPrDxIiSJrA"
 
-# 初回取得の開始日
-START_DATE = "2021-01-01T00:00:00Z"
+# 初回取得の開始日時
+# YouTube APIのpublishedAtはUTCなのでUTCで指定
+START_DATETIME = datetime(
+    2021,
+    1,
+    1,
+    0,
+    0,
+    0,
+    tzinfo=ZoneInfo("UTC"),
+)
+
+# 日本時間
+JST = ZoneInfo("Asia/Tokyo")
 
 # データ保存先
 OUTPUT_FILE = Path("data/supplies.json")
@@ -40,6 +54,28 @@ def youtube_api(endpoint, params):
         return json.loads(
             response.read().decode("utf-8")
         )
+
+
+# ========================================
+# YouTube日時をdatetimeへ変換
+# ========================================
+
+def parse_youtube_datetime(published_at):
+    return datetime.fromisoformat(
+        published_at.replace("Z", "+00:00")
+    )
+
+
+# ========================================
+# UTC日時をJSTへ変換
+# ========================================
+
+def convert_to_jst(published_at):
+    utc_datetime = parse_youtube_datetime(
+        published_at
+    )
+
+    return utc_datetime.astimezone(JST)
 
 
 # ========================================
@@ -112,10 +148,23 @@ def make_supply(item):
     ):
         return None
 
+    # YouTubeのUTC日時を日本時間へ変換
+    published_at_jst = convert_to_jst(
+        published_at
+    )
+
     return {
         "id": f"youtube-{video_id}",
         "type": "youtube",
-        "date": published_at[:10],
+
+        # カレンダーで使用する日本時間の日付
+        "date": published_at_jst.strftime(
+            "%Y-%m-%d"
+        ),
+
+        # 並び順などに使用する正確な公開日時
+        "publishedAt": published_at_jst.isoformat(),
+
         "title": title,
         "videoId": video_id,
     }
@@ -126,7 +175,9 @@ def make_supply(item):
 # 2021年～現在まで取得
 # ========================================
 
-def fetch_initial_videos(uploads_playlist_id):
+def fetch_initial_videos(
+    uploads_playlist_id,
+):
     print(
         "初回取得：2021年以降の動画を取得します。"
     )
@@ -149,7 +200,7 @@ def fetch_initial_videos(uploads_playlist_id):
             params,
         )
 
-        reached_start_date = False
+        reached_start_datetime = False
 
         for item in data.get("items", []):
             published_at = (
@@ -161,9 +212,18 @@ def fetch_initial_videos(uploads_playlist_id):
             if not published_at:
                 continue
 
+            published_datetime = (
+                parse_youtube_datetime(
+                    published_at
+                )
+            )
+
             # 2021年より前まで来たら終了
-            if published_at < START_DATE:
-                reached_start_date = True
+            if (
+                published_datetime
+                < START_DATETIME
+            ):
+                reached_start_datetime = True
                 break
 
             supply = make_supply(item)
@@ -171,7 +231,7 @@ def fetch_initial_videos(uploads_playlist_id):
             if supply:
                 videos.append(supply)
 
-        if reached_start_date:
+        if reached_start_datetime:
             break
 
         page_token = data.get(
@@ -224,8 +284,7 @@ def fetch_new_videos(
 
             video_id = supply["videoId"]
 
-            # 保存済みの動画まで来たら、
-            # それより古い動画の確認は不要
+            # 保存済みの動画まで来たら終了
             if video_id in known_video_ids:
                 reached_known_video = True
                 break
@@ -265,10 +324,17 @@ def save_supplies(supplies):
         unique_supplies.values()
     )
 
-    # 日付 → ID の順に並べる
+    # 公開日時の古い順に並べる
+    #
+    # 将来YouTube以外のカテゴリが増え、
+    # publishedAtを持たないデータがあっても
+    # dateを使って並べられるようにする
     result.sort(
         key=lambda item: (
-            item.get("date", ""),
+            item.get(
+                "publishedAt",
+                item.get("date", ""),
+            ),
             item.get("id", ""),
         )
     )
