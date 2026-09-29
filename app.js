@@ -230,7 +230,8 @@ const exploreCategoryNames = {
   youtube: "YouTube",
   member_diary: "Member Diary",
   movie: "Movie",
-  radio: "Radio"
+  radio: "Radio",
+  photo: "Photo"
 };
 
 
@@ -279,7 +280,8 @@ async function loadSupplies() {
       youtubeSupplies,
       memberDiarySupplies,
       movieSupplies,
-      radioSupplies
+      radioSupplies,
+      photoSupplies
     ] = await Promise.all([
 
       fetchJson(
@@ -296,6 +298,10 @@ async function loadSupplies() {
 
       fetchJson(
         "data/radio.json"
+      ),
+
+      fetchJson(
+        "data/photo.json"
       )
 
     ]);
@@ -305,7 +311,8 @@ async function loadSupplies() {
       ...youtubeSupplies,
       ...memberDiarySupplies,
       ...movieSupplies,
-      ...radioSupplies
+      ...radioSupplies,
+      ...photoSupplies
     ];
 
 
@@ -579,7 +586,7 @@ function renderCalendar() {
 
 
     /*
-      Member Diary / Movie / Radio は
+      Member Diary / Movie / Radio / Photo は
       すべて group === "fc"。
 
       同じ日に複数のFCコンテンツが存在しても
@@ -941,6 +948,14 @@ function renderSelectedDate() {
     );
 
 
+  const photoSupplies =
+    selectedSupplies.filter(
+      supply =>
+        supply.type ===
+        "photo"
+    );
+
+
   appendSupplyCategory(
     "YouTube",
     youtubeSupplies
@@ -963,6 +978,12 @@ function renderSelectedDate() {
   appendSupplyCategory(
     "Radio",
     radioSupplies
+  );
+
+
+  appendSupplyCategory(
+    "Photo",
+    photoSupplies
   );
 
 }
@@ -1117,7 +1138,7 @@ function getExploreSupplies() {
 
 
       /*
-        YouTube / Movie / Radio は
+        YouTube / Movie / Radio / Photo は
         タイトルを検索する。
       */
 
@@ -1164,7 +1185,9 @@ function setExploreItemCategory(
     movie:
       "Movie",
     radio:
-      "Radio"
+      "Radio",
+    photo:
+      "Photo"
   };
 
 
@@ -2004,6 +2027,23 @@ function openDetail(
     setFcDetail(
       supply,
       "Radio"
+    );
+
+  }
+
+
+  /* =====================
+     Photo
+  ===================== */
+
+  else if (
+    supply.type ===
+    "photo"
+  ) {
+
+    setFcDetail(
+      supply,
+      "Photo"
     );
 
   }
