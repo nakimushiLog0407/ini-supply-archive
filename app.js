@@ -86,6 +86,28 @@ const exploreLoadMore =
 
 
 /* =========================
+   EXPLORE カテゴリ
+========================= */
+
+const exploreCategoryButton =
+  document.getElementById("exploreCategoryButton");
+
+const exploreCategoryLabel =
+  document.getElementById("exploreCategoryLabel");
+
+const categorySheet =
+  document.getElementById("categorySheet");
+
+const categorySheetClose =
+  document.getElementById("categorySheetClose");
+
+const categorySheetOptions =
+  document.querySelectorAll(
+    ".category-sheet-option"
+  );
+
+
+/* =========================
    DETAIL
 ========================= */
 
@@ -170,6 +192,27 @@ let exploreVisibleCount =
 
 
 /* =========================
+   EXPLOREカテゴリ設定
+========================= */
+
+/*
+  all
+  youtube
+  member_diary
+*/
+
+let selectedExploreCategory =
+  "all";
+
+
+const exploreCategoryNames = {
+  all: "すべて",
+  youtube: "YouTube",
+  member_diary: "MEMBER DIARY"
+};
+
+
+/* =========================
    JSONを読み込む
 ========================= */
 
@@ -198,6 +241,7 @@ async function fetchJson(path) {
   }
 
   return data;
+
 }
 
 
@@ -841,6 +885,59 @@ function renderSelectedDate() {
 }
 
 
+/* ==========================================================
+   EXPLORE
+   ========================================================== */
+
+
+/* =========================
+   カテゴリ条件に一致するか
+========================= */
+
+function matchesExploreCategory(
+  supply
+) {
+
+  if (
+    selectedExploreCategory ===
+    "all"
+  ) {
+
+    return true;
+
+  }
+
+
+  if (
+    selectedExploreCategory ===
+    "youtube"
+  ) {
+
+    return (
+      supply.type === "youtube"
+    );
+
+  }
+
+
+  if (
+    selectedExploreCategory ===
+    "member_diary"
+  ) {
+
+    return (
+      supply.type ===
+      "member_diary"
+    );
+
+  }
+
+
+  return true;
+
+}
+
+
 /* =========================
    EXPLORE用データを作る
 ========================= */
@@ -903,23 +1000,38 @@ function getExploreSupplies() {
     );
 
 
-  /* 検索していない場合 */
+  /*
+    まずカテゴリで絞り込む
+  */
+
+  const categoryFiltered =
+    sortedSupplies.filter(
+      supply =>
+        matchesExploreCategory(
+          supply
+        )
+    );
+
+
+  /*
+    キーワードなしなら
+    カテゴリ絞り込み結果を
+    そのまま返す
+  */
 
   if (!rawQuery) {
 
-    return sortedSupplies;
+    return categoryFiltered;
 
   }
 
 
   /*
-    空白区切りで複数キーワード化。
+    空白区切りで
+    複数キーワード化
 
     例：
     木村 2021
-
-    → 「木村」と「2021」の
-       両方を含む供給だけ表示する。
   */
 
   const keywords =
@@ -928,7 +1040,7 @@ function getExploreSupplies() {
       .filter(Boolean);
 
 
-  return sortedSupplies.filter(
+  return categoryFiltered.filter(
     supply => {
 
       const title =
@@ -939,7 +1051,7 @@ function getExploreSupplies() {
 
       /*
         YouTube
-        → タイトルだけ検索
+        → タイトルのみ検索
       */
 
       if (
@@ -959,10 +1071,6 @@ function getExploreSupplies() {
       /*
         Member Diary
         → タイトル＋メンバー名
-
-        2つをまとめた検索文字列にすることで、
-        「木村 2021」のように
-        タイトルとメンバーをまたいだ検索も可能。
       */
 
       if (
@@ -989,8 +1097,9 @@ function getExploreSupplies() {
 
 
       /*
-        将来別の供給種別を追加した場合は
-        最低限タイトルを検索対象にする。
+        将来別の供給種別を
+        追加した場合は
+        タイトルを検索対象にする
       */
 
       return keywords.every(
@@ -1021,12 +1130,36 @@ function renderExplore() {
     getExploreSupplies();
 
 
-  /* ヘッダー */
+  /* =====================
+     検索結果ヘッダー
+  ===================== */
 
-  exploreResultLabel.textContent =
-    query
-      ? "SEARCH RESULTS"
-      : "ALL";
+  if (query) {
+
+    exploreResultLabel.textContent =
+      "SEARCH RESULTS";
+
+  } else {
+
+    if (
+      selectedExploreCategory ===
+      "all"
+    ) {
+
+      exploreResultLabel.textContent =
+        "ALL";
+
+    } else {
+
+      exploreResultLabel.textContent =
+        exploreCategoryNames[
+          selectedExploreCategory
+        ] || "ALL";
+
+    }
+
+  }
+
 
   exploreResultCount.textContent =
     `${filteredSupplies.length.toLocaleString()}件`;
@@ -1299,11 +1432,270 @@ exploreLoadMore.addEventListener(
 );
 
 
+/* ==========================================================
+   EXPLORE カテゴリボトムシート
+   ========================================================== */
+
+
+/* =========================
+   ボトムシートを開く
+========================= */
+
+function openCategorySheet() {
+
+  categorySheet.hidden =
+    false;
+
+  exploreCategoryButton.setAttribute(
+    "aria-expanded",
+    "true"
+  );
+
+  /*
+    シートを開いた時点で
+    現在選択中のカテゴリに
+    チェックを付け直す
+  */
+
+  updateCategorySheetSelection();
+
+}
+
+
+/* =========================
+   ボトムシートを閉じる
+========================= */
+
+function closeCategorySheet() {
+
+  categorySheet.hidden =
+    true;
+
+  exploreCategoryButton.setAttribute(
+    "aria-expanded",
+    "false"
+  );
+
+}
+
+
+/* =========================
+   選択状態を更新
+========================= */
+
+function updateCategorySheetSelection() {
+
+  categorySheetOptions.forEach(
+    option => {
+
+      const category =
+        option.dataset.category;
+
+      const check =
+        option.querySelector(
+          ".category-sheet-check"
+        );
+
+
+      if (
+        category ===
+        selectedExploreCategory
+      ) {
+
+        option.classList.add(
+          "selected"
+        );
+
+        if (check) {
+
+          check.textContent =
+            "✓";
+
+        }
+
+      } else {
+
+        option.classList.remove(
+          "selected"
+        );
+
+        if (check) {
+
+          check.textContent =
+            "";
+
+        }
+
+      }
+
+    }
+  );
+
+
+  /*
+    EXPLORE本体の
+    カテゴリ名も更新
+  */
+
+  exploreCategoryLabel.textContent =
+    exploreCategoryNames[
+      selectedExploreCategory
+    ] || "すべて";
+
+}
+
+
+/* =========================
+   カテゴリボタン
+========================= */
+
+exploreCategoryButton.addEventListener(
+  "click",
+  () => {
+
+    openCategorySheet();
+
+  }
+);
+
+
+/* =========================
+   ×ボタン
+========================= */
+
+categorySheetClose.addEventListener(
+  "click",
+  () => {
+
+    closeCategorySheet();
+
+  }
+);
+
+
+/* =========================
+   カテゴリを選択
+========================= */
+
+categorySheetOptions.forEach(
+  option => {
+
+    option.addEventListener(
+      "click",
+      () => {
+
+        const category =
+          option.dataset.category;
+
+
+        if (
+          !category
+        ) {
+
+          return;
+
+        }
+
+
+        selectedExploreCategory =
+          category;
+
+
+        /*
+          カテゴリを変えたら
+          表示件数を50件に戻す
+        */
+
+        exploreVisibleCount =
+          EXPLORE_PAGE_SIZE;
+
+
+        /*
+          チェックと
+          EXPLORE上の表示を更新
+        */
+
+        updateCategorySheetSelection();
+
+
+        /*
+          検索結果を即更新
+        */
+
+        renderExplore();
+
+
+        /*
+          選択したら
+          ボトムシートを閉じる
+        */
+
+        closeCategorySheet();
+
+      }
+    );
+
+  }
+);
+
+
+/* =========================
+   背景タップで閉じる
+========================= */
+
+categorySheet.addEventListener(
+  "click",
+  event => {
+
+    if (
+      event.target ===
+      categorySheet
+    ) {
+
+      closeCategorySheet();
+
+    }
+
+  }
+);
+
+
+/* =========================
+   Escapeキーでも閉じる
+
+   PCで確認するときにも便利
+========================= */
+
+document.addEventListener(
+  "keydown",
+  event => {
+
+    if (
+      event.key === "Escape" &&
+      !categorySheet.hidden
+    ) {
+
+      closeCategorySheet();
+
+    }
+
+  }
+);
+
+
 /* =========================
    CALENDAR画面を開く
 ========================= */
 
 function showCalendarView() {
+
+  /*
+    ボトムシートが
+    開いていたら閉じる
+  */
+
+  closeCategorySheet();
+
 
   currentMainView =
     "calendar";
@@ -1515,15 +1907,29 @@ function openDetail(
     `;
 
 
-    detailMember.hidden =
-      false;
+    if (
+      supply.member
+    ) {
 
-    detailMember.textContent =
-      supply.member || "";
+      detailMember.hidden =
+        false;
+
+      detailMember.textContent =
+        supply.member;
+
+    } else {
+
+      detailMember.hidden =
+        true;
+
+      detailMember.textContent =
+        "";
+
+    }
 
 
     detailExternalLink.href =
-      supply.url;
+      supply.url || "#";
 
     detailExternalLinkText.textContent =
       "公式サイトで見る";
@@ -1727,7 +2133,10 @@ function createMonthPickerOptions() {
   monthSelect.innerHTML = "";
 
 
-  /* 2021年から現在年まで */
+  /*
+    INIの活動開始時期に合わせて
+    2021年から現在年まで
+  */
 
   const startYear = 2021;
 
@@ -1886,5 +2295,7 @@ monthPicker.addEventListener(
 ========================= */
 
 createMonthPickerOptions();
+
+updateCategorySheetSelection();
 
 loadSupplies();
