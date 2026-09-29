@@ -10,8 +10,10 @@ body {
 
 body {
   min-height: 100vh;
+
   background: #ffffff;
   color: #222222;
+
   font-family:
     -apple-system,
     BlinkMacSystemFont,
@@ -23,7 +25,8 @@ body {
 }
 
 button,
-select {
+select,
+input {
   font: inherit;
 }
 
@@ -35,6 +38,7 @@ button {
   display: none !important;
 }
 
+
 /* =========================
    アプリ全体
 ========================= */
@@ -42,21 +46,29 @@ button {
 .app {
   width: 100%;
   max-width: 600px;
+
   margin: 0 auto;
-  padding: 0 18px 100px;
+
+  padding:
+    0
+    18px
+    calc(100px + env(safe-area-inset-bottom));
 }
 
 .app-header {
   padding: 28px 0 18px;
+
   text-align: center;
 }
 
 .app-header h1 {
   margin: 0;
+
   font-size: 15px;
   font-weight: 600;
   letter-spacing: 0.12em;
 }
+
 
 /* =========================
    カレンダー
@@ -68,26 +80,39 @@ button {
 
 .calendar-header {
   display: grid;
-  grid-template-columns: 44px minmax(0, 1fr) 44px;
+
+  grid-template-columns:
+    44px
+    minmax(0, 1fr)
+    44px;
+
   align-items: center;
+
   width: 100%;
+
   margin-bottom: 22px;
 }
 
 .calendar-header > button {
   height: 44px;
+
   border: 0;
+
   background: transparent;
   color: #222222;
+
   cursor: pointer;
 }
 
 #prevMonth,
 #nextMonth {
   width: 44px;
+
   padding: 0;
+
   font-size: 30px;
 }
+
 
 /* =========================
    年月ボタン
@@ -95,6 +120,7 @@ button {
 
 .month-picker-button {
   display: flex;
+
   align-items: center;
   justify-content: center;
 
@@ -119,6 +145,7 @@ button {
 
 .month-picker-button span {
   display: block;
+
   white-space: nowrap;
 }
 
@@ -126,18 +153,25 @@ button {
   background: #f3f3f3;
 }
 
+
 /* =========================
    曜日
 ========================= */
 
 .weekdays {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+
+  grid-template-columns:
+    repeat(7, 1fr);
+
   margin-bottom: 7px;
+
   color: #777777;
+
   font-size: 12px;
   text-align: center;
 }
+
 
 /* =========================
    日付
@@ -145,7 +179,10 @@ button {
 
 .calendar-grid {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+
+  grid-template-columns:
+    repeat(7, 1fr);
+
   grid-auto-rows: 58px;
 }
 
@@ -153,6 +190,7 @@ button {
   position: relative;
 
   display: flex;
+
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
@@ -162,8 +200,8 @@ button {
   padding-top: 8px;
 
   border: 0;
-  background: transparent;
 
+  background: transparent;
   color: #222222;
 
   cursor: pointer;
@@ -175,6 +213,7 @@ button {
 
 .day-number {
   display: flex;
+
   align-items: center;
   justify-content: center;
 
@@ -191,9 +230,11 @@ button {
 }
 
 .calendar-day.selected {
-  background: #f5f5f5;
   border-radius: 10px;
+
+  background: #f5f5f5;
 }
+
 
 /* =========================
    供給カテゴリの丸
@@ -201,6 +242,7 @@ button {
 
 .supply-dots {
   display: flex;
+
   align-items: center;
   justify-content: center;
 
@@ -212,11 +254,14 @@ button {
 .dot {
   display: inline-block;
 
+  flex-shrink: 0;
+
   width: 7px;
   height: 7px;
 
   border-radius: 50%;
 }
+
 
 /* YouTube */
 
@@ -224,16 +269,27 @@ button {
   background: #ff0000;
 }
 
+
+/* FC CONTENTS */
+
+.fc-dot {
+  background: #3f3f3f;
+}
+
+
 /* =========================
-   凡例
+   カレンダー凡例
 ========================= */
 
 .calendar-legend {
   display: flex;
+
   align-items: center;
   justify-content: flex-end;
 
-  gap: 6px;
+  flex-wrap: wrap;
+
+  gap: 10px;
 
   margin-top: 12px;
 
@@ -242,12 +298,22 @@ button {
   font-size: 12px;
 }
 
+.calendar-legend-item {
+  display: flex;
+
+  align-items: center;
+
+  gap: 5px;
+}
+
+
 /* =========================
    選択日の供給一覧
 ========================= */
 
 .supplies-section {
   margin-top: 28px;
+
   padding-top: 24px;
 
   border-top: 1px solid #eeeeee;
@@ -266,6 +332,7 @@ button {
 
 .supply-category-title {
   display: flex;
+
   align-items: center;
 
   gap: 7px;
@@ -280,6 +347,7 @@ button {
 
 .supply-item {
   display: flex;
+
   align-items: center;
   justify-content: space-between;
 
@@ -299,13 +367,30 @@ button {
   cursor: pointer;
 }
 
-.supply-title {
+.supply-item-text {
   flex: 1;
 
+  min-width: 0;
+
   padding-right: 16px;
+}
+
+.supply-title {
+  display: block;
 
   font-size: 14px;
   line-height: 1.6;
+}
+
+.supply-member {
+  display: block;
+
+  margin-top: 4px;
+
+  color: #777777;
+
+  font-size: 12px;
+  line-height: 1.5;
 }
 
 .supply-arrow {
@@ -324,6 +409,7 @@ button {
   font-size: 14px;
 }
 
+
 /* =========================
    DETAIL画面
 ========================= */
@@ -334,7 +420,12 @@ button {
 
 .detail-header {
   display: grid;
-  grid-template-columns: 44px 1fr 44px;
+
+  grid-template-columns:
+    44px
+    1fr
+    44px;
+
   align-items: center;
 
   height: 72px;
@@ -350,6 +441,7 @@ button {
 
 .detail-back-button {
   display: flex;
+
   align-items: center;
   justify-content: flex-start;
 
@@ -359,8 +451,8 @@ button {
   padding: 0;
 
   border: 0;
-  background: transparent;
 
+  background: transparent;
   color: #222222;
 
   font-size: 30px;
@@ -375,15 +467,20 @@ button {
 
 .detail-content {
   width: 100%;
+
   padding-top: 10px;
 }
 
-/* サムネイル */
+
+/* =========================
+   DETAIL サムネイル
+========================= */
 
 .detail-thumbnail-wrapper {
   position: relative;
 
   width: 100%;
+
   aspect-ratio: 16 / 9;
 
   overflow: hidden;
@@ -402,17 +499,44 @@ button {
   object-fit: cover;
 }
 
-/* タイトル */
+
+/* =========================
+   DETAIL コンテンツ種別
+========================= */
+
+.detail-type {
+  display: flex;
+
+  align-items: center;
+
+  gap: 7px;
+
+  margin-top: 22px;
+
+  color: #555555;
+
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+
+/* =========================
+   DETAIL タイトル
+========================= */
 
 .detail-title {
-  margin: 22px 0 0;
+  margin: 10px 0 0;
 
   font-size: 19px;
   font-weight: 600;
   line-height: 1.6;
 }
 
-/* 公開日 */
+
+/* =========================
+   DETAIL 公開日
+========================= */
 
 .detail-date {
   margin: 10px 0 0;
@@ -422,10 +546,28 @@ button {
   font-size: 13px;
 }
 
-/* YouTubeリンク */
 
-.detail-youtube-link {
+/* =========================
+   DETAIL メンバー名
+========================= */
+
+.detail-member {
+  margin: 8px 0 0;
+
+  color: #555555;
+
+  font-size: 13px;
+  font-weight: 500;
+}
+
+
+/* =========================
+   DETAIL 外部リンク
+========================= */
+
+.detail-external-link {
   display: flex;
+
   align-items: center;
   justify-content: center;
 
@@ -438,7 +580,7 @@ button {
 
   border-radius: 12px;
 
-  background: #ff0000;
+  background: #222222;
   color: #ffffff;
 
   font-size: 14px;
@@ -447,9 +589,24 @@ button {
   text-decoration: none;
 }
 
-.detail-youtube-link:active {
+.detail-external-link:active {
   opacity: 0.8;
 }
+
+
+/* YouTube */
+
+.detail-external-link.youtube-link {
+  background: #ff0000;
+}
+
+
+/* FC CONTENTS */
+
+.detail-external-link.fc-link {
+  background: #3f3f3f;
+}
+
 
 /* =========================
    年月選択
@@ -466,12 +623,14 @@ button {
   z-index: 1000;
 
   display: flex;
+
   align-items: center;
   justify-content: center;
 
   padding: 20px;
 
-  background: rgba(0, 0, 0, 0.35);
+  background:
+    rgba(0, 0, 0, 0.35);
 }
 
 .month-picker-overlay[hidden] {
@@ -489,7 +648,8 @@ button {
   background: #ffffff;
 
   box-shadow:
-    0 12px 40px rgba(0, 0, 0, 0.15);
+    0 12px 40px
+    rgba(0, 0, 0, 0.15);
 }
 
 .month-picker h2 {
@@ -503,13 +663,17 @@ button {
 
 .month-picker-selects {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+
+  grid-template-columns:
+    1fr
+    1fr;
 
   gap: 12px;
 }
 
 .month-picker-selects label {
   display: flex;
+
   flex-direction: column;
 
   gap: 7px;
@@ -536,7 +700,10 @@ button {
 
 .month-picker-actions {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+
+  grid-template-columns:
+    1fr
+    1fr;
 
   gap: 10px;
 
@@ -562,6 +729,7 @@ button {
   color: #ffffff;
 }
 
+
 /* =========================
    下部ナビゲーション
 ========================= */
@@ -576,13 +744,23 @@ button {
   z-index: 100;
 
   display: flex;
+
   justify-content: center;
 
-  height: 68px;
+  height:
+    calc(
+      68px +
+      env(safe-area-inset-bottom)
+    );
 
-  border-top: 1px solid #eeeeee;
+  padding-bottom:
+    env(safe-area-inset-bottom);
 
-  background: rgba(255, 255, 255, 0.96);
+  border-top:
+    1px solid #eeeeee;
+
+  background:
+    rgba(255, 255, 255, 0.96);
 }
 
 .nav-item {
@@ -604,6 +782,7 @@ button {
   color: #222222;
 }
 
+
 /* =========================
    EXPLORE画面
 ========================= */
@@ -614,11 +793,12 @@ button {
 
 
 /* =========================
-   検索欄
+   EXPLORE 検索欄
 ========================= */
 
 .explore-search {
   display: flex;
+
   align-items: center;
 
   width: 100%;
@@ -666,11 +846,85 @@ button {
 
 
 /* =========================
-   検索結果ヘッダー
+   EXPLORE カテゴリ
+========================= */
+
+.explore-filter {
+  margin-top: 20px;
+}
+
+.explore-filter-label {
+  display: block;
+
+  margin: 0 0 8px 2px;
+
+  color: #777777;
+
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.explore-category-button {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  width: 100%;
+  min-height: 48px;
+
+  padding: 0 15px;
+
+  border: 1px solid #e5e5e5;
+  border-radius: 12px;
+
+  background: #ffffff;
+  color: #222222;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  -webkit-tap-highlight-color:
+    transparent;
+}
+
+.explore-category-button:active {
+  background: #f7f7f7;
+}
+
+.explore-category-label {
+  min-width: 0;
+
+  overflow: hidden;
+
+  font-size: 14px;
+  font-weight: 500;
+
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.explore-category-arrow {
+  flex-shrink: 0;
+
+  margin-left: 12px;
+
+  color: #aaaaaa;
+
+  font-size: 22px;
+  line-height: 1;
+}
+
+
+/* =========================
+   EXPLORE 検索結果ヘッダー
 ========================= */
 
 .explore-result-header {
   display: flex;
+
   align-items: center;
   justify-content: space-between;
 
@@ -686,7 +940,7 @@ button {
 
 
 /* =========================
-   EXPLORE供給一覧
+   EXPLORE 供給一覧
 ========================= */
 
 .explore-item {
@@ -697,7 +951,8 @@ button {
   padding: 18px 2px;
 
   border: 0;
-  border-bottom: 1px solid #eeeeee;
+  border-bottom:
+    1px solid #eeeeee;
 
   background: transparent;
   color: #222222;
@@ -719,6 +974,7 @@ button {
 
 .explore-item-category {
   display: flex;
+
   align-items: center;
 
   gap: 7px;
@@ -733,19 +989,35 @@ button {
 
 .explore-item-main {
   display: flex;
+
   align-items: center;
   justify-content: space-between;
 
   gap: 14px;
 }
 
-.explore-item-title {
+.explore-item-text {
   flex: 1;
 
   min-width: 0;
+}
+
+.explore-item-title {
+  display: block;
 
   font-size: 14px;
   line-height: 1.6;
+}
+
+.explore-item-member {
+  display: block;
+
+  margin-top: 5px;
+
+  color: #777777;
+
+  font-size: 12px;
+  line-height: 1.5;
 }
 
 .explore-item-arrow {
@@ -758,7 +1030,7 @@ button {
 
 
 /* =========================
-   EXPLORE検索結果なし
+   EXPLORE 検索結果なし
 ========================= */
 
 .explore-empty {
@@ -773,7 +1045,7 @@ button {
 
 
 /* =========================
-   さらに表示
+   EXPLORE さらに表示
 ========================= */
 
 .explore-load-more {
@@ -800,6 +1072,268 @@ button {
   background: #f5f5f5;
 }
 
+
+/* ==========================================================
+   カテゴリ選択ボトムシート
+   ========================================================== */
+
+
+/* =========================
+   背景
+========================= */
+
+.category-sheet-overlay {
+  position: fixed;
+
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  z-index: 2000;
+
+  display: flex;
+
+  align-items: flex-end;
+  justify-content: center;
+
+  background:
+    rgba(0, 0, 0, 0.35);
+
+  /*
+    iPhoneで背景をスクロールした際の
+    不自然な挙動を抑える
+  */
+  overscroll-behavior: contain;
+}
+
+.category-sheet-overlay[hidden] {
+  display: none;
+}
+
+
+/* =========================
+   シート本体
+========================= */
+
+.category-sheet {
+  width: 100%;
+  max-width: 600px;
+
+  max-height: 80vh;
+
+  overflow-y: auto;
+
+  padding:
+    8px
+    18px
+    calc(
+      22px +
+      env(safe-area-inset-bottom)
+    );
+
+  border-radius:
+    22px
+    22px
+    0
+    0;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 -8px 32px
+    rgba(0, 0, 0, 0.12);
+
+  -webkit-overflow-scrolling: touch;
+}
+
+
+/* =========================
+   上部ハンドル
+========================= */
+
+.category-sheet-handle {
+  width: 38px;
+  height: 5px;
+
+  margin: 0 auto 8px;
+
+  border-radius: 999px;
+
+  background: #d4d4d4;
+}
+
+
+/* =========================
+   ボトムシートヘッダー
+========================= */
+
+.category-sheet-header {
+  display: grid;
+
+  grid-template-columns:
+    44px
+    1fr
+    44px;
+
+  align-items: center;
+
+  min-height: 54px;
+}
+
+.category-sheet-header h2 {
+  grid-column: 2;
+
+  margin: 0;
+
+  font-size: 16px;
+  font-weight: 600;
+
+  text-align: center;
+}
+
+.category-sheet-close {
+  grid-column: 3;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 36px;
+  height: 36px;
+
+  margin-left: auto;
+
+  padding: 0;
+
+  border: 0;
+  border-radius: 50%;
+
+  background: #f2f2f2;
+  color: #555555;
+
+  font-size: 22px;
+  font-weight: 300;
+  line-height: 1;
+
+  cursor: pointer;
+
+  -webkit-tap-highlight-color:
+    transparent;
+}
+
+.category-sheet-close:active {
+  background: #e8e8e8;
+}
+
+
+/* =========================
+   カテゴリ一覧
+========================= */
+
+.category-sheet-options {
+  margin-top: 6px;
+
+  border-top:
+    1px solid #eeeeee;
+}
+
+
+/* =========================
+   カテゴリ1項目
+========================= */
+
+.category-sheet-option {
+  display: grid;
+
+  grid-template-columns:
+    28px
+    minmax(0, 1fr);
+
+  align-items: center;
+
+  width: 100%;
+  min-height: 56px;
+
+  padding: 0 4px;
+
+  border: 0;
+  border-bottom:
+    1px solid #eeeeee;
+
+  background: #ffffff;
+  color: #222222;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  -webkit-tap-highlight-color:
+    transparent;
+}
+
+.category-sheet-option:active {
+  background: #f7f7f7;
+}
+
+
+/* =========================
+   チェック
+========================= */
+
+.category-sheet-check {
+  display: flex;
+
+  align-items: center;
+  justify-content: flex-start;
+
+  width: 28px;
+
+  color: #222222;
+
+  font-size: 16px;
+  font-weight: 600;
+}
+
+
+/*
+  未選択項目のチェック欄は
+  空のまま幅だけ維持する
+*/
+
+.category-sheet-option:not(.selected)
+.category-sheet-check {
+  color: transparent;
+}
+
+
+/* =========================
+   カテゴリ名
+========================= */
+
+.category-sheet-option-label {
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  min-width: 0;
+
+  font-size: 15px;
+  font-weight: 400;
+}
+
+
+/* 選択中 */
+
+.category-sheet-option.selected
+.category-sheet-option-label {
+  font-weight: 600;
+}
+
+
 /* =========================
    少し大きい画面
 ========================= */
@@ -815,193 +1349,4 @@ button {
     grid-auto-rows: 64px;
   }
 
-}
-
-/* ==========================================================
-   FC CONTENTS / MEMBER DIARY 対応
-   ========================================================== */
-
-
-/* =========================
-   FC CONTENTS の丸
-========================= */
-
-.fc-dot {
-  background: #3f3f3f;
-}
-
-
-/* =========================
-   カレンダー凡例
-========================= */
-
-.calendar-legend {
-  flex-wrap: wrap;
-}
-
-.calendar-legend-item {
-  display: flex;
-  align-items: center;
-
-  gap: 5px;
-}
-
-
-/* =========================
-   DETAIL
-   コンテンツ種別
-========================= */
-
-.detail-type {
-  display: flex;
-  align-items: center;
-
-  gap: 7px;
-
-  margin-top: 22px;
-
-  color: #555555;
-
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-}
-
-
-/*
-  サムネイルが表示されているYouTubeでは
-  typeの上余白を少し確保。
-
-  Member Diaryではサムネイル自体を
-  JavaScript側でhiddenにする。
-*/
-
-.detail-thumbnail-wrapper + .detail-type {
-  margin-top: 22px;
-}
-
-
-/* =========================
-   DETAILタイトル
-
-   detail-typeを追加したため、
-   既存のmarginを少し調整
-========================= */
-
-.detail-type + .detail-title {
-  margin-top: 10px;
-}
-
-
-/* =========================
-   DETAIL メンバー名
-========================= */
-
-.detail-member {
-  margin: 8px 0 0;
-
-  color: #555555;
-
-  font-size: 13px;
-  font-weight: 500;
-}
-
-
-/* =========================
-   DETAIL 共通外部リンク
-========================= */
-
-.detail-external-link {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  gap: 7px;
-
-  width: 100%;
-  height: 50px;
-
-  margin-top: 30px;
-
-  border-radius: 12px;
-
-  background: #222222;
-  color: #ffffff;
-
-  font-size: 14px;
-  font-weight: 600;
-
-  text-decoration: none;
-}
-
-.detail-external-link:active {
-  opacity: 0.8;
-}
-
-
-/* YouTubeのDETAILでは赤 */
-
-.detail-external-link.youtube-link {
-  background: #ff0000;
-}
-
-
-/* FC CONTENTSでは黒に近い灰色 */
-
-.detail-external-link.fc-link {
-  background: #3f3f3f;
-}
-
-
-/* =========================
-   EXPLORE
-   Member Diary メンバー名
-========================= */
-
-.explore-item-text {
-  flex: 1;
-
-  min-width: 0;
-}
-
-.explore-item-member {
-  display: block;
-
-  margin-top: 5px;
-
-  color: #777777;
-
-  font-size: 12px;
-  line-height: 1.5;
-}
-
-
-/* =========================
-   選択日の供給一覧
-   Member Diary メンバー名
-========================= */
-
-.supply-item-text {
-  flex: 1;
-
-  min-width: 0;
-
-  padding-right: 16px;
-}
-
-.supply-item-text .supply-title {
-  display: block;
-
-  padding-right: 0;
-}
-
-.supply-member {
-  display: block;
-
-  margin-top: 4px;
-
-  color: #777777;
-
-  font-size: 12px;
-  line-height: 1.5;
 }
