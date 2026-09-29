@@ -6,6 +6,7 @@ import time
 import urllib.parse
 import urllib.request
 from datetime import datetime
+from html.parser import HTMLParser
 
 
 # ============================================================
@@ -19,16 +20,16 @@ TEMP_FILE = OUTPUT_FILE + ".tmp"
 
 REQUEST_INTERVAL = 0.5
 
-# 異常な無限巡回を防ぐための上限
+# ページネーション異常時の無限巡回防止
 MAX_PAGES = 100
 
 
 # ============================================================
 # INI公式サイト上のMovieカテゴリ
 #
-# 取得時には各カテゴリを巡回するが、
-# アプリ側ではカテゴリ分けしない。
-# すべて「Movie」として保存する。
+# 取得時には各カテゴリを巡回する。
+# アプリ側ではカテゴリ分けせず、
+# すべて「Movie」として統合する。
 # ============================================================
 
 MOVIE_LISTS = [
@@ -99,19 +100,12 @@ def fetch_html(url):
 
 
 # ============================================================
-# HTML → プレーンテキスト
+# テキスト整形
 # ============================================================
 
 def clean_text(value):
     if value is None:
         return None
-
-    value = re.sub(
-        r"<[^>]+>",
-        "",
-        value,
-        flags=re.DOTALL,
-    )
 
     value = html.unescape(value)
 
@@ -121,185 +115,9 @@ def clean_text(value):
         value,
     )
 
-    return value.strip()
+    value = value.strip()
 
-
-# ============================================================
-# Movieリンク抽出
-#
-# /movies/detail/123
-# /movies/detail/123/
-#
-# の両方に対応
-# ============================================================
-
-def extract_movie_links(page_html):
-    pattern = re.compile(
-        r'<a\b'
-        r'(?P<attributes>[^>]*?)'
-        r'href=["\']'
-        r'(?P<url>[^"\']*'
-        r'/movies/detail/'
-        r'(?P<id>\d+)'
-        r'/?[^"\']*)'
-        r'["\']'
-        r'(?P<attributes_after>[^>]*)>'
-        r'(?P<body>.*?)'
-        r'</a>',
-        flags=re.IGNORECASE | re.DOTALL,
-    )
-
-    results = []
-
-    for match in pattern.finditer(page_html):
-        results.append(
-            {
-                "movie_id": match.group("id"),
-                "raw_url": match.group("url"),
-                "body": match.group("body"),
-            }
-        )
-
-    return results
-
-
-# ============================================================
-# classを持つ要素からテキスト取得
-# ============================================================
-
-def extract_text_by_class(
-    block_html,
-    class_names,
-):
-    if isinstance(class_names, str):
-        class_names = [class_names]
-
-    tag_pattern = re.compile(
-        r'<(?P<tag>[a-zA-Z0-9]+)\b'
-        r'(?P<attributes>[^>]*)>'
-        r'(?P<body>.*?)'
-        r'</(?P=tag)>',
-        flags=re.IGNORECASE | re.DOTALL,
-    )
-
-    for match in tag_pattern.finditer(block_html):
-        attributes = match.group(
-            "attributes"
-        )
-
-        class_match = re.search(
-            r'class=["\']([^"\']*)["\']',
-            attributes,
-            flags=re.IGNORECASE,
-        )
-
-        if not class_match:
-            continue
-
-        classes = set(
-            class_match.group(1).split()
-        )
-
-        for class_name in class_names:
-            if class_name in classes:
-                text = clean_text(
-                    match.group("body")
-                )
-
-                if text:
-                    return text
-
-    return None
-
-
-# ============================================================
-# 日付取得
-# ============================================================
-
-def extract_date_text(block_html):
-    # よく使われるclass名を優先
-    value = extract_text_by_class(
-        block_html,
-        [
-            "date",
-            "day",
-            "time",
-        ],
-    )
-
-    if value:
-        date_match = re.search(
-            r'\d{4}'
-            r'[./-]'
-            r'\d{1,2}'
-            r'[./-]'
-            r'\d{1,2}'
-            r'\.?',
-            value,
-        )
-
-        if date_match:
-            return date_match.group(0)
-
-    # class名に依存しない予備処理
-    text = clean_text(block_html)
-
-    if not text:
-        return None
-
-    date_match = re.search(
-        r'\d{4}'
-        r'[./-]'
-        r'\d{1,2}'
-        r'[./-]'
-        r'\d{1,2}'
-        r'\.?',
-        text,
-    )
-
-    if date_match:
-        return date_match.group(0)
-
-    return None
-
-
-# ============================================================
-# タイトル取得
-# ============================================================
-
-def extract_title(block_html):
-    title = extract_text_by_class(
-        block_html,
-        [
-            "tit",
-            "title",
-        ],
-    )
-
-    if title:
-        return title
-
-    # 見出しタグも確認
-    heading_pattern = re.compile(
-        r'<h[1-6]\b[^>]*>'
-        r'(.*?)'
-        r'</h[1-6]>',
-        flags=re.IGNORECASE | re.DOTALL,
-    )
-
-    match = heading_pattern.search(
-        block_html
-    )
-
-    if match:
-        value = clean_text(
-            match.group(1)
-        )
-
-        if value:
-            return value
-
-    return None
+    return value or None
 
 
 # ============================================================
@@ -341,23 +159,403 @@ def normalize_date(
 
 
 # ============================================================
-# Movie 1件を解析
+# サムネイルURL取得
+#
+# 実際のHTML：
+#
+# <figure class="thumb">
+#   <img
+#     ...
+#     style="background-image: url(/static2/...jpeg)"
+#     alt="タイトル"
+#   >
+# </figure>
+#
+# src は blank_thumb.gif のため使用しない。
+# background-image のURLを使用する。
 # ============================================================
 
-def parse_movie(movie_link):
-    movie_id = movie_link["movie_id"]
-    body = movie_link["body"]
+def extract_background_image(style_value):
+    if not style_value:
+        return None
 
-    title = extract_title(body)
-    raw_date = extract_date_text(body)
+    match = re.search(
+        r'background-image\s*:\s*'
+        r'url\(\s*'
+        r'["\']?'
+        r'([^)"\']+)'
+        r'["\']?'
+        r'\s*\)',
+        style_value,
+        flags=re.IGNORECASE,
+    )
+
+    if not match:
+        return None
+
+    raw_url = match.group(1).strip()
+
+    return urllib.parse.urljoin(
+        BASE_URL,
+        raw_url,
+    )
+
+
+# ============================================================
+# Movie一覧HTMLパーサー
+#
+# 診断で確認した実際の構造：
+#
+# <li>
+#   <a href="/movies/detail/589">
+#     <figure class="thumb">
+#       <img
+#         style="background-image: url(...)"
+#         alt="..."
+#       >
+#     </figure>
+#
+#     <div class="list__txt">
+#       <p class="tit">タイトル</p>
+#       <p class="date">2026.07.18</p>
+#     </div>
+#   </a>
+# </li>
+# ============================================================
+
+class MovieListParser(HTMLParser):
+
+    def __init__(self):
+        super().__init__(
+            convert_charrefs=True
+        )
+
+        self.movies = []
+
+        # 現在解析中のMovie
+        self.current_movie = None
+
+        # Movieリンク内にいる深さ
+        self.movie_link_depth = 0
+
+        # tit / date の取得状態
+        self.capture_title = False
+        self.capture_date = False
+
+        self.title_parts = []
+        self.date_parts = []
+
+
+    # --------------------------------------------------------
+    # class属性をsetに変換
+    # --------------------------------------------------------
+
+    @staticmethod
+    def get_classes(attrs_dict):
+        class_value = attrs_dict.get(
+            "class",
+            "",
+        )
+
+        return set(
+            class_value.split()
+        )
+
+
+    # --------------------------------------------------------
+    # 開始タグ
+    # --------------------------------------------------------
+
+    def handle_starttag(
+        self,
+        tag,
+        attrs,
+    ):
+        attrs_dict = dict(attrs)
+
+        # ====================================================
+        # Movie個別リンクを検出
+        # ====================================================
+
+        if (
+            tag.lower() == "a"
+            and self.current_movie is None
+        ):
+            href = attrs_dict.get(
+                "href",
+                "",
+            )
+
+            match = re.search(
+                r'/movies/detail/(\d+)/?',
+                href,
+                flags=re.IGNORECASE,
+            )
+
+            if match:
+                movie_id = match.group(1)
+
+                self.current_movie = {
+                    "movie_id": movie_id,
+                    "href": href,
+                    "title": None,
+                    "date": None,
+                    "thumbnail": None,
+                    "alt_title": None,
+                }
+
+                self.movie_link_depth = 1
+
+                self.capture_title = False
+                self.capture_date = False
+
+                self.title_parts = []
+                self.date_parts = []
+
+                return
+
+        # Movieリンクの外なら以降は不要
+        if self.current_movie is None:
+            return
+
+        # ----------------------------------------------------
+        # Movieリンク内部のタグ階層を追跡
+        # ----------------------------------------------------
+
+        if tag.lower() == "a":
+            self.movie_link_depth += 1
+
+        classes = self.get_classes(
+            attrs_dict
+        )
+
+        # ====================================================
+        # <p class="tit">
+        # ====================================================
+
+        if (
+            tag.lower() == "p"
+            and "tit" in classes
+        ):
+            self.capture_title = True
+            self.title_parts = []
+
+        # ====================================================
+        # <p class="date">
+        # ====================================================
+
+        elif (
+            tag.lower() == "p"
+            and "date" in classes
+        ):
+            self.capture_date = True
+            self.date_parts = []
+
+        # ====================================================
+        # <img>
+        #
+        # style の background-image から
+        # サムネイルURLを取得
+        #
+        # alt はタイトルの予備取得元として保存
+        # ====================================================
+
+        elif tag.lower() == "img":
+            style_value = attrs_dict.get(
+                "style"
+            )
+
+            thumbnail = (
+                extract_background_image(
+                    style_value
+                )
+            )
+
+            if thumbnail:
+                self.current_movie[
+                    "thumbnail"
+                ] = thumbnail
+
+            alt_value = clean_text(
+                attrs_dict.get("alt")
+            )
+
+            if alt_value:
+                self.current_movie[
+                    "alt_title"
+                ] = alt_value
+
+
+    # --------------------------------------------------------
+    # テキスト
+    # --------------------------------------------------------
+
+    def handle_data(self, data):
+        if self.current_movie is None:
+            return
+
+        if self.capture_title:
+            self.title_parts.append(
+                data
+            )
+
+        if self.capture_date:
+            self.date_parts.append(
+                data
+            )
+
+
+    # --------------------------------------------------------
+    # 終了タグ
+    # --------------------------------------------------------
+
+    def handle_endtag(self, tag):
+        if self.current_movie is None:
+            return
+
+        tag_lower = tag.lower()
+
+        # ====================================================
+        # title終了
+        # ====================================================
+
+        if (
+            tag_lower == "p"
+            and self.capture_title
+        ):
+            title = clean_text(
+                "".join(
+                    self.title_parts
+                )
+            )
+
+            if title:
+                self.current_movie[
+                    "title"
+                ] = title
+
+            self.capture_title = False
+            self.title_parts = []
+
+            return
+
+        # ====================================================
+        # date終了
+        # ====================================================
+
+        if (
+            tag_lower == "p"
+            and self.capture_date
+        ):
+            date_value = clean_text(
+                "".join(
+                    self.date_parts
+                )
+            )
+
+            if date_value:
+                self.current_movie[
+                    "date"
+                ] = date_value
+
+            self.capture_date = False
+            self.date_parts = []
+
+            return
+
+        # ====================================================
+        # Movieリンク終了
+        # ====================================================
+
+        if tag_lower == "a":
+            self.movie_link_depth -= 1
+
+            if self.movie_link_depth <= 0:
+                self.movies.append(
+                    self.current_movie
+                )
+
+                self.current_movie = None
+
+                self.movie_link_depth = 0
+
+                self.capture_title = False
+                self.capture_date = False
+
+                self.title_parts = []
+                self.date_parts = []
+
+
+# ============================================================
+# 1ページからMovie候補を取得
+# ============================================================
+
+def parse_movie_candidates(page_html):
+    parser = MovieListParser()
+
+    parser.feed(
+        page_html
+    )
+
+    parser.close()
+
+    return parser.movies
+
+
+# ============================================================
+# Movie 1件を正式なJSONデータへ変換
+# ============================================================
+
+def build_movie(candidate):
+    movie_id = candidate[
+        "movie_id"
+    ]
+
+    title = clean_text(
+        candidate.get("title")
+    )
+
+    alt_title = clean_text(
+        candidate.get("alt_title")
+    )
+
+    raw_date = clean_text(
+        candidate.get("date")
+    )
+
+    thumbnail = clean_text(
+        candidate.get("thumbnail")
+    )
+
+    # --------------------------------------------------------
+    # タイトル
+    #
+    # 第一候補：
+    # <p class="tit">
+    #
+    # 第二候補：
+    # <img alt="...">
+    # --------------------------------------------------------
+
+    if not title:
+        title = alt_title
 
     missing = []
 
     if not title:
-        missing.append("title")
+        missing.append(
+            "title"
+        )
 
     if not raw_date:
-        missing.append("date")
+        missing.append(
+            "date"
+        )
+
+    if not thumbnail:
+        missing.append(
+            "thumbnail"
+        )
 
     if missing:
         raise ValueError(
@@ -371,9 +569,9 @@ def parse_movie(movie_link):
         movie_id,
     )
 
-    movie_url = (
-        f"{BASE_URL}/movies/detail/"
-        f"{movie_id}"
+    movie_url = urllib.parse.urljoin(
+        BASE_URL,
+        candidate["href"],
     )
 
     return {
@@ -382,6 +580,7 @@ def parse_movie(movie_link):
         "group": "fc",
         "date": normalized_date,
         "title": title,
+        "thumbnail": thumbnail,
         "url": movie_url,
     }
 
@@ -395,65 +594,66 @@ def parse_page(
     category_name,
     page_number,
 ):
-    movie_links = extract_movie_links(
-        page_html
+    candidates = (
+        parse_movie_candidates(
+            page_html
+        )
     )
 
     print(
         "  検出："
-        f"Movieリンク {len(movie_links)}件"
+        f"Movieリンク "
+        f"{len(candidates)}件"
     )
 
-    if not movie_links:
+    if not candidates:
         return [], []
 
-    # 同じMovieへのリンクが
-    # ページ内に複数ある場合に備える
-    grouped = {}
+    # --------------------------------------------------------
+    # 同じMovie IDがページ内に複数存在しても
+    # 1件として扱う
+    # --------------------------------------------------------
 
-    for movie_link in movie_links:
-        movie_id = movie_link["movie_id"]
+    candidates_by_id = {}
 
-        grouped.setdefault(
-            movie_id,
-            [],
-        ).append(movie_link)
+    for candidate in candidates:
+        movie_id = candidate[
+            "movie_id"
+        ]
+
+        if movie_id not in candidates_by_id:
+            candidates_by_id[
+                movie_id
+            ] = candidate
 
     movies = []
     failures = []
 
-    for movie_id, candidates in grouped.items():
-        parsed = None
-        last_error = None
+    for (
+        movie_id,
+        candidate,
+    ) in candidates_by_id.items():
 
-        for candidate in candidates:
-            try:
-                parsed = parse_movie(
-                    candidate
-                )
-                break
+        try:
+            movie = build_movie(
+                candidate
+            )
 
-            except ValueError as error:
-                last_error = error
+            movies.append(
+                movie
+            )
 
-        if parsed:
-            movies.append(parsed)
-
-        else:
-            if last_error:
-                message = str(last_error)
-            else:
-                message = (
-                    f"Movie {movie_id}: "
-                    "解析できませんでした"
-                )
-
+        except ValueError as error:
             failures.append(
                 {
-                    "category": category_name,
-                    "page": page_number,
-                    "movie_id": movie_id,
-                    "message": message,
+                    "category":
+                        category_name,
+                    "page":
+                        page_number,
+                    "movie_id":
+                        movie_id,
+                    "message":
+                        str(error),
                 }
             )
 
@@ -475,14 +675,18 @@ def fetch_page(
         }
     )
 
-    url = f"{list_url}?{query}"
+    url = (
+        f"{list_url}?{query}"
+    )
 
     print(
         f"{category_name} "
         f"{page_number}ページ目を確認..."
     )
 
-    page_html = fetch_html(url)
+    page_html = fetch_html(
+        url
+    )
 
     movies, failures = parse_page(
         page_html,
@@ -516,28 +720,42 @@ def fetch_category(
     all_failures = []
 
     seen_ids = set()
+
     previous_page_ids = None
 
     for page_number in range(
         1,
         MAX_PAGES + 1,
     ):
-        movies, failures = fetch_page(
+        (
+            movies,
+            failures,
+        ) = fetch_page(
             category_name,
             list_url,
             page_number,
         )
 
-        all_failures.extend(failures)
+        all_failures.extend(
+            failures
+        )
 
-        # Movieも解析失敗も0件なら
-        # 最終ページを越えたと判断
-        if not movies and not failures:
+        # ----------------------------------------------------
+        # Movieも解析失敗も0件
+        #
+        # → 最終ページを越えたと判断
+        # ----------------------------------------------------
+
+        if (
+            not movies
+            and not failures
+        ):
             print(
                 f"{category_name}: "
                 "Movieのないページに"
                 "到達しました。"
             )
+
             break
 
         current_page_ids = {
@@ -545,8 +763,11 @@ def fetch_category(
             for movie in movies
         }
 
-        # ページ番号が無視され、
-        # 同じページが返され続けた場合の安全装置
+        # ----------------------------------------------------
+        # ページ番号を無視して
+        # 同じページが返され続ける場合の安全装置
+        # ----------------------------------------------------
+
         if (
             previous_page_ids is not None
             and current_page_ids
@@ -567,15 +788,24 @@ def fetch_category(
         )
 
         for movie in movies:
-            movie_id = movie["id"]
+            movie_id = movie[
+                "id"
+            ]
 
             if movie_id in seen_ids:
                 continue
 
-            seen_ids.add(movie_id)
-            all_movies.append(movie)
+            seen_ids.add(
+                movie_id
+            )
 
-        time.sleep(REQUEST_INTERVAL)
+            all_movies.append(
+                movie
+            )
+
+        time.sleep(
+            REQUEST_INTERVAL
+        )
 
     else:
         raise RuntimeError(
@@ -586,7 +816,10 @@ def fetch_category(
             "検出できませんでした。"
         )
 
-    return all_movies, all_failures
+    return (
+        all_movies,
+        all_failures,
+    )
 
 
 # ============================================================
@@ -601,11 +834,17 @@ def fetch_all_movies():
 
     for category in MOVIE_LISTS:
         print()
-        print("=" * 60)
+        print(
+            "=" * 60
+        )
+
         print(
             f"{category['name']} を取得"
         )
-        print("=" * 60)
+
+        print(
+            "=" * 60
+        )
 
         (
             category_movies,
@@ -620,21 +859,38 @@ def fetch_all_movies():
         )
 
         for movie in category_movies:
-            movie_id = movie["id"]
+            movie_id = movie[
+                "id"
+            ]
 
             if movie_id in movies_by_id:
                 continue
 
-            movies_by_id[movie_id] = movie
+            movies_by_id[
+                movie_id
+            ] = movie
 
-        time.sleep(REQUEST_INTERVAL)
+        time.sleep(
+            REQUEST_INTERVAL
+        )
 
+    # --------------------------------------------------------
     # 解析失敗が1件でもあれば保存しない
+    # --------------------------------------------------------
+
     if all_failures:
         print()
-        print("=" * 60)
-        print("解析失敗したMovie")
-        print("=" * 60)
+        print(
+            "=" * 60
+        )
+
+        print(
+            "解析失敗したMovie"
+        )
+
+        print(
+            "=" * 60
+        )
 
         for failure in all_failures:
             print(
@@ -647,7 +903,9 @@ def fetch_all_movies():
                 f"{failure['message']}"
             )
 
-        print("=" * 60)
+        print(
+            "=" * 60
+        )
 
         raise RuntimeError(
             f"{len(all_failures)}件の"
@@ -659,8 +917,12 @@ def fetch_all_movies():
         movies_by_id.values()
     )
 
+    # --------------------------------------------------------
     # 古い順
+    #
     # 同日はMovie IDの数字順
+    # --------------------------------------------------------
+
     all_movies.sort(
         key=lambda movie: (
             movie.get(
@@ -684,7 +946,9 @@ def fetch_all_movies():
 # ============================================================
 
 def load_existing_movies():
-    if not os.path.exists(OUTPUT_FILE):
+    if not os.path.exists(
+        OUTPUT_FILE
+    ):
         return []
 
     with open(
@@ -692,9 +956,14 @@ def load_existing_movies():
         "r",
         encoding="utf-8",
     ) as file:
-        data = json.load(file)
+        data = json.load(
+            file
+        )
 
-    if not isinstance(data, list):
+    if not isinstance(
+        data,
+        list,
+    ):
         raise ValueError(
             f"{OUTPUT_FILE} の"
             "形式が不正です。"
@@ -709,7 +978,9 @@ def load_existing_movies():
 
 def save_movies(movies):
     os.makedirs(
-        os.path.dirname(OUTPUT_FILE),
+        os.path.dirname(
+            OUTPUT_FILE
+        ),
         exist_ok=True,
     )
 
@@ -725,16 +996,23 @@ def save_movies(movies):
             indent=2,
         )
 
-        file.write("\n")
+        file.write(
+            "\n"
+        )
 
-    # 一時ファイルを再度読み込み、
-    # 正しいJSONになっているか確認
+    # --------------------------------------------------------
+    # 一時ファイルを再読み込みして
+    # 正しいJSONであることを確認
+    # --------------------------------------------------------
+
     with open(
         TEMP_FILE,
         "r",
         encoding="utf-8",
     ) as file:
-        verification = json.load(file)
+        verification = json.load(
+            file
+        )
 
     if not isinstance(
         verification,
@@ -742,6 +1020,16 @@ def save_movies(movies):
     ):
         raise RuntimeError(
             "保存前検証に失敗しました。"
+        )
+
+    if len(
+        verification
+    ) != len(
+        movies
+    ):
+        raise RuntimeError(
+            "保存前検証で"
+            "Movie件数が一致しません。"
         )
 
     os.replace(
@@ -773,9 +1061,17 @@ def main():
     movies = fetch_all_movies()
 
     print()
-    print("=" * 60)
-    print("取得結果")
-    print("=" * 60)
+    print(
+        "=" * 60
+    )
+
+    print(
+        "取得結果"
+    )
+
+    print(
+        "=" * 60
+    )
 
     print(
         "公式サイト上のMovie："
@@ -822,8 +1118,12 @@ def main():
                 f"  {movie_id}"
             )
 
-    # 0件なら異常と判断し、
+    # --------------------------------------------------------
+    # 0件取得は異常
+    #
     # 既存JSONを空データで上書きしない
+    # --------------------------------------------------------
+
     if not movies:
         raise RuntimeError(
             "Movieを1件も"
@@ -831,7 +1131,38 @@ def main():
             "movie.jsonは更新しません。"
         )
 
-    save_movies(movies)
+    # --------------------------------------------------------
+    # 全件に必須項目が存在することを最終確認
+    # --------------------------------------------------------
+
+    required_fields = [
+        "id",
+        "type",
+        "group",
+        "date",
+        "title",
+        "thumbnail",
+        "url",
+    ]
+
+    for movie in movies:
+        missing_fields = [
+            field
+            for field in required_fields
+            if not movie.get(field)
+        ]
+
+        if missing_fields:
+            raise RuntimeError(
+                f"{movie.get('id', 'unknown')}: "
+                f"{', '.join(missing_fields)} "
+                "がありません。"
+                "movie.jsonは更新しません。"
+            )
+
+    save_movies(
+        movies
+    )
 
     print()
     print(
@@ -845,10 +1176,15 @@ if __name__ == "__main__":
         main()
 
     except Exception:
-        # 異常終了時に.tmpが残った場合は削除
-        if os.path.exists(TEMP_FILE):
+        # 異常終了時に.tmpが残っていたら削除
+        if os.path.exists(
+            TEMP_FILE
+        ):
             try:
-                os.remove(TEMP_FILE)
+                os.remove(
+                    TEMP_FILE
+                )
+
             except OSError:
                 pass
 
