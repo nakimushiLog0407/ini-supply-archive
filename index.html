@@ -3,6 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
+
   <meta
     name="viewport"
     content="width=device-width, initial-scale=1.0"
@@ -79,8 +80,6 @@
         ></div>
 
 
-        <!-- カレンダー凡例 -->
-
         <div class="calendar-legend">
 
           <div class="calendar-legend-item">
@@ -108,10 +107,6 @@
 
       </section>
 
-
-      <!-- =========================
-           選択した日の供給
-      ========================== -->
 
       <section class="supplies-section">
 
@@ -142,10 +137,6 @@
 
       <section class="explore-section">
 
-        <!-- =====================
-             キーワード検索
-        ====================== -->
-
         <div class="explore-search">
 
           <span
@@ -166,10 +157,6 @@
 
         </div>
 
-
-        <!-- =====================
-             カテゴリフィルター
-        ====================== -->
 
         <div class="explore-filter">
 
@@ -194,7 +181,6 @@
               すべて
             </span>
 
-
             <span
               class="explore-category-arrow"
               aria-hidden="true"
@@ -207,10 +193,6 @@
         </div>
 
 
-        <!-- =====================
-             検索結果情報
-        ====================== -->
-
         <div class="explore-result-header">
 
           <span id="exploreResultLabel">
@@ -222,16 +204,8 @@
         </div>
 
 
-        <!-- =====================
-             供給一覧
-        ====================== -->
-
         <div id="exploreList"></div>
 
-
-        <!-- =====================
-             さらに表示
-        ====================== -->
 
         <button
           id="exploreLoadMore"
@@ -277,15 +251,6 @@
 
       <section class="detail-content">
 
-        <!-- =====================
-             サムネイル
-
-             YouTube / Movie /
-             Radio / Photoで表示。
-             Member Diaryでは
-             JavaScript側で非表示。
-        ====================== -->
-
         <div
           id="detailThumbnailWrapper"
           class="detail-thumbnail-wrapper"
@@ -301,19 +266,11 @@
         </div>
 
 
-        <!-- =====================
-             コンテンツ種別
-        ====================== -->
-
         <div
           id="detailType"
           class="detail-type"
         ></div>
 
-
-        <!-- =====================
-             タイトル
-        ====================== -->
 
         <h1
           id="detailTitle"
@@ -321,21 +278,11 @@
         ></h1>
 
 
-        <!-- =====================
-             公開日
-        ====================== -->
-
         <p
           id="detailDate"
           class="detail-date"
         ></p>
 
-
-        <!-- =====================
-             メンバー名
-
-             Member Diaryのみ表示
-        ====================== -->
 
         <p
           id="detailMember"
@@ -343,10 +290,6 @@
           hidden
         ></p>
 
-
-        <!-- =====================
-             外部リンク
-        ====================== -->
 
         <a
           id="detailExternalLink"
@@ -433,7 +376,6 @@
 
     <!-- =========================
          カテゴリ選択
-         ボトムシート
     ========================== -->
 
     <div
@@ -449,20 +391,11 @@
         aria-labelledby="categorySheetTitle"
       >
 
-        <!--
-          iPhoneのボトムシートらしい
-          上部のハンドル
-        -->
-
         <div
           class="category-sheet-handle"
           aria-hidden="true"
         ></div>
 
-
-        <!-- =====================
-             ヘッダー
-        ====================== -->
 
         <div class="category-sheet-header">
 
@@ -483,14 +416,7 @@
         </div>
 
 
-        <!-- =====================
-             カテゴリ一覧
-        ====================== -->
-
         <div class="category-sheet-options">
-
-
-          <!-- すべて -->
 
           <button
             class="category-sheet-option selected"
@@ -505,16 +431,12 @@
               ✓
             </span>
 
-            <span
-              class="category-sheet-option-label"
-            >
+            <span class="category-sheet-option-label">
               すべて
             </span>
 
           </button>
 
-
-          <!-- YouTube -->
 
           <button
             class="category-sheet-option"
@@ -527,25 +449,16 @@
               aria-hidden="true"
             ></span>
 
+            <span class="category-sheet-option-label">
 
-            <span
-              class="category-sheet-option-label"
-            >
+              <span class="dot youtube-dot"></span>
 
-              <span
-                class="dot youtube-dot"
-              ></span>
-
-              <span>
-                YouTube
-              </span>
+              <span>YouTube</span>
 
             </span>
 
           </button>
 
-
-          <!-- MEMBER DIARY -->
 
           <button
             class="category-sheet-option"
@@ -558,25 +471,16 @@
               aria-hidden="true"
             ></span>
 
+            <span class="category-sheet-option-label">
 
-            <span
-              class="category-sheet-option-label"
-            >
+              <span class="dot fc-dot"></span>
 
-              <span
-                class="dot fc-dot"
-              ></span>
-
-              <span>
-                Member Diary
-              </span>
+              <span>Member Diary</span>
 
             </span>
 
           </button>
 
-
-          <!-- Movie -->
 
           <button
             class="category-sheet-option"
@@ -589,25 +493,16 @@
               aria-hidden="true"
             ></span>
 
+            <span class="category-sheet-option-label">
 
-            <span
-              class="category-sheet-option-label"
-            >
+              <span class="dot fc-dot"></span>
 
-              <span
-                class="dot fc-dot"
-              ></span>
-
-              <span>
-                Movie
-              </span>
+              <span>Movie</span>
 
             </span>
 
           </button>
 
-
-          <!-- Radio -->
 
           <button
             class="category-sheet-option"
@@ -620,25 +515,16 @@
               aria-hidden="true"
             ></span>
 
+            <span class="category-sheet-option-label">
 
-            <span
-              class="category-sheet-option-label"
-            >
+              <span class="dot fc-dot"></span>
 
-              <span
-                class="dot fc-dot"
-              ></span>
-
-              <span>
-                Radio
-              </span>
+              <span>Radio</span>
 
             </span>
 
           </button>
 
-
-          <!-- Photo -->
 
           <button
             class="category-sheet-option"
@@ -651,18 +537,11 @@
               aria-hidden="true"
             ></span>
 
+            <span class="category-sheet-option-label">
 
-            <span
-              class="category-sheet-option-label"
-            >
+              <span class="dot fc-dot"></span>
 
-              <span
-                class="dot fc-dot"
-              ></span>
-
-              <span>
-                Photo
-              </span>
+              <span>Photo</span>
 
             </span>
 
@@ -692,9 +571,7 @@
       type="button"
     >
 
-      <span>
-        CALENDAR
-      </span>
+      <span>CALENDAR</span>
 
     </button>
 
@@ -705,16 +582,20 @@
       type="button"
     >
 
-      <span>
-        EXPLORE
-      </span>
+      <span>EXPLORE</span>
 
     </button>
 
   </nav>
 
 
-  <script src="app.js"></script>
+  <!--
+    キャッシュ対策。
+    app.jsを変更したときは
+    このバージョン番号も変更する。
+  -->
+
+  <script src="app.js?v=20260930-1"></script>
 
 </body>
 
