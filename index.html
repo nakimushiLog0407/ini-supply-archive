@@ -3,11 +3,17 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
   <title>INI Supply Archive</title>
 
-  <link rel="stylesheet" href="style.css">
+  <link
+    rel="stylesheet"
+    href="style.css"
+  >
 </head>
 
 <body>
@@ -55,6 +61,7 @@
 
         </div>
 
+
         <div class="weekdays">
           <div>月</div>
           <div>火</div>
@@ -65,23 +72,36 @@
           <div>日</div>
         </div>
 
+
         <div
           id="calendar"
           class="calendar-grid"
         ></div>
+
 
         <!-- カレンダー凡例 -->
 
         <div class="calendar-legend">
 
           <div class="calendar-legend-item">
-            <span class="dot youtube-dot"></span>
+
+            <span
+              class="dot youtube-dot"
+            ></span>
+
             <span>YouTube</span>
+
           </div>
 
+
           <div class="calendar-legend-item">
-            <span class="dot fc-dot"></span>
+
+            <span
+              class="dot fc-dot"
+            ></span>
+
             <span>FC CONTENTS</span>
+
           </div>
 
         </div>
@@ -89,7 +109,9 @@
       </section>
 
 
-      <!-- 選択した日の供給 -->
+      <!-- =========================
+           選択した日の供給
+      ========================== -->
 
       <section class="supplies-section">
 
@@ -117,9 +139,12 @@
         <h1>EXPLORE</h1>
       </header>
 
+
       <section class="explore-section">
 
-        <!-- 検索 -->
+        <!-- =====================
+             キーワード検索
+        ====================== -->
 
         <div class="explore-search">
 
@@ -142,7 +167,49 @@
         </div>
 
 
-        <!-- 検索結果情報 -->
+        <!-- =====================
+             カテゴリフィルター
+        ====================== -->
+
+        <div class="explore-filter">
+
+          <span class="explore-filter-label">
+            カテゴリ
+          </span>
+
+
+          <button
+            id="exploreCategoryButton"
+            class="explore-category-button"
+            type="button"
+            aria-haspopup="dialog"
+            aria-controls="categorySheet"
+            aria-expanded="false"
+          >
+
+            <span
+              id="exploreCategoryLabel"
+              class="explore-category-label"
+            >
+              すべて
+            </span>
+
+
+            <span
+              class="explore-category-arrow"
+              aria-hidden="true"
+            >
+              ›
+            </span>
+
+          </button>
+
+        </div>
+
+
+        <!-- =====================
+             検索結果情報
+        ====================== -->
 
         <div class="explore-result-header">
 
@@ -155,12 +222,16 @@
         </div>
 
 
-        <!-- 供給一覧 -->
+        <!-- =====================
+             供給一覧
+        ====================== -->
 
         <div id="exploreList"></div>
 
 
-        <!-- さらに表示 -->
+        <!-- =====================
+             さらに表示
+        ====================== -->
 
         <button
           id="exploreLoadMore"
@@ -206,12 +277,13 @@
 
       <section class="detail-content">
 
-        <!--
-          サムネイル
-          YouTubeの場合のみ表示。
-          Member DiaryではJavaScript側で
-          wrapperごと非表示にする。
-        -->
+        <!-- =====================
+             サムネイル
+
+             YouTubeのみ表示。
+             Member Diaryでは
+             JavaScript側で非表示。
+        ====================== -->
 
         <div
           id="detailThumbnailWrapper"
@@ -228,7 +300,9 @@
         </div>
 
 
-        <!-- コンテンツ種別 -->
+        <!-- =====================
+             コンテンツ種別
+        ====================== -->
 
         <div
           id="detailType"
@@ -236,7 +310,9 @@
         ></div>
 
 
-        <!-- タイトル -->
+        <!-- =====================
+             タイトル
+        ====================== -->
 
         <h1
           id="detailTitle"
@@ -244,7 +320,9 @@
         ></h1>
 
 
-        <!-- 公開日 -->
+        <!-- =====================
+             公開日
+        ====================== -->
 
         <p
           id="detailDate"
@@ -252,10 +330,11 @@
         ></p>
 
 
-        <!--
-          メンバー名
-          Member Diaryの場合のみ表示
-        -->
+        <!-- =====================
+             メンバー名
+
+             Member Diaryのみ表示
+        ====================== -->
 
         <p
           id="detailMember"
@@ -264,7 +343,9 @@
         ></p>
 
 
-        <!-- 外部リンク -->
+        <!-- =====================
+             外部リンク
+        ====================== -->
 
         <a
           id="detailExternalLink"
@@ -273,11 +354,15 @@
           target="_blank"
           rel="noopener noreferrer"
         >
+
           <span id="detailExternalLinkText">
             外部サイトで見る
           </span>
 
-          <span aria-hidden="true">↗</span>
+          <span aria-hidden="true">
+            ↗
+          </span>
+
         </a>
 
       </section>
@@ -299,19 +384,28 @@
 
         <h2>年月を選択</h2>
 
+
         <div class="month-picker-selects">
 
           <label>
+
             <span>年</span>
+
             <select id="yearSelect"></select>
+
           </label>
 
+
           <label>
+
             <span>月</span>
+
             <select id="monthSelect"></select>
+
           </label>
 
         </div>
+
 
         <div class="month-picker-actions">
 
@@ -327,6 +421,157 @@
             type="button"
           >
             移動
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- =========================
+         カテゴリ選択
+         ボトムシート
+    ========================== -->
+
+    <div
+      id="categorySheet"
+      class="category-sheet-overlay"
+      hidden
+    >
+
+      <div
+        class="category-sheet"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="categorySheetTitle"
+      >
+
+        <!--
+          iPhoneのボトムシートらしい
+          上部のハンドル
+        -->
+
+        <div
+          class="category-sheet-handle"
+          aria-hidden="true"
+        ></div>
+
+
+        <!-- =====================
+             ヘッダー
+        ====================== -->
+
+        <div class="category-sheet-header">
+
+          <h2 id="categorySheetTitle">
+            カテゴリを選択
+          </h2>
+
+
+          <button
+            id="categorySheetClose"
+            class="category-sheet-close"
+            type="button"
+            aria-label="カテゴリ選択を閉じる"
+          >
+            ×
+          </button>
+
+        </div>
+
+
+        <!-- =====================
+             カテゴリ一覧
+        ====================== -->
+
+        <div class="category-sheet-options">
+
+
+          <!-- すべて -->
+
+          <button
+            class="category-sheet-option selected"
+            type="button"
+            data-category="all"
+          >
+
+            <span
+              class="category-sheet-check"
+              aria-hidden="true"
+            >
+              ✓
+            </span>
+
+            <span
+              class="category-sheet-option-label"
+            >
+              すべて
+            </span>
+
+          </button>
+
+
+          <!-- YouTube -->
+
+          <button
+            class="category-sheet-option"
+            type="button"
+            data-category="youtube"
+          >
+
+            <span
+              class="category-sheet-check"
+              aria-hidden="true"
+            ></span>
+
+
+            <span
+              class="category-sheet-option-label"
+            >
+
+              <span
+                class="dot youtube-dot"
+              ></span>
+
+              <span>
+                YouTube
+              </span>
+
+            </span>
+
+          </button>
+
+
+          <!-- MEMBER DIARY -->
+
+          <button
+            class="category-sheet-option"
+            type="button"
+            data-category="member_diary"
+          >
+
+            <span
+              class="category-sheet-check"
+              aria-hidden="true"
+            ></span>
+
+
+            <span
+              class="category-sheet-option-label"
+            >
+
+              <span
+                class="dot fc-dot"
+              ></span>
+
+              <span>
+                MEMBER DIARY
+              </span>
+
+            </span>
+
           </button>
 
         </div>
@@ -352,15 +597,24 @@
       class="nav-item active"
       type="button"
     >
-      <span>CALENDAR</span>
+
+      <span>
+        CALENDAR
+      </span>
+
     </button>
+
 
     <button
       id="exploreNavButton"
       class="nav-item"
       type="button"
     >
-      <span>EXPLORE</span>
+
+      <span>
+        EXPLORE
+      </span>
+
     </button>
 
   </nav>
