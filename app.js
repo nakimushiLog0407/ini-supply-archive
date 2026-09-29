@@ -92,8 +92,16 @@ const exploreLoadMore =
 const detailBackButton =
   document.getElementById("detailBackButton");
 
+const detailThumbnailWrapper =
+  document.getElementById(
+    "detailThumbnailWrapper"
+  );
+
 const detailThumbnail =
   document.getElementById("detailThumbnail");
+
+const detailType =
+  document.getElementById("detailType");
 
 const detailTitle =
   document.getElementById("detailTitle");
@@ -101,8 +109,18 @@ const detailTitle =
 const detailDate =
   document.getElementById("detailDate");
 
-const detailYoutubeLink =
-  document.getElementById("detailYoutubeLink");
+const detailMember =
+  document.getElementById("detailMember");
+
+const detailExternalLink =
+  document.getElementById(
+    "detailExternalLink"
+  );
+
+const detailExternalLinkText =
+  document.getElementById(
+    "detailExternalLinkText"
+  );
 
 
 /* =========================
@@ -135,7 +153,7 @@ let selectedDateKey =
   "calendar"
   "explore"
 
-  DETAILから戻るときに使用する
+  DETAILから戻るときに使用
 */
 
 let currentMainView = "calendar";
@@ -152,26 +170,60 @@ let exploreVisibleCount =
 
 
 /* =========================
+   JSONを読み込む
+========================= */
+
+async function fetchJson(path) {
+
+  const response =
+    await fetch(path);
+
+  if (!response.ok) {
+
+    throw new Error(
+      `${path} を読み込めませんでした。`
+    );
+
+  }
+
+  const data =
+    await response.json();
+
+  if (!Array.isArray(data)) {
+
+    throw new Error(
+      `${path} の形式が不正です。`
+    );
+
+  }
+
+  return data;
+}
+
+
+/* =========================
    供給データを読み込む
+
+   保存ファイルは分離したまま、
+   ブラウザ上だけで統合する。
 ========================= */
 
 async function loadSupplies() {
 
   try {
 
-    const response =
-      await fetch("data/supplies.json");
+    const [
+      youtubeSupplies,
+      memberDiarySupplies
+    ] = await Promise.all([
+      fetchJson("data/youtube.json"),
+      fetchJson("data/member_diary.json")
+    ]);
 
-    if (!response.ok) {
-
-      throw new Error(
-        "供給データを読み込めませんでした。"
-      );
-
-    }
-
-    supplies =
-      await response.json();
+    supplies = [
+      ...youtubeSupplies,
+      ...memberDiarySupplies
+    ];
 
     renderCalendar();
 
@@ -238,6 +290,57 @@ function formatDisplayDate(dateString) {
       .map(Number);
 
   return `${year}年${month}月${day}日`;
+
+}
+
+
+/* =========================
+   供給の並び順
+
+   YouTubeにはpublishedAtがあるので
+   同日なら公開時刻を使用。
+
+   Member Diaryは公開時刻がないため
+   date → ID の順を使用。
+========================= */
+
+function compareSuppliesAscending(
+  a,
+  b
+) {
+
+  const aDate =
+    a.publishedAt ||
+    a.date ||
+    "";
+
+  const bDate =
+    b.publishedAt ||
+    b.date ||
+    "";
+
+  const dateComparison =
+    aDate.localeCompare(
+      bDate
+    );
+
+  if (dateComparison !== 0) {
+
+    return dateComparison;
+
+  }
+
+  return String(
+    a.id || ""
+  ).localeCompare(
+    String(
+      b.id || ""
+    ),
+    "ja",
+    {
+      numeric: true
+    }
+  );
 
 }
 
@@ -368,10 +471,9 @@ function renderCalendar() {
     );
 
 
-    /*
-      この日にYouTube供給があるか確認。
-      動画が何本あっても赤い●は1つ。
-    */
+    /* =====================
+       この日の供給カテゴリ
+    ===================== */
 
     const hasYouTube =
       supplies.some(
@@ -380,7 +482,18 @@ function renderCalendar() {
           supply.type === "youtube"
       );
 
-    if (hasYouTube) {
+    const hasFcContents =
+      supplies.some(
+        supply =>
+          supply.date === dateKey &&
+          supply.group === "fc"
+      );
+
+
+    if (
+      hasYouTube ||
+      hasFcContents
+    ) {
 
       const dots =
         document.createElement("div");
@@ -388,15 +501,40 @@ function renderCalendar() {
       dots.className =
         "supply-dots";
 
-      const dot =
-        document.createElement("span");
 
-      dot.className =
-        "dot youtube-dot";
+      if (hasYouTube) {
 
-      dots.appendChild(dot);
+        const youtubeDot =
+          document.createElement("span");
 
-      dayButton.appendChild(dots);
+        youtubeDot.className =
+          "dot youtube-dot";
+
+        dots.appendChild(
+          youtubeDot
+        );
+
+      }
+
+
+      if (hasFcContents) {
+
+        const fcDot =
+          document.createElement("span");
+
+        fcDot.className =
+          "dot fc-dot";
+
+        dots.appendChild(
+          fcDot
+        );
+
+      }
+
+
+      dayButton.appendChild(
+        dots
+      );
 
     }
 
@@ -417,11 +555,120 @@ function renderCalendar() {
       }
     );
 
+
     calendar.appendChild(
       dayButton
     );
 
   }
+
+}
+
+
+/* =========================
+   一覧用の供給ボタンを作る
+========================= */
+
+function createSupplyItem(
+  supply,
+  fromView,
+  showMember = false
+) {
+
+  const item =
+    document.createElement(
+      "button"
+    );
+
+  item.type = "button";
+
+  item.className =
+    "supply-item";
+
+
+  const text =
+    document.createElement(
+      "span"
+    );
+
+  text.className =
+    "supply-item-text";
+
+
+  const title =
+    document.createElement(
+      "span"
+    );
+
+  title.className =
+    "supply-title";
+
+  title.textContent =
+    supply.title;
+
+  text.appendChild(
+    title
+  );
+
+
+  if (
+    showMember &&
+    supply.member
+  ) {
+
+    const member =
+      document.createElement(
+        "span"
+      );
+
+    member.className =
+      "supply-member";
+
+    member.textContent =
+      supply.member;
+
+    text.appendChild(
+      member
+    );
+
+  }
+
+
+  const arrow =
+    document.createElement(
+      "span"
+    );
+
+  arrow.className =
+    "supply-arrow";
+
+  arrow.textContent =
+    "›";
+
+
+  item.appendChild(
+    text
+  );
+
+  item.appendChild(
+    arrow
+  );
+
+
+  item.addEventListener(
+    "click",
+    () => {
+
+      openDetail(
+        supply,
+        fromView
+      );
+
+    }
+  );
+
+
+  return item;
 
 }
 
@@ -437,14 +684,21 @@ function renderSelectedDate() {
       selectedDateKey
     );
 
+
   const selectedSupplies =
-    supplies.filter(
-      supply =>
-        supply.date ===
-        selectedDateKey
-    );
+    supplies
+      .filter(
+        supply =>
+          supply.date ===
+          selectedDateKey
+      )
+      .sort(
+        compareSuppliesAscending
+      );
+
 
   supplyList.innerHTML = "";
+
 
   if (
     selectedSupplies.length === 0
@@ -461,16 +715,16 @@ function renderSelectedDate() {
   }
 
 
-  /*
-    現時点ではYouTubeのみ。
-    将来ここへ別カテゴリを追加できる。
-  */
+  /* =====================
+     YouTube
+  ===================== */
 
   const youtubeSupplies =
     selectedSupplies.filter(
       supply =>
         supply.type === "youtube"
     );
+
 
   if (
     youtubeSupplies.length > 0
@@ -494,6 +748,7 @@ function renderSelectedDate() {
       <span>YouTube</span>
     `;
 
+
     category.appendChild(
       categoryTitle
     );
@@ -502,46 +757,80 @@ function renderSelectedDate() {
     youtubeSupplies.forEach(
       supply => {
 
-        const item =
-          document.createElement(
-            "button"
-          );
-
-        item.type = "button";
-
-        item.className =
-          "supply-item";
-
-        item.innerHTML = `
-          <span class="supply-title"></span>
-          <span class="supply-arrow">›</span>
-        `;
-
-        item
-          .querySelector(
-            ".supply-title"
-          )
-          .textContent =
-          supply.title;
-
-        item.addEventListener(
-          "click",
-          () => {
-
-            openDetail(
-              supply,
-              "calendar"
-            );
-
-          }
-        );
-
         category.appendChild(
-          item
+          createSupplyItem(
+            supply,
+            "calendar",
+            false
+          )
         );
 
       }
     );
+
+
+    supplyList.appendChild(
+      category
+    );
+
+  }
+
+
+  /* =====================
+     FC CONTENTS
+     └ MEMBER DIARY
+  ===================== */
+
+  const memberDiarySupplies =
+    selectedSupplies.filter(
+      supply =>
+        supply.type ===
+        "member_diary"
+    );
+
+
+  if (
+    memberDiarySupplies.length > 0
+  ) {
+
+    const category =
+      document.createElement("div");
+
+    category.className =
+      "supply-category";
+
+
+    const categoryTitle =
+      document.createElement("div");
+
+    categoryTitle.className =
+      "supply-category-title";
+
+    categoryTitle.innerHTML = `
+      <span class="dot fc-dot"></span>
+      <span>MEMBER DIARY</span>
+    `;
+
+
+    category.appendChild(
+      categoryTitle
+    );
+
+
+    memberDiarySupplies.forEach(
+      supply => {
+
+        category.appendChild(
+          createSupplyItem(
+            supply,
+            "calendar",
+            true
+          )
+        );
+
+      }
+    );
+
 
     supplyList.appendChild(
       category
@@ -558,16 +847,17 @@ function renderSelectedDate() {
 
 function getExploreSupplies() {
 
-  const query =
+  const rawQuery =
     exploreSearchInput.value
       .trim()
       .toLocaleLowerCase();
 
+
   /*
     新しい公開日時から順にする。
 
-    publishedAtがない供給が
-    将来追加された場合はdateを使う。
+    YouTubeはpublishedAt、
+    Member Diaryはdateを使用。
   */
 
   const sortedSupplies =
@@ -584,8 +874,29 @@ function getExploreSupplies() {
           b.date ||
           "";
 
-        return bDate.localeCompare(
-          aDate
+        const dateComparison =
+          bDate.localeCompare(
+            aDate
+          );
+
+        if (
+          dateComparison !== 0
+        ) {
+
+          return dateComparison;
+
+        }
+
+        return String(
+          b.id || ""
+        ).localeCompare(
+          String(
+            a.id || ""
+          ),
+          "ja",
+          {
+            numeric: true
+          }
         );
 
       }
@@ -594,7 +905,7 @@ function getExploreSupplies() {
 
   /* 検索していない場合 */
 
-  if (!query) {
+  if (!rawQuery) {
 
     return sortedSupplies;
 
@@ -602,11 +913,20 @@ function getExploreSupplies() {
 
 
   /*
-    現時点ではタイトル検索。
+    空白区切りで複数キーワード化。
 
-    将来検索対象を増やす場合は
-    ここを拡張できる。
+    例：
+    木村 2021
+
+    → 「木村」と「2021」の
+       両方を含む供給だけ表示する。
   */
+
+  const keywords =
+    rawQuery
+      .split(/\s+/)
+      .filter(Boolean);
+
 
   return sortedSupplies.filter(
     supply => {
@@ -616,7 +936,69 @@ function getExploreSupplies() {
           supply.title || ""
         ).toLocaleLowerCase();
 
-      return title.includes(query);
+
+      /*
+        YouTube
+        → タイトルだけ検索
+      */
+
+      if (
+        supply.type === "youtube"
+      ) {
+
+        return keywords.every(
+          keyword =>
+            title.includes(
+              keyword
+            )
+        );
+
+      }
+
+
+      /*
+        Member Diary
+        → タイトル＋メンバー名
+
+        2つをまとめた検索文字列にすることで、
+        「木村 2021」のように
+        タイトルとメンバーをまたいだ検索も可能。
+      */
+
+      if (
+        supply.type ===
+        "member_diary"
+      ) {
+
+        const member =
+          String(
+            supply.member || ""
+          ).toLocaleLowerCase();
+
+        const searchableText =
+          `${title} ${member}`;
+
+        return keywords.every(
+          keyword =>
+            searchableText.includes(
+              keyword
+            )
+        );
+
+      }
+
+
+      /*
+        将来別の供給種別を追加した場合は
+        最低限タイトルを検索対象にする。
+      */
+
+      return keywords.every(
+        keyword =>
+          title.includes(
+            keyword
+          )
+      );
 
     }
   );
@@ -633,6 +1015,7 @@ function renderExplore() {
   const query =
     exploreSearchInput.value
       .trim();
+
 
   const filteredSupplies =
     getExploreSupplies();
@@ -674,7 +1057,7 @@ function renderExplore() {
   }
 
 
-  /* 今回表示する分だけ取得 */
+  /* 今回表示する分 */
 
   const visibleSupplies =
     filteredSupplies.slice(
@@ -733,6 +1116,16 @@ function renderExplore() {
           <span>YouTube</span>
         `;
 
+      } else if (
+        supply.type ===
+        "member_diary"
+      ) {
+
+        category.innerHTML = `
+          <span class="dot fc-dot"></span>
+          <span>MEMBER DIARY</span>
+        `;
+
       } else {
 
         category.textContent =
@@ -741,7 +1134,9 @@ function renderExplore() {
       }
 
 
-      /* タイトル＋矢印 */
+      /* =====================
+         タイトル・メンバー
+      ===================== */
 
       const main =
         document.createElement(
@@ -750,6 +1145,15 @@ function renderExplore() {
 
       main.className =
         "explore-item-main";
+
+
+      const text =
+        document.createElement(
+          "span"
+        );
+
+      text.className =
+        "explore-item-text";
 
 
       const title =
@@ -762,6 +1166,34 @@ function renderExplore() {
 
       title.textContent =
         supply.title;
+
+      text.appendChild(
+        title
+      );
+
+
+      if (
+        supply.type ===
+          "member_diary" &&
+        supply.member
+      ) {
+
+        const member =
+          document.createElement(
+            "span"
+          );
+
+        member.className =
+          "explore-item-member";
+
+        member.textContent =
+          supply.member;
+
+        text.appendChild(
+          member
+        );
+
+      }
 
 
       const arrow =
@@ -776,16 +1208,26 @@ function renderExplore() {
         "›";
 
 
-      main.appendChild(title);
+      main.appendChild(
+        text
+      );
 
-      main.appendChild(arrow);
+      main.appendChild(
+        arrow
+      );
 
 
-      item.appendChild(date);
+      item.appendChild(
+        date
+      );
 
-      item.appendChild(category);
+      item.appendChild(
+        category
+      );
 
-      item.appendChild(main);
+      item.appendChild(
+        main
+      );
 
 
       /* DETAILへ */
@@ -813,8 +1255,7 @@ function renderExplore() {
 
   /*
     まだ表示していない供給が
-    残っている場合だけ
-    「さらに表示」を出す
+    残っている場合だけ表示
   */
 
   exploreLoadMore.hidden =
@@ -831,11 +1272,6 @@ function renderExplore() {
 exploreSearchInput.addEventListener(
   "input",
   () => {
-
-    /*
-      検索語が変わったら
-      表示件数を最初の50件へ戻す
-    */
 
     exploreVisibleCount =
       EXPLORE_PAGE_SIZE;
@@ -976,48 +1412,14 @@ function openDetail(
   fromView
 ) {
 
-  /*
-    DETAILをどこから開いたか記憶
-  */
-
   currentMainView =
     fromView;
 
 
-  /*
-    videoIdから
-    YouTube URLを生成
-  */
-
-  const youtubeUrl =
-    `https://www.youtube.com/watch?v=${supply.videoId}`;
-
-
-  /*
-    videoIdから
-    サムネイルURLを生成
-  */
-
-  const thumbnailUrl =
-    `https://i.ytimg.com/vi/${supply.videoId}/maxresdefault.jpg`;
-
-
-  /* サムネイル */
-
-  detailThumbnail.src =
-    thumbnailUrl;
-
-  detailThumbnail.alt =
-    `${supply.title}のサムネイル`;
-
-
-  /* タイトル */
+  /* 共通情報 */
 
   detailTitle.textContent =
     supply.title;
-
-
-  /* 公開日 */
 
   detailDate.textContent =
     formatDisplayDate(
@@ -1025,10 +1427,155 @@ function openDetail(
     );
 
 
-  /* YouTubeリンク */
+  /* =====================
+     YouTube
+  ===================== */
 
-  detailYoutubeLink.href =
-    youtubeUrl;
+  if (
+    supply.type === "youtube"
+  ) {
+
+    const youtubeUrl =
+      supply.url ||
+      `https://www.youtube.com/watch?v=${supply.videoId}`;
+
+    const thumbnailUrl =
+      supply.thumbnail ||
+      `https://i.ytimg.com/vi/${supply.videoId}/maxresdefault.jpg`;
+
+
+    detailThumbnailWrapper.hidden =
+      false;
+
+    detailThumbnail.src =
+      thumbnailUrl;
+
+    detailThumbnail.alt =
+      `${supply.title}のサムネイル`;
+
+
+    detailType.innerHTML = `
+      <span class="dot youtube-dot"></span>
+      <span>YouTube</span>
+    `;
+
+
+    detailMember.hidden =
+      true;
+
+    detailMember.textContent =
+      "";
+
+
+    detailExternalLink.href =
+      youtubeUrl;
+
+    detailExternalLinkText.textContent =
+      "YouTubeで見る";
+
+
+    detailExternalLink.classList.remove(
+      "fc-link"
+    );
+
+    detailExternalLink.classList.add(
+      "youtube-link"
+    );
+
+  }
+
+
+  /* =====================
+     Member Diary
+  ===================== */
+
+  else if (
+    supply.type ===
+    "member_diary"
+  ) {
+
+    /*
+      Member Diaryには
+      サムネイルを表示しない
+    */
+
+    detailThumbnailWrapper.hidden =
+      true;
+
+    detailThumbnail.src =
+      "";
+
+    detailThumbnail.alt =
+      "";
+
+
+    detailType.innerHTML = `
+      <span class="dot fc-dot"></span>
+      <span>MEMBER DIARY</span>
+    `;
+
+
+    detailMember.hidden =
+      false;
+
+    detailMember.textContent =
+      supply.member || "";
+
+
+    detailExternalLink.href =
+      supply.url;
+
+    detailExternalLinkText.textContent =
+      "公式サイトで見る";
+
+
+    detailExternalLink.classList.remove(
+      "youtube-link"
+    );
+
+    detailExternalLink.classList.add(
+      "fc-link"
+    );
+
+  }
+
+
+  /* =====================
+     未知の供給種別
+  ===================== */
+
+  else {
+
+    detailThumbnailWrapper.hidden =
+      true;
+
+    detailThumbnail.src =
+      "";
+
+    detailThumbnail.alt =
+      "";
+
+    detailType.textContent =
+      supply.type || "";
+
+    detailMember.hidden =
+      true;
+
+    detailMember.textContent =
+      "";
+
+    detailExternalLink.href =
+      supply.url || "#";
+
+    detailExternalLinkText.textContent =
+      "外部サイトで見る";
+
+    detailExternalLink.classList.remove(
+      "youtube-link",
+      "fc-link"
+    );
+
+  }
 
 
   /* 画面切り替え */
@@ -1187,6 +1734,7 @@ function createMonthPickerOptions() {
   const currentYear =
     today.getFullYear();
 
+
   for (
     let year = currentYear;
     year >= startYear;
@@ -1293,11 +1841,13 @@ monthPickerGo.addEventListener(
         monthSelect.value
       );
 
+
     displayYear =
       selectedYear;
 
     displayMonth =
       selectedMonth - 1;
+
 
     monthPicker.hidden =
       true;
@@ -1309,7 +1859,8 @@ monthPickerGo.addEventListener(
 
 
 /* =========================
-   背景を押したら年月選択を閉じる
+   背景を押したら
+   年月選択を閉じる
 ========================= */
 
 monthPicker.addEventListener(
