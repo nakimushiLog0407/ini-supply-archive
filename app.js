@@ -229,7 +229,8 @@ const exploreCategoryNames = {
   all: "すべて",
   youtube: "YouTube",
   member_diary: "Member Diary",
-  movie: "Movie"
+  movie: "Movie",
+  radio: "Radio"
 };
 
 
@@ -277,7 +278,8 @@ async function loadSupplies() {
     const [
       youtubeSupplies,
       memberDiarySupplies,
-      movieSupplies
+      movieSupplies,
+      radioSupplies
     ] = await Promise.all([
 
       fetchJson(
@@ -290,6 +292,10 @@ async function loadSupplies() {
 
       fetchJson(
         "data/movie.json"
+      ),
+
+      fetchJson(
+        "data/radio.json"
       )
 
     ]);
@@ -298,7 +304,8 @@ async function loadSupplies() {
     supplies = [
       ...youtubeSupplies,
       ...memberDiarySupplies,
-      ...movieSupplies
+      ...movieSupplies,
+      ...radioSupplies
     ];
 
 
@@ -470,8 +477,6 @@ function renderCalendar() {
     ) % 7;
 
 
-  /* 月初より前の空白 */
-
   for (
     let i = 0;
     i < startPosition;
@@ -492,8 +497,6 @@ function renderCalendar() {
 
   }
 
-
-  /* 日付 */
 
   for (
     let day = 1;
@@ -521,8 +524,6 @@ function renderCalendar() {
       "calendar-day";
 
 
-    /* 今日 */
-
     if (
       displayYear ===
         today.getFullYear() &&
@@ -538,8 +539,6 @@ function renderCalendar() {
 
     }
 
-
-    /* 選択中の日 */
 
     if (
       dateKey ===
@@ -569,10 +568,6 @@ function renderCalendar() {
     );
 
 
-    /* =====================
-       この日の供給カテゴリ
-    ===================== */
-
     const hasYouTube =
       supplies.some(
         supply =>
@@ -584,11 +579,11 @@ function renderCalendar() {
 
 
     /*
-      Member Diary と Movie は
-      どちらも group === "fc"。
+      Member Diary / Movie / Radio は
+      すべて group === "fc"。
 
-      同日に両方存在しても
-      FCの丸は1個だけ表示する。
+      同じ日に複数のFCコンテンツが存在しても
+      カレンダー上のFC丸は1個だけ表示する。
     */
 
     const hasFcContents =
@@ -659,8 +654,6 @@ function renderCalendar() {
 
     }
 
-
-    /* 日付をタップ */
 
     dayButton.addEventListener(
       "click",
@@ -796,6 +789,83 @@ function createSupplyItem(
 
 
 /* =========================
+   選択日のカテゴリを描画
+========================= */
+
+function appendSupplyCategory(
+  title,
+  categorySupplies,
+  showMember = false
+) {
+
+  if (
+    categorySupplies.length ===
+    0
+  ) {
+
+    return;
+
+  }
+
+
+  const category =
+    document.createElement(
+      "div"
+    );
+
+  category.className =
+    "supply-category";
+
+
+  const categoryTitle =
+    document.createElement(
+      "div"
+    );
+
+  categoryTitle.className =
+    "supply-category-title";
+
+
+  const dotClass =
+    title === "YouTube"
+      ? "youtube-dot"
+      : "fc-dot";
+
+
+  categoryTitle.innerHTML = `
+    <span class="dot ${dotClass}"></span>
+    <span>${title}</span>
+  `;
+
+
+  category.appendChild(
+    categoryTitle
+  );
+
+
+  categorySupplies.forEach(
+    supply => {
+
+      category.appendChild(
+        createSupplyItem(
+          supply,
+          "calendar",
+          showMember
+        )
+      );
+
+    }
+  );
+
+
+  supplyList.appendChild(
+    category
+  );
+
+}
+
+
+/* =========================
    選択日の供給を表示
 ========================= */
 
@@ -839,10 +909,6 @@ function renderSelectedDate() {
   }
 
 
-  /* =====================
-     YouTube
-  ===================== */
-
   const youtubeSupplies =
     selectedSupplies.filter(
       supply =>
@@ -850,65 +916,6 @@ function renderSelectedDate() {
         "youtube"
     );
 
-
-  if (
-    youtubeSupplies.length >
-    0
-  ) {
-
-    const category =
-      document.createElement(
-        "div"
-      );
-
-    category.className =
-      "supply-category";
-
-
-    const categoryTitle =
-      document.createElement(
-        "div"
-      );
-
-    categoryTitle.className =
-      "supply-category-title";
-
-    categoryTitle.innerHTML = `
-      <span class="dot youtube-dot"></span>
-      <span>YouTube</span>
-    `;
-
-
-    category.appendChild(
-      categoryTitle
-    );
-
-
-    youtubeSupplies.forEach(
-      supply => {
-
-        category.appendChild(
-          createSupplyItem(
-            supply,
-            "calendar",
-            false
-          )
-        );
-
-      }
-    );
-
-
-    supplyList.appendChild(
-      category
-    );
-
-  }
-
-
-  /* =====================
-     Member Diary
-  ===================== */
 
   const memberDiarySupplies =
     selectedSupplies.filter(
@@ -918,65 +925,6 @@ function renderSelectedDate() {
     );
 
 
-  if (
-    memberDiarySupplies.length >
-    0
-  ) {
-
-    const category =
-      document.createElement(
-        "div"
-      );
-
-    category.className =
-      "supply-category";
-
-
-    const categoryTitle =
-      document.createElement(
-        "div"
-      );
-
-    categoryTitle.className =
-      "supply-category-title";
-
-    categoryTitle.innerHTML = `
-      <span class="dot fc-dot"></span>
-      <span>Member Diary</span>
-    `;
-
-
-    category.appendChild(
-      categoryTitle
-    );
-
-
-    memberDiarySupplies.forEach(
-      supply => {
-
-        category.appendChild(
-          createSupplyItem(
-            supply,
-            "calendar",
-            true
-          )
-        );
-
-      }
-    );
-
-
-    supplyList.appendChild(
-      category
-    );
-
-  }
-
-
-  /* =====================
-     Movie
-  ===================== */
-
   const movieSupplies =
     selectedSupplies.filter(
       supply =>
@@ -985,59 +933,37 @@ function renderSelectedDate() {
     );
 
 
-  if (
-    movieSupplies.length >
-    0
-  ) {
-
-    const category =
-      document.createElement(
-        "div"
-      );
-
-    category.className =
-      "supply-category";
-
-
-    const categoryTitle =
-      document.createElement(
-        "div"
-      );
-
-    categoryTitle.className =
-      "supply-category-title";
-
-    categoryTitle.innerHTML = `
-      <span class="dot fc-dot"></span>
-      <span>Movie</span>
-    `;
-
-
-    category.appendChild(
-      categoryTitle
+  const radioSupplies =
+    selectedSupplies.filter(
+      supply =>
+        supply.type ===
+        "radio"
     );
 
 
-    movieSupplies.forEach(
-      supply => {
-
-        category.appendChild(
-          createSupplyItem(
-            supply,
-            "calendar",
-            false
-          )
-        );
-
-      }
-    );
+  appendSupplyCategory(
+    "YouTube",
+    youtubeSupplies
+  );
 
 
-    supplyList.appendChild(
-      category
-    );
+  appendSupplyCategory(
+    "Member Diary",
+    memberDiarySupplies,
+    true
+  );
 
-  }
+
+  appendSupplyCategory(
+    "Movie",
+    movieSupplies
+  );
+
+
+  appendSupplyCategory(
+    "Radio",
+    radioSupplies
+  );
 
 }
 
@@ -1065,46 +991,10 @@ function matchesExploreCategory(
   }
 
 
-  if (
-    selectedExploreCategory ===
-    "youtube"
-  ) {
-
-    return (
-      supply.type ===
-      "youtube"
-    );
-
-  }
-
-
-  if (
-    selectedExploreCategory ===
-    "member_diary"
-  ) {
-
-    return (
-      supply.type ===
-      "member_diary"
-    );
-
-  }
-
-
-  if (
-    selectedExploreCategory ===
-    "movie"
-  ) {
-
-    return (
-      supply.type ===
-      "movie"
-    );
-
-  }
-
-
-  return true;
+  return (
+    supply.type ===
+    selectedExploreCategory
+  );
 
 }
 
@@ -1202,11 +1092,6 @@ function getExploreSupplies() {
         ).toLocaleLowerCase();
 
 
-      /*
-        Member Diaryは
-        タイトル＋メンバー名を検索
-      */
-
       if (
         supply.type ===
         "member_diary"
@@ -1232,8 +1117,8 @@ function getExploreSupplies() {
 
 
       /*
-        YouTube / Movieは
-        タイトルを検索
+        YouTube / Movie / Radio は
+        タイトルを検索する。
       */
 
       return keywords.every(
@@ -1245,6 +1130,63 @@ function getExploreSupplies() {
 
     }
   );
+
+}
+
+
+/* =========================
+   EXPLOREのカテゴリ表示
+========================= */
+
+function setExploreItemCategory(
+  category,
+  supply
+) {
+
+  if (
+    supply.type ===
+    "youtube"
+  ) {
+
+    category.innerHTML = `
+      <span class="dot youtube-dot"></span>
+      <span>YouTube</span>
+    `;
+
+    return;
+
+  }
+
+
+  const fcCategoryNames = {
+    member_diary:
+      "Member Diary",
+    movie:
+      "Movie",
+    radio:
+      "Radio"
+  };
+
+
+  if (
+    fcCategoryNames[
+      supply.type
+    ]
+  ) {
+
+    category.innerHTML = `
+      <span class="dot fc-dot"></span>
+      <span>${fcCategoryNames[supply.type]}</span>
+    `;
+
+    return;
+
+  }
+
+
+  category.textContent =
+    supply.type ||
+    "";
 
 }
 
@@ -1340,8 +1282,6 @@ function renderExplore() {
         "explore-item";
 
 
-      /* 日付 */
-
       const date =
         document.createElement(
           "span"
@@ -1356,8 +1296,6 @@ function renderExplore() {
         );
 
 
-      /* カテゴリ */
-
       const category =
         document.createElement(
           "span"
@@ -1367,46 +1305,11 @@ function renderExplore() {
         "explore-item-category";
 
 
-      if (
-        supply.type ===
-        "youtube"
-      ) {
+      setExploreItemCategory(
+        category,
+        supply
+      );
 
-        category.innerHTML = `
-          <span class="dot youtube-dot"></span>
-          <span>YouTube</span>
-        `;
-
-      } else if (
-        supply.type ===
-        "member_diary"
-      ) {
-
-        category.innerHTML = `
-          <span class="dot fc-dot"></span>
-          <span>Member Diary</span>
-        `;
-
-      } else if (
-        supply.type ===
-        "movie"
-      ) {
-
-        category.innerHTML = `
-          <span class="dot fc-dot"></span>
-          <span>Movie</span>
-        `;
-
-      } else {
-
-        category.textContent =
-          supply.type ||
-          "";
-
-      }
-
-
-      /* 本文 */
 
       const main =
         document.createElement(
@@ -1859,6 +1762,74 @@ exploreNavButton.addEventListener(
 
 
 /* =========================
+   DETAIL共通
+========================= */
+
+function setFcDetail(
+  supply,
+  typeName
+) {
+
+  if (
+    supply.thumbnail
+  ) {
+
+    detailThumbnailWrapper.hidden =
+      false;
+
+    detailThumbnail.src =
+      supply.thumbnail;
+
+    detailThumbnail.alt =
+      `${supply.title}のサムネイル`;
+
+  } else {
+
+    detailThumbnailWrapper.hidden =
+      true;
+
+    detailThumbnail.src =
+      "";
+
+    detailThumbnail.alt =
+      "";
+
+  }
+
+
+  detailType.innerHTML = `
+    <span class="dot fc-dot"></span>
+    <span>${typeName}</span>
+  `;
+
+
+  detailMember.hidden =
+    true;
+
+  detailMember.textContent =
+    "";
+
+
+  detailExternalLink.href =
+    supply.url ||
+    "#";
+
+  detailExternalLinkText.textContent =
+    "公式サイトで見る";
+
+
+  detailExternalLink.classList.remove(
+    "youtube-link"
+  );
+
+  detailExternalLink.classList.add(
+    "fc-link"
+  );
+
+}
+
+
+/* =========================
    DETAILを開く
 ========================= */
 
@@ -2013,60 +1984,26 @@ function openDetail(
     "movie"
   ) {
 
-    if (
-      supply.thumbnail
-    ) {
-
-      detailThumbnailWrapper.hidden =
-        false;
-
-      detailThumbnail.src =
-        supply.thumbnail;
-
-      detailThumbnail.alt =
-        `${supply.title}のサムネイル`;
-
-    } else {
-
-      detailThumbnailWrapper.hidden =
-        true;
-
-      detailThumbnail.src =
-        "";
-
-      detailThumbnail.alt =
-        "";
-
-    }
-
-
-    detailType.innerHTML = `
-      <span class="dot fc-dot"></span>
-      <span>Movie</span>
-    `;
-
-
-    detailMember.hidden =
-      true;
-
-    detailMember.textContent =
-      "";
-
-
-    detailExternalLink.href =
-      supply.url ||
-      "#";
-
-    detailExternalLinkText.textContent =
-      "公式サイトで見る";
-
-
-    detailExternalLink.classList.remove(
-      "youtube-link"
+    setFcDetail(
+      supply,
+      "Movie"
     );
 
-    detailExternalLink.classList.add(
-      "fc-link"
+  }
+
+
+  /* =====================
+     Radio
+  ===================== */
+
+  else if (
+    supply.type ===
+    "radio"
+  ) {
+
+    setFcDetail(
+      supply,
+      "Radio"
     );
 
   }
