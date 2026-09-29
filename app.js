@@ -208,7 +208,7 @@ let selectedExploreCategory =
 const exploreCategoryNames = {
   all: "すべて",
   youtube: "YouTube",
-  member_diary: "MEMBER DIARY"
+  member_diary: "Member Diary"
 };
 
 
@@ -822,7 +822,7 @@ function renderSelectedDate() {
 
   /* =====================
      FC CONTENTS
-     └ MEMBER DIARY
+     └ Member Diary
   ===================== */
 
   const memberDiarySupplies =
@@ -852,7 +852,7 @@ function renderSelectedDate() {
 
     categoryTitle.innerHTML = `
       <span class="dot fc-dot"></span>
-      <span>MEMBER DIARY</span>
+      <span>Member Diary</span>
     `;
 
 
@@ -1256,7 +1256,7 @@ function renderExplore() {
 
         category.innerHTML = `
           <span class="dot fc-dot"></span>
-          <span>MEMBER DIARY</span>
+          <span>Member Diary</span>
         `;
 
       } else {
@@ -1903,7 +1903,7 @@ function openDetail(
 
     detailType.innerHTML = `
       <span class="dot fc-dot"></span>
-      <span>MEMBER DIARY</span>
+      <span>Member Diary</span>
     `;
 
 
