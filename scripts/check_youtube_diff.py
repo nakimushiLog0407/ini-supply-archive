@@ -27,7 +27,10 @@ def youtube_api(endpoint, params):
     params = dict(params)
     params["key"] = API_KEY
 
-    query = urllib.parse.urlencode(params)
+    query = urllib.parse.urlencode(
+        params,
+        doseq=True,
+    )
 
     url = (
         "https://www.googleapis.com/youtube/v3/"
@@ -65,14 +68,17 @@ def load_json_videos():
 
 
 # ========================================
-# UploadsプレイリストIDを取得
+# チャンネル情報を取得
+#
+# ・UploadsプレイリストID
+# ・statistics.videoCount
 # ========================================
 
-def get_uploads_playlist_id():
+def get_channel_info():
     data = youtube_api(
         "channels",
         {
-            "part": "contentDetails",
+            "part": "contentDetails,statistics",
             "id": CHANNEL_ID,
         },
     )
@@ -85,19 +91,35 @@ def get_uploads_playlist_id():
             "情報を取得できませんでした。"
         )
 
-    return (
-        items[0]
-        ["contentDetails"]
-        ["relatedPlaylists"]
-        ["uploads"]
+    channel = items[0]
+
+    uploads_playlist_id = (
+        channel
+        .get("contentDetails", {})
+        .get("relatedPlaylists", {})
+        .get("uploads")
     )
+
+    video_count = (
+        channel
+        .get("statistics", {})
+        .get("videoCount")
+    )
+
+    if not uploads_playlist_id:
+        raise RuntimeError(
+            "UploadsプレイリストIDを"
+            "取得できませんでした。"
+        )
+
+    return {
+        "uploadsPlaylistId": uploads_playlist_id,
+        "videoCount": video_count,
+    }
 
 
 # ========================================
 # 現在のUploadsプレイリストを全件取得
-#
-# status も取得して
-# privacyStatus を確認する
 # ========================================
 
 def fetch_current_uploads(
@@ -153,26 +175,22 @@ def fetch_current_uploads(
             if not video_id:
                 continue
 
-            title = snippet.get(
-                "title",
-                ""
-            )
-
-            published_at = snippet.get(
-                "publishedAt",
-                ""
-            )
-
-            privacy_status = status.get(
-                "privacyStatus",
-                "unknown",
-            )
-
             videos[video_id] = {
                 "videoId": video_id,
-                "title": title,
-                "publishedAt": published_at,
-                "privacyStatus": privacy_status,
+                "title": snippet.get(
+                    "title",
+                    "",
+                ),
+                "publishedAt": snippet.get(
+                    "publishedAt",
+                    "",
+                ),
+                "playlistPrivacyStatus": (
+                    status.get(
+                        "privacyStatus",
+                        "unknown",
+                    )
+                ),
             }
 
         page_token = data.get(
@@ -186,15 +204,148 @@ def fetch_current_uploads(
 
 
 # ========================================
+# リストを50件ずつに分割
+#
+# videos.list は最大50動画ずつ照会
+# ========================================
+
+def chunk_list(items, size):
+    for index in range(
+        0,
+        len(items),
+        size,
+    ):
+        yield items[
+            index:index + size
+        ]
+
+
+# ========================================
+# 動画本体を videos.list で全件照合
+# ========================================
+
+def fetch_video_resources(video_ids):
+    print(
+        "Uploadsにある動画IDを使って、"
+        "動画本体を確認しています..."
+    )
+
+    video_resources = {}
+
+    sorted_ids = sorted(video_ids)
+
+    batches = list(
+        chunk_list(
+            sorted_ids,
+            50,
+        )
+    )
+
+    total_batches = len(batches)
+
+    for batch_number, batch in enumerate(
+        batches,
+        start=1,
+    ):
+        print(
+            f"動画本体を確認中: "
+            f"{batch_number}/{total_batches}"
+        )
+
+        data = youtube_api(
+            "videos",
+            {
+                "part": (
+                    "snippet,"
+                    "status,"
+                    "contentDetails"
+                ),
+                "id": ",".join(batch),
+                "maxResults": 50,
+            },
+        )
+
+        for item in data.get(
+            "items",
+            [],
+        ):
+            video_id = item.get("id")
+
+            if not video_id:
+                continue
+
+            snippet = item.get(
+                "snippet",
+                {},
+            )
+
+            status = item.get(
+                "status",
+                {},
+            )
+
+            content_details = item.get(
+                "contentDetails",
+                {},
+            )
+
+            video_resources[video_id] = {
+                "videoId": video_id,
+
+                "title": snippet.get(
+                    "title",
+                    "",
+                ),
+
+                "publishedAt": snippet.get(
+                    "publishedAt",
+                    "",
+                ),
+
+                # ここが今回特に重要
+                # 動画本体の公開状態
+                "privacyStatus": (
+                    status.get(
+                        "privacyStatus",
+                        "unknown",
+                    )
+                ),
+
+                # 念のため追加情報も取得
+                "uploadStatus": (
+                    status.get(
+                        "uploadStatus",
+                        "unknown",
+                    )
+                ),
+
+                "embeddable": status.get(
+                    "embeddable"
+                ),
+
+                "duration": (
+                    content_details.get(
+                        "duration",
+                        "",
+                    )
+                ),
+            }
+
+    return video_resources
+
+
+# ========================================
 # 診断結果を表示
 # ========================================
 
 def print_diagnostics(
     json_videos,
+    channel_info,
     current_uploads,
+    video_resources,
 ):
     # ------------------------------------
-    # JSON側をvideoId単位で整理
+    # JSON側
     # ------------------------------------
 
     json_by_video_id = {}
@@ -214,8 +365,12 @@ def print_diagnostics(
         json_by_video_id.keys()
     )
 
-    current_ids = set(
+    uploads_ids = set(
         current_uploads.keys()
+    )
+
+    resource_ids = set(
+        video_resources.keys()
     )
 
 
@@ -224,40 +379,62 @@ def print_diagnostics(
     # ------------------------------------
 
     json_only_ids = (
-        json_ids - current_ids
+        json_ids - uploads_ids
     )
 
-    youtube_only_ids = (
-        current_ids - json_ids
+    uploads_only_ids = (
+        uploads_ids - json_ids
     )
 
-    common_ids = (
-        json_ids & current_ids
+    # Uploadsには存在するが、
+    # videos.listでは動画本体を
+    # 取得できなかったID
+    missing_resource_ids = (
+        uploads_ids - resource_ids
+    )
+
+    # 逆方向も念のため確認
+    unexpected_resource_ids = (
+        resource_ids - uploads_ids
     )
 
 
     # ====================================
-    # 公開状態を集計
+    # 動画本体の公開状態
     # ====================================
 
-    privacy_counts = Counter(
+    video_privacy_counts = Counter(
         video.get(
             "privacyStatus",
             "unknown",
         )
         for video
-        in current_uploads.values()
+        in video_resources.values()
     )
 
 
     # ====================================
-    # 基本集計
+    # 動画本体のuploadStatus
+    # ====================================
+
+    upload_status_counts = Counter(
+        video.get(
+            "uploadStatus",
+            "unknown",
+        )
+        for video
+        in video_resources.values()
+    )
+
+
+    # ====================================
+    # 全体結果
     # ====================================
 
     print()
-    print("=" * 60)
-    print("YouTubeデータ診断結果")
-    print("=" * 60)
+    print("=" * 70)
+    print("YouTube 詳細診断結果")
+    print("=" * 70)
 
     print(
         f"youtube.json レコード数: "
@@ -270,14 +447,30 @@ def print_diagnostics(
     )
 
     print(
-        f"現在のUploadsプレイリスト: "
-        f"{len(current_ids)}"
+        f"Uploadsプレイリスト: "
+        f"{len(uploads_ids)}"
     )
 
     print(
-        f"両方に存在: "
-        f"{len(common_ids)}"
+        "チャンネル statistics.videoCount: "
+        f"{channel_info.get('videoCount')}"
     )
+
+    print(
+        f"videos.listで取得できた動画本体: "
+        f"{len(resource_ids)}"
+    )
+
+    print("=" * 70)
+
+
+    # ====================================
+    # JSONとUploadsの比較
+    # ====================================
+
+    print()
+    print("【JSONとUploadsの比較】")
+    print()
 
     print(
         f"JSONにだけ存在: "
@@ -286,87 +479,152 @@ def print_diagnostics(
 
     print(
         f"Uploadsにだけ存在: "
-        f"{len(youtube_only_ids)}"
+        f"{len(uploads_only_ids)}"
     )
-
-    print("=" * 60)
 
 
     # ====================================
-    # 公開状態
+    # 動画本体の公開状態
     # ====================================
 
     print()
-    print("【Uploadsプレイリストの公開状態】")
+    print(
+        "【動画本体の privacyStatus】"
+    )
     print()
 
     print(
-        f"public: "
-        f"{privacy_counts.get('public', 0)}"
+        "public: "
+        f"{video_privacy_counts.get('public', 0)}"
     )
 
     print(
-        f"unlisted: "
-        f"{privacy_counts.get('unlisted', 0)}"
+        "unlisted: "
+        f"{video_privacy_counts.get('unlisted', 0)}"
     )
 
     print(
-        f"private: "
-        f"{privacy_counts.get('private', 0)}"
+        "private: "
+        f"{video_privacy_counts.get('private', 0)}"
     )
 
     print(
-        f"unknown: "
-        f"{privacy_counts.get('unknown', 0)}"
+        "unknown: "
+        f"{video_privacy_counts.get('unknown', 0)}"
+    )
+
+    print(
+        "合計: "
+        f"{sum(video_privacy_counts.values())}"
     )
 
 
-    # 上記4種類以外の値があれば表示
-    standard_statuses = {
-        "public",
-        "unlisted",
-        "private",
-        "unknown",
-    }
+    # ====================================
+    # uploadStatus
+    # ====================================
 
-    other_statuses = {
-        status: count
-        for status, count
-        in privacy_counts.items()
-        if status not in standard_statuses
-    }
+    print()
+    print(
+        "【動画本体の uploadStatus】"
+    )
+    print()
 
-    if other_statuses:
-        print()
+    for status, count in sorted(
+        upload_status_counts.items()
+    ):
         print(
-            "その他のprivacyStatus:"
+            f"{status}: {count}"
         )
 
-        for status, count in sorted(
-            other_statuses.items()
-        ):
-            print(
-                f"{status}: {count}"
-            )
-
-
-    print()
     print(
-        "公開状態 合計: "
-        f"{sum(privacy_counts.values())}"
+        "合計: "
+        f"{sum(upload_status_counts.values())}"
     )
 
-    print("=" * 60)
+    print("=" * 70)
 
 
     # ====================================
-    # public以外の動画
+    # 動画本体を取得できなかったもの
+    # ====================================
+
+    print()
+    print(
+        "【Uploadsにはあるが、"
+        "videos.listで動画本体を"
+        "取得できなかった動画】"
+    )
+    print()
+
+
+    if not missing_resource_ids:
+        print("なし")
+
+    else:
+        missing_videos = [
+            current_uploads[video_id]
+            for video_id
+            in missing_resource_ids
+        ]
+
+        missing_videos.sort(
+            key=lambda video: (
+                video.get(
+                    "publishedAt",
+                    "",
+                ),
+                video.get(
+                    "videoId",
+                    "",
+                ),
+            )
+        )
+
+        for index, video in enumerate(
+            missing_videos,
+            start=1,
+        ):
+            video_id = video.get(
+                "videoId",
+                "",
+            )
+
+            print(
+                f"{index}. "
+                f"{video.get('title', '')}"
+            )
+
+            print(
+                f"   videoId: {video_id}"
+            )
+
+            print(
+                "   Uploads側のprivacyStatus: "
+                f"{video.get('playlistPrivacyStatus', '')}"
+            )
+
+            print(
+                "   publishedAt: "
+                f"{video.get('publishedAt', '')}"
+            )
+
+            print(
+                "   URL: "
+                "https://www.youtube.com/watch?v="
+                f"{video_id}"
+            )
+
+            print()
+
+
+    # ====================================
+    # 動画本体でpublic以外
     # ====================================
 
     non_public_videos = [
         video
         for video
-        in current_uploads.values()
+        in video_resources.values()
         if (
             video.get(
                 "privacyStatus",
@@ -392,7 +650,7 @@ def print_diagnostics(
 
     print()
     print(
-        "【public以外の動画】"
+        "【動画本体でpublic以外の動画】"
     )
     print()
 
@@ -407,7 +665,7 @@ def print_diagnostics(
         ):
             video_id = video.get(
                 "videoId",
-                ""
+                "",
             )
 
             print(
@@ -418,6 +676,11 @@ def print_diagnostics(
             print(
                 "   privacyStatus: "
                 f"{video.get('privacyStatus', '')}"
+            )
+
+            print(
+                "   uploadStatus: "
+                f"{video.get('uploadStatus', '')}"
             )
 
             print(
@@ -444,7 +707,7 @@ def print_diagnostics(
 
     print()
     print(
-        "【JSONにあるが、現在のUploadsにはない動画】"
+        "【JSONにあるが、Uploadsにはない動画】"
     )
     print()
 
@@ -453,36 +716,13 @@ def print_diagnostics(
         print("なし")
 
     else:
-        json_only_videos = [
-            json_by_video_id[video_id]
-            for video_id
-            in json_only_ids
-        ]
-
-        json_only_videos.sort(
-            key=lambda video: (
-                video.get(
-                    "publishedAt",
-                    video.get(
-                        "date",
-                        "",
-                    ),
-                ),
-                video.get(
-                    "videoId",
-                    "",
-                ),
-            )
-        )
-
-        for index, video in enumerate(
-            json_only_videos,
+        for index, video_id in enumerate(
+            sorted(json_only_ids),
             start=1,
         ):
-            video_id = video.get(
-                "videoId",
-                ""
-            )
+            video = json_by_video_id[
+                video_id
+            ]
 
             print(
                 f"{index}. "
@@ -496,11 +736,6 @@ def print_diagnostics(
             print(
                 "   date: "
                 f"{video.get('date', '')}"
-            )
-
-            print(
-                "   publishedAt: "
-                f"{video.get('publishedAt', '')}"
             )
 
             print(
@@ -518,43 +753,22 @@ def print_diagnostics(
 
     print()
     print(
-        "【現在のUploadsにあるが、"
-        "JSONにはない動画】"
+        "【Uploadsにあるが、JSONにはない動画】"
     )
     print()
 
 
-    if not youtube_only_ids:
+    if not uploads_only_ids:
         print("なし")
 
     else:
-        youtube_only_videos = [
-            current_uploads[video_id]
-            for video_id
-            in youtube_only_ids
-        ]
-
-        youtube_only_videos.sort(
-            key=lambda video: (
-                video.get(
-                    "publishedAt",
-                    "",
-                ),
-                video.get(
-                    "videoId",
-                    "",
-                ),
-            )
-        )
-
-        for index, video in enumerate(
-            youtube_only_videos,
+        for index, video_id in enumerate(
+            sorted(uploads_only_ids),
             start=1,
         ):
-            video_id = video.get(
-                "videoId",
-                ""
-            )
+            video = current_uploads[
+                video_id
+            ]
 
             print(
                 f"{index}. "
@@ -562,17 +776,7 @@ def print_diagnostics(
             )
 
             print(
-                "   privacyStatus: "
-                f"{video.get('privacyStatus', '')}"
-            )
-
-            print(
                 f"   videoId: {video_id}"
-            )
-
-            print(
-                "   publishedAt: "
-                f"{video.get('publishedAt', '')}"
             )
 
             print(
@@ -584,7 +788,74 @@ def print_diagnostics(
             print()
 
 
-    print("=" * 60)
+    # ====================================
+    # 念のための異常確認
+    # ====================================
+
+    print()
+    print(
+        "【videos.listにだけ存在する"
+        "予期しないID】"
+    )
+    print()
+
+
+    if not unexpected_resource_ids:
+        print("なし")
+
+    else:
+        for video_id in sorted(
+            unexpected_resource_ids
+        ):
+            print(video_id)
+
+
+    # ====================================
+    # 最後に重要な数字をまとめる
+    # ====================================
+
+    print()
+    print("=" * 70)
+    print("重要な数字のまとめ")
+    print("=" * 70)
+
+    print(
+        "チャンネル画面に対応する"
+        "statistics.videoCount: "
+        f"{channel_info.get('videoCount')}"
+    )
+
+    print(
+        f"Uploadsプレイリスト: "
+        f"{len(uploads_ids)}"
+    )
+
+    print(
+        f"動画本体取得成功: "
+        f"{len(resource_ids)}"
+    )
+
+    print(
+        f"動画本体取得失敗: "
+        f"{len(missing_resource_ids)}"
+    )
+
+    print(
+        "動画本体 public: "
+        f"{video_privacy_counts.get('public', 0)}"
+    )
+
+    print(
+        "動画本体 unlisted: "
+        f"{video_privacy_counts.get('unlisted', 0)}"
+    )
+
+    print(
+        "動画本体 private: "
+        f"{video_privacy_counts.get('private', 0)}"
+    )
+
+    print("=" * 70)
 
     print(
         "診断のみ実行しました。"
@@ -595,7 +866,7 @@ def print_diagnostics(
         "行っていません。"
     )
 
-    print("=" * 60)
+    print("=" * 70)
 
 
 # ========================================
@@ -621,25 +892,46 @@ def main():
 
 
     print(
-        "INI公式YouTubeチャンネルを"
-        "確認しています..."
+        "INI公式YouTubeチャンネルの"
+        "情報を取得しています..."
     )
 
-    uploads_playlist_id = (
-        get_uploads_playlist_id()
+    channel_info = get_channel_info()
+
+    print(
+        "statistics.videoCount: "
+        f"{channel_info.get('videoCount')}"
     )
 
 
     current_uploads = (
         fetch_current_uploads(
-            uploads_playlist_id
+            channel_info[
+                "uploadsPlaylistId"
+            ]
+        )
+    )
+
+    print(
+        f"Uploads取得件数: "
+        f"{len(current_uploads)}件"
+    )
+
+
+    video_resources = (
+        fetch_video_resources(
+            set(
+                current_uploads.keys()
+            )
         )
     )
 
 
     print_diagnostics(
         json_videos,
+        channel_info,
         current_uploads,
+        video_resources,
     )
 
 
