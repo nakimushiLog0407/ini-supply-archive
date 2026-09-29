@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -69,9 +70,20 @@
           class="calendar-grid"
         ></div>
 
+        <!-- カレンダー凡例 -->
+
         <div class="calendar-legend">
-          <span class="dot youtube-dot"></span>
-          <span>YouTube</span>
+
+          <div class="calendar-legend-item">
+            <span class="dot youtube-dot"></span>
+            <span>YouTube</span>
+          </div>
+
+          <div class="calendar-legend-item">
+            <span class="dot fc-dot"></span>
+            <span>FC CONTENTS</span>
+          </div>
+
         </div>
 
       </section>
@@ -122,7 +134,7 @@
             id="exploreSearchInput"
             class="explore-search-input"
             type="search"
-            placeholder="キーワードを入力"
+            placeholder="タイトル・メンバー名で検索"
             autocomplete="off"
             aria-label="供給を検索"
           >
@@ -194,9 +206,17 @@
 
       <section class="detail-content">
 
-        <!-- サムネイル -->
+        <!--
+          サムネイル
+          YouTubeの場合のみ表示。
+          Member DiaryではJavaScript側で
+          wrapperごと非表示にする。
+        -->
 
-        <div class="detail-thumbnail-wrapper">
+        <div
+          id="detailThumbnailWrapper"
+          class="detail-thumbnail-wrapper"
+        >
 
           <img
             id="detailThumbnail"
@@ -206,6 +226,14 @@
           >
 
         </div>
+
+
+        <!-- コンテンツ種別 -->
+
+        <div
+          id="detailType"
+          class="detail-type"
+        ></div>
 
 
         <!-- タイトル -->
@@ -224,16 +252,31 @@
         ></p>
 
 
-        <!-- YouTubeリンク -->
+        <!--
+          メンバー名
+          Member Diaryの場合のみ表示
+        -->
+
+        <p
+          id="detailMember"
+          class="detail-member"
+          hidden
+        ></p>
+
+
+        <!-- 外部リンク -->
 
         <a
-          id="detailYoutubeLink"
-          class="detail-youtube-link"
+          id="detailExternalLink"
+          class="detail-external-link"
           href="#"
           target="_blank"
           rel="noopener noreferrer"
         >
-          YouTubeで見る
+          <span id="detailExternalLinkText">
+            外部サイトで見る
+          </span>
+
           <span aria-hidden="true">↗</span>
         </a>
 
@@ -326,4 +369,5 @@
   <script src="app.js"></script>
 
 </body>
+
 </html>
