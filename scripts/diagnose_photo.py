@@ -1,315 +1,376 @@
-import requests
-from bs4 import BeautifulSoup
+import re
 from urllib.parse import urljoin
 
-PHOTO_URL = "https://ini-official.com/photo/list/3"
+import requests
+from bs4 import BeautifulSoup
+
+
+BASE_URL = "https://ini-official.com"
+LIST_URL = "https://ini-official.com/photo/list/3"
 
 HEADERS = {
     "User-Agent": (
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
         "AppleWebKit/537.36 (KHTML, like Gecko) "
         "Chrome/140.0.0.0 Safari/537.36"
-    ),
-    "Accept": (
-        "text/html,application/xhtml+xml,application/xml;"
-        "q=0.9,image/avif,image/webp,*/*;q=0.8"
-    ),
-    "Accept-Language": "ja,en-US;q=0.9,en;q=0.8",
+    )
 }
 
 
-def separator(title):
+def print_section(title):
     print()
     print("=" * 80)
     print(title)
     print("=" * 80)
 
 
-def main():
-    separator("INI Photo diagnostic")
-    print(f"Request URL: {PHOTO_URL}")
+def get_html(url):
+    response = requests.get(
+        url,
+        headers=HEADERS,
+        timeout=30,
+    )
+    response.raise_for_status()
+    return response
 
-    session = requests.Session()
-    session.headers.update(HEADERS)
 
-    try:
-        response = session.get(
-            PHOTO_URL,
-            timeout=30,
-            allow_redirects=True,
-        )
-    except requests.RequestException as e:
-        print("REQUEST ERROR")
-        print(repr(e))
+def print_attributes(tag):
+    """タグの属性を見やすく表示する"""
+    if not tag:
         return
 
-    separator("1. RESPONSE INFO")
+    for key, value in tag.attrs.items():
+        print(f"  {key}: {value}")
+
+
+def main():
+    print_section("INI Photo thumbnail diagnostic")
+
+    # ------------------------------------------------------------
+    # 1. Photo一覧ページ取得
+    # ------------------------------------------------------------
+
+    print_section("1. GET PHOTO LIST PAGE")
+
+    response = get_html(LIST_URL)
 
     print(f"Status code : {response.status_code}")
-    print(f"Requested   : {PHOTO_URL}")
     print(f"Final URL   : {response.url}")
-    print(f"Redirected  : {response.url != PHOTO_URL}")
-    print(f"Encoding    : {response.encoding}")
-    print(f"Content-Type: {response.headers.get('Content-Type')}")
     print(f"HTML length : {len(response.text)}")
-
-    if response.history:
-        print()
-        print("Redirect history:")
-
-        for i, item in enumerate(response.history, 1):
-            print(
-                f"  {i}. {item.status_code} "
-                f"{item.url}"
-            )
-            print(
-                f"     Location: "
-                f"{item.headers.get('Location')}"
-            )
-    else:
-        print()
-        print("Redirect history: NONE")
 
     soup = BeautifulSoup(response.text, "html.parser")
 
-    separator("2. PAGE BASIC INFO")
+    # ------------------------------------------------------------
+    # 2. Photo個別ページへのリンクを取得
+    # ------------------------------------------------------------
 
-    if soup.title:
-        print("TITLE:")
-        print(soup.title.get_text(" ", strip=True))
-    else:
-        print("TITLE: NONE")
+    print_section("2. PHOTO DETAIL LINKS")
 
-    h1_list = [
-        h.get_text(" ", strip=True)
-        for h in soup.find_all("h1")
-    ]
-
-    print()
-    print("H1:")
-    if h1_list:
-        for text in h1_list:
-            print(f"  {text}")
-    else:
-        print("  NONE")
-
-    separator("3. LOGIN / AUTH CHECK")
-
-    text = soup.get_text(" ", strip=True)
-
-    login_keywords = [
-        "ログイン",
-        "LOGIN",
-        "Login",
-        "Plus member ID",
-        "Plus member",
-        "会員登録",
-        "新規会員登録",
-        "パスワード",
-    ]
-
-    found_keywords = []
-
-    for keyword in login_keywords:
-        if keyword.lower() in text.lower():
-            found_keywords.append(keyword)
-
-    if found_keywords:
-        print("Login-related keywords found:")
-        for keyword in found_keywords:
-            print(f"  - {keyword}")
-    else:
-        print("No obvious login-related keywords found.")
-
-    separator("4. PHOTO-RELATED TEXT CHECK")
-
-    photo_keywords = [
-        "PHOTO",
-        "Photo",
-        "photo",
-        "フォト",
-    ]
-
-    for keyword in photo_keywords:
-        count = response.text.lower().count(keyword.lower())
-        print(f"{keyword!r}: {count}")
-
-    separator("5. LINKS ON PAGE")
-
-    links = []
+    detail_links = []
 
     for a in soup.find_all("a", href=True):
-        href = urljoin(response.url, a["href"])
-        label = a.get_text(" ", strip=True)
+        href = a.get("href", "")
 
-        links.append((label, href))
+        if re.search(r"/photo/\d+/detail/\d+", href):
+            full_url = urljoin(BASE_URL, href)
 
-    print(f"Total links: {len(links)}")
+            if full_url not in detail_links:
+                detail_links.append(full_url)
+
+                print()
+                print(f"TEXT: {a.get_text(' ', strip=True)!r}")
+                print(f"URL : {full_url}")
 
     print()
-    print("Photo-related links:")
+    print(f"Detail link count: {len(detail_links)}")
 
-    photo_links = [
-        (label, href)
-        for label, href in links
-        if "photo" in href.lower()
-        or "photo" in label.lower()
-        or "フォト" in label
-    ]
+    if not detail_links:
+        print("ERROR: Photo detail links were not found.")
+        return
 
-    if photo_links:
-        for label, href in photo_links[:100]:
-            print(f"  TEXT: {label!r}")
-            print(f"  URL : {href}")
-            print()
-    else:
-        print("  NONE")
+    # 最新Photoを診断対象にする
+    target_url = detail_links[0]
 
-    separator("6. POSSIBLE CONTENT ITEMS")
+    print()
+    print(f"TARGET: {target_url}")
 
-    selectors = [
-        "article",
-        "li",
-        ".photo",
-        ".photo-list",
-        ".photo_list",
-        ".list",
-        ".item",
-        ".contents",
-        ".content",
-        "[class*='photo']",
-        "[class*='Photo']",
-    ]
+    # ------------------------------------------------------------
+    # 3. 一覧ページ上で最新Photoを含むリンク周辺を調査
+    # ------------------------------------------------------------
 
-    for selector in selectors:
-        try:
-            elements = soup.select(selector)
-        except Exception:
-            continue
+    print_section("3. TARGET LINK HTML ON LIST PAGE")
 
-        if not elements:
-            continue
+    target_link = None
+
+    for a in soup.find_all("a", href=True):
+        full_url = urljoin(BASE_URL, a.get("href", ""))
+
+        if full_url == target_url:
+            target_link = a
+            break
+
+    if target_link:
+        print(target_link.prettify())
 
         print()
-        print(f"Selector: {selector}")
-        print(f"Count   : {len(elements)}")
+        print("--- LINK ATTRIBUTES ---")
+        print_attributes(target_link)
 
-        for element in elements[:10]:
-            item_text = element.get_text(
-                " ",
-                strip=True,
-            )
+        print()
+        print("--- PARENT HTML ---")
 
-            if len(item_text) > 300:
-                item_text = item_text[:300] + "..."
+        parent = target_link.parent
 
-            print(f"  {item_text!r}")
+        if parent:
+            print(parent.prettify())
 
-    separator("7. DATE-LIKE ELEMENTS")
+        print()
+        print("--- GRANDPARENT HTML ---")
 
-    date_candidates = []
+        grandparent = parent.parent if parent else None
 
-    for tag in soup.find_all(
-        ["time", "p", "span", "div", "li"]
-    ):
-        item_text = tag.get_text(" ", strip=True)
+        if grandparent:
+            print(grandparent.prettify())
 
-        if not item_text:
-            continue
+    else:
+        print("Target link element was not found.")
+
+    # ------------------------------------------------------------
+    # 4. 最新Photo周辺にある画像を確認
+    # ------------------------------------------------------------
+
+    print_section("4. IMAGES AROUND TARGET")
+
+    search_root = target_link
+
+    # 親を数段上がってPhotoカード全体らしき範囲を見る
+    for _ in range(4):
+        if search_root and search_root.parent:
+            search_root = search_root.parent
+
+    if search_root:
+        images = search_root.find_all("img")
+
+        print(f"Image count around target: {len(images)}")
+
+        for i, img in enumerate(images, 1):
+            print()
+            print(f"[IMAGE {i}]")
+            print_attributes(img)
+
+            src = img.get("src")
+            if src:
+                print(f"  resolved src: {urljoin(BASE_URL, src)}")
+
+            for attr in [
+                "data-src",
+                "data-original",
+                "data-lazy",
+                "data-lazy-src",
+                "data-image",
+                "srcset",
+            ]:
+                value = img.get(attr)
+
+                if value:
+                    print(f"  {attr}: {value}")
+
+    # ------------------------------------------------------------
+    # 5. style属性からbackground-imageを探す
+    # ------------------------------------------------------------
+
+    print_section("5. BACKGROUND IMAGE CHECK")
+
+    style_elements = soup.find_all(style=True)
+
+    background_candidates = []
+
+    for tag in style_elements:
+        style = tag.get("style", "")
 
         if (
-            "2026." in item_text
-            or "2025." in item_text
-            or "2024." in item_text
-            or "2023." in item_text
-            or "2022." in item_text
-            or "2021." in item_text
-            or "2026/" in item_text
-            or "2025/" in item_text
-            or "2024/" in item_text
-            or "2023/" in item_text
-            or "2022/" in item_text
-            or "2021/" in item_text
+            "background" in style.lower()
+            or ".jpg" in style.lower()
+            or ".jpeg" in style.lower()
+            or ".png" in style.lower()
+            or ".webp" in style.lower()
         ):
-            if len(item_text) <= 500:
-                date_candidates.append(item_text)
+            background_candidates.append(tag)
 
-    # 重複を除去
-    date_candidates = list(dict.fromkeys(date_candidates))
+    print(f"Candidates: {len(background_candidates)}")
 
-    print(f"Found: {len(date_candidates)}")
+    for i, tag in enumerate(background_candidates[:100], 1):
+        print()
+        print(f"[CANDIDATE {i}]")
+        print(f"TAG   : {tag.name}")
+        print(f"CLASS : {tag.get('class')}")
+        print(f"STYLE : {tag.get('style')}")
 
-    for item in date_candidates[:50]:
-        print(f"  {item!r}")
+        text = tag.get_text(" ", strip=True)
 
-    separator("8. IMAGE CHECK")
+        if text:
+            print(f"TEXT  : {text[:300]!r}")
 
-    images = soup.find_all("img")
+    # ------------------------------------------------------------
+    # 6. data-* 属性を総当たり確認
+    # ------------------------------------------------------------
 
-    print(f"Total images: {len(images)}")
+    print_section("6. DATA ATTRIBUTE CHECK")
 
-    for img in images[:50]:
-        src = (
-            img.get("src")
-            or img.get("data-src")
-            or img.get("data-original")
-        )
+    data_candidates = []
 
-        alt = img.get("alt", "")
+    for tag in soup.find_all(True):
+        data_attrs = {
+            key: value
+            for key, value in tag.attrs.items()
+            if key.startswith("data-")
+        }
+
+        if data_attrs:
+            data_candidates.append((tag, data_attrs))
+
+    print(f"Elements with data-* attributes: {len(data_candidates)}")
+
+    for i, (tag, attrs) in enumerate(data_candidates[:100], 1):
+        print()
+        print(f"[DATA {i}]")
+        print(f"TAG   : {tag.name}")
+        print(f"CLASS : {tag.get('class')}")
+
+        for key, value in attrs.items():
+            print(f"{key}: {value}")
+
+    # ------------------------------------------------------------
+    # 7. HTML全体から画像URLらしきものを抽出
+    # ------------------------------------------------------------
+
+    print_section("7. IMAGE URL SEARCH IN RAW HTML")
+
+    image_pattern = re.compile(
+        r"""(?:"|')([^"']+\.(?:jpg|jpeg|png|webp|gif)(?:\?[^"']*)?)(?:"|')""",
+        re.IGNORECASE,
+    )
+
+    image_urls = []
+
+    for match in image_pattern.findall(response.text):
+        full_url = urljoin(BASE_URL, match)
+
+        if full_url not in image_urls:
+            image_urls.append(full_url)
+
+    print(f"Image-like URLs found: {len(image_urls)}")
+
+    for url in image_urls:
+        print(url)
+
+    # ------------------------------------------------------------
+    # 8. 個別Photoページを取得
+    # ------------------------------------------------------------
+
+    print_section("8. GET TARGET DETAIL PAGE")
+
+    detail_response = get_html(target_url)
+
+    print(f"Status code : {detail_response.status_code}")
+    print(f"Final URL   : {detail_response.url}")
+    print(f"HTML length : {len(detail_response.text)}")
+
+    detail_soup = BeautifulSoup(
+        detail_response.text,
+        "html.parser",
+    )
+
+    if detail_soup.title:
+        print(f"TITLE       : {detail_soup.title.get_text(strip=True)}")
+
+    # ------------------------------------------------------------
+    # 9. 個別ページの画像
+    # ------------------------------------------------------------
+
+    print_section("9. DETAIL PAGE IMAGES")
+
+    detail_images = detail_soup.find_all("img")
+
+    print(f"Total images: {len(detail_images)}")
+
+    for i, img in enumerate(detail_images, 1):
+        print()
+        print(f"[IMAGE {i}]")
+
+        alt = img.get("alt")
+        src = img.get("src")
+
+        print(f"ALT: {alt!r}")
+        print(f"SRC: {src!r}")
 
         if src:
-            src = urljoin(response.url, src)
+            print(f"RESOLVED: {urljoin(BASE_URL, src)}")
 
-        print()
-        print(f"  ALT: {alt!r}")
-        print(f"  SRC: {src}")
+        for attr in [
+            "data-src",
+            "data-original",
+            "data-lazy",
+            "data-lazy-src",
+            "data-image",
+            "srcset",
+        ]:
+            value = img.get(attr)
 
-    separator("9. HTML PREVIEW")
+            if value:
+                print(f"{attr}: {value}")
 
-    # HTML全体を出すとActionsログが巨大になるため
-    # 先頭8000文字だけ表示
-    preview = response.text[:8000]
+    # ------------------------------------------------------------
+    # 10. 個別ページのbackground-image
+    # ------------------------------------------------------------
 
-    print(preview)
+    print_section("10. DETAIL PAGE BACKGROUND IMAGE CHECK")
 
-    separator("10. DIAGNOSIS SUMMARY")
+    detail_style_elements = detail_soup.find_all(style=True)
 
-    print(f"Requested URL : {PHOTO_URL}")
-    print(f"Final URL     : {response.url}")
-    print(f"Status        : {response.status_code}")
+    count = 0
 
-    if response.url != PHOTO_URL:
-        print()
-        print(
-            "RESULT: The request was redirected."
-        )
-        print(
-            "Check the Final URL and Redirect history above."
-        )
+    for tag in detail_style_elements:
+        style = tag.get("style", "")
 
-    elif found_keywords:
-        print()
-        print(
-            "RESULT: The Photo URL itself was returned, "
-            "but login/auth-related text exists."
-        )
-        print(
-            "Check PAGE BASIC INFO, LOGIN / AUTH CHECK, "
-            "and HTML PREVIEW."
-        )
+        if (
+            "background" in style.lower()
+            or ".jpg" in style.lower()
+            or ".jpeg" in style.lower()
+            or ".png" in style.lower()
+            or ".webp" in style.lower()
+        ):
+            count += 1
 
-    else:
-        print()
-        print(
-            "RESULT: No redirect and no obvious login "
-            "keywords were detected."
-        )
-        print(
-            "The Photo list may be accessible without "
-            "authentication."
-        )
+            print()
+            print(f"[CANDIDATE {count}]")
+            print(f"TAG   : {tag.name}")
+            print(f"CLASS : {tag.get('class')}")
+            print(f"STYLE : {style}")
 
-    separator("END")
+    print()
+    print(f"Background candidates: {count}")
+
+    # ------------------------------------------------------------
+    # 11. 個別ページHTMLから画像URLを直接探索
+    # ------------------------------------------------------------
+
+    print_section("11. DETAIL RAW HTML IMAGE URL SEARCH")
+
+    detail_image_urls = []
+
+    for match in image_pattern.findall(detail_response.text):
+        full_url = urljoin(BASE_URL, match)
+
+        if full_url not in detail_image_urls:
+            detail_image_urls.append(full_url)
+
+    print(f"Image-like URLs found: {len(detail_image_urls)}")
+
+    for url in detail_image_urls:
+        print(url)
+
+    print_section("END")
 
 
 if __name__ == "__main__":
