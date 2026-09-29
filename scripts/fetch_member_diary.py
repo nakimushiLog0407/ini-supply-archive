@@ -11,13 +11,10 @@ from pathlib import Path
 # ========================================
 
 BASE_URL = "https://ini-official.com"
+LIST_URL = "https://ini-official.com/blog/list/1/0/"
 
-LIST_URL = (
-    "https://ini-official.com/"
-    "blog/list/1/0/"
-)
-
-OUTPUT_FILE = Path("data/supplies.json")
+# Member Diary専用ファイル
+OUTPUT_FILE = Path("data/member_diary.json")
 
 USER_AGENT = (
     "Mozilla/5.0 "
@@ -27,14 +24,12 @@ USER_AGENT = (
     "Chrome/140.0.0.0 Safari/537.36"
 )
 
-# 万一サイト側の仕様変更などで
-# 「記事なし」を検出できなかった場合の
-# 無限ループ防止用
+# 無限ループ防止
 MAX_PAGES = 200
 
 
 # ========================================
-# HTMLを取得
+# HTML取得
 # ========================================
 
 def fetch_html(url):
@@ -59,27 +54,37 @@ def fetch_html(url):
         timeout=30,
     ) as response:
         charset = (
-            response.headers
-            .get_content_charset()
+            response.headers.get_content_charset()
             or "utf-8"
         )
 
-        return (
-            response
-            .read()
-            .decode(
-                charset,
-                errors="replace",
-            )
+        return response.read().decode(
+            charset,
+            errors="replace",
         )
 
 
 # ========================================
-# HTMLからプレーンテキストを作る
+# HTML → プレーンテキスト
 # ========================================
 
 def clean_text(value):
-    # 改行系タグを空白に変換
+    # script / styleを除去
+    value = re.sub(
+        r"<script\b[^>]*>.*?</script>",
+        " ",
+        value,
+        flags=re.IGNORECASE | re.DOTALL,
+    )
+
+    value = re.sub(
+        r"<style\b[^>]*>.*?</style>",
+        " ",
+        value,
+        flags=re.IGNORECASE | re.DOTALL,
+    )
+
+    # brを空白へ
     value = re.sub(
         r"<br\s*/?>",
         " ",
@@ -87,17 +92,17 @@ def clean_text(value):
         flags=re.IGNORECASE,
     )
 
-    # その他のHTMLタグを削除
+    # HTMLタグを除去
     value = re.sub(
         r"<[^>]+>",
         " ",
         value,
     )
 
-    # &amp; などを元の文字へ戻す
+    # HTMLエンティティを戻す
     value = html.unescape(value)
 
-    # 連続する空白・改行を1つにする
+    # 空白整理
     value = re.sub(
         r"\s+",
         " ",
@@ -108,10 +113,10 @@ def clean_text(value):
 
 
 # ========================================
-# 既存データを読み込む
+# 既存データ読み込み
 # ========================================
 
-def load_existing_supplies():
+def load_existing_diaries():
     if not OUTPUT_FILE.exists():
         return []
 
@@ -123,7 +128,7 @@ def load_existing_supplies():
 
     if not isinstance(data, list):
         raise RuntimeError(
-            "data/supplies.json の形式が"
+            "data/member_diary.json の形式が"
             "配列ではありません。"
         )
 
@@ -131,7 +136,7 @@ def load_existing_supplies():
 
 
 # ========================================
-# 記事URLを絶対URLへ変換
+# URLを絶対URL化
 # ========================================
 
 def make_absolute_url(url):
@@ -142,97 +147,7 @@ def make_absolute_url(url):
 
 
 # ========================================
-# Member Diaryの記事リンクを抽出
-# ========================================
-
-def find_article_links(page_html):
-    pattern = re.compile(
-        r'<a\b[^>]*'
-        r'href=["\']'
-        r'([^"\']*'
-        r'/blog/detail/(\d+)/?'
-        r'[^"\']*)'
-        r'["\'][^>]*>',
-        re.IGNORECASE,
-    )
-
-    links = []
-
-    seen_ids = set()
-
-    for match in pattern.finditer(
-        page_html
-    ):
-        relative_url = match.group(1)
-        article_id = match.group(2)
-
-        if article_id in seen_ids:
-            continue
-
-        seen_ids.add(article_id)
-
-        links.append(
-            {
-                "article_id": article_id,
-                "url": make_absolute_url(
-                    relative_url
-                ),
-                "start": match.start(),
-            }
-        )
-
-    return links
-
-
-# ========================================
-# 1記事分のHTML範囲を切り出す
-# ========================================
-
-def extract_article_blocks(page_html):
-    links = find_article_links(
-        page_html
-    )
-
-    blocks = []
-
-    if not links:
-        return blocks
-
-    for index, link in enumerate(links):
-        start = link["start"]
-
-        if index + 1 < len(links):
-            end = links[index + 1][
-                "start"
-            ]
-        else:
-            # 最後の記事は後ろをある程度
-            # 広めに取得する
-            end = min(
-                len(page_html),
-                start + 12000,
-            )
-
-        block = page_html[
-            start:end
-        ]
-
-        blocks.append(
-            {
-                "article_id":
-                    link["article_id"],
-                "url":
-                    link["url"],
-                "html":
-                    block,
-            }
-        )
-
-    return blocks
-
-
-# ========================================
-# 日付を抽出
+# 公開日抽出
 # ========================================
 
 def extract_date(text):
@@ -248,17 +163,9 @@ def extract_date(text):
     if not match:
         return None, None
 
-    year = int(
-        match.group(1)
-    )
-
-    month = int(
-        match.group(2)
-    )
-
-    day = int(
-        match.group(3)
-    )
+    year = int(match.group(1))
+    month = int(match.group(2))
+    day = int(match.group(3))
 
     normalized = (
         f"{year:04d}-"
@@ -270,167 +177,413 @@ def extract_date(text):
 
 
 # ========================================
-# 1記事から必要情報を抽出
+# article ID取得
 # ========================================
 
-def parse_article_block(article):
-    article_id = article[
-        "article_id"
-    ]
-
-    url = article["url"]
-
-    block_html = article["html"]
-
-    text = clean_text(
-        block_html
+def extract_article_id(url):
+    match = re.search(
+        r"/blog/detail/(\d+)/?",
+        url,
+        flags=re.IGNORECASE,
     )
+
+    if not match:
+        return None
+
+    return match.group(1)
+
+
+# ========================================
+# 記事リンク候補を取得
+# ========================================
+
+def extract_article_candidates(page_html):
+    pattern = re.compile(
+        r"<a\b"
+        r"(?P<attrs>[^>]*?)"
+        r"href=[\"']"
+        r"(?P<url>[^\"']*"
+        r"/blog/detail/\d+/?"
+        r"[^\"']*)"
+        r"[\"']"
+        r"(?P<attrs2>[^>]*)>"
+        r"(?P<body>.*?)"
+        r"</a>",
+        flags=re.IGNORECASE | re.DOTALL,
+    )
+
+    candidates = []
+
+    for match in pattern.finditer(page_html):
+        url = make_absolute_url(
+            match.group("url")
+        )
+
+        article_id = extract_article_id(url)
+
+        if not article_id:
+            continue
+
+        body_html = match.group("body")
+        body_text = clean_text(body_html)
+
+        candidates.append(
+            {
+                "article_id": article_id,
+                "url": url,
+                "body_html": body_html,
+                "body_text": body_text,
+                "start": match.start(),
+                "end": match.end(),
+            }
+        )
+
+    return candidates
+
+
+# ========================================
+# 記事周辺HTML取得
+# ========================================
+
+def get_context_html(
+    page_html,
+    candidate,
+    radius=5000,
+):
+    start = max(
+        0,
+        candidate["start"] - radius,
+    )
+
+    end = min(
+        len(page_html),
+        candidate["end"] + radius,
+    )
+
+    return page_html[start:end]
+
+
+# ========================================
+# タイトル・日付・メンバーを
+# テキストから解析
+# ========================================
+
+def parse_text_metadata(text):
+    date, date_match = extract_date(text)
+
+    if not date or not date_match:
+        return None
+
+    before = text[
+        :date_match.start()
+    ].strip()
+
+    after = text[
+        date_match.end():
+    ].strip()
+
+    if not before or not after:
+        return None
+
+    return {
+        "date": date,
+        "before": before,
+        "after": after,
+    }
+
+
+# ========================================
+# リンク本文から直接解析
+# ========================================
+
+def parse_from_link_body(candidate):
+    text = candidate["body_text"]
 
     if not text:
         return None
 
-    date, date_match = (
-        extract_date(text)
-    )
+    metadata = parse_text_metadata(text)
 
-    if not date or not date_match:
-        print(
-            "  警告："
-            f"記事 {article_id} の"
-            "公開日を取得できませんでした。"
-        )
-
+    if not metadata:
         return None
 
-    before_date = (
-        text[
-            :date_match.start()
-        ]
-        .strip()
+    title = metadata["before"].strip()
+    member = metadata["after"].strip()
+
+    if not title or not member:
+        return None
+
+    return {
+        "title": title,
+        "member": member,
+        "date": metadata["date"],
+    }
+
+
+# ========================================
+# 周辺HTMLから解析
+# ========================================
+
+def parse_from_context(
+    page_html,
+    candidate,
+):
+    context_html = get_context_html(
+        page_html,
+        candidate,
     )
 
-    after_date = (
-        text[
-            date_match.end():
-        ]
-        .strip()
+    context_text = clean_text(
+        context_html
     )
 
+    # 日付をすべて探す
+    date_matches = list(
+        re.finditer(
+            r"(20\d{2})"
+            r"[./-]"
+            r"(\d{1,2})"
+            r"[./-]"
+            r"(\d{1,2})",
+            context_text,
+        )
+    )
+
+    if not date_matches:
+        return None
+
+    # リンク本文にタイトル文字列がある場合は、
+    # そのタイトルに最も近い日付を使用する
+    link_text = candidate[
+        "body_text"
+    ].strip()
+
+    if link_text:
+        title_position = (
+            context_text.find(link_text)
+        )
+    else:
+        title_position = -1
+
+    if title_position >= 0:
+        date_match = min(
+            date_matches,
+            key=lambda item: abs(
+                item.start()
+                - title_position
+            ),
+        )
+    else:
+        # タイトル文字列がリンク内にない場合は
+        # コンテキスト中央に最も近い日付
+        center = len(context_text) // 2
+
+        date_match = min(
+            date_matches,
+            key=lambda item: abs(
+                item.start() - center
+            ),
+        )
+
+    year = int(date_match.group(1))
+    month = int(date_match.group(2))
+    day = int(date_match.group(3))
+
+    date = (
+        f"{year:04d}-"
+        f"{month:02d}-"
+        f"{day:02d}"
+    )
+
+    # 日付の前後を必要な範囲だけ取得
+    before = context_text[
+        max(
+            0,
+            date_match.start() - 500,
+        ):
+        date_match.start()
+    ].strip()
+
+    after = context_text[
+        date_match.end():
+        min(
+            len(context_text),
+            date_match.end() + 300,
+        )
+    ].strip()
 
     # ====================================
     # タイトル
     # ====================================
 
-    # リンクの中に画像などがあっても、
-    # 日付より前のテキストの最後側に
-    # タイトルがあることを想定する。
-    #
-    # 不要な空白はclean_textで
-    # すでに整理済み。
+    # リンク本文にテキストがあるなら
+    # それを最優先
+    title = link_text
 
-    title = before_date
+    # リンク本文が画像だけ等の場合は、
+    # 日付直前のテキストを候補にする
+    if not title:
+        # 直前の文章の最後側を利用
+        pieces = [
+            piece.strip()
+            for piece in re.split(
+                r"\s{2,}",
+                before,
+            )
+            if piece.strip()
+        ]
+
+        if pieces:
+            title = pieces[-1]
+
+    if not title:
+        return None
 
 
     # ====================================
     # メンバー名
     # ====================================
 
-    # 日付直後に表示されるテキストを
-    # メンバー名候補として取得。
-    #
-    # 次の記事やページナビゲーションまで
-    # blockを切っているので、
-    # 最初の短いテキストを採用する。
+    # 日付直後のテキストから
+    # 最初のまとまりを取得
+    member = after
 
-    member = after_date
-
-    # メンバー名の後ろに余計な文字列が
-    # 入った場合に備え、
-    # HTML構造上の区切り候補を使って
-    # 短くする。
+    # ページ上の区切りになりやすい文字で
+    # 後続情報を切る
     member = re.split(
-        r"\s{2,}",
+        r"(?:\||｜)",
         member,
         maxsplit=1,
     )[0].strip()
 
-
-    # ====================================
-    # 最低限の妥当性チェック
-    # ====================================
-
-    if not title:
-        print(
-            "  警告："
-            f"記事 {article_id} の"
-            "タイトルを取得できませんでした。"
-        )
-
-        return None
+    # 改行等が既に空白になっているため、
+    # 長すぎる場合は最初の適度な範囲にする
+    if len(member) > 80:
+        member = member[:80].strip()
 
     if not member:
-        print(
-            "  警告："
-            f"記事 {article_id} の"
-            "メンバー名を取得できませんでした。"
-        )
-
         return None
 
-
     return {
-        "id": (
-            f"member-diary-"
-            f"{article_id}"
-        ),
-        "type": "member_diary",
-        "group": "fc",
-        "date": date,
         "title": title,
         "member": member,
-        "url": url,
+        "date": date,
     }
 
 
 # ========================================
-# 一覧ページから記事を抽出
+# 1記事を解析
 # ========================================
 
-def parse_diary_entries(page_html):
-    articles = (
-        extract_article_blocks(
+def parse_candidate(
+    page_html,
+    candidate,
+):
+    # まずリンク要素だけで解析
+    metadata = parse_from_link_body(
+        candidate
+    )
+
+    # 取れなければ周辺HTMLを見る
+    if not metadata:
+        metadata = parse_from_context(
+            page_html,
+            candidate,
+        )
+
+    if not metadata:
+        return None
+
+    return {
+        "id": (
+            "member-diary-"
+            + candidate["article_id"]
+        ),
+        "type": "member_diary",
+        "group": "fc",
+        "date": metadata["date"],
+        "title": metadata["title"],
+        "member": metadata["member"],
+        "url": candidate["url"],
+    }
+
+
+# ========================================
+# 一覧ページ解析
+# ========================================
+
+def parse_diary_entries(
+    page_html,
+    page_number,
+):
+    candidates = (
+        extract_article_candidates(
             page_html
         )
     )
 
+    if not candidates:
+        return [], []
+
+
+    # 同じ記事へのリンクが複数ある場合があるため
+    # article ID単位で候補をまとめる
+    grouped = {}
+
+    for candidate in candidates:
+        article_id = candidate[
+            "article_id"
+        ]
+
+        grouped.setdefault(
+            article_id,
+            [],
+        ).append(candidate)
+
+
     entries = []
+    failures = []
 
-    seen_ids = set()
 
-    for article in articles:
-        entry = parse_article_block(
-            article
-        )
+    for article_id, article_candidates in (
+        grouped.items()
+    ):
+        parsed = None
 
-        if not entry:
-            continue
+        # 同じ記事への複数リンクを順番に試す
+        for candidate in article_candidates:
+            parsed = parse_candidate(
+                page_html,
+                candidate,
+            )
 
-        if entry["id"] in seen_ids:
-            continue
+            if parsed:
+                break
 
-        seen_ids.add(
-            entry["id"]
-        )
+        if parsed:
+            entries.append(parsed)
 
-        entries.append(
-            entry
-        )
+        else:
+            failures.append(
+                {
+                    "page": page_number,
+                    "article_id":
+                        article_id,
+                }
+            )
 
-    return entries
+            print(
+                "  警告："
+                f"記事 {article_id} の"
+                "情報を解析できませんでした。"
+            )
+
+
+    return entries, failures
 
 
 # ========================================
-# 指定した一覧ページを取得
+# 指定ページ取得
 # ========================================
 
 def fetch_page(page_number):
@@ -441,55 +594,66 @@ def fetch_page(page_number):
         }
     )
 
-    url = (
-        f"{LIST_URL}?{query}"
-    )
+    url = f"{LIST_URL}?{query}"
 
     print(
         "Member Diary "
         f"{page_number}ページ目を確認..."
     )
 
-    page_html = fetch_html(
-        url
-    )
+    page_html = fetch_html(url)
 
-    entries = parse_diary_entries(
-        page_html
+    entries, failures = (
+        parse_diary_entries(
+            page_html,
+            page_number,
+        )
     )
 
     print(
         f"  {len(entries)}件取得"
     )
 
-    return entries
+    return entries, failures
 
 
 # ========================================
-# 初回：過去記事をすべて取得
+# 初回全件取得
 # ========================================
 
 def fetch_all_diaries():
     diaries = []
 
+    all_failures = []
+
     seen_ids = set()
+
 
     for page_number in range(
         1,
         MAX_PAGES + 1,
     ):
-        page_entries = fetch_page(
-            page_number
+        page_entries, failures = (
+            fetch_page(page_number)
         )
 
-        # 記事が1件もなければ終了
-        if not page_entries:
+        all_failures.extend(
+            failures
+        )
+
+
+        # 記事そのものがないページ
+        if (
+            not page_entries
+            and not failures
+        ):
             print(
                 "記事のないページに"
                 "到達しました。"
             )
 
             break
+
 
         new_count = 0
 
@@ -507,13 +671,16 @@ def fetch_all_diaries():
 
             new_count += 1
 
-        # 同じページが繰り返される
-        # サイト仕様だった場合の
-        # 無限ループ防止
-        if new_count == 0:
+
+        # 解析失敗もなく、
+        # 新しい記事もない場合は終了
+        if (
+            new_count == 0
+            and not failures
+        ):
             print(
-                "新しい記事がないページに"
-                "到達したため終了します。"
+                "新しい記事がないため"
+                "終了します。"
             )
 
             break
@@ -521,14 +688,46 @@ def fetch_all_diaries():
     else:
         raise RuntimeError(
             "最大ページ数に到達しました。"
-            "サイト構造を確認してください。"
+            "ページ構造を確認してください。"
         )
+
+
+    # ====================================
+    # 取りこぼしチェック
+    # ====================================
+
+    if all_failures:
+        print("")
+        print(
+            "===== 解析失敗記事 ====="
+        )
+
+        for failure in all_failures:
+            print(
+                "ページ "
+                f"{failure['page']} / "
+                "記事 "
+                f"{failure['article_id']}"
+            )
+
+        print(
+            "========================"
+        )
+
+        raise RuntimeError(
+            f"{len(all_failures)}件の"
+            "Member Diaryを"
+            "解析できませんでした。"
+            "member_diary.jsonは"
+            "更新しません。"
+        )
+
 
     return diaries
 
 
 # ========================================
-# 2回目以降：新着だけ取得
+# 差分取得
 # ========================================
 
 def fetch_new_diaries(
@@ -538,18 +737,38 @@ def fetch_new_diaries(
 
     seen_ids = set()
 
+
     for page_number in range(
         1,
         MAX_PAGES + 1,
     ):
-        page_entries = fetch_page(
-            page_number
+        page_entries, failures = (
+            fetch_page(page_number)
         )
+
+
+        # 差分取得でも解析失敗を
+        # 黙って無視しない
+        if failures:
+            failure_ids = ", ".join(
+                failure["article_id"]
+                for failure in failures
+            )
+
+            raise RuntimeError(
+                "Member Diaryの解析に"
+                "失敗しました。"
+                f" page={page_number}, "
+                f"article={failure_ids}"
+            )
+
 
         if not page_entries:
             break
 
+
         reached_known_entry = False
+
 
         for entry in page_entries:
             entry_id = entry["id"]
@@ -569,6 +788,7 @@ def fetch_new_diaries(
                 entry
             )
 
+
         if reached_known_entry:
             print(
                 "保存済みの記事に"
@@ -577,62 +797,55 @@ def fetch_new_diaries(
 
             break
 
+
     return new_diaries
 
 
 # ========================================
-# supplies.jsonへ保存
+# 保存
 # ========================================
 
-def save_supplies(supplies):
-    unique_supplies = {}
+def save_diaries(diaries):
+    unique = {}
 
-    for supply in supplies:
-        supply_id = supply.get(
-            "id"
-        )
+    for diary in diaries:
+        diary_id = diary.get("id")
 
-        if not supply_id:
+        if not diary_id:
             continue
 
-        unique_supplies[
-            supply_id
-        ] = supply
+        unique[diary_id] = diary
+
 
     result = list(
-        unique_supplies.values()
+        unique.values()
     )
 
 
-    # ====================================
-    # 並び順
-    # ====================================
+    # 日付 → 記事IDで並べる
     #
-    # まず公開日で並べる。
-    #
-    # YouTube同士で同じ日なら
-    # publishedAtによって
-    # 公開時間順になる。
-    #
-    # Member Diaryには公開時刻が
-    # ないため、同日内ではIDを
-    # 補助的に使用する。
+    # Member Diaryには公開時刻がないため
+    # 同日内の厳密な時刻順は付けない
+    def sort_key(item):
+        article_id_match = re.search(
+            r"(\d+)$",
+            item.get("id", ""),
+        )
+
+        article_number = (
+            int(article_id_match.group(1))
+            if article_id_match
+            else 0
+        )
+
+        return (
+            item.get("date", ""),
+            article_number,
+        )
+
 
     result.sort(
-        key=lambda item: (
-            item.get(
-                "date",
-                "",
-            ),
-            item.get(
-                "publishedAt",
-                "",
-            ),
-            item.get(
-                "id",
-                "",
-            ),
-        )
+        key=sort_key
     )
 
 
@@ -641,7 +854,15 @@ def save_supplies(supplies):
         exist_ok=True,
     )
 
-    with OUTPUT_FILE.open(
+
+    # 一度一時ファイルへ書く
+    # → 正常に書けた場合だけ置き換える
+    temp_file = OUTPUT_FILE.with_suffix(
+        ".json.tmp"
+    )
+
+
+    with temp_file.open(
         "w",
         encoding="utf-8",
     ) as file:
@@ -655,31 +876,27 @@ def save_supplies(supplies):
         file.write("\n")
 
 
+    temp_file.replace(
+        OUTPUT_FILE
+    )
+
+
 # ========================================
-# メイン処理
+# メイン
 # ========================================
 
 def main():
-    existing_supplies = (
-        load_existing_supplies()
+    existing_diaries = (
+        load_existing_diaries()
     )
 
-    existing_diaries = [
-        supply
-        for supply
-        in existing_supplies
-        if (
-            supply.get("type")
-            == "member_diary"
-        )
-    ]
 
     known_ids = {
-        supply["id"]
-        for supply
-        in existing_diaries
-        if supply.get("id")
+        diary["id"]
+        for diary in existing_diaries
+        if diary.get("id")
     }
+
 
     print(
         "既存のMember Diary："
@@ -688,47 +905,50 @@ def main():
 
 
     # ====================================
-    # 初回取得
+    # 初回
     # ====================================
 
     if not known_ids:
         print(
             "初回取得："
-            "過去のMember Diaryを"
-            "取得します。"
+            "Member Diaryを"
+            "最古の記事まで取得します。"
         )
+
 
         diaries = (
             fetch_all_diaries()
         )
 
+
         if not diaries:
             raise RuntimeError(
                 "Member Diaryを"
                 "1件も取得できませんでした。"
-                "サイト構造が変更された"
-                "可能性があります。"
             )
 
-        final_supplies = (
-            existing_supplies
-            + diaries
+
+        save_diaries(
+            diaries
         )
 
-        save_supplies(
-            final_supplies
-        )
 
+        print("")
         print(
             "初回取得完了："
             f"{len(diaries)}件"
+        )
+
+        print(
+            "data/member_diary.json "
+            "を作成しました。"
         )
 
         return
 
 
     # ====================================
-    # 差分取得
+    # 2回目以降
     # ====================================
 
     print(
@@ -737,11 +957,13 @@ def main():
         "確認します。"
     )
 
+
     new_diaries = (
         fetch_new_diaries(
             known_ids
         )
     )
+
 
     if not new_diaries:
         print(
@@ -751,23 +973,27 @@ def main():
 
         return
 
-    final_supplies = (
-        existing_supplies
+
+    final_diaries = (
+        existing_diaries
         + new_diaries
     )
 
-    save_supplies(
-        final_supplies
+
+    save_diaries(
+        final_diaries
     )
 
+
+    print("")
     print(
         "新規Member Diary："
         f"{len(new_diaries)}件"
     )
 
     print(
-        "supplies.jsonを"
-        "更新しました。"
+        "data/member_diary.json "
+        "を更新しました。"
     )
 
 
