@@ -761,7 +761,134 @@ function renderSelectedDate() {
 
     return;
 
-      /* =====================
+  }
+
+
+  /* =====================
+     YouTube
+  ===================== */
+
+  const youtubeSupplies =
+    selectedSupplies.filter(
+      supply =>
+        supply.type === "youtube"
+    );
+
+
+  if (
+    youtubeSupplies.length > 0
+  ) {
+
+    const category =
+      document.createElement("div");
+
+    category.className =
+      "supply-category";
+
+
+    const categoryTitle =
+      document.createElement("div");
+
+    categoryTitle.className =
+      "supply-category-title";
+
+    categoryTitle.innerHTML = `
+      <span class="dot youtube-dot"></span>
+      <span>YouTube</span>
+    `;
+
+
+    category.appendChild(
+      categoryTitle
+    );
+
+
+    youtubeSupplies.forEach(
+      supply => {
+
+        category.appendChild(
+          createSupplyItem(
+            supply,
+            "calendar",
+            false
+          )
+        );
+
+      }
+    );
+
+
+    supplyList.appendChild(
+      category
+    );
+
+  }
+
+
+  /* =====================
+     FC CONTENTS
+     └ Member Diary
+  ===================== */
+
+  const memberDiarySupplies =
+    selectedSupplies.filter(
+      supply =>
+        supply.type ===
+        "member_diary"
+    );
+
+
+  if (
+    memberDiarySupplies.length > 0
+  ) {
+
+    const category =
+      document.createElement("div");
+
+    category.className =
+      "supply-category";
+
+
+    const categoryTitle =
+      document.createElement("div");
+
+    categoryTitle.className =
+      "supply-category-title";
+
+    categoryTitle.innerHTML = `
+      <span class="dot fc-dot"></span>
+      <span>Member Diary</span>
+    `;
+
+
+    category.appendChild(
+      categoryTitle
+    );
+
+
+    memberDiarySupplies.forEach(
+      supply => {
+
+        category.appendChild(
+          createSupplyItem(
+            supply,
+            "calendar",
+            true
+          )
+        );
+
+      }
+    );
+
+
+    supplyList.appendChild(
+      category
+    );
+
+  }
+
+
+  /* =====================
      FC CONTENTS
      └ Movie
   ===================== */
@@ -821,7 +948,8 @@ function renderSelectedDate() {
     );
 
   }
-  }
+
+}
 
 
   /* =====================
