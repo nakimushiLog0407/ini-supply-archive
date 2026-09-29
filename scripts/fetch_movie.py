@@ -1,939 +1,855 @@
+import html
 import json
 import os
+import re
+import time
 import urllib.parse
 import urllib.request
-from collections import Counter
-from pathlib import Path
+from datetime import datetime
 
 
-# ========================================
-# 基本設定
-# ========================================
+# ============================================================
+# 設定
+# ============================================================
 
-API_KEY = os.environ.get("YOUTUBE_API_KEY")
+BASE_URL = "https://ini-official.com"
 
-# INI公式YouTubeチャンネル
-CHANNEL_ID = "UCc-itdQHxLvUlPrDxIiSJrA"
+OUTPUT_FILE = "data/movie.json"
+TEMP_FILE = OUTPUT_FILE + ".tmp"
 
-# 現在使用しているYouTubeデータ
-YOUTUBE_FILE = Path("data/youtube.json")
+REQUEST_INTERVAL = 0.5
+
+# 異常な無限巡回を防ぐための上限
+MAX_PAGES = 100
 
 
-# ========================================
-# YouTube API
-# ========================================
+# ============================================================
+# INI公式サイト上のMovieカテゴリ
+#
+# 取得時には各カテゴリを巡回するが、
+# アプリ側ではカテゴリ分けしない。
+# すべて「Movie」として保存する。
+# ============================================================
 
-def youtube_api(endpoint, params):
-    params = dict(params)
-    params["key"] = API_KEY
+MOVIE_LISTS = [
+    {
+        "name": "Message",
+        "url": f"{BASE_URL}/movies/list/15/0/",
+    },
+    {
+        "name": "Behind",
+        "url": f"{BASE_URL}/movies/list/17/0/",
+    },
+    {
+        "name": "Two-Shot INI",
+        "url": f"{BASE_URL}/movies/list/19/0/",
+    },
+    {
+        "name": "見えるラジオ",
+        "url": f"{BASE_URL}/movies/list/23/0/",
+    },
+    {
+        "name": "Others",
+        "url": f"{BASE_URL}/movies/list/21/0/",
+    },
+]
 
+
+USER_AGENT = (
+    "Mozilla/5.0 "
+    "(Windows NT 10.0; Win64; x64) "
+    "AppleWebKit/537.36 "
+    "(KHTML, like Gecko) "
+    "Chrome/140.0.0.0 Safari/537.36"
+)
+
+
+# ============================================================
+# HTML取得
+# ============================================================
+
+def fetch_html(url):
+    request = urllib.request.Request(
+        url,
+        headers={
+            "User-Agent": USER_AGENT,
+            "Accept": (
+                "text/html,"
+                "application/xhtml+xml,"
+                "application/xml;q=0.9,"
+                "*/*;q=0.8"
+            ),
+            "Accept-Language": "ja,en-US;q=0.9,en;q=0.8",
+        },
+    )
+
+    with urllib.request.urlopen(
+        request,
+        timeout=30,
+    ) as response:
+        charset = (
+            response.headers.get_content_charset()
+            or "utf-8"
+        )
+
+        return response.read().decode(
+            charset,
+            errors="replace",
+        )
+
+
+# ============================================================
+# HTML → プレーンテキスト
+# ============================================================
+
+def clean_text(value):
+    if value is None:
+        return None
+
+    value = re.sub(
+        r"<[^>]+>",
+        "",
+        value,
+        flags=re.DOTALL,
+    )
+
+    value = html.unescape(value)
+
+    value = re.sub(
+        r"\s+",
+        " ",
+        value,
+    )
+
+    return value.strip()
+
+
+# ============================================================
+# Movieリンク抽出
+#
+# /movies/detail/123
+# /movies/detail/123/
+#
+# の両方に対応
+# ============================================================
+
+def extract_movie_links(page_html):
+    pattern = re.compile(
+        r'<a\b'
+        r'(?P<attributes>[^>]*?)'
+        r'href=["\']'
+        r'(?P<url>[^"\']*'
+        r'/movies/detail/'
+        r'(?P<id>\d+)'
+        r'/?[^"\']*)'
+        r'["\']'
+        r'(?P<attributes_after>[^>]*)>'
+        r'(?P<body>.*?)'
+        r'</a>',
+        flags=re.IGNORECASE | re.DOTALL,
+    )
+
+    results = []
+
+    for match in pattern.finditer(page_html):
+        results.append(
+            {
+                "movie_id": match.group("id"),
+                "raw_url": match.group("url"),
+                "body": match.group("body"),
+            }
+        )
+
+    return results
+
+
+# ============================================================
+# classを持つ要素からテキスト取得
+# ============================================================
+
+def extract_text_by_class(
+    block_html,
+    class_names,
+):
+    if isinstance(class_names, str):
+        class_names = [class_names]
+
+    tag_pattern = re.compile(
+        r'<(?P<tag>[a-zA-Z0-9]+)\b'
+        r'(?P<attributes>[^>]*)>'
+        r'(?P<body>.*?)'
+        r'</(?P=tag)>',
+        flags=re.IGNORECASE | re.DOTALL,
+    )
+
+    for match in tag_pattern.finditer(block_html):
+        attributes = match.group(
+            "attributes"
+        )
+
+        class_match = re.search(
+            r'class=["\']([^"\']*)["\']',
+            attributes,
+            flags=re.IGNORECASE,
+        )
+
+        if not class_match:
+            continue
+
+        classes = set(
+            class_match.group(1).split()
+        )
+
+        for class_name in class_names:
+            if class_name in classes:
+                text = clean_text(
+                    match.group("body")
+                )
+
+                if text:
+                    return text
+
+    return None
+
+
+# ============================================================
+# 日付取得
+# ============================================================
+
+def extract_date_text(block_html):
+    # よく使われるclass名を優先
+    value = extract_text_by_class(
+        block_html,
+        [
+            "date",
+            "day",
+            "time",
+        ],
+    )
+
+    if value:
+        date_match = re.search(
+            r'\d{4}'
+            r'[./-]'
+            r'\d{1,2}'
+            r'[./-]'
+            r'\d{1,2}'
+            r'\.?',
+            value,
+        )
+
+        if date_match:
+            return date_match.group(0)
+
+    # class名に依存しない予備処理
+    text = clean_text(block_html)
+
+    if not text:
+        return None
+
+    date_match = re.search(
+        r'\d{4}'
+        r'[./-]'
+        r'\d{1,2}'
+        r'[./-]'
+        r'\d{1,2}'
+        r'\.?',
+        text,
+    )
+
+    if date_match:
+        return date_match.group(0)
+
+    return None
+
+
+# ============================================================
+# タイトル取得
+# ============================================================
+
+def extract_title(block_html):
+    title = extract_text_by_class(
+        block_html,
+        [
+            "tit",
+            "title",
+        ],
+    )
+
+    if title:
+        return title
+
+    # 見出しタグも確認
+    heading_pattern = re.compile(
+        r'<h[1-6]\b[^>]*>'
+        r'(.*?)'
+        r'</h[1-6]>',
+        flags=re.IGNORECASE | re.DOTALL,
+    )
+
+    match = heading_pattern.search(
+        block_html
+    )
+
+    if match:
+        value = clean_text(
+            match.group(1)
+        )
+
+        if value:
+            return value
+
+    return None
+
+
+# ============================================================
+# 日付を YYYY-MM-DD に統一
+# ============================================================
+
+def normalize_date(
+    raw_date,
+    movie_id,
+):
+    raw_date = raw_date.strip()
+
+    formats = [
+        "%Y.%m.%d",
+        "%Y.%m.%d.",
+        "%Y-%m-%d",
+        "%Y/%m/%d",
+    ]
+
+    for date_format in formats:
+        try:
+            parsed = datetime.strptime(
+                raw_date,
+                date_format,
+            )
+
+            return parsed.strftime(
+                "%Y-%m-%d"
+            )
+
+        except ValueError:
+            continue
+
+    raise ValueError(
+        f"Movie {movie_id}: "
+        f"日付形式を解析できません: "
+        f"{raw_date}"
+    )
+
+
+# ============================================================
+# Movie 1件を解析
+# ============================================================
+
+def parse_movie(movie_link):
+    movie_id = movie_link["movie_id"]
+    body = movie_link["body"]
+
+    title = extract_title(body)
+    raw_date = extract_date_text(body)
+
+    missing = []
+
+    if not title:
+        missing.append("title")
+
+    if not raw_date:
+        missing.append("date")
+
+    if missing:
+        raise ValueError(
+            f"Movie {movie_id}: "
+            f"{', '.join(missing)} "
+            "を取得できませんでした"
+        )
+
+    normalized_date = normalize_date(
+        raw_date,
+        movie_id,
+    )
+
+    movie_url = (
+        f"{BASE_URL}/movies/detail/"
+        f"{movie_id}"
+    )
+
+    return {
+        "id": f"movie-{movie_id}",
+        "type": "movie",
+        "group": "fc",
+        "date": normalized_date,
+        "title": title,
+        "url": movie_url,
+    }
+
+
+# ============================================================
+# 一覧ページ1ページ分を解析
+# ============================================================
+
+def parse_page(
+    page_html,
+    category_name,
+    page_number,
+):
+    movie_links = extract_movie_links(
+        page_html
+    )
+
+    print(
+        "  検出："
+        f"Movieリンク {len(movie_links)}件"
+    )
+
+    if not movie_links:
+        return [], []
+
+    # 同じMovieへのリンクが
+    # ページ内に複数ある場合に備える
+    grouped = {}
+
+    for movie_link in movie_links:
+        movie_id = movie_link["movie_id"]
+
+        grouped.setdefault(
+            movie_id,
+            [],
+        ).append(movie_link)
+
+    movies = []
+    failures = []
+
+    for movie_id, candidates in grouped.items():
+        parsed = None
+        last_error = None
+
+        for candidate in candidates:
+            try:
+                parsed = parse_movie(
+                    candidate
+                )
+                break
+
+            except ValueError as error:
+                last_error = error
+
+        if parsed:
+            movies.append(parsed)
+
+        else:
+            if last_error:
+                message = str(last_error)
+            else:
+                message = (
+                    f"Movie {movie_id}: "
+                    "解析できませんでした"
+                )
+
+            failures.append(
+                {
+                    "category": category_name,
+                    "page": page_number,
+                    "movie_id": movie_id,
+                    "message": message,
+                }
+            )
+
+    return movies, failures
+
+
+# ============================================================
+# 一覧ページ1ページを取得
+# ============================================================
+
+def fetch_page(
+    category_name,
+    list_url,
+    page_number,
+):
     query = urllib.parse.urlencode(
-        params,
-        doseq=True,
+        {
+            "page": page_number,
+        }
     )
 
-    url = (
-        "https://www.googleapis.com/youtube/v3/"
-        f"{endpoint}?{query}"
+    url = f"{list_url}?{query}"
+
+    print(
+        f"{category_name} "
+        f"{page_number}ページ目を確認..."
     )
 
-    with urllib.request.urlopen(url) as response:
-        return json.loads(
-            response.read().decode("utf-8")
+    page_html = fetch_html(url)
+
+    movies, failures = parse_page(
+        page_html,
+        category_name,
+        page_number,
+    )
+
+    print(
+        f"  {len(movies)}件取得"
+    )
+
+    if failures:
+        for failure in failures:
+            print(
+                "  警告："
+                f"{failure['message']}"
+            )
+
+    return movies, failures
+
+
+# ============================================================
+# 1カテゴリを最終ページまで取得
+# ============================================================
+
+def fetch_category(
+    category_name,
+    list_url,
+):
+    all_movies = []
+    all_failures = []
+
+    seen_ids = set()
+    previous_page_ids = None
+
+    for page_number in range(
+        1,
+        MAX_PAGES + 1,
+    ):
+        movies, failures = fetch_page(
+            category_name,
+            list_url,
+            page_number,
         )
 
+        all_failures.extend(failures)
 
-# ========================================
-# youtube.json を読み込む
-# ========================================
+        # Movieも解析失敗も0件なら
+        # 最終ページを越えたと判断
+        if not movies and not failures:
+            print(
+                f"{category_name}: "
+                "Movieのないページに"
+                "到達しました。"
+            )
+            break
 
-def load_json_videos():
-    if not YOUTUBE_FILE.exists():
+        current_page_ids = {
+            movie["id"]
+            for movie in movies
+        }
+
+        # ページ番号が無視され、
+        # 同じページが返され続けた場合の安全装置
+        if (
+            previous_page_ids is not None
+            and current_page_ids
+            == previous_page_ids
+            and not failures
+        ):
+            raise RuntimeError(
+                f"{category_name}: "
+                f"{page_number}ページ目が"
+                "直前のページと完全に同じです。"
+                "ページネーションを"
+                "正常に取得できていない"
+                "可能性があります。"
+            )
+
+        previous_page_ids = (
+            current_page_ids
+        )
+
+        for movie in movies:
+            movie_id = movie["id"]
+
+            if movie_id in seen_ids:
+                continue
+
+            seen_ids.add(movie_id)
+            all_movies.append(movie)
+
+        time.sleep(REQUEST_INTERVAL)
+
+    else:
         raise RuntimeError(
-            "data/youtube.json が見つかりません。"
+            f"{category_name}: "
+            f"{MAX_PAGES}ページまで"
+            "到達しました。"
+            "最終ページを"
+            "検出できませんでした。"
         )
 
-    with YOUTUBE_FILE.open(
+    return all_movies, all_failures
+
+
+# ============================================================
+# 全カテゴリ取得
+# ============================================================
+
+def fetch_all_movies():
+    all_failures = []
+
+    # Movie IDをカテゴリ横断で重複排除
+    movies_by_id = {}
+
+    for category in MOVIE_LISTS:
+        print()
+        print("=" * 60)
+        print(
+            f"{category['name']} を取得"
+        )
+        print("=" * 60)
+
+        (
+            category_movies,
+            category_failures,
+        ) = fetch_category(
+            category["name"],
+            category["url"],
+        )
+
+        all_failures.extend(
+            category_failures
+        )
+
+        for movie in category_movies:
+            movie_id = movie["id"]
+
+            if movie_id in movies_by_id:
+                continue
+
+            movies_by_id[movie_id] = movie
+
+        time.sleep(REQUEST_INTERVAL)
+
+    # 解析失敗が1件でもあれば保存しない
+    if all_failures:
+        print()
+        print("=" * 60)
+        print("解析失敗したMovie")
+        print("=" * 60)
+
+        for failure in all_failures:
+            print(
+                f"カテゴリ "
+                f"{failure['category']} / "
+                f"ページ "
+                f"{failure['page']} / "
+                f"Movie "
+                f"{failure['movie_id']} / "
+                f"{failure['message']}"
+            )
+
+        print("=" * 60)
+
+        raise RuntimeError(
+            f"{len(all_failures)}件の"
+            "Movieを解析できませんでした。"
+            "movie.jsonは更新しません。"
+        )
+
+    all_movies = list(
+        movies_by_id.values()
+    )
+
+    # 古い順
+    # 同日はMovie IDの数字順
+    all_movies.sort(
+        key=lambda movie: (
+            movie.get(
+                "date",
+                "",
+            ),
+            int(
+                movie["id"].replace(
+                    "movie-",
+                    "",
+                )
+            ),
+        )
+    )
+
+    return all_movies
+
+
+# ============================================================
+# 既存JSON読み込み
+# ============================================================
+
+def load_existing_movies():
+    if not os.path.exists(OUTPUT_FILE):
+        return []
+
+    with open(
+        OUTPUT_FILE,
         "r",
         encoding="utf-8",
     ) as file:
         data = json.load(file)
 
     if not isinstance(data, list):
-        raise RuntimeError(
-            "data/youtube.json の形式が不正です。"
+        raise ValueError(
+            f"{OUTPUT_FILE} の"
+            "形式が不正です。"
         )
 
     return data
 
 
-# ========================================
-# チャンネル情報を取得
-#
-# ・UploadsプレイリストID
-# ・statistics.videoCount
-# ========================================
+# ============================================================
+# JSONを安全に保存
+# ============================================================
 
-def get_channel_info():
-    data = youtube_api(
-        "channels",
-        {
-            "part": "contentDetails,statistics",
-            "id": CHANNEL_ID,
-        },
+def save_movies(movies):
+    os.makedirs(
+        os.path.dirname(OUTPUT_FILE),
+        exist_ok=True,
     )
 
-    items = data.get("items", [])
+    with open(
+        TEMP_FILE,
+        "w",
+        encoding="utf-8",
+    ) as file:
+        json.dump(
+            movies,
+            file,
+            ensure_ascii=False,
+            indent=2,
+        )
 
-    if not items:
+        file.write("\n")
+
+    # 一時ファイルを再度読み込み、
+    # 正しいJSONになっているか確認
+    with open(
+        TEMP_FILE,
+        "r",
+        encoding="utf-8",
+    ) as file:
+        verification = json.load(file)
+
+    if not isinstance(
+        verification,
+        list,
+    ):
         raise RuntimeError(
-            "INI公式YouTubeチャンネルの"
-            "情報を取得できませんでした。"
+            "保存前検証に失敗しました。"
         )
 
-    channel = items[0]
-
-    uploads_playlist_id = (
-        channel
-        .get("contentDetails", {})
-        .get("relatedPlaylists", {})
-        .get("uploads")
-    )
-
-    video_count = (
-        channel
-        .get("statistics", {})
-        .get("videoCount")
-    )
-
-    if not uploads_playlist_id:
-        raise RuntimeError(
-            "UploadsプレイリストIDを"
-            "取得できませんでした。"
-        )
-
-    return {
-        "uploadsPlaylistId": uploads_playlist_id,
-        "videoCount": video_count,
-    }
-
-
-# ========================================
-# 現在のUploadsプレイリストを全件取得
-# ========================================
-
-def fetch_current_uploads(
-    uploads_playlist_id,
-):
-    print(
-        "現在のUploadsプレイリストを"
-        "全件取得しています..."
-    )
-
-    videos = {}
-    page_token = None
-
-    while True:
-        params = {
-            "part": (
-                "snippet,"
-                "contentDetails,"
-                "status"
-            ),
-            "playlistId": uploads_playlist_id,
-            "maxResults": 50,
-        }
-
-        if page_token:
-            params["pageToken"] = page_token
-
-        data = youtube_api(
-            "playlistItems",
-            params,
-        )
-
-        for item in data.get("items", []):
-            snippet = item.get(
-                "snippet",
-                {},
-            )
-
-            content_details = item.get(
-                "contentDetails",
-                {},
-            )
-
-            status = item.get(
-                "status",
-                {},
-            )
-
-            video_id = content_details.get(
-                "videoId"
-            )
-
-            if not video_id:
-                continue
-
-            videos[video_id] = {
-                "videoId": video_id,
-                "title": snippet.get(
-                    "title",
-                    "",
-                ),
-                "publishedAt": snippet.get(
-                    "publishedAt",
-                    "",
-                ),
-                "playlistPrivacyStatus": (
-                    status.get(
-                        "privacyStatus",
-                        "unknown",
-                    )
-                ),
-            }
-
-        page_token = data.get(
-            "nextPageToken"
-        )
-
-        if not page_token:
-            break
-
-    return videos
-
-
-# ========================================
-# リストを50件ずつに分割
-#
-# videos.list は最大50動画ずつ照会
-# ========================================
-
-def chunk_list(items, size):
-    for index in range(
-        0,
-        len(items),
-        size,
-    ):
-        yield items[
-            index:index + size
-        ]
-
-
-# ========================================
-# 動画本体を videos.list で全件照合
-# ========================================
-
-def fetch_video_resources(video_ids):
-    print(
-        "Uploadsにある動画IDを使って、"
-        "動画本体を確認しています..."
-    )
-
-    video_resources = {}
-
-    sorted_ids = sorted(video_ids)
-
-    batches = list(
-        chunk_list(
-            sorted_ids,
-            50,
-        )
-    )
-
-    total_batches = len(batches)
-
-    for batch_number, batch in enumerate(
-        batches,
-        start=1,
-    ):
-        print(
-            f"動画本体を確認中: "
-            f"{batch_number}/{total_batches}"
-        )
-
-        data = youtube_api(
-            "videos",
-            {
-                "part": (
-                    "snippet,"
-                    "status,"
-                    "contentDetails"
-                ),
-                "id": ",".join(batch),
-                "maxResults": 50,
-            },
-        )
-
-        for item in data.get(
-            "items",
-            [],
-        ):
-            video_id = item.get("id")
-
-            if not video_id:
-                continue
-
-            snippet = item.get(
-                "snippet",
-                {},
-            )
-
-            status = item.get(
-                "status",
-                {},
-            )
-
-            content_details = item.get(
-                "contentDetails",
-                {},
-            )
-
-            video_resources[video_id] = {
-                "videoId": video_id,
-
-                "title": snippet.get(
-                    "title",
-                    "",
-                ),
-
-                "publishedAt": snippet.get(
-                    "publishedAt",
-                    "",
-                ),
-
-                # ここが今回特に重要
-                # 動画本体の公開状態
-                "privacyStatus": (
-                    status.get(
-                        "privacyStatus",
-                        "unknown",
-                    )
-                ),
-
-                # 念のため追加情報も取得
-                "uploadStatus": (
-                    status.get(
-                        "uploadStatus",
-                        "unknown",
-                    )
-                ),
-
-                "embeddable": status.get(
-                    "embeddable"
-                ),
-
-                "duration": (
-                    content_details.get(
-                        "duration",
-                        "",
-                    )
-                ),
-            }
-
-    return video_resources
-
-
-# ========================================
-# 診断結果を表示
-# ========================================
-
-def print_diagnostics(
-    json_videos,
-    channel_info,
-    current_uploads,
-    video_resources,
-):
-    # ------------------------------------
-    # JSON側
-    # ------------------------------------
-
-    json_by_video_id = {}
-
-    for video in json_videos:
-        video_id = video.get(
-            "videoId"
-        )
-
-        if not video_id:
-            continue
-
-        json_by_video_id[video_id] = video
-
-
-    json_ids = set(
-        json_by_video_id.keys()
-    )
-
-    uploads_ids = set(
-        current_uploads.keys()
-    )
-
-    resource_ids = set(
-        video_resources.keys()
+    os.replace(
+        TEMP_FILE,
+        OUTPUT_FILE,
     )
 
 
-    # ------------------------------------
-    # 差分
-    # ------------------------------------
-
-    json_only_ids = (
-        json_ids - uploads_ids
-    )
-
-    uploads_only_ids = (
-        uploads_ids - json_ids
-    )
-
-    # Uploadsには存在するが、
-    # videos.listでは動画本体を
-    # 取得できなかったID
-    missing_resource_ids = (
-        uploads_ids - resource_ids
-    )
-
-    # 逆方向も念のため確認
-    unexpected_resource_ids = (
-        resource_ids - uploads_ids
-    )
-
-
-    # ====================================
-    # 動画本体の公開状態
-    # ====================================
-
-    video_privacy_counts = Counter(
-        video.get(
-            "privacyStatus",
-            "unknown",
-        )
-        for video
-        in video_resources.values()
-    )
-
-
-    # ====================================
-    # 動画本体のuploadStatus
-    # ====================================
-
-    upload_status_counts = Counter(
-        video.get(
-            "uploadStatus",
-            "unknown",
-        )
-        for video
-        in video_resources.values()
-    )
-
-
-    # ====================================
-    # 全体結果
-    # ====================================
-
-    print()
-    print("=" * 70)
-    print("YouTube 詳細診断結果")
-    print("=" * 70)
-
-    print(
-        f"youtube.json レコード数: "
-        f"{len(json_videos)}"
-    )
-
-    print(
-        f"youtube.json videoId数: "
-        f"{len(json_ids)}"
-    )
-
-    print(
-        f"Uploadsプレイリスト: "
-        f"{len(uploads_ids)}"
-    )
-
-    print(
-        "チャンネル statistics.videoCount: "
-        f"{channel_info.get('videoCount')}"
-    )
-
-    print(
-        f"videos.listで取得できた動画本体: "
-        f"{len(resource_ids)}"
-    )
-
-    print("=" * 70)
-
-
-    # ====================================
-    # JSONとUploadsの比較
-    # ====================================
-
-    print()
-    print("【JSONとUploadsの比較】")
-    print()
-
-    print(
-        f"JSONにだけ存在: "
-        f"{len(json_only_ids)}"
-    )
-
-    print(
-        f"Uploadsにだけ存在: "
-        f"{len(uploads_only_ids)}"
-    )
-
-
-    # ====================================
-    # 動画本体の公開状態
-    # ====================================
-
-    print()
-    print(
-        "【動画本体の privacyStatus】"
-    )
-    print()
-
-    print(
-        "public: "
-        f"{video_privacy_counts.get('public', 0)}"
-    )
-
-    print(
-        "unlisted: "
-        f"{video_privacy_counts.get('unlisted', 0)}"
-    )
-
-    print(
-        "private: "
-        f"{video_privacy_counts.get('private', 0)}"
-    )
-
-    print(
-        "unknown: "
-        f"{video_privacy_counts.get('unknown', 0)}"
-    )
-
-    print(
-        "合計: "
-        f"{sum(video_privacy_counts.values())}"
-    )
-
-
-    # ====================================
-    # uploadStatus
-    # ====================================
-
-    print()
-    print(
-        "【動画本体の uploadStatus】"
-    )
-    print()
-
-    for status, count in sorted(
-        upload_status_counts.items()
-    ):
-        print(
-            f"{status}: {count}"
-        )
-
-    print(
-        "合計: "
-        f"{sum(upload_status_counts.values())}"
-    )
-
-    print("=" * 70)
-
-
-    # ====================================
-    # 動画本体を取得できなかったもの
-    # ====================================
-
-    print()
-    print(
-        "【Uploadsにはあるが、"
-        "videos.listで動画本体を"
-        "取得できなかった動画】"
-    )
-    print()
-
-
-    if not missing_resource_ids:
-        print("なし")
-
-    else:
-        missing_videos = [
-            current_uploads[video_id]
-            for video_id
-            in missing_resource_ids
-        ]
-
-        missing_videos.sort(
-            key=lambda video: (
-                video.get(
-                    "publishedAt",
-                    "",
-                ),
-                video.get(
-                    "videoId",
-                    "",
-                ),
-            )
-        )
-
-        for index, video in enumerate(
-            missing_videos,
-            start=1,
-        ):
-            video_id = video.get(
-                "videoId",
-                "",
-            )
-
-            print(
-                f"{index}. "
-                f"{video.get('title', '')}"
-            )
-
-            print(
-                f"   videoId: {video_id}"
-            )
-
-            print(
-                "   Uploads側のprivacyStatus: "
-                f"{video.get('playlistPrivacyStatus', '')}"
-            )
-
-            print(
-                "   publishedAt: "
-                f"{video.get('publishedAt', '')}"
-            )
-
-            print(
-                "   URL: "
-                "https://www.youtube.com/watch?v="
-                f"{video_id}"
-            )
-
-            print()
-
-
-    # ====================================
-    # 動画本体でpublic以外
-    # ====================================
-
-    non_public_videos = [
-        video
-        for video
-        in video_resources.values()
-        if (
-            video.get(
-                "privacyStatus",
-                "unknown",
-            )
-            != "public"
-        )
-    ]
-
-    non_public_videos.sort(
-        key=lambda video: (
-            video.get(
-                "publishedAt",
-                "",
-            ),
-            video.get(
-                "videoId",
-                "",
-            ),
-        )
-    )
-
-
-    print()
-    print(
-        "【動画本体でpublic以外の動画】"
-    )
-    print()
-
-
-    if not non_public_videos:
-        print("なし")
-
-    else:
-        for index, video in enumerate(
-            non_public_videos,
-            start=1,
-        ):
-            video_id = video.get(
-                "videoId",
-                "",
-            )
-
-            print(
-                f"{index}. "
-                f"{video.get('title', '')}"
-            )
-
-            print(
-                "   privacyStatus: "
-                f"{video.get('privacyStatus', '')}"
-            )
-
-            print(
-                "   uploadStatus: "
-                f"{video.get('uploadStatus', '')}"
-            )
-
-            print(
-                f"   videoId: {video_id}"
-            )
-
-            print(
-                "   publishedAt: "
-                f"{video.get('publishedAt', '')}"
-            )
-
-            print(
-                "   URL: "
-                "https://www.youtube.com/watch?v="
-                f"{video_id}"
-            )
-
-            print()
-
-
-    # ====================================
-    # JSONにだけ存在
-    # ====================================
-
-    print()
-    print(
-        "【JSONにあるが、Uploadsにはない動画】"
-    )
-    print()
-
-
-    if not json_only_ids:
-        print("なし")
-
-    else:
-        for index, video_id in enumerate(
-            sorted(json_only_ids),
-            start=1,
-        ):
-            video = json_by_video_id[
-                video_id
-            ]
-
-            print(
-                f"{index}. "
-                f"{video.get('title', '')}"
-            )
-
-            print(
-                f"   videoId: {video_id}"
-            )
-
-            print(
-                "   date: "
-                f"{video.get('date', '')}"
-            )
-
-            print(
-                "   URL: "
-                "https://www.youtube.com/watch?v="
-                f"{video_id}"
-            )
-
-            print()
-
-
-    # ====================================
-    # Uploadsにだけ存在
-    # ====================================
-
-    print()
-    print(
-        "【Uploadsにあるが、JSONにはない動画】"
-    )
-    print()
-
-
-    if not uploads_only_ids:
-        print("なし")
-
-    else:
-        for index, video_id in enumerate(
-            sorted(uploads_only_ids),
-            start=1,
-        ):
-            video = current_uploads[
-                video_id
-            ]
-
-            print(
-                f"{index}. "
-                f"{video.get('title', '')}"
-            )
-
-            print(
-                f"   videoId: {video_id}"
-            )
-
-            print(
-                "   URL: "
-                "https://www.youtube.com/watch?v="
-                f"{video_id}"
-            )
-
-            print()
-
-
-    # ====================================
-    # 念のための異常確認
-    # ====================================
-
-    print()
-    print(
-        "【videos.listにだけ存在する"
-        "予期しないID】"
-    )
-    print()
-
-
-    if not unexpected_resource_ids:
-        print("なし")
-
-    else:
-        for video_id in sorted(
-            unexpected_resource_ids
-        ):
-            print(video_id)
-
-
-    # ====================================
-    # 最後に重要な数字をまとめる
-    # ====================================
-
-    print()
-    print("=" * 70)
-    print("重要な数字のまとめ")
-    print("=" * 70)
-
-    print(
-        "チャンネル画面に対応する"
-        "statistics.videoCount: "
-        f"{channel_info.get('videoCount')}"
-    )
-
-    print(
-        f"Uploadsプレイリスト: "
-        f"{len(uploads_ids)}"
-    )
-
-    print(
-        f"動画本体取得成功: "
-        f"{len(resource_ids)}"
-    )
-
-    print(
-        f"動画本体取得失敗: "
-        f"{len(missing_resource_ids)}"
-    )
-
-    print(
-        "動画本体 public: "
-        f"{video_privacy_counts.get('public', 0)}"
-    )
-
-    print(
-        "動画本体 unlisted: "
-        f"{video_privacy_counts.get('unlisted', 0)}"
-    )
-
-    print(
-        "動画本体 private: "
-        f"{video_privacy_counts.get('private', 0)}"
-    )
-
-    print("=" * 70)
-
-    print(
-        "診断のみ実行しました。"
-    )
-
-    print(
-        "youtube.jsonへの変更・削除は"
-        "行っていません。"
-    )
-
-    print("=" * 70)
-
-
-# ========================================
+# ============================================================
 # メイン処理
-# ========================================
+# ============================================================
 
 def main():
-    if not API_KEY:
-        raise RuntimeError(
-            "YOUTUBE_API_KEY が設定されていません。"
+    print(
+        "INI Movie取得を開始します。"
+    )
+
+    print()
+
+    existing_movies = (
+        load_existing_movies()
+    )
+
+    print(
+        "既存Movie："
+        f"{len(existing_movies)}件"
+    )
+
+    movies = fetch_all_movies()
+
+    print()
+    print("=" * 60)
+    print("取得結果")
+    print("=" * 60)
+
+    print(
+        "公式サイト上のMovie："
+        f"{len(movies)}件"
+    )
+
+    existing_ids = {
+        movie.get("id")
+        for movie in existing_movies
+        if movie.get("id")
+    }
+
+    current_ids = {
+        movie.get("id")
+        for movie in movies
+        if movie.get("id")
+    }
+
+    new_ids = (
+        current_ids
+        - existing_ids
+    )
+
+    removed_ids = (
+        existing_ids
+        - current_ids
+    )
+
+    print(
+        "新規Movie："
+        f"{len(new_ids)}件"
+    )
+
+    if removed_ids:
+        print(
+            "既存JSONにのみ存在："
+            f"{len(removed_ids)}件"
         )
 
-    print(
-        "youtube.jsonを読み込んでいます..."
-    )
-
-    json_videos = load_json_videos()
-
-    print(
-        f"JSONレコード数: "
-        f"{len(json_videos)}件"
-    )
-
-
-    print(
-        "INI公式YouTubeチャンネルの"
-        "情報を取得しています..."
-    )
-
-    channel_info = get_channel_info()
-
-    print(
-        "statistics.videoCount: "
-        f"{channel_info.get('videoCount')}"
-    )
-
-
-    current_uploads = (
-        fetch_current_uploads(
-            channel_info[
-                "uploadsPlaylistId"
-            ]
-        )
-    )
-
-    print(
-        f"Uploads取得件数: "
-        f"{len(current_uploads)}件"
-    )
-
-
-    video_resources = (
-        fetch_video_resources(
-            set(
-                current_uploads.keys()
+        for movie_id in sorted(
+            removed_ids
+        ):
+            print(
+                f"  {movie_id}"
             )
+
+    # 0件なら異常と判断し、
+    # 既存JSONを空データで上書きしない
+    if not movies:
+        raise RuntimeError(
+            "Movieを1件も"
+            "取得できませんでした。"
+            "movie.jsonは更新しません。"
         )
-    )
 
+    save_movies(movies)
 
-    print_diagnostics(
-        json_videos,
-        channel_info,
-        current_uploads,
-        video_resources,
+    print()
+    print(
+        f"{OUTPUT_FILE} を"
+        f"{len(movies)}件で更新しました。"
     )
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+
+    except Exception:
+        # 異常終了時に.tmpが残った場合は削除
+        if os.path.exists(TEMP_FILE):
+            try:
+                os.remove(TEMP_FILE)
+            except OSError:
+                pass
+
+        raise
