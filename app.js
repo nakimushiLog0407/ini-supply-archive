@@ -10,13 +10,11 @@ const selectedDate =
 const supplyList =
   document.getElementById("supplyList");
 
-
 const prevMonthButton =
   document.getElementById("prevMonth");
 
 const nextMonthButton =
   document.getElementById("nextMonth");
-
 
 const monthPickerButton =
   document.getElementById("monthPickerButton");
@@ -70,29 +68,19 @@ const exploreNavButton =
 ========================= */
 
 const exploreSearchInput =
-  document.getElementById(
-    "exploreSearchInput"
-  );
+  document.getElementById("exploreSearchInput");
 
 const exploreResultLabel =
-  document.getElementById(
-    "exploreResultLabel"
-  );
+  document.getElementById("exploreResultLabel");
 
 const exploreResultCount =
-  document.getElementById(
-    "exploreResultCount"
-  );
+  document.getElementById("exploreResultCount");
 
 const exploreList =
-  document.getElementById(
-    "exploreList"
-  );
+  document.getElementById("exploreList");
 
 const exploreLoadMore =
-  document.getElementById(
-    "exploreLoadMore"
-  );
+  document.getElementById("exploreLoadMore");
 
 
 /* =========================
@@ -100,24 +88,16 @@ const exploreLoadMore =
 ========================= */
 
 const exploreCategoryButton =
-  document.getElementById(
-    "exploreCategoryButton"
-  );
+  document.getElementById("exploreCategoryButton");
 
 const exploreCategoryLabel =
-  document.getElementById(
-    "exploreCategoryLabel"
-  );
+  document.getElementById("exploreCategoryLabel");
 
 const categorySheet =
-  document.getElementById(
-    "categorySheet"
-  );
+  document.getElementById("categorySheet");
 
 const categorySheetClose =
-  document.getElementById(
-    "categorySheetClose"
-  );
+  document.getElementById("categorySheetClose");
 
 const categorySheetOptions =
   document.querySelectorAll(
@@ -130,9 +110,7 @@ const categorySheetOptions =
 ========================= */
 
 const detailBackButton =
-  document.getElementById(
-    "detailBackButton"
-  );
+  document.getElementById("detailBackButton");
 
 const detailThumbnailWrapper =
   document.getElementById(
@@ -140,29 +118,19 @@ const detailThumbnailWrapper =
   );
 
 const detailThumbnail =
-  document.getElementById(
-    "detailThumbnail"
-  );
+  document.getElementById("detailThumbnail");
 
 const detailType =
-  document.getElementById(
-    "detailType"
-  );
+  document.getElementById("detailType");
 
 const detailTitle =
-  document.getElementById(
-    "detailTitle"
-  );
+  document.getElementById("detailTitle");
 
 const detailDate =
-  document.getElementById(
-    "detailDate"
-  );
+  document.getElementById("detailDate");
 
 const detailMember =
-  document.getElementById(
-    "detailMember"
-  );
+  document.getElementById("detailMember");
 
 const detailExternalLink =
   document.getElementById(
@@ -224,7 +192,6 @@ let exploreVisibleCount =
 let selectedExploreCategory =
   "all";
 
-
 const exploreCategoryNames = {
   all: "すべて",
   youtube: "YouTube",
@@ -235,19 +202,21 @@ const exploreCategoryNames = {
 };
 
 
-/* =========================
-   JSONを読み込む
-========================= */
+/* ==========================================================
+   JSON読み込み
+========================================================== */
 
 async function fetchJson(path) {
 
   const response =
-    await fetch(path);
+    await fetch(
+      `${path}?v=${Date.now()}`
+    );
 
   if (!response.ok) {
 
     throw new Error(
-      `${path} を読み込めませんでした。`
+      `${path} を読み込めませんでした。HTTP ${response.status}`
     );
 
   }
@@ -268,75 +237,37 @@ async function fetchJson(path) {
 }
 
 
-/* =========================
-   供給データを読み込む
-========================= */
+/*
+  各JSONを独立して読み込む。
 
-async function loadSupplies() {
+  1つのJSONが存在しない・壊れている場合でも、
+  他のコンテンツとカレンダー本体は動作させる。
+*/
+
+async function loadSupplyFile(
+  path,
+  label
+) {
 
   try {
 
-    const [
-      youtubeSupplies,
-      memberDiarySupplies,
-      movieSupplies,
-      radioSupplies,
-      photoSupplies
-    ] = await Promise.all([
+    const data =
+      await fetchJson(path);
 
-      fetchJson(
-        "data/youtube.json"
-      ),
+    console.log(
+      `${label}: ${data.length}件読み込み`
+    );
 
-      fetchJson(
-        "data/member_diary.json"
-      ),
-
-      fetchJson(
-        "data/movie.json"
-      ),
-
-      fetchJson(
-        "data/radio.json"
-      ),
-
-      fetchJson(
-        "data/photo.json"
-      )
-
-    ]);
-
-
-    supplies = [
-      ...youtubeSupplies,
-      ...memberDiarySupplies,
-      ...movieSupplies,
-      ...radioSupplies,
-      ...photoSupplies
-    ];
-
-
-    renderCalendar();
-
-    renderSelectedDate();
-
-    renderExplore();
+    return data;
 
   } catch (error) {
 
-    console.error(error);
+    console.error(
+      `${label}の読み込みに失敗しました。`,
+      error
+    );
 
-    supplyList.innerHTML = `
-      <p class="no-supplies">
-        データの読み込みに失敗しました。
-      </p>
-    `;
-
-    exploreList.innerHTML = `
-      <p class="explore-empty">
-        データの読み込みに失敗しました。
-      </p>
-    `;
+    return [];
 
   }
 
@@ -344,8 +275,82 @@ async function loadSupplies() {
 
 
 /* =========================
-   日付を YYYY-MM-DD にする
+   供給データを読み込む
 ========================= */
+
+async function loadSupplies() {
+
+  const [
+    youtubeSupplies,
+    memberDiarySupplies,
+    movieSupplies,
+    radioSupplies,
+    photoSupplies
+  ] =
+    await Promise.all([
+
+      loadSupplyFile(
+        "data/youtube.json",
+        "YouTube"
+      ),
+
+      loadSupplyFile(
+        "data/member_diary.json",
+        "Member Diary"
+      ),
+
+      loadSupplyFile(
+        "data/movie.json",
+        "Movie"
+      ),
+
+      loadSupplyFile(
+        "data/radio.json",
+        "Radio"
+      ),
+
+      loadSupplyFile(
+        "data/photo.json",
+        "Photo"
+      )
+
+    ]);
+
+
+  supplies = [
+    ...youtubeSupplies,
+    ...memberDiarySupplies,
+    ...movieSupplies,
+    ...radioSupplies,
+    ...photoSupplies
+  ];
+
+
+  console.log(
+    `全供給データ: ${supplies.length}件`
+  );
+
+
+  /*
+    データ取得完了後に再描画。
+
+    初期表示時にもrenderCalendar()を
+    呼んでいるため、JSON取得に失敗しても
+    日付そのものは消えない。
+  */
+
+  renderCalendar();
+
+  renderSelectedDate();
+
+  renderExplore();
+
+}
+
+
+/* ==========================================================
+   日付
+========================================================== */
 
 function formatDateKey(
   year,
@@ -376,11 +381,6 @@ function formatDateKey(
 }
 
 
-/* =========================
-   YYYY-MM-DD を
-   日本語の日付にする
-========================= */
-
 function formatDisplayDate(
   dateString
 ) {
@@ -401,9 +401,9 @@ function formatDisplayDate(
 }
 
 
-/* =========================
+/* ==========================================================
    供給の並び順
-========================= */
+========================================================== */
 
 function compareSuppliesAscending(
   a,
@@ -433,7 +433,6 @@ function compareSuppliesAscending(
 
   }
 
-
   return String(
     a.id || ""
   ).localeCompare(
@@ -449,9 +448,9 @@ function compareSuppliesAscending(
 }
 
 
-/* =========================
-   カレンダーを描画
-========================= */
+/* ==========================================================
+   カレンダー
+========================================================== */
 
 function renderCalendar() {
 
@@ -484,6 +483,11 @@ function renderCalendar() {
     ) % 7;
 
 
+  /*
+    月曜日始まりになるよう、
+    月初より前の空セルを作る。
+  */
+
   for (
     let i = 0;
     i < startPosition;
@@ -504,6 +508,10 @@ function renderCalendar() {
 
   }
 
+
+  /*
+    日付セル
+  */
 
   for (
     let day = 1;
@@ -531,6 +539,8 @@ function renderCalendar() {
       "calendar-day";
 
 
+    /* 今日 */
+
     if (
       displayYear ===
         today.getFullYear() &&
@@ -546,6 +556,8 @@ function renderCalendar() {
 
     }
 
+
+    /* 選択中 */
 
     if (
       dateKey ===
@@ -575,6 +587,10 @@ function renderCalendar() {
     );
 
 
+    /* =====================
+       YouTube丸
+    ===================== */
+
     const hasYouTube =
       supplies.some(
         supply =>
@@ -585,13 +601,17 @@ function renderCalendar() {
       );
 
 
-    /*
-      Member Diary / Movie / Radio / Photo は
-      すべて group === "fc"。
+    /* =====================
+       FC Contents丸
 
-      同じ日に複数のFCコンテンツが存在しても
-      カレンダー上のFC丸は1個だけ表示する。
-    */
+       Member Diary
+       Movie
+       Radio
+       Photo
+
+       何種類あっても同日なら
+       グレー丸は1個だけ。
+    ===================== */
 
     const hasFcContents =
       supplies.some(
@@ -686,9 +706,9 @@ function renderCalendar() {
 }
 
 
-/* =========================
-   一覧用の供給ボタン
-========================= */
+/* ==========================================================
+   カレンダー下部の供給一覧
+========================================================== */
 
 function createSupplyItem(
   supply,
@@ -795,10 +815,6 @@ function createSupplyItem(
 }
 
 
-/* =========================
-   選択日のカテゴリを描画
-========================= */
-
 function appendSupplyCategory(
   title,
   categorySupplies,
@@ -873,7 +889,7 @@ function appendSupplyCategory(
 
 
 /* =========================
-   選択日の供給を表示
+   選択日の供給
 ========================= */
 
 function renderSelectedDate() {
@@ -993,11 +1009,6 @@ function renderSelectedDate() {
    EXPLORE
 ========================================================== */
 
-
-/* =========================
-   カテゴリ条件
-========================= */
-
 function matchesExploreCategory(
   supply
 ) {
@@ -1011,7 +1022,6 @@ function matchesExploreCategory(
 
   }
 
-
   return (
     supply.type ===
     selectedExploreCategory
@@ -1019,10 +1029,6 @@ function matchesExploreCategory(
 
 }
 
-
-/* =========================
-   EXPLORE対象を取得
-========================= */
 
 function getExploreSupplies() {
 
@@ -1137,11 +1143,6 @@ function getExploreSupplies() {
       }
 
 
-      /*
-        YouTube / Movie / Radio / Photo は
-        タイトルを検索する。
-      */
-
       return keywords.every(
         keyword =>
           title.includes(
@@ -1156,7 +1157,7 @@ function getExploreSupplies() {
 
 
 /* =========================
-   EXPLOREのカテゴリ表示
+   EXPLOREカテゴリ表示
 ========================= */
 
 function setExploreItemCategory(
@@ -1363,7 +1364,6 @@ function renderExplore() {
       title.textContent =
         supply.title;
 
-
       text.appendChild(
         title
       );
@@ -1456,7 +1456,7 @@ function renderExplore() {
 
 
 /* =========================
-   検索入力
+   EXPLORE検索
 ========================= */
 
 exploreSearchInput.addEventListener(
@@ -1489,9 +1489,9 @@ exploreLoadMore.addEventListener(
 );
 
 
-/* =========================
-   カテゴリシート
-========================= */
+/* ==========================================================
+   EXPLORE カテゴリシート
+========================================================== */
 
 function openCategorySheet() {
 
@@ -1614,7 +1614,6 @@ categorySheetOptions.forEach(
         selectedExploreCategory =
           category;
 
-
         exploreVisibleCount =
           EXPLORE_PAGE_SIZE;
 
@@ -1667,14 +1666,13 @@ document.addEventListener(
 );
 
 
-/* =========================
-   CALENDAR画面
-========================= */
+/* ==========================================================
+   画面切り替え
+========================================================== */
 
 function showCalendarView() {
 
   closeCategorySheet();
-
 
   currentMainView =
     "calendar";
@@ -1711,10 +1709,6 @@ function showCalendarView() {
 }
 
 
-/* =========================
-   EXPLORE画面
-========================= */
-
 function showExploreView() {
 
   currentMainView =
@@ -1750,10 +1744,6 @@ function showExploreView() {
 }
 
 
-/* =========================
-   下部ナビ
-========================= */
-
 calendarNavButton.addEventListener(
   "click",
   () => {
@@ -1784,9 +1774,9 @@ exploreNavButton.addEventListener(
 );
 
 
-/* =========================
-   DETAIL共通
-========================= */
+/* ==========================================================
+   DETAIL
+========================================================== */
 
 function setFcDetail(
   supply,
@@ -1851,10 +1841,6 @@ function setFcDetail(
 
 }
 
-
-/* =========================
-   DETAILを開く
-========================= */
 
 function openDetail(
   supply,
@@ -2050,7 +2036,7 @@ function openDetail(
 
 
   /* =====================
-     未知の供給種別
+     未知の種別
   ===================== */
 
   else {
@@ -2177,9 +2163,9 @@ detailBackButton.addEventListener(
 );
 
 
-/* =========================
-   前月へ
-========================= */
+/* ==========================================================
+   月移動
+========================================================== */
 
 prevMonthButton.addEventListener(
   "click",
@@ -2189,8 +2175,7 @@ prevMonthButton.addEventListener(
 
 
     if (
-      displayMonth <
-      0
+      displayMonth < 0
     ) {
 
       displayMonth =
@@ -2207,10 +2192,6 @@ prevMonthButton.addEventListener(
 );
 
 
-/* =========================
-   翌月へ
-========================= */
-
 nextMonthButton.addEventListener(
   "click",
   () => {
@@ -2219,8 +2200,7 @@ nextMonthButton.addEventListener(
 
 
     if (
-      displayMonth >
-      11
+      displayMonth > 11
     ) {
 
       displayMonth =
@@ -2237,9 +2217,9 @@ nextMonthButton.addEventListener(
 );
 
 
-/* =========================
-   年月選択肢
-========================= */
+/* ==========================================================
+   年月選択
+========================================================== */
 
 function createMonthPickerOptions() {
 
@@ -2307,10 +2287,6 @@ function createMonthPickerOptions() {
 }
 
 
-/* =========================
-   年月選択を開く
-========================= */
-
 monthPickerButton.addEventListener(
   "click",
   () => {
@@ -2328,10 +2304,6 @@ monthPickerButton.addEventListener(
 );
 
 
-/* =========================
-   年月選択キャンセル
-========================= */
-
 monthPickerCancel.addEventListener(
   "click",
   () => {
@@ -2342,10 +2314,6 @@ monthPickerCancel.addEventListener(
   }
 );
 
-
-/* =========================
-   選択年月へ移動
-========================= */
 
 monthPickerGo.addEventListener(
   "click",
@@ -2378,10 +2346,6 @@ monthPickerGo.addEventListener(
 );
 
 
-/* =========================
-   背景タップで年月選択を閉じる
-========================= */
-
 monthPicker.addEventListener(
   "click",
   event => {
@@ -2400,12 +2364,37 @@ monthPicker.addEventListener(
 );
 
 
-/* =========================
+/* ==========================================================
    初期設定
-========================= */
+
+   ★重要★
+
+   JSONを読み込む「前」に
+   カレンダーの日付を描画する。
+
+   これによりJSONが1つ存在しなくても
+   カレンダーの日付自体は消えない。
+========================================================== */
 
 createMonthPickerOptions();
 
 updateCategorySheetSelection();
+
+
+/*
+  まず空のsuppliesで画面を描画。
+*/
+
+renderCalendar();
+
+renderSelectedDate();
+
+renderExplore();
+
+
+/*
+  その後で供給データを取得。
+  取得完了後に再描画される。
+*/
 
 loadSupplies();
