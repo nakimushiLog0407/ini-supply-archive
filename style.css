@@ -816,3 +816,192 @@ button {
   }
 
 }
+
+/* ==========================================================
+   FC CONTENTS / MEMBER DIARY 対応
+   ========================================================== */
+
+
+/* =========================
+   FC CONTENTS の丸
+========================= */
+
+.fc-dot {
+  background: #3f3f3f;
+}
+
+
+/* =========================
+   カレンダー凡例
+========================= */
+
+.calendar-legend {
+  flex-wrap: wrap;
+}
+
+.calendar-legend-item {
+  display: flex;
+  align-items: center;
+
+  gap: 5px;
+}
+
+
+/* =========================
+   DETAIL
+   コンテンツ種別
+========================= */
+
+.detail-type {
+  display: flex;
+  align-items: center;
+
+  gap: 7px;
+
+  margin-top: 22px;
+
+  color: #555555;
+
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+
+/*
+  サムネイルが表示されているYouTubeでは
+  typeの上余白を少し確保。
+
+  Member Diaryではサムネイル自体を
+  JavaScript側でhiddenにする。
+*/
+
+.detail-thumbnail-wrapper + .detail-type {
+  margin-top: 22px;
+}
+
+
+/* =========================
+   DETAILタイトル
+
+   detail-typeを追加したため、
+   既存のmarginを少し調整
+========================= */
+
+.detail-type + .detail-title {
+  margin-top: 10px;
+}
+
+
+/* =========================
+   DETAIL メンバー名
+========================= */
+
+.detail-member {
+  margin: 8px 0 0;
+
+  color: #555555;
+
+  font-size: 13px;
+  font-weight: 500;
+}
+
+
+/* =========================
+   DETAIL 共通外部リンク
+========================= */
+
+.detail-external-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 7px;
+
+  width: 100%;
+  height: 50px;
+
+  margin-top: 30px;
+
+  border-radius: 12px;
+
+  background: #222222;
+  color: #ffffff;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  text-decoration: none;
+}
+
+.detail-external-link:active {
+  opacity: 0.8;
+}
+
+
+/* YouTubeのDETAILでは赤 */
+
+.detail-external-link.youtube-link {
+  background: #ff0000;
+}
+
+
+/* FC CONTENTSでは黒に近い灰色 */
+
+.detail-external-link.fc-link {
+  background: #3f3f3f;
+}
+
+
+/* =========================
+   EXPLORE
+   Member Diary メンバー名
+========================= */
+
+.explore-item-text {
+  flex: 1;
+
+  min-width: 0;
+}
+
+.explore-item-member {
+  display: block;
+
+  margin-top: 5px;
+
+  color: #777777;
+
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+
+/* =========================
+   選択日の供給一覧
+   Member Diary メンバー名
+========================= */
+
+.supply-item-text {
+  flex: 1;
+
+  min-width: 0;
+
+  padding-right: 16px;
+}
+
+.supply-item-text .supply-title {
+  display: block;
+
+  padding-right: 0;
+}
+
+.supply-member {
+  display: block;
+
+  margin-top: 4px;
+
+  color: #777777;
+
+  font-size: 12px;
+  line-height: 1.5;
+}
