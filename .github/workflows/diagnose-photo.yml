@@ -19,5 +19,10 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install requests beautifulsoup4
+
       - name: Run Photo HTML diagnosis
         run: python scripts/diagnose_photo.py
