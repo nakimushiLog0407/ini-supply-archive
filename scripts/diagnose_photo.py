@@ -1,992 +1,316 @@
-import re
-import urllib.parse
-import urllib.request
-from html import unescape
+import requests
+from bs4 import BeautifulSoup
+from urllib.parse import urljoin
+
+PHOTO_URL = "https://ini-official.com/photo/list/3"
+
+HEADERS = {
+    "User-Agent": (
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+        "AppleWebKit/537.36 (KHTML, like Gecko) "
+        "Chrome/140.0.0.0 Safari/537.36"
+    ),
+    "Accept": (
+        "text/html,application/xhtml+xml,application/xml;"
+        "q=0.9,image/avif,image/webp,*/*;q=0.8"
+    ),
+    "Accept-Language": "ja,en-US;q=0.9,en;q=0.8",
+}
 
 
-# ============================================================
-# 設定
-# ============================================================
-
-BASE_URL = "https://ini-official.com"
-
-# FC PHOTOで使われている可能性のあるURLを順番に診断する。
-# 404 / 403 / 405等になったURLも結果をログへ残す。
-CANDIDATE_URLS = [
-    f"{BASE_URL}/photo/",
-    f"{BASE_URL}/photo/list/",
-    f"{BASE_URL}/photos/",
-    f"{BASE_URL}/photos/list/",
-]
-
-USER_AGENT = (
-    "Mozilla/5.0 "
-    "(Windows NT 10.0; Win64; x64) "
-    "AppleWebKit/537.36 "
-    "(KHTML, like Gecko) "
-    "Chrome/140.0.0.0 Safari/537.36"
-)
+def separator(title):
+    print()
+    print("=" * 80)
+    print(title)
+    print("=" * 80)
 
 
-# ============================================================
-# HTML取得
-# ============================================================
+def main():
+    separator("INI Photo diagnostic")
+    print(f"Request URL: {PHOTO_URL}")
 
-def fetch_html(url):
-
-    request = urllib.request.Request(
-        url,
-        headers={
-            "User-Agent": USER_AGENT,
-            "Accept": (
-                "text/html,"
-                "application/xhtml+xml,"
-                "application/xml;q=0.9,"
-                "*/*;q=0.8"
-            ),
-            "Accept-Language":
-                "ja,en-US;q=0.9,en;q=0.8",
-            "Cache-Control":
-                "no-cache",
-            "Pragma":
-                "no-cache",
-        },
-    )
+    session = requests.Session()
+    session.headers.update(HEADERS)
 
     try:
-
-        with urllib.request.urlopen(
-            request,
+        response = session.get(
+            PHOTO_URL,
             timeout=30,
-        ) as response:
+            allow_redirects=True,
+        )
+    except requests.RequestException as e:
+        print("REQUEST ERROR")
+        print(repr(e))
+        return
 
-            charset = (
-                response.headers
-                .get_content_charset()
-                or "utf-8"
+    separator("1. RESPONSE INFO")
+
+    print(f"Status code : {response.status_code}")
+    print(f"Requested   : {PHOTO_URL}")
+    print(f"Final URL   : {response.url}")
+    print(f"Redirected  : {response.url != PHOTO_URL}")
+    print(f"Encoding    : {response.encoding}")
+    print(f"Content-Type: {response.headers.get('Content-Type')}")
+    print(f"HTML length : {len(response.text)}")
+
+    if response.history:
+        print()
+        print("Redirect history:")
+
+        for i, item in enumerate(response.history, 1):
+            print(
+                f"  {i}. {item.status_code} "
+                f"{item.url}"
             )
-
-            body = response.read()
-
-            html = body.decode(
-                charset,
-                errors="replace",
+            print(
+                f"     Location: "
+                f"{item.headers.get('Location')}"
             )
+    else:
+        print()
+        print("Redirect history: NONE")
 
-            return {
-                "success": True,
-                "status": response.status,
-                "final_url": response.geturl(),
-                "html": html,
-            }
+    soup = BeautifulSoup(response.text, "html.parser")
 
-    except urllib.error.HTTPError as error:
+    separator("2. PAGE BASIC INFO")
 
-        try:
-            body = error.read().decode(
-                "utf-8",
-                errors="replace",
-            )
-        except Exception:
-            body = ""
+    if soup.title:
+        print("TITLE:")
+        print(soup.title.get_text(" ", strip=True))
+    else:
+        print("TITLE: NONE")
 
-        return {
-            "success": False,
-            "status": error.code,
-            "final_url": error.geturl(),
-            "html": body,
-        }
+    h1_list = [
+        h.get_text(" ", strip=True)
+        for h in soup.find_all("h1")
+    ]
 
-    except Exception as error:
+    print()
+    print("H1:")
+    if h1_list:
+        for text in h1_list:
+            print(f"  {text}")
+    else:
+        print("  NONE")
 
-        return {
-            "success": False,
-            "status": None,
-            "final_url": url,
-            "html": "",
-            "error": str(error),
-        }
+    separator("3. LOGIN / AUTH CHECK")
 
+    text = soup.get_text(" ", strip=True)
 
-# ============================================================
-# HTMLタグを除去
-# ============================================================
+    login_keywords = [
+        "ログイン",
+        "LOGIN",
+        "Login",
+        "Plus member ID",
+        "Plus member",
+        "会員登録",
+        "新規会員登録",
+        "パスワード",
+    ]
 
-def strip_tags(value):
+    found_keywords = []
 
-    value = re.sub(
-        r"<script\b[^>]*>.*?</script>",
-        " ",
-        value,
-        flags=(
-            re.IGNORECASE |
-            re.DOTALL
-        ),
-    )
+    for keyword in login_keywords:
+        if keyword.lower() in text.lower():
+            found_keywords.append(keyword)
 
-    value = re.sub(
-        r"<style\b[^>]*>.*?</style>",
-        " ",
-        value,
-        flags=(
-            re.IGNORECASE |
-            re.DOTALL
-        ),
-    )
+    if found_keywords:
+        print("Login-related keywords found:")
+        for keyword in found_keywords:
+            print(f"  - {keyword}")
+    else:
+        print("No obvious login-related keywords found.")
 
-    value = re.sub(
-        r"<[^>]+>",
-        " ",
-        value,
-    )
+    separator("4. PHOTO-RELATED TEXT CHECK")
 
-    value = unescape(
-        value
-    )
+    photo_keywords = [
+        "PHOTO",
+        "Photo",
+        "photo",
+        "フォト",
+    ]
 
-    value = re.sub(
-        r"\s+",
-        " ",
-        value,
-    )
+    for keyword in photo_keywords:
+        count = response.text.lower().count(keyword.lower())
+        print(f"{keyword!r}: {count}")
 
-    return value.strip()
-
-
-# ============================================================
-# ページタイトル取得
-# ============================================================
-
-def extract_title(page_html):
-
-    match = re.search(
-        r"<title\b[^>]*>(.*?)</title>",
-        page_html,
-        flags=(
-            re.IGNORECASE |
-            re.DOTALL
-        ),
-    )
-
-    if not match:
-        return None
-
-    return strip_tags(
-        match.group(1)
-    )
-
-
-# ============================================================
-# リンク一覧
-# ============================================================
-
-def inspect_links(page_html):
-
-    pattern = re.compile(
-        r'<a\b[^>]*'
-        r'href=["\']([^"\']+)["\']'
-        r'[^>]*>',
-        flags=re.IGNORECASE,
-    )
+    separator("5. LINKS ON PAGE")
 
     links = []
 
-    for match in pattern.finditer(
-        page_html
-    ):
+    for a in soup.find_all("a", href=True):
+        href = urljoin(response.url, a["href"])
+        label = a.get_text(" ", strip=True)
 
-        raw_url = unescape(
-            match.group(1)
-        )
+        links.append((label, href))
 
-        absolute_url = (
-            urllib.parse.urljoin(
-                BASE_URL,
-                raw_url,
-            )
-        )
+    print(f"Total links: {len(links)}")
 
-        if absolute_url not in links:
-            links.append(
-                absolute_url
-            )
+    print()
+    print("Photo-related links:")
 
-
-    interesting = [
-        url
-        for url in links
-        if (
-            "photo" in url.lower()
-            or
-            "gallery" in url.lower()
-            or
-            "detail" in url.lower()
-            or
-            "fc" in url.lower()
-        )
+    photo_links = [
+        (label, href)
+        for label, href in links
+        if "photo" in href.lower()
+        or "photo" in label.lower()
+        or "フォト" in label
     ]
 
+    if photo_links:
+        for label, href in photo_links[:100]:
+            print(f"  TEXT: {label!r}")
+            print(f"  URL : {href}")
+            print()
+    else:
+        print("  NONE")
 
-    print()
-    print(
-        "=" * 80
-    )
-    print(
-        "INTERESTING LINKS"
-    )
-    print(
-        "=" * 80
-    )
+    separator("6. POSSIBLE CONTENT ITEMS")
 
-    print(
-        "all links:",
-        len(links),
-    )
+    selectors = [
+        "article",
+        "li",
+        ".photo",
+        ".photo-list",
+        ".photo_list",
+        ".list",
+        ".item",
+        ".contents",
+        ".content",
+        "[class*='photo']",
+        "[class*='Photo']",
+    ]
 
-    print(
-        "interesting links:",
-        len(interesting),
-    )
+    for selector in selectors:
+        try:
+            elements = soup.select(selector)
+        except Exception:
+            continue
 
-
-    for url in interesting[
-        :100
-    ]:
-
-        print(
-            " ",
-            url,
-        )
-
-
-# ============================================================
-# imgタグ
-# ============================================================
-
-def inspect_images(page_html):
-
-    image_tags = re.findall(
-        r"<img\b[^>]*>",
-        page_html,
-        flags=re.IGNORECASE,
-    )
-
-
-    print()
-    print(
-        "=" * 80
-    )
-    print(
-        "IMAGE DIAGNOSIS"
-    )
-    print(
-        "=" * 80
-    )
-
-    print(
-        "img tags:",
-        len(image_tags),
-    )
-
-
-    for index, tag in enumerate(
-        image_tags[:100],
-        start=1,
-    ):
+        if not elements:
+            continue
 
         print()
-        print(
-            f"[IMG {index}]"
-        )
+        print(f"Selector: {selector}")
+        print(f"Count   : {len(elements)}")
 
-        print(
-            tag
-        )
-
-
-# ============================================================
-# background-image
-# ============================================================
-
-def inspect_background_images(
-    page_html
-):
-
-    pattern = re.compile(
-        r'background(?:-image)?'
-        r'\s*:\s*'
-        r'url\(\s*'
-        r'["\']?'
-        r'([^)"\']+)'
-        r'["\']?'
-        r'\s*\)',
-        flags=re.IGNORECASE,
-    )
-
-
-    urls = []
-
-    for match in pattern.finditer(
-        page_html
-    ):
-
-        raw_url = (
-            match.group(1)
-            .strip()
-        )
-
-        url = urllib.parse.urljoin(
-            BASE_URL,
-            raw_url,
-        )
-
-        if url not in urls:
-            urls.append(
-                url
-            )
-
-
-    print()
-    print(
-        "=" * 80
-    )
-    print(
-        "BACKGROUND IMAGE DIAGNOSIS"
-    )
-    print(
-        "=" * 80
-    )
-
-    print(
-        "background images:",
-        len(urls),
-    )
-
-
-    for index, url in enumerate(
-        urls[:100],
-        start=1,
-    ):
-
-        print(
-            f"[{index}]",
-            url,
-        )
-
-
-# ============================================================
-# data-src / srcset 等
-# ============================================================
-
-def inspect_image_attributes(
-    page_html
-):
-
-    patterns = {
-        "data-src":
-            r'data-src=["\']([^"\']+)["\']',
-
-        "data-original":
-            r'data-original=["\']([^"\']+)["\']',
-
-        "srcset":
-            r'srcset=["\']([^"\']+)["\']',
-
-        "data-lazy":
-            r'data-lazy=["\']([^"\']+)["\']',
-    }
-
-
-    print()
-    print(
-        "=" * 80
-    )
-    print(
-        "LAZY IMAGE ATTRIBUTES"
-    )
-    print(
-        "=" * 80
-    )
-
-
-    for label, pattern in (
-        patterns.items()
-    ):
-
-        values = re.findall(
-            pattern,
-            page_html,
-            flags=re.IGNORECASE,
-        )
-
-        unique_values = []
-
-        for value in values:
-
-            value = unescape(
-                value
-            )
-
-            if value not in unique_values:
-                unique_values.append(
-                    value
-                )
-
-
-        print()
-        print(
-            f"{label}: "
-            f"{len(unique_values)}件"
-        )
-
-
-        for value in unique_values[
-            :50
-        ]:
-
-            print(
+        for element in elements[:10]:
+            item_text = element.get_text(
                 " ",
-                value,
+                strip=True,
             )
 
+            if len(item_text) > 300:
+                item_text = item_text[:300] + "..."
 
-# ============================================================
-# META画像
-# ============================================================
+            print(f"  {item_text!r}")
 
-def inspect_meta_images(
-    page_html
-):
+    separator("7. DATE-LIKE ELEMENTS")
 
-    print()
-    print(
-        "=" * 80
-    )
-    print(
-        "META IMAGE DIAGNOSIS"
-    )
-    print(
-        "=" * 80
-    )
+    date_candidates = []
 
-
-    meta_tags = re.findall(
-        r"<meta\b[^>]*>",
-        page_html,
-        flags=re.IGNORECASE,
-    )
-
-
-    found = 0
-
-
-    for tag in meta_tags:
-
-        lower = tag.lower()
-
-        if (
-            "og:image" in lower
-            or
-            "twitter:image" in lower
-        ):
-
-            found += 1
-
-            print(
-                tag
-            )
-
-
-    print(
-        "image meta tags:",
-        found,
-    )
-
-
-# ============================================================
-# class一覧
-# ============================================================
-
-def inspect_classes(
-    page_html
-):
-
-    class_values = re.findall(
-        r'class=["\']([^"\']+)["\']',
-        page_html,
-        flags=re.IGNORECASE,
-    )
-
-
-    classes = set()
-
-
-    for value in class_values:
-
-        for class_name in (
-            value.split()
-        ):
-
-            classes.add(
-                class_name
-            )
-
-
-    interesting = sorted(
-        class_name
-        for class_name in classes
-        if (
-            "photo" in
-            class_name.lower()
-
-            or
-
-            "gallery" in
-            class_name.lower()
-
-            or
-
-            "thumb" in
-            class_name.lower()
-
-            or
-
-            "title" in
-            class_name.lower()
-
-            or
-
-            "date" in
-            class_name.lower()
-
-            or
-
-            "list" in
-            class_name.lower()
-
-            or
-
-            "item" in
-            class_name.lower()
-        )
-    )
-
-
-    print()
-    print(
-        "=" * 80
-    )
-    print(
-        "CLASS DIAGNOSIS"
-    )
-    print(
-        "=" * 80
-    )
-
-    print(
-        "all unique classes:",
-        len(classes),
-    )
-
-    print(
-        "interesting classes:",
-        len(interesting),
-    )
-
-
-    for class_name in interesting:
-
-        print(
-            " ",
-            class_name,
-        )
-
-
-# ============================================================
-# PHOTOという文字の周辺HTML
-# ============================================================
-
-def inspect_photo_keywords(
-    page_html
-):
-
-    print()
-    print(
-        "=" * 80
-    )
-    print(
-        "PHOTO KEYWORD CONTEXT"
-    )
-    print(
-        "=" * 80
-    )
-
-
-    pattern = re.compile(
-        r"photo",
-        flags=re.IGNORECASE,
-    )
-
-
-    matches = list(
-        pattern.finditer(
-            page_html
-        )
-    )
-
-
-    print(
-        "PHOTO matches:",
-        len(matches),
-    )
-
-
-    for index, match in enumerate(
-        matches[:20],
-        start=1,
+    for tag in soup.find_all(
+        ["time", "p", "span", "div", "li"]
     ):
+        item_text = tag.get_text(" ", strip=True)
 
-        start = max(
-            0,
-            match.start() - 600,
+        if not item_text:
+            continue
+
+        if (
+            "2026." in item_text
+            or "2025." in item_text
+            or "2024." in item_text
+            or "2023." in item_text
+            or "2022." in item_text
+            or "2021." in item_text
+            or "2026/" in item_text
+            or "2025/" in item_text
+            or "2024/" in item_text
+            or "2023/" in item_text
+            or "2022/" in item_text
+            or "2021/" in item_text
+        ):
+            if len(item_text) <= 500:
+                date_candidates.append(item_text)
+
+    # 重複を除去
+    date_candidates = list(dict.fromkeys(date_candidates))
+
+    print(f"Found: {len(date_candidates)}")
+
+    for item in date_candidates[:50]:
+        print(f"  {item!r}")
+
+    separator("8. IMAGE CHECK")
+
+    images = soup.find_all("img")
+
+    print(f"Total images: {len(images)}")
+
+    for img in images[:50]:
+        src = (
+            img.get("src")
+            or img.get("data-src")
+            or img.get("data-original")
         )
 
-        end = min(
-            len(page_html),
-            match.end() + 1500,
-        )
+        alt = img.get("alt", "")
 
+        if src:
+            src = urljoin(response.url, src)
 
         print()
+        print(f"  ALT: {alt!r}")
+        print(f"  SRC: {src}")
+
+    separator("9. HTML PREVIEW")
+
+    # HTML全体を出すとActionsログが巨大になるため
+    # 先頭8000文字だけ表示
+    preview = response.text[:8000]
+
+    print(preview)
+
+    separator("10. DIAGNOSIS SUMMARY")
+
+    print(f"Requested URL : {PHOTO_URL}")
+    print(f"Final URL     : {response.url}")
+    print(f"Status        : {response.status_code}")
+
+    if response.url != PHOTO_URL:
+        print()
         print(
-            "-" * 80
+            "RESULT: The request was redirected."
         )
-
         print(
-            f"PHOTO CONTEXT {index}"
+            "Check the Final URL and Redirect history above."
         )
 
+    elif found_keywords:
+        print()
         print(
-            "-" * 80
+            "RESULT: The Photo URL itself was returned, "
+            "but login/auth-related text exists."
         )
-
         print(
-            page_html[
-                start:end
-            ]
+            "Check PAGE BASIC INFO, LOGIN / AUTH CHECK, "
+            "and HTML PREVIEW."
         )
 
-
-# ============================================================
-# 日付候補
-# ============================================================
-
-def inspect_dates(
-    page_html
-):
-
-    patterns = [
-        r"\b20\d{2}\.\d{2}\.\d{2}\b",
-        r"\b20\d{2}-\d{2}-\d{2}\b",
-        r"\b20\d{2}/\d{2}/\d{2}\b",
-    ]
-
-
-    dates = []
-
-
-    for pattern in patterns:
-
-        for value in re.findall(
-            pattern,
-            page_html,
-        ):
-
-            if value not in dates:
-                dates.append(
-                    value
-                )
-
-
-    print()
-    print(
-        "=" * 80
-    )
-    print(
-        "DATE DIAGNOSIS"
-    )
-    print(
-        "=" * 80
-    )
-
-    print(
-        "dates:",
-        len(dates),
-    )
-
-
-    for value in dates[
-        :100
-    ]:
-
+    else:
+        print()
         print(
-            " ",
-            value,
+            "RESULT: No redirect and no obvious login "
+            "keywords were detected."
         )
-
-
-# ============================================================
-# ページネーション
-# ============================================================
-
-def inspect_pagination(
-    page_html
-):
-
-    page_links = re.findall(
-        r'href=["\']'
-        r'([^"\']*'
-        r'[?&]page=\d+'
-        r'[^"\']*)'
-        r'["\']',
-        page_html,
-        flags=re.IGNORECASE,
-    )
-
-
-    unique_links = []
-
-
-    for link in page_links:
-
-        link = unescape(
-            link
-        )
-
-        if link not in unique_links:
-
-            unique_links.append(
-                link
-            )
-
-
-    print()
-    print(
-        "=" * 80
-    )
-    print(
-        "PAGINATION DIAGNOSIS"
-    )
-    print(
-        "=" * 80
-    )
-
-    print(
-        "pagination links:",
-        len(unique_links),
-    )
-
-
-    for link in unique_links:
-
         print(
-            " ",
-            urllib.parse.urljoin(
-                BASE_URL,
-                link,
-            ),
+            "The Photo list may be accessible without "
+            "authentication."
         )
 
-
-# ============================================================
-# 1ページ診断
-# ============================================================
-
-def diagnose_url(url):
-
-    print()
-    print()
-    print(
-        "#" * 80
-    )
-
-    print(
-        "URL:",
-        url,
-    )
-
-    print(
-        "#" * 80
-    )
-
-
-    result = fetch_html(
-        url
-    )
-
-
-    print(
-        "HTTP status:",
-        result.get(
-            "status"
-        ),
-    )
-
-    print(
-        "Final URL:",
-        result.get(
-            "final_url"
-        ),
-    )
-
-
-    if result.get(
-        "error"
-    ):
-
-        print(
-            "ERROR:",
-            result[
-                "error"
-            ],
-        )
-
-
-    page_html = (
-        result.get(
-            "html"
-        )
-        or
-        ""
-    )
-
-
-    print(
-        "HTML length:",
-        len(page_html),
-    )
-
-
-    if not page_html:
-
-        print(
-            "HTMLを取得できなかったため"
-            "次のURLへ進みます。"
-        )
-
-        return
-
-
-    page_title = (
-        extract_title(
-            page_html
-        )
-    )
-
-
-    print(
-        "PAGE TITLE:",
-        page_title,
-    )
-
-
-    # HTML冒頭も少し表示
-    print()
-    print(
-        "=" * 80
-    )
-    print(
-        "HTML HEAD SAMPLE"
-    )
-    print(
-        "=" * 80
-    )
-
-    print(
-        page_html[:3000]
-    )
-
-
-    inspect_links(
-        page_html
-    )
-
-    inspect_classes(
-        page_html
-    )
-
-    inspect_images(
-        page_html
-    )
-
-    inspect_background_images(
-        page_html
-    )
-
-    inspect_image_attributes(
-        page_html
-    )
-
-    inspect_meta_images(
-        page_html
-    )
-
-    inspect_dates(
-        page_html
-    )
-
-    inspect_pagination(
-        page_html
-    )
-
-    inspect_photo_keywords(
-        page_html
-    )
-
-
-# ============================================================
-# メイン
-# ============================================================
-
-def main():
-
-    print(
-        "INI FC Photo HTML診断を開始します。"
-    )
-
-    print()
-    print(
-        "このスクリプトは診断専用です。"
-    )
-
-    print(
-        "JSON・GitHub上のファイルは"
-        "変更しません。"
-    )
-
-
-    for url in CANDIDATE_URLS:
-
-        diagnose_url(
-            url
-        )
-
-
-    print()
-    print()
-    print(
-        "=" * 80
-    )
-
-    print(
-        "診断完了"
-    )
-
-    print(
-        "=" * 80
-    )
+    separator("END")
 
 
 if __name__ == "__main__":
-
     main()
