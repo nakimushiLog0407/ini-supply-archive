@@ -2088,6 +2088,15 @@
     "url": "https://ini-official.com/movies/detail/589"
   },
   {
+    "id": "movie-598",
+    "type": "movie",
+    "group": "fc",
+    "date": "2026-08-28",
+    "title": "『藤牧京介FCイベント〜きょうすけらじお公開収録〜 』BEHIND",
+    "thumbnail": "https://ini-official.com/static2/prod/new_movie/thumbnail/337/72a30e320922cf0038264f04979054a940caca92204c441ddb5065b079fa3167_t.png",
+    "url": "https://ini-official.com/movies/detail/598"
+  },
+  {
     "id": "movie-603",
     "type": "movie",
     "group": "fc",
@@ -2113,5 +2122,14 @@
     "title": "『INI OFFICIAL MAGAZINE 2026』SHOOTING BEHIND Vol.2",
     "thumbnail": "https://ini-official.com/static2/prod/new_movie/thumbnail/337/ff5624941eb6cfdfd55e328ef27c79dd5386ddfc7b52639cf60256cea324c489_t.png",
     "url": "https://ini-official.com/movies/detail/605"
+  },
+  {
+    "id": "movie-615",
+    "type": "movie",
+    "group": "fc",
+    "date": "2026-09-17",
+    "title": "【東京】2026 INI 5TH ANNIVERSARY DOME TOUR [CITY OF LIGHTS]終演後コメント",
+    "thumbnail": "https://ini-official.com/static2/prod/new_movie/thumbnail/337/c07be5eea259cf53ca94ba4396854f697b0388a76c0fde679b9c4116cff744ec_t.jpeg",
+    "url": "https://ini-official.com/movies/detail/615"
   }
 ]
