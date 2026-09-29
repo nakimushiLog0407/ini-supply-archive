@@ -199,6 +199,7 @@ let exploreVisibleCount =
   all
   youtube
   member_diary
+  movie
 */
 
 let selectedExploreCategory =
@@ -208,7 +209,8 @@ let selectedExploreCategory =
 const exploreCategoryNames = {
   all: "すべて",
   youtube: "YouTube",
-  member_diary: "Member Diary"
+  member_diary: "Member Diary",
+  movie: "Movie"
 };
 
 
@@ -258,15 +260,18 @@ async function loadSupplies() {
 
     const [
       youtubeSupplies,
-      memberDiarySupplies
+      memberDiarySupplies,
+      movieSupplies
     ] = await Promise.all([
       fetchJson("data/youtube.json"),
-      fetchJson("data/member_diary.json")
+      fetchJson("data/member_diary.json"),
+      fetchJson("data/movie.json")
     ]);
 
     supplies = [
       ...youtubeSupplies,
-      ...memberDiarySupplies
+      ...memberDiarySupplies,
+      ...movieSupplies
     ];
 
     renderCalendar();
@@ -756,6 +761,66 @@ function renderSelectedDate() {
 
     return;
 
+      /* =====================
+     FC CONTENTS
+     └ Movie
+  ===================== */
+
+  const movieSupplies =
+    selectedSupplies.filter(
+      supply =>
+        supply.type === "movie"
+    );
+
+
+  if (
+    movieSupplies.length > 0
+  ) {
+
+    const category =
+      document.createElement("div");
+
+    category.className =
+      "supply-category";
+
+
+    const categoryTitle =
+      document.createElement("div");
+
+    categoryTitle.className =
+      "supply-category-title";
+
+    categoryTitle.innerHTML = `
+      <span class="dot fc-dot"></span>
+      <span>Movie</span>
+    `;
+
+
+    category.appendChild(
+      categoryTitle
+    );
+
+
+    movieSupplies.forEach(
+      supply => {
+
+        category.appendChild(
+          createSupplyItem(
+            supply,
+            "calendar",
+            false
+          )
+        );
+
+      }
+    );
+
+
+    supplyList.appendChild(
+      category
+    );
+
+  }
   }
 
 
@@ -928,6 +993,17 @@ function matchesExploreCategory(
     return (
       supply.type ===
       "member_diary"
+    );
+
+  }
+
+    if (
+    selectedExploreCategory ===
+    "movie"
+  ) {
+
+    return (
+      supply.type === "movie"
     );
 
   }
@@ -1240,7 +1316,7 @@ function renderExplore() {
         "explore-item-category";
 
 
-      if (
+            if (
         supply.type === "youtube"
       ) {
 
@@ -1257,6 +1333,15 @@ function renderExplore() {
         category.innerHTML = `
           <span class="dot fc-dot"></span>
           <span>Member Diary</span>
+        `;
+
+      } else if (
+        supply.type === "movie"
+      ) {
+
+        category.innerHTML = `
+          <span class="dot fc-dot"></span>
+          <span>Movie</span>
         `;
 
       } else {
@@ -1945,6 +2030,78 @@ function openDetail(
 
   }
 
+    /* =====================
+     Movie
+  ===================== */
+
+  else if (
+    supply.type === "movie"
+  ) {
+
+    /*
+      Movieは取得済みの
+      サムネイルを表示
+    */
+
+    if (supply.thumbnail) {
+
+      detailThumbnailWrapper.hidden =
+        false;
+
+      detailThumbnail.src =
+        supply.thumbnail;
+
+      detailThumbnail.alt =
+        `${supply.title}のサムネイル`;
+
+    } else {
+
+      detailThumbnailWrapper.hidden =
+        true;
+
+      detailThumbnail.src =
+        "";
+
+      detailThumbnail.alt =
+        "";
+
+    }
+
+
+    detailType.innerHTML = `
+      <span class="dot fc-dot"></span>
+      <span>Movie</span>
+    `;
+
+
+    /*
+      Movieには
+      メンバー名項目なし
+    */
+
+    detailMember.hidden =
+      true;
+
+    detailMember.textContent =
+      "";
+
+
+    detailExternalLink.href =
+      supply.url || "#";
+
+    detailExternalLinkText.textContent =
+      "公式サイトで見る";
+
+
+    detailExternalLink.classList.remove(
+      "youtube-link"
+    );
+
+    detailExternalLink.classList.add(
+      "fc-link"
+    );
+
+  }
 
   /* =====================
      未知の供給種別
