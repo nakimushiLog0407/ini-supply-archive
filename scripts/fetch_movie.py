@@ -27,10 +27,20 @@ MAX_PAGES = 100
 # ============================================================
 # INI公式サイト上のMovieカテゴリ
 #
-# 取得時には各カテゴリを巡回する。
+# 各カテゴリを巡回して過去データを取得する。
+#
+# ただし、カテゴリにまだ属していないMovieが
+# LATEST MOVIEにだけ掲載される場合があるため、
+# MOVIE_TOP_URL も別途取得する。
+#
 # アプリ側ではカテゴリ分けせず、
 # すべて「Movie」として統合する。
 # ============================================================
+
+MOVIE_TOP_URL = (
+    f"{BASE_URL}/movies/category/"
+)
+
 
 MOVIE_LISTS = [
     {
@@ -80,7 +90,8 @@ def fetch_html(url):
                 "application/xml;q=0.9,"
                 "*/*;q=0.8"
             ),
-            "Accept-Language": "ja,en-US;q=0.9,en;q=0.8",
+            "Accept-Language":
+                "ja,en-US;q=0.9,en;q=0.8",
         },
     )
 
@@ -88,6 +99,7 @@ def fetch_html(url):
         request,
         timeout=30,
     ) as response:
+
         charset = (
             response.headers.get_content_charset()
             or "utf-8"
@@ -161,21 +173,13 @@ def normalize_date(
 # ============================================================
 # サムネイルURL取得
 #
-# 実際のHTML：
-#
-# <figure class="thumb">
-#   <img
-#     ...
-#     style="background-image: url(/static2/...jpeg)"
-#     alt="タイトル"
-#   >
-# </figure>
-#
-# src は blank_thumb.gif のため使用しない。
-# background-image のURLを使用する。
+# 実際のHTMLでは src が blank_thumb.gif の場合があるため、
+# style の background-image を使用する。
 # ============================================================
 
-def extract_background_image(style_value):
+def extract_background_image(
+    style_value
+):
     if not style_value:
         return None
 
@@ -193,7 +197,9 @@ def extract_background_image(style_value):
     if not match:
         return None
 
-    raw_url = match.group(1).strip()
+    raw_url = (
+        match.group(1).strip()
+    )
 
     return urllib.parse.urljoin(
         BASE_URL,
@@ -204,26 +210,19 @@ def extract_background_image(style_value):
 # ============================================================
 # Movie一覧HTMLパーサー
 #
-# 診断で確認した実際の構造：
+# Movie個別ページへのリンク
 #
-# <li>
-#   <a href="/movies/detail/589">
-#     <figure class="thumb">
-#       <img
-#         style="background-image: url(...)"
-#         alt="..."
-#       >
-#     </figure>
+# /movies/detail/XXX
 #
-#     <div class="list__txt">
-#       <p class="tit">タイトル</p>
-#       <p class="date">2026.07.18</p>
-#     </div>
-#   </a>
-# </li>
+# を起点に、タイトル・日付・サムネイルを取得する。
+#
+# このパーサーはカテゴリ一覧だけでなく
+# /movies/category/ の LATEST MOVIE にも使用する。
 # ============================================================
 
-class MovieListParser(HTMLParser):
+class MovieListParser(
+    HTMLParser
+):
 
     def __init__(self):
         super().__init__(
@@ -232,13 +231,10 @@ class MovieListParser(HTMLParser):
 
         self.movies = []
 
-        # 現在解析中のMovie
         self.current_movie = None
 
-        # Movieリンク内にいる深さ
         self.movie_link_depth = 0
 
-        # tit / date の取得状態
         self.capture_title = False
         self.capture_date = False
 
@@ -251,10 +247,14 @@ class MovieListParser(HTMLParser):
     # --------------------------------------------------------
 
     @staticmethod
-    def get_classes(attrs_dict):
-        class_value = attrs_dict.get(
-            "class",
-            "",
+    def get_classes(
+        attrs_dict
+    ):
+        class_value = (
+            attrs_dict.get(
+                "class",
+                "",
+            )
         )
 
         return set(
@@ -281,9 +281,11 @@ class MovieListParser(HTMLParser):
             tag.lower() == "a"
             and self.current_movie is None
         ):
-            href = attrs_dict.get(
-                "href",
-                "",
+            href = (
+                attrs_dict.get(
+                    "href",
+                    "",
+                )
             )
 
             match = re.search(
@@ -293,15 +295,23 @@ class MovieListParser(HTMLParser):
             )
 
             if match:
-                movie_id = match.group(1)
+                movie_id = (
+                    match.group(1)
+                )
 
                 self.current_movie = {
-                    "movie_id": movie_id,
-                    "href": href,
-                    "title": None,
-                    "date": None,
-                    "thumbnail": None,
-                    "alt_title": None,
+                    "movie_id":
+                        movie_id,
+                    "href":
+                        href,
+                    "title":
+                        None,
+                    "date":
+                        None,
+                    "thumbnail":
+                        None,
+                    "alt_title":
+                        None,
                 }
 
                 self.movie_link_depth = 1
@@ -314,20 +324,32 @@ class MovieListParser(HTMLParser):
 
                 return
 
+
         # Movieリンクの外なら以降は不要
-        if self.current_movie is None:
+
+        if (
+            self.current_movie
+            is None
+        ):
             return
 
+
         # ----------------------------------------------------
-        # Movieリンク内部のタグ階層を追跡
+        # Movieリンク内部のタグ階層
         # ----------------------------------------------------
 
-        if tag.lower() == "a":
+        if (
+            tag.lower() == "a"
+        ):
             self.movie_link_depth += 1
 
-        classes = self.get_classes(
-            attrs_dict
+
+        classes = (
+            self.get_classes(
+                attrs_dict
+            )
         )
+
 
         # ====================================================
         # <p class="tit">
@@ -340,6 +362,7 @@ class MovieListParser(HTMLParser):
             self.capture_title = True
             self.title_parts = []
 
+
         # ====================================================
         # <p class="date">
         # ====================================================
@@ -351,18 +374,21 @@ class MovieListParser(HTMLParser):
             self.capture_date = True
             self.date_parts = []
 
+
         # ====================================================
         # <img>
         #
-        # style の background-image から
-        # サムネイルURLを取得
-        #
-        # alt はタイトルの予備取得元として保存
+        # background-image → サムネイル
+        # alt → タイトル予備
         # ====================================================
 
-        elif tag.lower() == "img":
-            style_value = attrs_dict.get(
-                "style"
+        elif (
+            tag.lower() == "img"
+        ):
+            style_value = (
+                attrs_dict.get(
+                    "style"
+                )
             )
 
             thumbnail = (
@@ -376,8 +402,11 @@ class MovieListParser(HTMLParser):
                     "thumbnail"
                 ] = thumbnail
 
+
             alt_value = clean_text(
-                attrs_dict.get("alt")
+                attrs_dict.get(
+                    "alt"
+                )
             )
 
             if alt_value:
@@ -390,8 +419,14 @@ class MovieListParser(HTMLParser):
     # テキスト
     # --------------------------------------------------------
 
-    def handle_data(self, data):
-        if self.current_movie is None:
+    def handle_data(
+        self,
+        data
+    ):
+        if (
+            self.current_movie
+            is None
+        ):
             return
 
         if self.capture_title:
@@ -409,11 +444,21 @@ class MovieListParser(HTMLParser):
     # 終了タグ
     # --------------------------------------------------------
 
-    def handle_endtag(self, tag):
-        if self.current_movie is None:
+    def handle_endtag(
+        self,
+        tag
+    ):
+        if (
+            self.current_movie
+            is None
+        ):
             return
 
-        tag_lower = tag.lower()
+
+        tag_lower = (
+            tag.lower()
+        )
+
 
         # ====================================================
         # title終了
@@ -439,6 +484,7 @@ class MovieListParser(HTMLParser):
 
             return
 
+
         # ====================================================
         # date終了
         # ====================================================
@@ -463,14 +509,20 @@ class MovieListParser(HTMLParser):
 
             return
 
+
         # ====================================================
         # Movieリンク終了
         # ====================================================
 
-        if tag_lower == "a":
+        if (
+            tag_lower == "a"
+        ):
             self.movie_link_depth -= 1
 
-            if self.movie_link_depth <= 0:
+            if (
+                self.movie_link_depth
+                <= 0
+            ):
                 self.movies.append(
                     self.current_movie
                 )
@@ -487,10 +539,12 @@ class MovieListParser(HTMLParser):
 
 
 # ============================================================
-# 1ページからMovie候補を取得
+# HTMLからMovie候補を取得
 # ============================================================
 
-def parse_movie_candidates(page_html):
+def parse_movie_candidates(
+    page_html
+):
     parser = MovieListParser()
 
     parser.feed(
@@ -506,39 +560,50 @@ def parse_movie_candidates(page_html):
 # Movie 1件を正式なJSONデータへ変換
 # ============================================================
 
-def build_movie(candidate):
-    movie_id = candidate[
-        "movie_id"
-    ]
+def build_movie(
+    candidate
+):
+    movie_id = (
+        candidate[
+            "movie_id"
+        ]
+    )
 
     title = clean_text(
-        candidate.get("title")
+        candidate.get(
+            "title"
+        )
     )
 
     alt_title = clean_text(
-        candidate.get("alt_title")
+        candidate.get(
+            "alt_title"
+        )
     )
 
     raw_date = clean_text(
-        candidate.get("date")
+        candidate.get(
+            "date"
+        )
     )
 
     thumbnail = clean_text(
-        candidate.get("thumbnail")
+        candidate.get(
+            "thumbnail"
+        )
     )
+
 
     # --------------------------------------------------------
     # タイトル
     #
-    # 第一候補：
-    # <p class="tit">
-    #
-    # 第二候補：
-    # <img alt="...">
+    # 第一候補：<p class="tit">
+    # 第二候補：<img alt="...">
     # --------------------------------------------------------
 
     if not title:
         title = alt_title
+
 
     missing = []
 
@@ -557,6 +622,7 @@ def build_movie(candidate):
             "thumbnail"
         )
 
+
     if missing:
         raise ValueError(
             f"Movie {movie_id}: "
@@ -564,25 +630,115 @@ def build_movie(candidate):
             "を取得できませんでした"
         )
 
-    normalized_date = normalize_date(
-        raw_date,
-        movie_id,
+
+    normalized_date = (
+        normalize_date(
+            raw_date,
+            movie_id,
+        )
     )
 
-    movie_url = urllib.parse.urljoin(
-        BASE_URL,
-        candidate["href"],
+
+    movie_url = (
+        urllib.parse.urljoin(
+            BASE_URL,
+            candidate["href"],
+        )
     )
+
 
     return {
-        "id": f"movie-{movie_id}",
-        "type": "movie",
-        "group": "fc",
-        "date": normalized_date,
-        "title": title,
-        "thumbnail": thumbnail,
-        "url": movie_url,
+        "id":
+            f"movie-{movie_id}",
+        "type":
+            "movie",
+        "group":
+            "fc",
+        "date":
+            normalized_date,
+        "title":
+            title,
+        "thumbnail":
+            thumbnail,
+        "url":
+            movie_url,
     }
+
+
+# ============================================================
+# 候補一覧を正式なMovieへ変換
+# ============================================================
+
+def build_movies_from_candidates(
+    candidates,
+    source_name,
+    page_number=None,
+):
+    # --------------------------------------------------------
+    # 同一HTML内の重複Movie IDを排除
+    # --------------------------------------------------------
+
+    candidates_by_id = {}
+
+    for candidate in candidates:
+        movie_id = (
+            candidate[
+                "movie_id"
+            ]
+        )
+
+        if (
+            movie_id
+            not in candidates_by_id
+        ):
+            candidates_by_id[
+                movie_id
+            ] = candidate
+
+
+    movies = []
+    failures = []
+
+
+    for (
+        movie_id,
+        candidate,
+    ) in candidates_by_id.items():
+
+        try:
+            movie = build_movie(
+                candidate
+            )
+
+            movies.append(
+                movie
+            )
+
+        except ValueError as error:
+
+            failure = {
+                "source":
+                    source_name,
+                "movie_id":
+                    movie_id,
+                "message":
+                    str(error),
+            }
+
+            if (
+                page_number
+                is not None
+            ):
+                failure["page"] = (
+                    page_number
+                )
+
+            failures.append(
+                failure
+            )
+
+
+    return movies, failures
 
 
 # ============================================================
@@ -606,56 +762,76 @@ def parse_page(
         f"{len(candidates)}件"
     )
 
+
     if not candidates:
         return [], []
 
-    # --------------------------------------------------------
-    # 同じMovie IDがページ内に複数存在しても
-    # 1件として扱う
-    # --------------------------------------------------------
 
-    candidates_by_id = {}
+    return (
+        build_movies_from_candidates(
+            candidates,
+            category_name,
+            page_number,
+        )
+    )
 
-    for candidate in candidates:
-        movie_id = candidate[
-            "movie_id"
-        ]
 
-        if movie_id not in candidates_by_id:
-            candidates_by_id[
-                movie_id
-            ] = candidate
+# ============================================================
+# LATEST MOVIEを取得
+#
+# /movies/category/ に掲載されているMovieを取得する。
+#
+# ここには各カテゴリにまだ反映されていないMovieが
+# 存在する場合がある。
+#
+# 既存カテゴリと重複するMovieは、
+# 最後にMovie IDで統合する。
+# ============================================================
 
-    movies = []
-    failures = []
+def fetch_latest_movies():
 
-    for (
-        movie_id,
-        candidate,
-    ) in candidates_by_id.items():
+    print(
+        "LATEST MOVIEを確認..."
+    )
 
-        try:
-            movie = build_movie(
-                candidate
+    page_html = fetch_html(
+        MOVIE_TOP_URL
+    )
+
+    candidates = (
+        parse_movie_candidates(
+            page_html
+        )
+    )
+
+
+    print(
+        "  検出："
+        f"Movieリンク "
+        f"{len(candidates)}件"
+    )
+
+
+    movies, failures = (
+        build_movies_from_candidates(
+            candidates,
+            "Latest Movie",
+        )
+    )
+
+
+    print(
+        f"  {len(movies)}件取得"
+    )
+
+
+    if failures:
+        for failure in failures:
+            print(
+                "  警告："
+                f"{failure['message']}"
             )
 
-            movies.append(
-                movie
-            )
-
-        except ValueError as error:
-            failures.append(
-                {
-                    "category":
-                        category_name,
-                    "page":
-                        page_number,
-                    "movie_id":
-                        movie_id,
-                    "message":
-                        str(error),
-                }
-            )
 
     return movies, failures
 
@@ -671,7 +847,8 @@ def fetch_page(
 ):
     query = urllib.parse.urlencode(
         {
-            "page": page_number,
+            "page":
+                page_number,
         }
     )
 
@@ -679,24 +856,31 @@ def fetch_page(
         f"{list_url}?{query}"
     )
 
+
     print(
         f"{category_name} "
         f"{page_number}ページ目を確認..."
     )
 
+
     page_html = fetch_html(
         url
     )
 
-    movies, failures = parse_page(
-        page_html,
-        category_name,
-        page_number,
+
+    movies, failures = (
+        parse_page(
+            page_html,
+            category_name,
+            page_number,
+        )
     )
+
 
     print(
         f"  {len(movies)}件取得"
     )
+
 
     if failures:
         for failure in failures:
@@ -705,45 +889,45 @@ def fetch_page(
                 f"{failure['message']}"
             )
 
+
     return movies, failures
 
 
 # ============================================================
-# 1カテゴリを最終ページまで取得
+# 1カテゴリを最後まで取得
 # ============================================================
 
 def fetch_category(
     category_name,
     list_url,
 ):
-    all_movies = []
-    all_failures = []
+    category_movies = []
+    category_failures = []
 
-    seen_ids = set()
+    seen_page_signatures = set()
 
-    previous_page_ids = None
 
     for page_number in range(
         1,
         MAX_PAGES + 1,
     ):
-        (
-            movies,
-            failures,
-        ) = fetch_page(
-            category_name,
-            list_url,
-            page_number,
+        movies, failures = (
+            fetch_page(
+                category_name,
+                list_url,
+                page_number,
+            )
         )
 
-        all_failures.extend(
+
+        category_failures.extend(
             failures
         )
 
+
         # ----------------------------------------------------
-        # Movieも解析失敗も0件
-        #
-        # → 最終ページを越えたと判断
+        # Movieリンク自体がない
+        # → 最終ページを超えた
         # ----------------------------------------------------
 
         if (
@@ -751,232 +935,151 @@ def fetch_category(
             and not failures
         ):
             print(
-                f"{category_name}: "
-                "Movieのないページに"
-                "到達しました。"
+                "  Movieがないため"
+                "このカテゴリの取得を終了"
             )
 
             break
 
-        current_page_ids = {
+
+        # ----------------------------------------------------
+        # ページ内容の署名
+        #
+        # サイト側が存在しないページ番号に対して
+        # 最終ページなどを返し続ける場合に備える。
+        # ----------------------------------------------------
+
+        page_ids = sorted(
             movie["id"]
             for movie in movies
-        }
-
-        # ----------------------------------------------------
-        # ページ番号を無視して
-        # 同じページが返され続ける場合の安全装置
-        # ----------------------------------------------------
-
-        if (
-            previous_page_ids is not None
-            and current_page_ids
-            == previous_page_ids
-            and not failures
-        ):
-            raise RuntimeError(
-                f"{category_name}: "
-                f"{page_number}ページ目が"
-                "直前のページと完全に同じです。"
-                "ページネーションを"
-                "正常に取得できていない"
-                "可能性があります。"
-            )
-
-        previous_page_ids = (
-            current_page_ids
         )
 
-        for movie in movies:
-            movie_id = movie[
-                "id"
-            ]
+        failure_ids = sorted(
+            failure["movie_id"]
+            for failure in failures
+        )
 
-            if movie_id in seen_ids:
-                continue
+        signature = (
+            tuple(page_ids),
+            tuple(failure_ids),
+        )
 
-            seen_ids.add(
-                movie_id
+
+        if (
+            signature
+            in seen_page_signatures
+        ):
+            print(
+                "  同じページ内容を再検出したため"
+                "このカテゴリの取得を終了"
             )
 
-            all_movies.append(
-                movie
-            )
+            break
+
+
+        seen_page_signatures.add(
+            signature
+        )
+
+
+        category_movies.extend(
+            movies
+        )
+
 
         time.sleep(
             REQUEST_INTERVAL
         )
+
 
     else:
         raise RuntimeError(
             f"{category_name}: "
-            f"{MAX_PAGES}ページまで"
-            "到達しました。"
-            "最終ページを"
-            "検出できませんでした。"
+            f"{MAX_PAGES}ページに達しました。"
+            "ページネーションを確認してください。"
         )
 
+
     return (
-        all_movies,
-        all_failures,
+        category_movies,
+        category_failures,
     )
 
 
 # ============================================================
-# 全カテゴリ取得
+# Movie IDを数値として取得
 # ============================================================
 
-def fetch_all_movies():
-    all_failures = []
+def movie_id_number(
+    movie
+):
+    movie_id = str(
+        movie.get(
+            "id",
+            ""
+        )
+    )
 
-    # Movie IDをカテゴリ横断で重複排除
+    match = re.search(
+        r"(\d+)$",
+        movie_id,
+    )
+
+    if not match:
+        return 0
+
+    return int(
+        match.group(1)
+    )
+
+
+# ============================================================
+# Movieを統合
+#
+# LATEST MOVIE と各カテゴリには
+# 同じMovieが重複して存在するため、
+# id をキーにして1件へ統合する。
+#
+# LATESTを先に入れ、
+# カテゴリ側で同じIDが出ても二重登録しない。
+# ============================================================
+
+def merge_movies(
+    *movie_groups
+):
     movies_by_id = {}
 
-    for category in MOVIE_LISTS:
-        print()
-        print(
-            "=" * 60
-        )
 
-        print(
-            f"{category['name']} を取得"
-        )
+    for movie_group in movie_groups:
 
-        print(
-            "=" * 60
-        )
+        for movie in movie_group:
 
-        (
-            category_movies,
-            category_failures,
-        ) = fetch_category(
-            category["name"],
-            category["url"],
-        )
-
-        all_failures.extend(
-            category_failures
-        )
-
-        for movie in category_movies:
-            movie_id = movie[
-                "id"
-            ]
-
-            if movie_id in movies_by_id:
-                continue
-
-            movies_by_id[
-                movie_id
-            ] = movie
-
-        time.sleep(
-            REQUEST_INTERVAL
-        )
-
-    # --------------------------------------------------------
-    # 解析失敗が1件でもあれば保存しない
-    # --------------------------------------------------------
-
-    if all_failures:
-        print()
-        print(
-            "=" * 60
-        )
-
-        print(
-            "解析失敗したMovie"
-        )
-
-        print(
-            "=" * 60
-        )
-
-        for failure in all_failures:
-            print(
-                f"カテゴリ "
-                f"{failure['category']} / "
-                f"ページ "
-                f"{failure['page']} / "
-                f"Movie "
-                f"{failure['movie_id']} / "
-                f"{failure['message']}"
+            movie_id = (
+                movie["id"]
             )
 
-        print(
-            "=" * 60
-        )
 
-        raise RuntimeError(
-            f"{len(all_failures)}件の"
-            "Movieを解析できませんでした。"
-            "movie.jsonは更新しません。"
-        )
+            if (
+                movie_id
+                not in movies_by_id
+            ):
+                movies_by_id[
+                    movie_id
+                ] = movie
 
-    all_movies = list(
+
+    return list(
         movies_by_id.values()
     )
 
-    # --------------------------------------------------------
-    # 古い順
-    #
-    # 同日はMovie IDの数字順
-    # --------------------------------------------------------
-
-    all_movies.sort(
-        key=lambda movie: (
-            movie.get(
-                "date",
-                "",
-            ),
-            int(
-                movie["id"].replace(
-                    "movie-",
-                    "",
-                )
-            ),
-        )
-    )
-
-    return all_movies
-
 
 # ============================================================
-# 既存JSON読み込み
+# 保存
 # ============================================================
 
-def load_existing_movies():
-    if not os.path.exists(
-        OUTPUT_FILE
-    ):
-        return []
-
-    with open(
-        OUTPUT_FILE,
-        "r",
-        encoding="utf-8",
-    ) as file:
-        data = json.load(
-            file
-        )
-
-    if not isinstance(
-        data,
-        list,
-    ):
-        raise ValueError(
-            f"{OUTPUT_FILE} の"
-            "形式が不正です。"
-        )
-
-    return data
-
-
-# ============================================================
-# JSONを安全に保存
-# ============================================================
-
-def save_movies(movies):
+def save_movies(
+    movies
+):
     os.makedirs(
         os.path.dirname(
             OUTPUT_FILE
@@ -984,11 +1087,13 @@ def save_movies(movies):
         exist_ok=True,
     )
 
+
     with open(
         TEMP_FILE,
         "w",
         encoding="utf-8",
     ) as file:
+
         json.dump(
             movies,
             file,
@@ -1000,37 +1105,6 @@ def save_movies(movies):
             "\n"
         )
 
-    # --------------------------------------------------------
-    # 一時ファイルを再読み込みして
-    # 正しいJSONであることを確認
-    # --------------------------------------------------------
-
-    with open(
-        TEMP_FILE,
-        "r",
-        encoding="utf-8",
-    ) as file:
-        verification = json.load(
-            file
-        )
-
-    if not isinstance(
-        verification,
-        list,
-    ):
-        raise RuntimeError(
-            "保存前検証に失敗しました。"
-        )
-
-    if len(
-        verification
-    ) != len(
-        movies
-    ):
-        raise RuntimeError(
-            "保存前検証で"
-            "Movie件数が一致しません。"
-        )
 
     os.replace(
         TEMP_FILE,
@@ -1043,26 +1117,153 @@ def save_movies(movies):
 # ============================================================
 
 def main():
+
     print(
         "INI Movie取得を開始します。"
     )
 
     print()
 
-    existing_movies = (
-        load_existing_movies()
-    )
 
-    print(
-        "既存Movie："
-        f"{len(existing_movies)}件"
-    )
+    # ========================================================
+    # 1. LATEST MOVIE
+    # ========================================================
 
-    movies = fetch_all_movies()
+    latest_movies = []
+    all_failures = []
+
+
+    try:
+        (
+            latest_movies,
+            latest_failures,
+        ) = fetch_latest_movies()
+
+        all_failures.extend(
+            latest_failures
+        )
+
+    except Exception as error:
+
+        # LATEST取得だけの一時的な失敗で
+        # 過去カテゴリデータ全体を失わないよう、
+        # エラー内容を表示して処理は続行する。
+        #
+        # ただし最後にfailureとして扱う。
+
+        print(
+            "LATEST MOVIE取得エラー："
+            f"{error}"
+        )
+
+        all_failures.append(
+            {
+                "source":
+                    "Latest Movie",
+                "movie_id":
+                    None,
+                "message":
+                    str(error),
+            }
+        )
+
 
     print()
+
+
+    # ========================================================
+    # 2. 各カテゴリ
+    # ========================================================
+
+    category_movies = []
+
+
+    for movie_list in MOVIE_LISTS:
+
+        category_name = (
+            movie_list[
+                "name"
+            ]
+        )
+
+        list_url = (
+            movie_list[
+                "url"
+            ]
+        )
+
+
+        print(
+            "========================================"
+        )
+
+        print(
+            f"{category_name} を取得"
+        )
+
+        print(
+            "========================================"
+        )
+
+
+        movies, failures = (
+            fetch_category(
+                category_name,
+                list_url,
+            )
+        )
+
+
+        category_movies.extend(
+            movies
+        )
+
+        all_failures.extend(
+            failures
+        )
+
+
+        print(
+            f"{category_name}: "
+            f"{len(movies)}件"
+        )
+
+        print()
+
+
+    # ========================================================
+    # 3. LATEST + カテゴリを統合
+    # ========================================================
+
+    all_movies = merge_movies(
+        latest_movies,
+        category_movies,
+    )
+
+
+    # ========================================================
+    # 4. 日付 → Movie ID の順に並べる
+    # ========================================================
+
+    all_movies.sort(
+        key=lambda movie: (
+            movie.get(
+                "date",
+                ""
+            ),
+            movie_id_number(
+                movie
+            ),
+        )
+    )
+
+
+    # ========================================================
+    # 5. 診断情報
+    # ========================================================
+
     print(
-        "=" * 60
+        "========================================"
     )
 
     print(
@@ -1070,122 +1271,169 @@ def main():
     )
 
     print(
-        "=" * 60
+        "========================================"
+    )
+
+
+    print(
+        "LATEST MOVIE："
+        f"{len(latest_movies)}件"
     )
 
     print(
-        "公式サイト上のMovie："
-        f"{len(movies)}件"
-    )
-
-    existing_ids = {
-        movie.get("id")
-        for movie in existing_movies
-        if movie.get("id")
-    }
-
-    current_ids = {
-        movie.get("id")
-        for movie in movies
-        if movie.get("id")
-    }
-
-    new_ids = (
-        current_ids
-        - existing_ids
-    )
-
-    removed_ids = (
-        existing_ids
-        - current_ids
+        "カテゴリ取得："
+        f"{len(category_movies)}件"
     )
 
     print(
-        "新規Movie："
-        f"{len(new_ids)}件"
+        "重複排除後："
+        f"{len(all_movies)}件"
     )
 
-    if removed_ids:
+    print(
+        "取得失敗："
+        f"{len(all_failures)}件"
+    )
+
+
+    # --------------------------------------------------------
+    # 最新Movieを表示
+    # --------------------------------------------------------
+
+    if all_movies:
+
+        latest_sorted = sorted(
+            all_movies,
+            key=lambda movie: (
+                movie.get(
+                    "date",
+                    ""
+                ),
+                movie_id_number(
+                    movie
+                ),
+            ),
+            reverse=True,
+        )
+
+
+        print()
+
         print(
-            "既存JSONにのみ存在："
-            f"{len(removed_ids)}件"
+            "最新Movie："
         )
 
-        for movie_id in sorted(
-            removed_ids
-        ):
+
+        for movie in latest_sorted[
+            :10
+        ]:
+
             print(
-                f"  {movie_id}"
+                "  "
+                f"{movie['date']} "
+                f"{movie['id']} "
+                f"{movie['title']}"
             )
 
+
     # --------------------------------------------------------
-    # 0件取得は異常
+    # 失敗があれば保存せず終了
     #
-    # 既存JSONを空データで上書きしない
+    # 欠落した状態のJSONで既存データを
+    # 上書きしないため。
     # --------------------------------------------------------
 
-    if not movies:
-        raise RuntimeError(
-            "Movieを1件も"
-            "取得できませんでした。"
-            "movie.jsonは更新しません。"
+    if all_failures:
+
+        print()
+
+        print(
+            "取得できなかったMovieがあります。"
         )
 
-    # --------------------------------------------------------
-    # 全件に必須項目が存在することを最終確認
-    # --------------------------------------------------------
+        print(
+            "既存の movie.json は"
+            "上書きしません。"
+        )
 
-    required_fields = [
-        "id",
-        "type",
-        "group",
-        "date",
-        "title",
-        "thumbnail",
-        "url",
-    ]
 
-    for movie in movies:
-        missing_fields = [
-            field
-            for field in required_fields
-            if not movie.get(field)
-        ]
+        for failure in all_failures:
 
-        if missing_fields:
-            raise RuntimeError(
-                f"{movie.get('id', 'unknown')}: "
-                f"{', '.join(missing_fields)} "
-                "がありません。"
-                "movie.jsonは更新しません。"
+            source = (
+                failure.get(
+                    "source",
+                    "Unknown"
+                )
             )
 
-    save_movies(
-        movies
-    )
+            page = (
+                failure.get(
+                    "page"
+                )
+            )
 
-    print()
-    print(
-        f"{OUTPUT_FILE} を"
-        f"{len(movies)}件で更新しました。"
-    )
+            movie_id = (
+                failure.get(
+                    "movie_id"
+                )
+            )
+
+            message = (
+                failure.get(
+                    "message",
+                    ""
+                )
+            )
 
 
-if __name__ == "__main__":
-    try:
-        main()
+            location = source
 
-    except Exception:
-        # 異常終了時に.tmpが残っていたら削除
-        if os.path.exists(
-            TEMP_FILE
-        ):
-            try:
-                os.remove(
-                    TEMP_FILE
+            if (
+                page is not None
+            ):
+                location += (
+                    f" / page {page}"
                 )
 
-            except OSError:
-                pass
 
-        raise
+            print(
+                "  "
+                f"[{location}] "
+                f"Movie {movie_id}: "
+                f"{message}"
+            )
+
+
+        raise RuntimeError(
+            "Movie取得に失敗した項目があるため"
+            "処理を終了しました。"
+        )
+
+
+    # ========================================================
+    # 6. 保存
+    # ========================================================
+
+    save_movies(
+        all_movies
+    )
+
+
+    print()
+
+    print(
+        f"{OUTPUT_FILE} に"
+        f"{len(all_movies)}件保存しました。"
+    )
+
+    print(
+        "INI Movie取得が完了しました。"
+    )
+
+
+# ============================================================
+# 実行
+# ============================================================
+
+if __name__ == "__main__":
+    main()
