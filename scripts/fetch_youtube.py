@@ -31,8 +31,8 @@ START_DATETIME = datetime(
 # 日本時間
 JST = ZoneInfo("Asia/Tokyo")
 
-# データ保存先
-OUTPUT_FILE = Path("data/supplies.json")
+# YouTube専用データ保存先
+OUTPUT_FILE = Path("data/youtube.json")
 
 
 # ========================================
@@ -79,10 +79,10 @@ def convert_to_jst(published_at):
 
 
 # ========================================
-# 既存データを読み込む
+# 既存のYouTubeデータを読み込む
 # ========================================
 
-def load_existing_supplies():
+def load_existing_videos():
     if not OUTPUT_FILE.exists():
         return []
 
@@ -90,7 +90,14 @@ def load_existing_supplies():
         "r",
         encoding="utf-8",
     ) as file:
-        return json.load(file)
+        data = json.load(file)
+
+    if not isinstance(data, list):
+        raise RuntimeError(
+            "data/youtube.json の形式が不正です。"
+        )
+
+    return data
 
 
 # ========================================
@@ -123,7 +130,7 @@ def get_uploads_playlist_id():
 
 
 # ========================================
-# APIデータを供給データへ変換
+# APIデータをYouTube供給データへ変換
 # ========================================
 
 def make_supply(item):
@@ -162,7 +169,8 @@ def make_supply(item):
             "%Y-%m-%d"
         ),
 
-        # 並び順などに使用する正確な公開日時
+        # 同日内の並び順などに使用する
+        # 正確な日本時間の公開日時
         "publishedAt": published_at_jst.isoformat(),
 
         "title": title,
@@ -305,30 +313,26 @@ def fetch_new_videos(
 
 
 # ========================================
-# データを保存
+# YouTubeデータを保存
 # ========================================
 
-def save_supplies(supplies):
+def save_videos(videos):
     # IDを使って重複を除外
-    unique_supplies = {}
+    unique_videos = {}
 
-    for supply in supplies:
-        supply_id = supply.get("id")
+    for video in videos:
+        video_id = video.get("id")
 
-        if not supply_id:
+        if not video_id:
             continue
 
-        unique_supplies[supply_id] = supply
+        unique_videos[video_id] = video
 
     result = list(
-        unique_supplies.values()
+        unique_videos.values()
     )
 
     # 公開日時の古い順に並べる
-    #
-    # 将来YouTube以外のカテゴリが増え、
-    # publishedAtを持たないデータがあっても
-    # dateを使って並べられるようにする
     result.sort(
         key=lambda item: (
             item.get(
@@ -368,22 +372,18 @@ def main():
             "YOUTUBE_API_KEY が設定されていません。"
         )
 
-    existing_supplies = (
-        load_existing_supplies()
+    existing_videos = (
+        load_existing_videos()
     )
-
-    # 既存のYouTube供給を抽出
-    existing_youtube = [
-        supply
-        for supply in existing_supplies
-        if supply.get("type") == "youtube"
-        and supply.get("videoId")
-    ]
 
     # 登録済みvideoId
     known_video_ids = {
-        supply["videoId"]
-        for supply in existing_youtube
+        video["videoId"]
+        for video in existing_videos
+        if (
+            video.get("type") == "youtube"
+            and video.get("videoId")
+        )
     }
 
     print(
@@ -404,22 +404,23 @@ def main():
     # ====================================
 
     if not known_video_ids:
-        youtube_supplies = (
+        youtube_videos = (
             fetch_initial_videos(
                 uploads_playlist_id
             )
         )
 
-        final_supplies = (
-            existing_supplies
-            + youtube_supplies
+        save_videos(
+            youtube_videos
         )
-
-        save_supplies(final_supplies)
 
         print(
             f"初回取得完了："
-            f"{len(youtube_supplies)}件"
+            f"{len(youtube_videos)}件"
+        )
+
+        print(
+            "youtube.jsonを更新しました。"
         )
 
         return
@@ -440,19 +441,21 @@ def main():
 
         return
 
-    final_supplies = (
-        existing_supplies
+    final_videos = (
+        existing_videos
         + new_videos
     )
 
-    save_supplies(final_supplies)
+    save_videos(
+        final_videos
+    )
 
     print(
         f"新規動画：{len(new_videos)}件"
     )
 
     print(
-        "supplies.jsonを更新しました。"
+        "youtube.jsonを更新しました。"
     )
 
 
