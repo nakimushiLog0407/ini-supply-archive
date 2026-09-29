@@ -4,7 +4,7 @@ on:
   # 手動実行
   workflow_dispatch:
 
-    # 毎日23:07（日本時間）に自動実行
+  # 毎日23:07（日本時間）に自動実行
   schedule:
     - cron: "7 23 * * *"
       timezone: "Asia/Tokyo"
@@ -32,7 +32,7 @@ jobs:
 
       - name: Commit updated data
         run: |
-          if git diff --quiet data/supplies.json; then
+          if git diff --quiet data/youtube.json; then
             echo "No changes to commit."
             exit 0
           fi
@@ -40,6 +40,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add data/supplies.json
-          git commit -m "Update YouTube supply data"
+          git add data/youtube.json
+          git commit -m "Update YouTube data"
           git push
