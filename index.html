@@ -103,6 +103,17 @@
 
           </div>
 
+
+          <div class="calendar-legend-item">
+
+            <span
+              class="dot schedule-dot"
+            ></span>
+
+            <span>Schedule</span>
+
+          </div>
+
         </div>
 
       </section>
@@ -289,6 +300,61 @@
           class="detail-member"
           hidden
         ></p>
+
+
+        <!-- =========================
+             Schedule 出演メンバー
+        ========================== -->
+
+        <div
+          id="detailScheduleMembers"
+          class="detail-schedule-members"
+          hidden
+        >
+
+          <div class="detail-section-label">
+            出演メンバー
+          </div>
+
+          <div
+            id="detailScheduleMembersText"
+            class="detail-schedule-members-text"
+          ></div>
+
+        </div>
+
+
+        <!-- =========================
+             Schedule 詳細本文
+        ========================== -->
+
+        <div
+          id="detailScheduleText"
+          class="detail-schedule-text"
+          hidden
+        ></div>
+
+
+        <!-- =========================
+             Schedule 関連リンク
+        ========================== -->
+
+        <div
+          id="detailScheduleLinks"
+          class="detail-schedule-links"
+          hidden
+        >
+
+          <div class="detail-section-label">
+            関連リンク
+          </div>
+
+          <div
+            id="detailScheduleLinksList"
+            class="detail-schedule-links-list"
+          ></div>
+
+        </div>
 
 
         <a
@@ -569,6 +635,28 @@
 
           </button>
 
+
+          <button
+            class="category-sheet-option"
+            type="button"
+            data-category="schedule"
+          >
+
+            <span
+              class="category-sheet-check"
+              aria-hidden="true"
+            ></span>
+
+            <span class="category-sheet-option-label">
+
+              <span class="dot schedule-dot"></span>
+
+              <span>Schedule</span>
+
+            </span>
+
+          </button>
+
         </div>
 
       </div>
@@ -617,7 +705,7 @@
     このバージョン番号も変更する。
   -->
 
-  <script src="app.js?v=20260930-2"></script>
+  <script src="app.js?v=20260930-3"></script>
 
 </body>
 
