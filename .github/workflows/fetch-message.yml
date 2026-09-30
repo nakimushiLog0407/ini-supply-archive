@@ -1,0 +1,88 @@
+name: Fetch INI Message
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fetch-message:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Fetch Message data
+        run: python scripts/fetch_message.py
+
+      - name: Check generated Message data
+        run: |
+          echo "===== data/message.json ====="
+
+          if [ ! -f data/message.json ]; then
+            echo "ERROR: data/message.json が生成されていません。"
+            exit 1
+          fi
+
+          python - <<'PY'
+          import json
+
+          path = "data/message.json"
+
+          with open(path, "r", encoding="utf-8") as f:
+              data = json.load(f)
+
+          print(f"Message count: {len(data)}")
+
+          if not data:
+              raise RuntimeError(
+                  "Messageデータが0件です。"
+              )
+
+          print()
+          print("First item:")
+          print(
+              json.dumps(
+                  data[0],
+                  ensure_ascii=False,
+                  indent=2
+              )
+          )
+
+          print()
+          print("Last item:")
+          print(
+              json.dumps(
+                  data[-1],
+                  ensure_ascii=False,
+                  indent=2
+              )
+          )
+          PY
+
+      - name: Commit Message data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # 新規ファイルも検出できるよう、
+          # 差分判定より先にgit addする。
+          git add data/message.json
+
+          echo "===== git status ====="
+          git status --short
+
+          if git diff --cached --quiet; then
+            echo "data/message.json に変更はありません。"
+            exit 0
+          fi
+
+          git commit -m "Update Message data"
+          git push
