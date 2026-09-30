@@ -100,7 +100,8 @@ const exploreCategoryNames = {
   member_diary: "Member Diary",
   movie: "Movie",
   radio: "Radio",
-  photo: "Photo"
+  photo: "Photo",
+  message: "Message"
 };
 
 
@@ -164,7 +165,8 @@ async function loadSupplies() {
     memberDiarySupplies,
     movieSupplies,
     radioSupplies,
-    photoSupplies
+    photoSupplies,
+    messageSupplies
   ] = await Promise.all([
     loadSupplyFile(
       "data/youtube.json",
@@ -189,6 +191,11 @@ async function loadSupplies() {
     loadSupplyFile(
       "data/photo.json",
       "Photo"
+    ),
+
+    loadSupplyFile(
+      "data/message.json",
+      "Message"
     )
   ]);
 
@@ -197,7 +204,8 @@ async function loadSupplies() {
     ...memberDiarySupplies,
     ...movieSupplies,
     ...radioSupplies,
-    ...photoSupplies
+    ...photoSupplies,
+    ...messageSupplies
   ];
 
   console.log(
@@ -427,7 +435,8 @@ function renderCalendar() {
             supply.type === "member_diary" ||
             supply.type === "movie" ||
             supply.type === "radio" ||
-            supply.type === "photo"
+            supply.type === "photo" ||
+            supply.type === "message"
           )
       );
 
@@ -707,6 +716,12 @@ function renderSelectedDate() {
         supply.type === "photo"
     );
 
+  const messageSupplies =
+    selectedSupplies.filter(
+      supply =>
+        supply.type === "message"
+    );
+
 
   appendSupplyCategory(
     "YouTube",
@@ -732,6 +747,11 @@ function renderSelectedDate() {
   appendSupplyCategory(
     "Photo",
     photoSupplies
+  );
+
+  appendSupplyCategory(
+    "Message",
+    messageSupplies
   );
 }
 
@@ -882,7 +902,9 @@ function setExploreItemCategory(
     radio:
       "Radio",
     photo:
-      "Photo"
+      "Photo",
+    message:
+      "Message"
   };
 
 
@@ -1517,6 +1539,18 @@ function openDetail(
     setFcDetail(
       supply,
       "Photo"
+    );
+  }
+
+
+  /* Message */
+
+  else if (
+    supply.type === "message"
+  ) {
+    setFcDetail(
+      supply,
+      "Message"
     );
   }
 
