@@ -1052,11 +1052,15 @@ def is_social_share_url(url):
 
     # ------------------------------------------------------
     # LINE共有
+    #
+    # INI公式サイトで実際に使用されている
+    # timeline.line.me/social-plugin/share にも対応。
     # ------------------------------------------------------
 
     if (
         host in {
             "social-plugins.line.me",
+            "timeline.line.me",
             "line.me",
             "www.line.me",
         }
@@ -1067,7 +1071,61 @@ def is_social_share_url(url):
             or path.startswith(
                 "/r/msg/"
             )
+            or path.startswith(
+                "/social-plugin/share"
+            )
         )
+    ):
+        return True
+
+    return False
+
+
+# ==========================================================
+# Schedule一覧へ戻るリンク判定
+# ==========================================================
+
+def is_schedule_back_link(
+    url,
+    label="",
+):
+    if not url:
+        return False
+
+    parsed = urlparse(
+        url
+    )
+
+    host = (
+        parsed.netloc
+        .lower()
+        .split(":")[0]
+    )
+
+    path = (
+        parsed.path
+        .rstrip("/")
+        .lower()
+    )
+
+    normalized_label = (
+        clean_text(
+            label
+        ).lower()
+    )
+
+    # INI公式Schedule詳細ページにある
+    # 「Back → /schedule/list/」だけを除外する。
+    #
+    # 記事本文中にINI公式サイトへの別リンクがあっても
+    # ここでは除外しない。
+    if (
+        host in {
+            "ini-official.com",
+            "www.ini-official.com",
+        }
+        and path == "/schedule/list"
+        and normalized_label == "back"
     ):
         return True
 
@@ -1133,6 +1191,21 @@ def extract_external_links(
         ):
             continue
 
+        label = clean_text(
+            link.get_text(
+                " ",
+                strip=True,
+            )
+        )
+
+        # Schedule詳細ページ下部にある
+        # 「Back → Schedule一覧」のナビゲーションは保存しない。
+        if is_schedule_back_link(
+            href,
+            label,
+        ):
+            continue
+
         # サイト共通ナビゲーション等を
         # 可能な限り除外するため、
         # 本文コンテナ内のリンクだけを対象としている。
@@ -1141,13 +1214,6 @@ def extract_external_links(
 
         seen.add(
             href
-        )
-
-        label = clean_text(
-            link.get_text(
-                " ",
-                strip=True,
-            )
         )
 
         links.append(
