@@ -211,6 +211,60 @@ def clean_multiline_text(value):
     return "\n".join(lines)
 
 
+# ==========================================================
+# Schedule本文末尾のUI文字列を除外
+#
+# 詳細ページ本文の末尾に付く
+# SHARE
+# Back
+# はサイトUIでありSchedule本文ではないため保存しない。
+#
+# 本文途中に同じ単語が存在しても削除しない。
+# ==========================================================
+
+def clean_schedule_detail_text(value):
+    text = clean_multiline_text(
+        value
+    )
+
+    if not text:
+        return ""
+
+    lines = text.split(
+        "\n"
+    )
+
+    # 末尾の空行はclean_multiline_textですでに
+    # 除去されているが、安全のため再確認。
+    while (
+        lines
+        and not lines[-1].strip()
+    ):
+        lines.pop()
+
+    # Schedule詳細ページ末尾の
+    # Backだけを削除。
+    if (
+        lines
+        and lines[-1].strip().lower()
+        == "back"
+    ):
+        lines.pop()
+
+    # Backの直前にあるSHAREだけを削除。
+    # Backがないページでも末尾SHAREはUIなので削除する。
+    if (
+        lines
+        and lines[-1].strip().lower()
+        == "share"
+    ):
+        lines.pop()
+
+    return "\n".join(
+        lines
+    ).strip()
+
+
 def absolute_url(base_url, value):
     if not value:
         return ""
@@ -1255,6 +1309,14 @@ def fetch_schedule_detail(
         soup
     )
 
+    # Schedule本文末尾に含まれるサイトUI
+    # SHARE / Back を保存対象から除外する。
+    detail_text = (
+        clean_schedule_detail_text(
+            detail_text
+        )
+    )
+
     (
         date,
         category,
@@ -1265,7 +1327,8 @@ def fetch_schedule_detail(
         entry,
     )
 
-    # メンバー判定はタイトル＋本文で行う。
+    # メンバー判定はタイトル＋
+    # クリーニング済み本文で行う。
     member_search_text = (
         f"{title}\n{detail_text}"
     )
