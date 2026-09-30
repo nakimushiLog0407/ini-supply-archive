@@ -83,6 +83,12 @@ const detailScheduleMembersText =
 const detailScheduleText =
   document.getElementById("detailScheduleText");
 
+const detailScheduleXPosts =
+  document.getElementById("detailScheduleXPosts");
+
+const detailScheduleXPostsList =
+  document.getElementById("detailScheduleXPostsList");
+
 const detailScheduleLinks =
   document.getElementById("detailScheduleLinks");
 
@@ -95,6 +101,12 @@ const detailScheduleLinksList =
 ========================================================== */
 
 let supplies = [];
+
+/*
+  Scheduleに手動で関連付ける
+  X投稿URL一覧。
+*/
+let scheduleXLinks = [];
 
 const today = new Date();
 
@@ -188,7 +200,8 @@ async function loadSupplies() {
     radioSupplies,
     photoSupplies,
     messageSupplies,
-    scheduleSupplies
+    scheduleSupplies,
+    loadedScheduleXLinks
   ] = await Promise.all([
     loadSupplyFile(
       "data/youtube.json",
@@ -223,8 +236,20 @@ async function loadSupplies() {
     loadSupplyFile(
       "data/schedule.json",
       "Schedule"
+    ),
+
+    loadSupplyFile(
+      "data/schedule_x_links.json",
+      "Schedule X Links"
     )
   ]);
+
+  /*
+    Xリンクは供給データそのものではないため
+    suppliesには混ぜない。
+  */
+  scheduleXLinks =
+    loadedScheduleXLinks;
 
   supplies = [
     ...youtubeSupplies,
@@ -238,6 +263,10 @@ async function loadSupplies() {
 
   console.log(
     `全供給データ: ${supplies.length}件`
+  );
+
+  console.log(
+    `Schedule X Links: ${scheduleXLinks.length}件`
   );
 
   /*
@@ -1542,6 +1571,9 @@ function resetDetail() {
   detailScheduleText.hidden = true;
   detailScheduleText.textContent = "";
 
+  detailScheduleXPosts.hidden = true;
+  detailScheduleXPostsList.innerHTML = "";
+
   detailScheduleLinks.hidden = true;
   detailScheduleLinksList.innerHTML = "";
 
@@ -1599,6 +1631,141 @@ function setFcDetail(
   detailExternalLink.classList.add(
     "fc-link"
   );
+}
+
+
+/* ==========================================================
+   Schedule X POSTS
+========================================================== */
+
+function getScheduleXPostUrls(supply) {
+  const scheduleId =
+    String(
+      supply.scheduleId || ""
+    ).trim();
+
+  if (!scheduleId) {
+    return [];
+  }
+
+
+  const matchedEntry =
+    scheduleXLinks.find(
+      entry =>
+        entry &&
+        String(
+          entry.scheduleId || ""
+        ).trim() === scheduleId
+    );
+
+
+  if (
+    !matchedEntry ||
+    !Array.isArray(
+      matchedEntry.urls
+    )
+  ) {
+    return [];
+  }
+
+
+  /*
+    空文字や不正な値を除外し、
+    同じURLが重複している場合も
+    1件だけ表示する。
+  */
+
+  return [
+    ...new Set(
+      matchedEntry.urls
+        .map(
+          url =>
+            String(url || "").trim()
+        )
+        .filter(Boolean)
+    )
+  ];
+}
+
+
+function renderScheduleXPosts(supply) {
+  detailScheduleXPosts.hidden = true;
+  detailScheduleXPostsList.innerHTML = "";
+
+
+  const urls =
+    getScheduleXPostUrls(
+      supply
+    );
+
+
+  if (urls.length === 0) {
+    return;
+  }
+
+
+  urls.forEach(
+    url => {
+      const anchor =
+        document.createElement("a");
+
+      anchor.className =
+        "detail-schedule-x-post-link";
+
+      anchor.href = url;
+
+      anchor.target =
+        "_blank";
+
+      anchor.rel =
+        "noopener noreferrer";
+
+
+      const linkText =
+        document.createElement("span");
+
+      linkText.textContent =
+        "Xで見る";
+
+
+      const arrow =
+        document.createElement("span");
+
+      arrow.className =
+        "detail-schedule-x-post-arrow";
+
+      arrow.textContent = "↗";
+
+      arrow.setAttribute(
+        "aria-hidden",
+        "true"
+      );
+
+
+      anchor.appendChild(
+        linkText
+      );
+
+      anchor.appendChild(
+        arrow
+      );
+
+
+      detailScheduleXPostsList.appendChild(
+        anchor
+      );
+    }
+  );
+
+
+  if (
+    detailScheduleXPostsList
+      .children
+      .length > 0
+  ) {
+    detailScheduleXPosts.hidden =
+      false;
+  }
 }
 
 
@@ -1687,6 +1854,19 @@ function setScheduleDetail(supply) {
     detailScheduleText.textContent =
       "";
   }
+
+
+  /*
+    X POSTS
+
+    schedule_x_links.json の
+    scheduleIdとScheduleのscheduleIdを
+    照合して表示する。
+  */
+
+  renderScheduleXPosts(
+    supply
+  );
 
 
   /*
