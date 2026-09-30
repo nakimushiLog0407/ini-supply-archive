@@ -1,0 +1,179 @@
+name: Fetch INI Schedule
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fetch-schedule:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests beautifulsoup4
+
+      - name: Fetch Schedule data
+        run: |
+          python scripts/fetch_schedule.py
+
+      - name: Check generated Schedule data
+        run: |
+          echo "===== data/schedule.json ====="
+
+          if [ ! -f data/schedule.json ]; then
+            echo "ERROR: data/schedule.json が生成されていません。"
+            exit 1
+          fi
+
+          python - <<'PY'
+          import json
+          from collections import Counter
+
+          path = "data/schedule.json"
+
+          with open(path, "r", encoding="utf-8") as f:
+              data = json.load(f)
+
+          if not isinstance(data, list):
+              raise RuntimeError(
+                  "data/schedule.json が配列ではありません。"
+              )
+
+          print(f"Schedule count: {len(data)}")
+
+          if not data:
+              raise RuntimeError(
+                  "Scheduleデータが0件です。"
+              )
+
+          categories = Counter(
+              item.get("category", "")
+              for item in data
+          )
+
+          print()
+          print("===== Categories =====")
+
+          for category, count in sorted(categories.items()):
+              print(f"{category}: {count}")
+
+          with_members = [
+              item
+              for item in data
+              if item.get("members")
+          ]
+
+          print()
+          print(
+              "Items with detected members:",
+              len(with_members)
+          )
+
+          with_external_links = [
+              item
+              for item in data
+              if item.get("externalLinks")
+          ]
+
+          print(
+              "Items with external links:",
+              len(with_external_links)
+          )
+
+          with_detail_text = [
+              item
+              for item in data
+              if item.get("detailText")
+          ]
+
+          print(
+              "Items with detail text:",
+              len(with_detail_text)
+          )
+
+          missing_dates = [
+              item
+              for item in data
+              if not item.get("date")
+          ]
+
+          missing_titles = [
+              item
+              for item in data
+              if not item.get("title")
+          ]
+
+          print()
+          print(
+              "Missing dates:",
+              len(missing_dates)
+          )
+
+          print(
+              "Missing titles:",
+              len(missing_titles)
+          )
+
+          print()
+          print("===== First item =====")
+          print(
+              json.dumps(
+                  data[0],
+                  ensure_ascii=False,
+                  indent=2
+              )
+          )
+
+          print()
+          print("===== Last item =====")
+          print(
+              json.dumps(
+                  data[-1],
+                  ensure_ascii=False,
+                  indent=2
+              )
+          )
+
+          print()
+          print("===== Member detection samples =====")
+
+          for item in with_members[:10]:
+              print(
+                  item.get("date"),
+                  "|",
+                  item.get("title"),
+                  "|",
+                  item.get("members")
+              )
+          PY
+
+      - name: Commit Schedule data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # 新規生成されたschedule.jsonも確実に検出する。
+          git add data/schedule.json
+
+          echo "===== git status ====="
+          git status --short
+
+          if git diff --cached --quiet; then
+            echo "data/schedule.json に変更はありません。"
+            exit 0
+          fi
+
+          git commit -m "Update Schedule data"
+          git push
