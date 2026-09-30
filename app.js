@@ -71,6 +71,26 @@ const detailExternalLinkText =
 
 
 /* ==========================================================
+   Schedule DETAIL
+========================================================== */
+
+const detailScheduleMembers =
+  document.getElementById("detailScheduleMembers");
+
+const detailScheduleMembersText =
+  document.getElementById("detailScheduleMembersText");
+
+const detailScheduleText =
+  document.getElementById("detailScheduleText");
+
+const detailScheduleLinks =
+  document.getElementById("detailScheduleLinks");
+
+const detailScheduleLinksList =
+  document.getElementById("detailScheduleLinksList");
+
+
+/* ==========================================================
    基本データ
 ========================================================== */
 
@@ -101,7 +121,8 @@ const exploreCategoryNames = {
   movie: "Movie",
   radio: "Radio",
   photo: "Photo",
-  message: "Message"
+  message: "Message",
+  schedule: "Schedule"
 };
 
 
@@ -166,7 +187,8 @@ async function loadSupplies() {
     movieSupplies,
     radioSupplies,
     photoSupplies,
-    messageSupplies
+    messageSupplies,
+    scheduleSupplies
   ] = await Promise.all([
     loadSupplyFile(
       "data/youtube.json",
@@ -196,6 +218,11 @@ async function loadSupplies() {
     loadSupplyFile(
       "data/message.json",
       "Message"
+    ),
+
+    loadSupplyFile(
+      "data/schedule.json",
+      "Schedule"
     )
   ]);
 
@@ -205,12 +232,23 @@ async function loadSupplies() {
     ...movieSupplies,
     ...radioSupplies,
     ...photoSupplies,
-    ...messageSupplies
+    ...messageSupplies,
+    ...scheduleSupplies
   ];
 
   console.log(
     `全供給データ: ${supplies.length}件`
   );
+
+  /*
+    Scheduleを含むデータを読み込んだ後、
+    年月選択肢を作り直す。
+
+    これにより翌年以降のScheduleが
+    JSONに存在する場合も選択できる。
+  */
+
+  createMonthPickerOptions();
 
   /*
     データ取得後、
@@ -244,6 +282,10 @@ function formatDateKey(year, month, day) {
 
 
 function formatDisplayDate(dateString) {
+  if (!dateString) {
+    return "";
+  }
+
   const [
     year,
     month,
@@ -251,6 +293,14 @@ function formatDisplayDate(dateString) {
   ] = dateString
     .split("-")
     .map(Number);
+
+  if (
+    !year ||
+    !month ||
+    !day
+  ) {
+    return dateString;
+  }
 
   return `${year}年${month}月${day}日`;
 }
@@ -286,6 +336,22 @@ function compareSuppliesAscending(a, b) {
     {
       numeric: true
     }
+  );
+}
+
+
+/* ==========================================================
+   FC Contents判定
+========================================================== */
+
+function isFcSupply(supply) {
+  return (
+    supply.group === "fc" ||
+    supply.type === "member_diary" ||
+    supply.type === "movie" ||
+    supply.type === "radio" ||
+    supply.type === "photo" ||
+    supply.type === "message"
   );
 }
 
@@ -418,32 +484,30 @@ function renderCalendar() {
       );
 
 
-    /*
-      FC Contents
-
-      古いJSON・新しいJSONの双方に対応するため、
-      group === "fc" だけではなく
-      typeでも判定する。
-    */
+    /* FC Contents */
 
     const hasFcContents =
       supplies.some(
         supply =>
           supply.date === dateKey &&
-          (
-            supply.group === "fc" ||
-            supply.type === "member_diary" ||
-            supply.type === "movie" ||
-            supply.type === "radio" ||
-            supply.type === "photo" ||
-            supply.type === "message"
-          )
+          isFcSupply(supply)
+      );
+
+
+    /* Schedule */
+
+    const hasSchedule =
+      supplies.some(
+        supply =>
+          supply.date === dateKey &&
+          supply.type === "schedule"
       );
 
 
     if (
       hasYouTube ||
-      hasFcContents
+      hasFcContents ||
+      hasSchedule
     ) {
       const dots =
         document.createElement("div");
@@ -473,6 +537,19 @@ function renderCalendar() {
 
         dots.appendChild(
           fcDot
+        );
+      }
+
+
+      if (hasSchedule) {
+        const scheduleDot =
+          document.createElement("span");
+
+        scheduleDot.className =
+          "dot schedule-dot";
+
+        dots.appendChild(
+          scheduleDot
         );
       }
 
@@ -553,6 +630,24 @@ function createSupplyItem(
   }
 
 
+  if (
+    supply.type === "schedule" &&
+    Array.isArray(supply.members) &&
+    supply.members.length > 0
+  ) {
+    const member =
+      document.createElement("span");
+
+    member.className =
+      "supply-member";
+
+    member.textContent =
+      supply.members.join("・");
+
+    text.appendChild(member);
+  }
+
+
   const arrow =
     document.createElement("span");
 
@@ -607,10 +702,15 @@ function appendSupplyCategory(
     "supply-category-title";
 
 
-  const dotClass =
-    title === "YouTube"
-      ? "youtube-dot"
-      : "fc-dot";
+  let dotClass = "fc-dot";
+
+  if (title === "YouTube") {
+    dotClass = "youtube-dot";
+  }
+
+  if (title === "Schedule") {
+    dotClass = "schedule-dot";
+  }
 
 
   categoryTitle.innerHTML = `
@@ -722,6 +822,12 @@ function renderSelectedDate() {
         supply.type === "message"
     );
 
+  const scheduleSupplies =
+    selectedSupplies.filter(
+      supply =>
+        supply.type === "schedule"
+    );
+
 
   appendSupplyCategory(
     "YouTube",
@@ -752,6 +858,11 @@ function renderSelectedDate() {
   appendSupplyCategory(
     "Message",
     messageSupplies
+  );
+
+  appendSupplyCategory(
+    "Schedule",
+    scheduleSupplies
   );
 }
 
@@ -869,6 +980,35 @@ function getExploreSupplies() {
       }
 
 
+      if (
+        supply.type ===
+        "schedule"
+      ) {
+        const members =
+          Array.isArray(
+            supply.members
+          )
+            ? supply.members.join(" ")
+            : "";
+
+        const categoryLabel =
+          String(
+            supply.categoryLabel || ""
+          );
+
+        const searchText =
+          `${title} ${members} ${categoryLabel}`
+            .toLocaleLowerCase();
+
+        return keywords.every(
+          keyword =>
+            searchText.includes(
+              keyword
+            )
+        );
+      }
+
+
       return keywords.every(
         keyword =>
           title.includes(keyword)
@@ -888,6 +1028,23 @@ function setExploreItemCategory(
     category.innerHTML = `
       <span class="dot youtube-dot"></span>
       <span>YouTube</span>
+    `;
+
+    return;
+  }
+
+
+  if (
+    supply.type === "schedule"
+  ) {
+    const scheduleLabel =
+      supply.categoryLabel
+        ? `Schedule / ${supply.categoryLabel}`
+        : "Schedule";
+
+    category.innerHTML = `
+      <span class="dot schedule-dot"></span>
+      <span>${scheduleLabel}</span>
     `;
 
     return;
@@ -1066,6 +1223,24 @@ function renderExplore() {
 
         member.textContent =
           supply.member;
+
+        text.appendChild(member);
+      }
+
+
+      if (
+        supply.type === "schedule" &&
+        Array.isArray(supply.members) &&
+        supply.members.length > 0
+      ) {
+        const member =
+          document.createElement("span");
+
+        member.className =
+          "explore-item-member";
+
+        member.textContent =
+          supply.members.join("・");
 
         text.appendChild(member);
       }
@@ -1348,7 +1523,40 @@ exploreNavButton.addEventListener(
 
 
 /* ==========================================================
-   DETAIL
+   DETAIL 共通リセット
+========================================================== */
+
+function resetDetail() {
+  detailThumbnailWrapper.hidden = true;
+  detailThumbnail.src = "";
+  detailThumbnail.alt = "";
+
+  detailType.innerHTML = "";
+
+  detailMember.hidden = true;
+  detailMember.textContent = "";
+
+  detailScheduleMembers.hidden = true;
+  detailScheduleMembersText.textContent = "";
+
+  detailScheduleText.hidden = true;
+  detailScheduleText.textContent = "";
+
+  detailScheduleLinks.hidden = true;
+  detailScheduleLinksList.innerHTML = "";
+
+  detailExternalLink.classList.remove(
+    "youtube-link",
+    "fc-link",
+    "schedule-link"
+  );
+
+  detailExternalLink.hidden = false;
+}
+
+
+/* ==========================================================
+   FC DETAIL
 ========================================================== */
 
 function setFcDetail(
@@ -1388,21 +1596,248 @@ function setFcDetail(
   detailExternalLinkText.textContent =
     "公式サイトで見る";
 
-  detailExternalLink.classList.remove(
-    "youtube-link"
-  );
-
   detailExternalLink.classList.add(
     "fc-link"
   );
 }
 
 
+/* ==========================================================
+   Schedule DETAIL
+========================================================== */
+
+function setScheduleDetail(supply) {
+  /*
+    Scheduleにはサムネイルを表示しない。
+  */
+
+  detailThumbnailWrapper.hidden = true;
+  detailThumbnail.src = "";
+  detailThumbnail.alt = "";
+
+
+  /*
+    Schedule内のカテゴリも表示する。
+    例:
+    Schedule / TV
+    Schedule / Radio
+    Schedule / Magazine
+  */
+
+  const scheduleType =
+    supply.categoryLabel
+      ? `Schedule / ${supply.categoryLabel}`
+      : "Schedule";
+
+  detailType.innerHTML = `
+    <span class="dot schedule-dot"></span>
+    <span>${scheduleType}</span>
+  `;
+
+
+  /*
+    既存の単一member欄は使用しない。
+  */
+
+  detailMember.hidden = true;
+  detailMember.textContent = "";
+
+
+  /*
+    出演メンバー
+  */
+
+  if (
+    Array.isArray(supply.members) &&
+    supply.members.length > 0
+  ) {
+    detailScheduleMembers.hidden =
+      false;
+
+    detailScheduleMembersText.textContent =
+      supply.members.join("・");
+  } else {
+    detailScheduleMembers.hidden =
+      true;
+
+    detailScheduleMembersText.textContent =
+      "";
+  }
+
+
+  /*
+    Schedule本文
+  */
+
+  const detailText =
+    String(
+      supply.detailText || ""
+    ).trim();
+
+  if (detailText) {
+    detailScheduleText.hidden =
+      false;
+
+    detailScheduleText.textContent =
+      detailText;
+  } else {
+    detailScheduleText.hidden =
+      true;
+
+    detailScheduleText.textContent =
+      "";
+  }
+
+
+  /*
+    関連リンク
+  */
+
+  const externalLinks =
+    Array.isArray(
+      supply.externalLinks
+    )
+      ? supply.externalLinks
+      : [];
+
+
+  if (externalLinks.length > 0) {
+    detailScheduleLinks.hidden =
+      false;
+
+    externalLinks.forEach(
+      link => {
+        if (!link || !link.url) {
+          return;
+        }
+
+        const anchor =
+          document.createElement("a");
+
+        anchor.className =
+          "detail-schedule-link";
+
+        anchor.href =
+          link.url;
+
+        anchor.target =
+          "_blank";
+
+        anchor.rel =
+          "noopener noreferrer";
+
+
+        const linkText =
+          document.createElement("span");
+
+        linkText.className =
+          "detail-schedule-link-text";
+
+        /*
+          labelが空の場合はURLを表示する。
+        */
+
+        linkText.textContent =
+          String(
+            link.label || link.url
+          );
+
+
+        const arrow =
+          document.createElement("span");
+
+        arrow.className =
+          "detail-schedule-link-arrow";
+
+        arrow.textContent = "↗";
+
+        arrow.setAttribute(
+          "aria-hidden",
+          "true"
+        );
+
+
+        anchor.appendChild(
+          linkText
+        );
+
+        anchor.appendChild(
+          arrow
+        );
+
+
+        detailScheduleLinksList.appendChild(
+          anchor
+        );
+      }
+    );
+
+
+    /*
+      不正な要素しかなかった場合への保険。
+    */
+
+    if (
+      detailScheduleLinksList
+        .children
+        .length === 0
+    ) {
+      detailScheduleLinks.hidden =
+        true;
+    }
+  } else {
+    detailScheduleLinks.hidden =
+      true;
+  }
+
+
+  /*
+    INI公式Scheduleページ
+  */
+
+  if (supply.url) {
+    detailExternalLink.hidden =
+      false;
+
+    detailExternalLink.href =
+      supply.url;
+
+    detailExternalLinkText.textContent =
+      "INI公式サイトで見る";
+
+    detailExternalLink.classList.add(
+      "schedule-link"
+    );
+  } else {
+    detailExternalLink.hidden =
+      true;
+
+    detailExternalLink.href =
+      "#";
+  }
+}
+
+
+/* ==========================================================
+   DETAIL
+========================================================== */
+
 function openDetail(
   supply,
   fromView
 ) {
   currentMainView = fromView;
+
+  /*
+    前に開いていたDETAILの表示を
+    必ずすべて初期化する。
+
+    Schedule → YouTubeなどへ移動した際に
+    Schedule本文が残ることを防ぐ。
+  */
+
+  resetDetail();
+
 
   detailTitle.textContent =
     supply.title || "";
@@ -1443,18 +1878,11 @@ function openDetail(
     `;
 
 
-    detailMember.hidden = true;
-    detailMember.textContent = "";
-
     detailExternalLink.href =
       youtubeUrl;
 
     detailExternalLinkText.textContent =
       "YouTubeで見る";
-
-    detailExternalLink.classList.remove(
-      "fc-link"
-    );
 
     detailExternalLink.classList.add(
       "youtube-link"
@@ -1496,10 +1924,6 @@ function openDetail(
 
     detailExternalLinkText.textContent =
       "公式サイトで見る";
-
-    detailExternalLink.classList.remove(
-      "youtube-link"
-    );
 
     detailExternalLink.classList.add(
       "fc-link"
@@ -1555,6 +1979,17 @@ function openDetail(
   }
 
 
+  /* Schedule */
+
+  else if (
+    supply.type === "schedule"
+  ) {
+    setScheduleDetail(
+      supply
+    );
+  }
+
+
   /* 未知の種別 */
 
   else {
@@ -1567,19 +2002,11 @@ function openDetail(
     detailType.textContent =
       supply.type || "";
 
-    detailMember.hidden = true;
-    detailMember.textContent = "";
-
     detailExternalLink.href =
       supply.url || "#";
 
     detailExternalLinkText.textContent =
       "外部サイトで見る";
-
-    detailExternalLink.classList.remove(
-      "youtube-link",
-      "fc-link"
-    );
   }
 
 
@@ -1682,23 +2109,83 @@ nextMonthButton.addEventListener(
    年月選択
 ========================================================== */
 
+function getLatestDataYear() {
+  let latestYear =
+    today.getFullYear();
+
+
+  supplies.forEach(
+    supply => {
+      const dateString =
+        String(
+          supply.date || ""
+        );
+
+      const match =
+        dateString.match(
+          /^(\d{4})-\d{2}-\d{2}$/
+        );
+
+      if (!match) {
+        return;
+      }
+
+      const year =
+        Number(match[1]);
+
+      if (
+        Number.isFinite(year) &&
+        year > latestYear
+      ) {
+        latestYear = year;
+      }
+    }
+  );
+
+
+  return latestYear;
+}
+
+
 function createMonthPickerOptions() {
+  if (
+    !yearSelect ||
+    !monthSelect
+  ) {
+    return;
+  }
+
+
+  /*
+    作り直す前の選択値を保持する。
+  */
+
+  const previousYear =
+    yearSelect.value;
+
+  const previousMonth =
+    monthSelect.value;
+
+
   yearSelect.innerHTML = "";
   monthSelect.innerHTML = "";
 
   const startYear = 2021;
 
   /*
-    将来年を表示する必要はないので
-    現在年まで。
+    現在年と、
+    実際の供給データに存在する最大年を比較。
+
+    Scheduleに翌年以降の予定が存在すれば
+    その年まで自動的に追加される。
   */
 
-  const currentYear =
-    today.getFullYear();
+  const latestYear =
+    getLatestDataYear();
 
 
   for (
-    let year = currentYear;
+    let year = latestYear;
     year >= startYear;
     year--
   ) {
@@ -1735,12 +2222,56 @@ function createMonthPickerOptions() {
       option
     );
   }
+
+
+  /*
+    現在表示している年月を優先。
+    それが存在しない場合だけ以前の値を使用。
+  */
+
+  const displayYearOption =
+    [...yearSelect.options]
+      .some(
+        option =>
+          Number(option.value) ===
+          displayYear
+      );
+
+
+  if (displayYearOption) {
+    yearSelect.value =
+      String(displayYear);
+  } else if (previousYear) {
+    yearSelect.value =
+      previousYear;
+  }
+
+
+  if (
+    displayMonth >= 0 &&
+    displayMonth <= 11
+  ) {
+    monthSelect.value =
+      String(displayMonth + 1);
+  } else if (previousMonth) {
+    monthSelect.value =
+      previousMonth;
+  }
 }
 
 
 monthPickerButton.addEventListener(
   "click",
   () => {
+    /*
+      データ更新後の最大年を
+      確実に反映するため、
+      開くたびに作り直す。
+    */
+
+    createMonthPickerOptions();
+
+
     yearSelect.value =
       String(displayYear);
 
@@ -1768,6 +2299,18 @@ monthPickerGo.addEventListener(
 
     const selectedMonth =
       Number(monthSelect.value);
+
+
+    if (
+      !Number.isFinite(
+        selectedYear
+      ) ||
+      !Number.isFinite(
+        selectedMonth
+      )
+    ) {
+      return;
+    }
 
 
     displayYear =
@@ -1817,6 +2360,12 @@ function initializeApp() {
 
   /*
     年月選択肢を作成。
+
+    この時点ではJSON取得前なので
+    現在年までが作られる。
+
+    JSON取得後にloadSupplies()から
+    もう一度作り直される。
   */
 
   createMonthPickerOptions();
