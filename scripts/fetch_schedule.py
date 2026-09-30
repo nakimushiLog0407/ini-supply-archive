@@ -86,7 +86,6 @@ MEMBER_ALIASES = {
     "シュウ・フェンファン": [
         "シュウ・フェンファン",
         "シュウ フェンファン",
-        "シュウ・フェンファン",
         "許豊凡",
         "許 豊凡",
     ],
@@ -322,7 +321,6 @@ def extract_date_from_text(
             int(match.group(3)),
         )
 
-
     # 月別一覧では
     # 09 17 [Thu]
     # のような形式にも対応。
@@ -348,7 +346,6 @@ def extract_date_from_text(
                 default_month,
                 int(match.group(1)),
             )
-
 
         # 17日
         match = re.search(
@@ -382,7 +379,6 @@ def normalize_category(
             CATEGORY_MAP[label],
             label,
         )
-
 
     lower = label.lower()
 
@@ -568,7 +564,6 @@ def find_schedule_entries(
             )
         )
 
-
     for (
         link,
         detail_url,
@@ -577,7 +572,6 @@ def find_schedule_entries(
 
         if schedule_id in seen_ids:
             continue
-
 
         # --------------------------------------------------
         # Schedule1件を囲っている親要素を探す
@@ -603,10 +597,8 @@ def find_schedule_entries(
                 container.parent
             )
 
-
         if container is None:
             container = link
-
 
         container_text = clean_text(
             container.get_text(
@@ -614,7 +606,6 @@ def find_schedule_entries(
                 strip=True,
             )
         )
-
 
         # --------------------------------------------------
         # 日付
@@ -651,7 +642,6 @@ def find_schedule_entries(
                 )
             )
 
-
         # --------------------------------------------------
         # カテゴリ
         # --------------------------------------------------
@@ -674,7 +664,6 @@ def find_schedule_entries(
                 )
             )
 
-
         if not category_label:
             for label in CATEGORY_MAP:
                 if (
@@ -686,13 +675,11 @@ def find_schedule_entries(
                     )
                     break
 
-
         category, category_label = (
             normalize_category(
                 category_label
             )
         )
-
 
         # --------------------------------------------------
         # タイトル
@@ -714,7 +701,6 @@ def find_schedule_entries(
                 )
             )
 
-
         if not title:
             title = clean_text(
                 link.get_text(
@@ -723,13 +709,11 @@ def find_schedule_entries(
                 )
             )
 
-
         # タイトルがリンクの子要素などで
         # 空になる場合への保険。
 
         if not title:
             title = container_text
-
 
         # --------------------------------------------------
         # 最低限必要な値を確認
@@ -748,7 +732,6 @@ def find_schedule_entries(
                 schedule_id,
                 "のタイトルを一覧から取得できませんでした。"
             )
-
 
         entries.append(
             {
@@ -823,7 +806,6 @@ def find_detail_content(soup):
                 )
             )
 
-
     if candidates:
         candidates.sort(
             key=lambda item: item[0]
@@ -846,7 +828,6 @@ def find_detail_content(soup):
             candidates[-1][1],
             candidates[-1][2],
         )
-
 
     body = soup.body
 
@@ -887,7 +868,6 @@ def extract_detail_header(
         )
     )
 
-
     # ------------------------------------------------------
     # 日付
     # ------------------------------------------------------
@@ -901,7 +881,6 @@ def extract_detail_header(
             "",
         )
     )
-
 
     # ------------------------------------------------------
     # カテゴリ
@@ -934,7 +913,6 @@ def extract_detail_header(
             category_label = text
             break
 
-
     if not category_label:
         category_label = (
             fallback.get(
@@ -943,13 +921,11 @@ def extract_detail_header(
             )
         )
 
-
     category, category_label = (
         normalize_category(
             category_label
         )
     )
-
 
     # ------------------------------------------------------
     # タイトル
@@ -987,13 +963,11 @@ def extract_detail_header(
             title = text
             break
 
-
     if not title:
         title = fallback.get(
             "title",
             "",
         )
-
 
     return (
         date,
@@ -1001,6 +975,103 @@ def extract_detail_header(
         category_label,
         title,
     )
+
+
+# ==========================================================
+# SNS共有リンク判定
+#
+# Facebook / X(Twitter) / LINE の「記事を共有するためのURL」
+# だけをexternalLinksから除外する。
+#
+# 通常の記事本文に掲載された関連サイトへのリンクは残す。
+# ==========================================================
+
+def is_social_share_url(url):
+    if not url:
+        return False
+
+    parsed = urlparse(
+        url
+    )
+
+    host = (
+        parsed.netloc
+        .lower()
+        .split(":")[0]
+    )
+
+    path = (
+        parsed.path
+        .lower()
+    )
+
+    # ------------------------------------------------------
+    # Facebook共有
+    # ------------------------------------------------------
+
+    if (
+        host in {
+            "www.facebook.com",
+            "facebook.com",
+        }
+        and (
+            path.startswith(
+                "/sharer/"
+            )
+            or path.startswith(
+                "/sharer.php"
+            )
+            or path.startswith(
+                "/dialog/share"
+            )
+        )
+    ):
+        return True
+
+    # ------------------------------------------------------
+    # X / Twitter共有
+    # ------------------------------------------------------
+
+    if (
+        host in {
+            "twitter.com",
+            "www.twitter.com",
+            "x.com",
+            "www.x.com",
+        }
+        and (
+            path.startswith(
+                "/intent/tweet"
+            )
+            or path.startswith(
+                "/share"
+            )
+        )
+    ):
+        return True
+
+    # ------------------------------------------------------
+    # LINE共有
+    # ------------------------------------------------------
+
+    if (
+        host in {
+            "social-plugins.line.me",
+            "line.me",
+            "www.line.me",
+        }
+        and (
+            path.startswith(
+                "/lineit/"
+            )
+            or path.startswith(
+                "/r/msg/"
+            )
+        )
+    ):
+        return True
+
+    return False
 
 
 # ==========================================================
@@ -1046,7 +1117,6 @@ def extract_external_links(
         }:
             continue
 
-
         # Schedule詳細ページ自身は除外
         if (
             normalize_url(
@@ -1056,6 +1126,12 @@ def extract_external_links(
         ):
             continue
 
+        # Facebook / X(Twitter) / LINEの
+        # 記事共有用URLは保存しない。
+        if is_social_share_url(
+            href
+        ):
+            continue
 
         # サイト共通ナビゲーション等を
         # 可能な限り除外するため、
@@ -1113,7 +1189,6 @@ def fetch_schedule_detail(
         soup
     )
 
-
     (
         date,
         category,
@@ -1124,7 +1199,6 @@ def fetch_schedule_detail(
         entry,
     )
 
-
     # メンバー判定はタイトル＋本文で行う。
     member_search_text = (
         f"{title}\n{detail_text}"
@@ -1134,14 +1208,12 @@ def fetch_schedule_detail(
         member_search_text
     )
 
-
     external_links = (
         extract_external_links(
             content_element,
             final_url,
         )
     )
-
 
     result = dict(
         entry
@@ -1221,7 +1293,6 @@ def fetch_month(
 
         return []
 
-
     soup = BeautifulSoup(
         html,
         "html.parser",
@@ -1240,9 +1311,7 @@ def fetch_month(
         "件"
     )
 
-
     results = []
-
 
     for index, entry in enumerate(
         entries,
@@ -1294,7 +1363,6 @@ def fetch_month(
         time.sleep(
             REQUEST_INTERVAL
         )
-
 
     return results
 
@@ -1428,9 +1496,7 @@ def main():
         OUTPUT_PATH,
     )
 
-
     all_items = []
-
 
     for year, month in iter_months(
         START_YEAR,
@@ -1454,7 +1520,6 @@ def main():
             REQUEST_INTERVAL
         )
 
-
     all_items = deduplicate(
         all_items
     )
@@ -1463,11 +1528,9 @@ def main():
         key=sort_key
     )
 
-
     save_json(
         all_items
     )
-
 
     print()
     print("=" * 80)
@@ -1479,7 +1542,6 @@ def main():
         len(all_items),
         "件"
     )
-
 
     if all_items:
         print()
