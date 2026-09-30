@@ -25,6 +25,12 @@ jobs:
       - name: Check generated Photo data
         run: |
           echo "===== data/photo.json ====="
+
+          if [ ! -f data/photo.json ]; then
+            echo "ERROR: data/photo.json が生成されていません。"
+            exit 1
+          fi
+
           python - <<'PY'
           import json
 
@@ -35,26 +41,51 @@ jobs:
 
           print(f"Photo count: {len(data)}")
 
-          if data:
-              print()
-              print("Oldest:")
-              print(json.dumps(data[0], ensure_ascii=False, indent=2))
+          if not data:
+              raise RuntimeError(
+                  "Photoデータが0件です。"
+              )
 
-              print()
-              print("Newest:")
-              print(json.dumps(data[-1], ensure_ascii=False, indent=2))
+          print()
+          print("Oldest:")
+          print(
+              json.dumps(
+                  data[0],
+                  ensure_ascii=False,
+                  indent=2
+              )
+          )
+
+          print()
+          print("Newest:")
+          print(
+              json.dumps(
+                  data[-1],
+                  ensure_ascii=False,
+                  indent=2
+              )
+          )
           PY
 
       - name: Commit Photo data
         run: |
-          if git diff --quiet -- data/photo.json; then
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # 先にgit addする。
+          # これにより、新規作成された未追跡の
+          # data/photo.json もGitの判定対象になる。
+          git add data/photo.json
+
+          echo "===== git status ====="
+          git status --short
+
+          # git add後のステージ済み差分を確認する。
+          # 新規ファイルもここでは正しく検出される。
+          if git diff --cached --quiet; then
             echo "data/photo.json に変更はありません。"
             exit 0
           fi
 
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
-          git add data/photo.json
           git commit -m "Update Photo data"
           git push
