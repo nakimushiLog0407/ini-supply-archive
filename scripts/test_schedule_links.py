@@ -18,12 +18,13 @@ if str(ROOT_DIR) not in sys.path:
 
 
 from scripts.fetch_schedule import (
-    BASE_URL,
     absolute_url,
+    clean_schedule_detail_text,
     clean_text,
     extract_external_links,
     fetch_html,
     find_detail_content,
+    is_schedule_back_link,
     is_social_share_url,
 )
 
@@ -34,7 +35,6 @@ from bs4 import BeautifulSoup
 # テスト対象
 #
 # Schedule詳細ページを少数だけ確認する。
-# ここでは既に存在を確認している詳細ページを使用。
 # ==========================================================
 
 TEST_URLS = [
@@ -145,6 +145,12 @@ def get_all_content_links(
                         href
                     )
                 ),
+                "isBack": (
+                    is_schedule_back_link(
+                        href,
+                        label,
+                    )
+                ),
                 "service": (
                     identify_service(
                         href
@@ -154,6 +160,35 @@ def get_all_content_links(
         )
 
     return links
+
+
+# ==========================================================
+# detailText末尾判定
+# ==========================================================
+
+def has_ui_text_at_end(text):
+    if not text:
+        return False
+
+    lines = [
+        line.strip()
+        for line in text.split("\n")
+        if line.strip()
+    ]
+
+    if not lines:
+        return False
+
+    last_line = (
+        lines[-1]
+        .strip()
+        .lower()
+    )
+
+    return last_line in {
+        "share",
+        "back",
+    }
 
 
 # ==========================================================
@@ -194,16 +229,77 @@ def test_detail_page(
 
     (
         content_element,
-        detail_text,
+        raw_detail_text,
     ) = find_detail_content(
         soup
     )
 
+    cleaned_detail_text = (
+        clean_schedule_detail_text(
+            raw_detail_text
+        )
+    )
+
     print()
     print(
-        "本文文字数:",
-        len(detail_text),
+        "クリーニング前本文文字数:",
+        len(raw_detail_text),
     )
+
+    print(
+        "クリーニング後本文文字数:",
+        len(cleaned_detail_text),
+    )
+
+
+    # ======================================================
+    # detailTextクリーニング前後を確認
+    # ======================================================
+
+    print()
+    print("-" * 100)
+    print(
+        "detailText 末尾確認"
+    )
+    print("-" * 100)
+
+    raw_lines = [
+        line
+        for line in raw_detail_text.split(
+            "\n"
+        )
+        if line.strip()
+    ]
+
+    cleaned_lines = [
+        line
+        for line in cleaned_detail_text.split(
+            "\n"
+        )
+        if line.strip()
+    ]
+
+    print()
+    print(
+        "クリーニング前・末尾最大5行:"
+    )
+
+    for line in raw_lines[-5:]:
+        print(
+            "  ",
+            repr(line),
+        )
+
+    print()
+    print(
+        "クリーニング後・末尾最大5行:"
+    )
+
+    for line in cleaned_lines[-5:]:
+        print(
+            "  ",
+            repr(line),
+        )
 
 
     # ======================================================
@@ -260,6 +356,11 @@ def test_detail_page(
         print(
             "share判定:",
             item["isShare"],
+        )
+
+        print(
+            "back判定:",
+            item["isBack"],
         )
 
 
@@ -321,14 +422,20 @@ def test_detail_page(
 
 
     # ======================================================
-    # 共有リンクが残っていないか検証
+    # externalLinks検証
     # ======================================================
 
     remaining_share_links = []
+    remaining_back_links = []
 
     for item in saved_links:
         link_url = item.get(
             "url",
+            "",
+        )
+
+        link_label = item.get(
+            "label",
             "",
         )
 
@@ -339,15 +446,27 @@ def test_detail_page(
                 link_url
             )
 
+        if is_schedule_back_link(
+            link_url,
+            link_label,
+        ):
+            remaining_back_links.append(
+                link_url
+            )
+
 
     print()
     print("-" * 100)
     print(
-        "共有リンク除外テスト"
+        "externalLinks 除外テスト"
     )
     print("-" * 100)
 
+    links_ok = True
+
     if remaining_share_links:
+        links_ok = False
+
         print(
             "RESULT: NG"
         )
@@ -365,20 +484,103 @@ def test_detail_page(
                 share_url,
             )
 
-        return False
+    if remaining_back_links:
+        links_ok = False
+
+        print(
+            "RESULT: NG"
+        )
+
+        print(
+            "BackリンクがexternalLinksに"
+            "残っています。"
+        )
+
+        for back_url in (
+            remaining_back_links
+        ):
+            print(
+                "  ",
+                back_url,
+            )
+
+    if links_ok:
+        print(
+            "RESULT: OK"
+        )
+
+        print(
+            "Facebook / X(Twitter) / LINE の"
+            "共有URLとBackリンクは"
+            "externalLinksに残っていません。"
+        )
 
 
+    # ======================================================
+    # detailText検証
+    # ======================================================
+
+    print()
+    print("-" * 100)
     print(
-        "RESULT: OK"
+        "detailText SHARE / Back 除外テスト"
+    )
+    print("-" * 100)
+
+    text_ok = True
+
+    if has_ui_text_at_end(
+        cleaned_detail_text
+    ):
+        text_ok = False
+
+        print(
+            "RESULT: NG"
+        )
+
+        print(
+            "クリーニング後のdetailText末尾に"
+            "SHAREまたはBackが残っています。"
+        )
+
+    else:
+        print(
+            "RESULT: OK"
+        )
+
+        print(
+            "クリーニング後のdetailText末尾に"
+            "SHARE / Back は残っていません。"
+        )
+
+
+    # ======================================================
+    # このページの最終結果
+    # ======================================================
+
+    print()
+    print("-" * 100)
+    print(
+        "ページ最終結果"
+    )
+    print("-" * 100)
+
+    page_ok = (
+        links_ok
+        and text_ok
     )
 
-    print(
-        "Facebook / X(Twitter) / LINE の"
-        "共有URLはexternalLinksに"
-        "残っていません。"
-    )
+    if page_ok:
+        print(
+            "RESULT: OK"
+        )
 
-    return True
+    else:
+        print(
+            "RESULT: NG"
+        )
+
+    return page_ok
 
 
 # ==========================================================
@@ -388,7 +590,7 @@ def test_detail_page(
 def main():
     print("=" * 100)
     print(
-        "INI Schedule externalLinks test"
+        "INI Schedule data cleanup test"
     )
     print("=" * 100)
 
@@ -404,9 +606,7 @@ def main():
         "ページ",
     )
 
-
     results = []
-
 
     for index, url in enumerate(
         TEST_URLS,
@@ -465,7 +665,6 @@ def main():
         len(results),
     )
 
-
     if all(results):
         print()
         print(
@@ -473,12 +672,12 @@ def main():
         )
 
         print(
-            "共有リンク除外処理は"
+            "externalLinksとdetailTextの"
+            "不要な共有UI除外処理は"
             "正常に動作しています。"
         )
 
         return
-
 
     print()
     print(
