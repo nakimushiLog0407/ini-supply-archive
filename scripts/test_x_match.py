@@ -30,43 +30,83 @@ USER_AGENT = (
     "Safari/537.36"
 )
 
-DATA_FILES = [
-    ("schedule", Path("data/schedule.json")),
-    ("youtube", Path("data/youtube.json")),
-    ("member_diary", Path("data/member_diary.json")),
-    ("message", Path("data/message.json")),
-    ("movie", Path("data/movie.json")),
-    ("photo", Path("data/photo.json")),
-    ("radio", Path("data/radio.json")),
-]
 
-FC_TYPES = {
-    "member_diary",
-    "message",
-    "movie",
-    "photo",
-    "radio",
+DATA_FILES = {
+    "schedule": Path("data/schedule.json"),
+    "youtube": Path("data/youtube.json"),
+    "member_diary": Path("data/member_diary.json"),
+    "message": Path("data/message.json"),
+    "movie": Path("data/movie.json"),
+    "photo": Path("data/photo.json"),
+    "radio": Path("data/radio.json"),
 }
 
+
 MEMBER_ALIASES = {
-    "池﨑理人": ["池﨑理人", "理人", "RIHITO"],
-    "尾崎匠海": ["尾崎匠海", "匠海", "TAKUMI"],
-    "木村柾哉": ["木村柾哉", "柾哉", "MASAYA"],
-    "後藤威尊": ["後藤威尊", "威尊", "TAKERU"],
-    "佐野雄大": ["佐野雄大", "雄大", "YUDAI"],
+    "池﨑理人": [
+        "池﨑理人",
+        "池崎理人",
+        "理人",
+        "RIHITO",
+    ],
+    "尾崎匠海": [
+        "尾崎匠海",
+        "匠海",
+        "TAKUMI",
+    ],
+    "木村柾哉": [
+        "木村柾哉",
+        "柾哉",
+        "MASAYA",
+    ],
+    "後藤威尊": [
+        "後藤威尊",
+        "威尊",
+        "TAKERU",
+    ],
+    "佐野雄大": [
+        "佐野雄大",
+        "雄大",
+        "YUDAI",
+    ],
     "シュウ・フェンファン": [
         "シュウ・フェンファン",
         "許豊凡",
         "フェンファン",
         "FENGFAN",
     ],
-    "髙塚大夢": ["髙塚大夢", "高塚大夢", "大夢", "HIROMU"],
-    "田島将吾": ["田島将吾", "将吾", "SHOGO"],
-    "西洸人": ["西洸人", "洸人", "HIROTO"],
-    "藤牧京介": ["藤牧京介", "京介", "KYOSUKE"],
-    "松田迅": ["松田迅", "迅", "JIN"],
+    "髙塚大夢": [
+        "髙塚大夢",
+        "高塚大夢",
+        "大夢",
+        "HIROMU",
+    ],
+    "田島将吾": [
+        "田島将吾",
+        "将吾",
+        "SHOGO",
+    ],
+    "西洸人": [
+        "西洸人",
+        "洸人",
+        "HIROTO",
+    ],
+    "藤牧京介": [
+        "藤牧京介",
+        "京介",
+        "KYOSUKE",
+    ],
+    "松田迅": [
+        "松田迅",
+        "迅",
+        "JIN",
+    ],
 }
 
+
+# --------------------------------------------------
+# Utility
+# --------------------------------------------------
 
 def section(title):
     print()
@@ -93,12 +133,6 @@ def normalize_text(value):
     )
 
     value = re.sub(
-        r"[@#＃]",
-        "",
-        value,
-    )
-
-    value = re.sub(
         r"[\s　]+",
         " ",
         value,
@@ -111,12 +145,28 @@ def compact_text(value):
     value = normalize_text(value)
 
     value = re.sub(
+        r"[@#＃]",
+        "",
+        value,
+    )
+
+    value = re.sub(
         r"[^0-9a-zぁ-んァ-ヶ一-龯髙﨑]+",
         "",
         value,
     )
 
     return value
+
+
+def clean_hashtag(value):
+    if not value:
+        return ""
+
+    value = value.replace("#", "")
+    value = value.replace("＃", "")
+
+    return value.strip()
 
 
 def normalize_x_url(url):
@@ -143,11 +193,16 @@ def parse_urls(raw):
     unique = []
     seen = set()
 
-    for token in re.split(r"\s+", raw.strip()):
+    for token in re.split(
+        r"\s+",
+        raw.strip(),
+    ):
         if not token:
             continue
 
-        item = normalize_x_url(token)
+        item = normalize_x_url(
+            token
+        )
 
         if not item:
             continue
@@ -155,8 +210,13 @@ def parse_urls(raw):
         if item["post_id"] in seen:
             continue
 
-        seen.add(item["post_id"])
-        unique.append(item)
+        seen.add(
+            item["post_id"]
+        )
+
+        unique.append(
+            item
+        )
 
     return unique
 
@@ -176,6 +236,97 @@ def convert_to_jst(created_at):
         ZoneInfo("Asia/Tokyo")
     )
 
+
+def load_json(path):
+    try:
+        with path.open(
+            "r",
+            encoding="utf-8",
+        ) as file:
+            data = json.load(
+                file
+            )
+
+        if isinstance(
+            data,
+            list,
+        ):
+            return data
+
+        return []
+
+    except Exception as exc:
+        print(
+            f"WARNING: {path}: {exc}"
+        )
+        return []
+
+
+def parse_date(value):
+    if not value:
+        return None
+
+    match = re.search(
+        r"(\d{4})-(\d{2})-(\d{2})",
+        str(value),
+    )
+
+    if not match:
+        return None
+
+    try:
+        return datetime(
+            int(match.group(1)),
+            int(match.group(2)),
+            int(match.group(3)),
+        ).date()
+
+    except ValueError:
+        return None
+
+
+def get_item_date(item):
+    keys = [
+        "date",
+        "publishedAt",
+        "published_at",
+        "startDate",
+        "start_date",
+        "datetime",
+    ]
+
+    for key in keys:
+        date = parse_date(
+            item.get(key)
+        )
+
+        if date:
+            return date
+
+    return None
+
+
+def get_item_title(item):
+    keys = [
+        "title",
+        "name",
+        "program",
+        "programName",
+        "program_name",
+    ]
+
+    for key in keys:
+        value = item.get(key)
+
+        if value:
+            return str(value)
+
+    return ""
+
+
+# --------------------------------------------------
+# X fetch
+# --------------------------------------------------
 
 def fetch_post(item):
     response = requests.get(
@@ -209,317 +360,717 @@ def fetch_post(item):
         "url": item["url"],
         "text": data.get("text") or "",
         "created_at_jst": created,
-        "author": user.get("screen_name"),
+        "author": user.get(
+            "screen_name"
+        ),
     }
 
 
-def load_json(path):
-    try:
-        with path.open(
-            "r",
-            encoding="utf-8",
-        ) as file:
-            data = json.load(file)
-
-        if isinstance(data, list):
-            return data
-
-        return []
-
-    except Exception as exc:
-        print(
-            f"WARNING: {path}: {exc}"
-        )
-        return []
-
-
-def load_existing_data():
-    all_items = []
-
-    section("LOAD EXISTING DATA")
-
-    for source_type, path in DATA_FILES:
-        items = load_json(path)
-
-        print(
-            f"{source_type}: {len(items)}"
-        )
-
-        for item in items:
-            if not isinstance(item, dict):
-                continue
-
-            copy = dict(item)
-            copy["_source_type"] = source_type
-
-            all_items.append(copy)
-
-    print()
-    print(
-        "TOTAL:",
-        len(all_items),
-    )
-
-    return all_items
-
-
-def parse_date(value):
-    if not value:
-        return None
-
-    text = str(value)
-
-    match = re.search(
-        r"(\d{4})-(\d{2})-(\d{2})",
-        text,
-    )
-
-    if not match:
-        return None
-
-    try:
-        return datetime(
-            int(match.group(1)),
-            int(match.group(2)),
-            int(match.group(3)),
-        ).date()
-
-    except ValueError:
-        return None
-
-
-def get_item_date(item):
-    for key in [
-        "date",
-        "publishedAt",
-        "published_at",
-        "startDate",
-        "start_date",
-        "datetime",
-    ]:
-        date = parse_date(
-            item.get(key)
-        )
-
-        if date:
-            return date
-
-    return None
-
-
-def get_item_title(item):
-    for key in [
-        "title",
-        "name",
-        "program",
-        "programName",
-        "program_name",
-    ]:
-        value = item.get(key)
-
-        if value:
-            return str(value)
-
-    return ""
-
+# --------------------------------------------------
+# Member extraction
+# --------------------------------------------------
 
 def extract_members(text):
-    compact = compact_text(text)
+    compact = compact_text(
+        text
+    )
 
     result = []
 
-    for canonical, aliases in MEMBER_ALIASES.items():
+    for canonical, aliases in (
+        MEMBER_ALIASES.items()
+    ):
         for alias in aliases:
-            if compact_text(alias) in compact:
-                result.append(canonical)
+            alias_compact = (
+                compact_text(
+                    alias
+                )
+            )
+
+            if (
+                alias_compact
+                and alias_compact in compact
+            ):
+                result.append(
+                    canonical
+                )
                 break
 
     return result
 
 
-def title_similarity(post_text, item_title):
-    post = compact_text(post_text)
-    title = compact_text(item_title)
+# --------------------------------------------------
+# Date extraction
+# --------------------------------------------------
 
-    if not post or not title:
-        return 0.0
+def extract_event_dates(
+    text,
+    post_datetime,
+):
+    if not post_datetime:
+        return []
 
-    if title in post:
-        return 1.0
+    post_date = (
+        post_datetime.date()
+    )
 
-    ratio = SequenceMatcher(
-        None,
-        post,
-        title,
-    ).ratio()
+    year = post_date.year
 
-    return ratio
+    dates = []
 
+    # 2026.09.30
+    for match in re.finditer(
+        r"\b(20\d{2})[./年]"
+        r"(\d{1,2})[./月]"
+        r"(\d{1,2})日?\b",
+        text,
+    ):
+        try:
+            date = datetime(
+                int(match.group(1)),
+                int(match.group(2)),
+                int(match.group(3)),
+            ).date()
+
+            dates.append(
+                date
+            )
+
+        except ValueError:
+            pass
+
+    # 10月8日
+    for match in re.finditer(
+        r"(?<!\d)"
+        r"(\d{1,2})月"
+        r"(\d{1,2})日",
+        text,
+    ):
+        try:
+            date = datetime(
+                year,
+                int(match.group(1)),
+                int(match.group(2)),
+            ).date()
+
+            # 年跨ぎ対策
+            if (
+                post_date.month >= 11
+                and date.month <= 2
+            ):
+                date = datetime(
+                    year + 1,
+                    date.month,
+                    date.day,
+                ).date()
+
+            dates.append(
+                date
+            )
+
+        except ValueError:
+            pass
+
+    # 260930
+    for match in re.finditer(
+        r"(?<!\d)"
+        r"(\d{2})(\d{2})(\d{2})"
+        r"(?!\d)",
+        text,
+    ):
+        yy = int(
+            match.group(1)
+        )
+
+        mm = int(
+            match.group(2)
+        )
+
+        dd = int(
+            match.group(3)
+        )
+
+        try:
+            date = datetime(
+                2000 + yy,
+                mm,
+                dd,
+            ).date()
+
+            dates.append(
+                date
+            )
+
+        except ValueError:
+            pass
+
+    # 9/30
+    for match in re.finditer(
+        r"(?<!\d)"
+        r"(\d{1,2})/"
+        r"(\d{1,2})"
+        r"(?!\d)",
+        text,
+    ):
+        try:
+            date = datetime(
+                year,
+                int(match.group(1)),
+                int(match.group(2)),
+            ).date()
+
+            dates.append(
+                date
+            )
+
+        except ValueError:
+            pass
+
+    # 重複削除
+    unique = []
+
+    for date in dates:
+        if date not in unique:
+            unique.append(
+                date
+            )
+
+    return unique
+
+
+# --------------------------------------------------
+# Content title extraction
+# --------------------------------------------------
 
 def extract_quoted_phrases(text):
     patterns = [
-        r"「([^」]{2,80})」",
-        r"'([^']{2,80})'",
-        r'"([^"]{2,80})"',
+        r"「([^」]{1,100})」",
+        r"『([^』]{1,100})』",
+        r"'([^']{1,100})'",
+        r'"([^"]{1,100})"',
     ]
 
-    phrases = []
+    result = []
 
     for pattern in patterns:
-        phrases.extend(
-            re.findall(
-                pattern,
-                text,
+        for value in re.findall(
+            pattern,
+            text,
+        ):
+            value = clean_hashtag(
+                value.strip()
             )
+
+            if (
+                value
+                and value not in result
+            ):
+                result.append(
+                    value
+                )
+
+    return result
+
+
+def extract_fc_title(
+    text,
+    detected_type,
+):
+    if detected_type == "member_diary":
+        match = re.search(
+            r"🔽\s*([^\n]+)",
+            text,
         )
 
-    return phrases
+        if match:
+            return (
+                match.group(1)
+                .strip()
+            )
+
+    if detected_type == "message":
+        match = re.search(
+            r"「([^」]+)」"
+            r"が公開されました",
+            text,
+        )
+
+        if match:
+            return (
+                match.group(1)
+                .strip()
+            )
+
+    if detected_type == "staff_report":
+        match = re.search(
+            r"🔽\s*([^\n]+)",
+            text,
+        )
+
+        if match:
+            return (
+                match.group(1)
+                .strip()
+            )
+
+    phrases = extract_quoted_phrases(
+        text
+    )
+
+    if phrases:
+        return phrases[0]
+
+    return None
 
 
-def phrase_match_score(post_text, title):
-    title_compact = compact_text(title)
-
-    if not title_compact:
-        return 0.0
-
-    best = 0.0
+def extract_schedule_names(text):
+    result = []
 
     for phrase in extract_quoted_phrases(
-        post_text
+        text
     ):
-        phrase_compact = compact_text(
-            phrase
-        )
+        if phrase not in result:
+            result.append(
+                phrase
+            )
 
-        if not phrase_compact:
-            continue
+    normalized = normalize_text(
+        text
+    )
+
+    known_patterns = [
+        "dayday.",
+        "dayday",
+        "ミュージックライン",
+        "listening party",
+        "ining_party",
+        "stationhead",
+    ]
+
+    for value in known_patterns:
+        if value in normalized:
+            if value not in result:
+                result.append(
+                    value
+                )
+
+    return result
+
+
+# --------------------------------------------------
+# Type detection
+# --------------------------------------------------
+
+def detect_post_type(text):
+    normalized = normalize_text(
+        text
+    )
+
+    compact = compact_text(
+        text
+    )
+
+    # ------------------------------------------
+    # Exclude
+    # ------------------------------------------
+
+    exclude_words = [
+        "受注販売",
+        "ご購入いただけます",
+        "販売スタート",
+        "販売開始",
+    ]
+
+    if any(
+        word in normalized
+        for word in exclude_words
+    ):
+        return {
+            "type": "exclude",
+            "reason": "sales_or_merchandise",
+        }
+
+    # ------------------------------------------
+    # FC
+    # ------------------------------------------
+
+    if (
+        "official fanclub"
+        in normalized
+    ):
+        if (
+            "member diary"
+            in normalized
+        ):
+            return {
+                "type": "member_diary",
+                "reason": "fc_member_diary",
+            }
 
         if (
-            phrase_compact in title_compact
-            or title_compact in phrase_compact
+            "staff report"
+            in normalized
         ):
-            best = max(
-                best,
-                1.0,
-            )
-            continue
+            return {
+                "type": "staff_report",
+                "reason": "fc_staff_report",
+            }
 
-        score = SequenceMatcher(
-            None,
-            phrase_compact,
-            title_compact,
-        ).ratio()
+        if (
+            "[message]"
+            in normalized
+            or "［message］"
+            in normalized
+            or "type check"
+            in normalized
+        ):
+            return {
+                "type": "message",
+                "reason": "fc_message",
+            }
 
-        best = max(
-            best,
-            score,
-        )
+        if (
+            "[movie]"
+            in normalized
+            or "［movie］"
+            in normalized
+        ):
+            return {
+                "type": "movie",
+                "reason": "fc_movie",
+            }
 
-    return best
+        if (
+            "[photo]"
+            in normalized
+            or "［photo］"
+            in normalized
+        ):
+            return {
+                "type": "photo",
+                "reason": "fc_photo",
+            }
+
+        if (
+            "[radio]"
+            in normalized
+            or "［radio］"
+            in normalized
+        ):
+            return {
+                "type": "radio",
+                "reason": "fc_radio",
+            }
+
+        return {
+            "type": "fc_unknown",
+            "reason": "fc_unknown",
+        }
+
+    # ------------------------------------------
+    # Schedule
+    # ------------------------------------------
+
+    schedule_words = [
+        "生出演",
+        "出演が決定",
+        "出演しました",
+        "ボイス出演",
+        "出演中",
+        "nhk-fm",
+        "日本テレビ",
+        "フジテレビ",
+        "テレビ朝日",
+        "tbs",
+        "テレビ東京",
+        "stationhead",
+        "listening party",
+        "ining_party",
+    ]
+
+    if any(
+        word in normalized
+        for word in schedule_words
+    ):
+        return {
+            "type": "schedule",
+            "reason": "appearance_or_event",
+        }
+
+    # ------------------------------------------
+    # YouTube / cross-platform video
+    # ------------------------------------------
+
+    video_words = [
+        "shorts",
+        "youtube",
+        "mvコメンタリー",
+    ]
+
+    if any(
+        word in normalized
+        for word in video_words
+    ):
+        return {
+            "type": "video",
+            "reason": "video_content",
+        }
+
+    # ------------------------------------------
+    # X / SNS content
+    # ------------------------------------------
+
+    sns_words = [
+        "tiktok",
+        "instagram reels",
+        "reels up",
+        "[📱]",
+    ]
+
+    if any(
+        word in normalized
+        for word in sns_words
+    ):
+        return {
+            "type": "sns",
+            "reason": "social_content",
+        }
+
+    return {
+        "type": "unknown",
+        "reason": "no_rule",
+    }
 
 
-def calculate_candidate_score(
+# --------------------------------------------------
+# Matching
+# --------------------------------------------------
+
+def similarity(a, b):
+    a = compact_text(
+        a
+    )
+
+    b = compact_text(
+        b
+    )
+
+    if not a or not b:
+        return 0.0
+
+    if a == b:
+        return 1.0
+
+    if a in b or b in a:
+        return 0.95
+
+    return SequenceMatcher(
+        None,
+        a,
+        b,
+    ).ratio()
+
+
+def get_candidate_files(
+    detected_type,
+):
+    if detected_type == "schedule":
+        return [
+            "schedule",
+        ]
+
+    if detected_type == "member_diary":
+        return [
+            "member_diary",
+        ]
+
+    if detected_type == "message":
+        return [
+            "message",
+        ]
+
+    if detected_type == "movie":
+        return [
+            "movie",
+        ]
+
+    if detected_type == "photo":
+        return [
+            "photo",
+        ]
+
+    if detected_type == "radio":
+        return [
+            "radio",
+        ]
+
+    if detected_type == "video":
+        return [
+            "youtube",
+        ]
+
+    if detected_type == "sns":
+        # Shortsが含まれる場合などに
+        # YouTubeとの関連を確認する。
+        return [
+            "youtube",
+        ]
+
+    return []
+
+
+def calculate_match_score(
     post,
     item,
+    detected_type,
+    extracted_title,
+    schedule_names,
+    event_dates,
+    members,
 ):
-    post_date = (
-        post["created_at_jst"].date()
-        if post.get("created_at_jst")
-        else None
+    score = 0
+    reasons = []
+
+    item_title = get_item_title(
+        item
     )
 
     item_date = get_item_date(
         item
     )
 
-    title = get_item_title(
-        item
+    post_date = (
+        post["created_at_jst"].date()
+        if post.get("created_at_jst")
+        else None
     )
 
-    source_type = item.get(
-        "_source_type",
-        ""
-    )
+    # ------------------------------------------
+    # Exact / near title
+    # ------------------------------------------
 
-    score = 0.0
-    reasons = []
-
-    # ----------------------------------------
-    # タイトル
-    # ----------------------------------------
-
-    title_score = title_similarity(
-        post["text"],
-        title,
-    )
-
-    phrase_score = phrase_match_score(
-        post["text"],
-        title,
-    )
-
-    effective_title_score = max(
-        title_score,
-        phrase_score,
-    )
-
-    if effective_title_score >= 0.90:
-        score += 60
-        reasons.append(
-            "title:strong"
+    if extracted_title:
+        title_score = similarity(
+            extracted_title,
+            item_title,
         )
 
-    elif effective_title_score >= 0.70:
-        score += 45
-        reasons.append(
-            "title:medium"
-        )
+        if title_score >= 0.95:
+            score += 70
+            reasons.append(
+                "title:exact"
+            )
 
-    elif effective_title_score >= 0.50:
-        score += 25
-        reasons.append(
-            "title:weak"
-        )
+        elif title_score >= 0.80:
+            score += 50
+            reasons.append(
+                "title:strong"
+            )
 
-    # ----------------------------------------
-    # 日付
-    # ----------------------------------------
+        elif title_score >= 0.60:
+            score += 25
+            reasons.append(
+                "title:medium"
+            )
 
-    if post_date and item_date:
+    # ------------------------------------------
+    # Schedule program / event name
+    # ------------------------------------------
+
+    if detected_type == "schedule":
+        best_name_score = 0
+
+        for name in schedule_names:
+            current = similarity(
+                name,
+                item_title,
+            )
+
+            best_name_score = max(
+                best_name_score,
+                current,
+            )
+
+        if best_name_score >= 0.90:
+            score += 65
+            reasons.append(
+                "schedule_name:strong"
+            )
+
+        elif best_name_score >= 0.70:
+            score += 40
+            reasons.append(
+                "schedule_name:medium"
+            )
+
+    # ------------------------------------------
+    # Event date
+    # ------------------------------------------
+
+    if item_date and event_dates:
+        if item_date in event_dates:
+            score += 40
+            reasons.append(
+                "event_date:exact"
+            )
+
+        else:
+            distance = min(
+                abs(
+                    (
+                        item_date
+                        - date
+                    ).days
+                )
+                for date in event_dates
+            )
+
+            if distance == 1:
+                score += 10
+                reasons.append(
+                    "event_date:near"
+                )
+
+    # ------------------------------------------
+    # Publish date
+    # FC / YouTube / SNSのみ強く使う
+    # ------------------------------------------
+
+    if (
+        item_date
+        and post_date
+        and detected_type
+        not in {
+            "schedule",
+        }
+    ):
         difference = abs(
-            (post_date - item_date).days
+            (
+                item_date
+                - post_date
+            ).days
         )
 
         if difference == 0:
-            score += 25
+            score += 30
             reasons.append(
-                "date:same"
+                "publish_date:same"
             )
 
-        elif difference <= 1:
-            score += 15
+        elif difference == 1:
+            score += 10
             reasons.append(
-                "date:±1"
+                "publish_date:near"
             )
 
-        elif difference <= 7:
-            score += 5
-            reasons.append(
-                "date:near"
-            )
+    # ------------------------------------------
+    # Member
+    # ------------------------------------------
 
-    # ----------------------------------------
-    # メンバー
-    # ----------------------------------------
-
-    post_members = set(
-        extract_members(
-            post["text"]
+    item_member_text = " ".join(
+        str(
+            item.get(key) or ""
         )
-    )
-
-    item_text = " ".join(
-        str(item.get(key) or "")
         for key in [
             "title",
             "member",
@@ -531,126 +1082,120 @@ def calculate_candidate_score(
 
     item_members = set(
         extract_members(
-            item_text
+            item_member_text
         )
     )
 
-    common_members = (
-        post_members
+    common = (
+        set(members)
         & item_members
     )
 
-    if common_members:
+    if common:
         score += min(
-            15,
-            5 * len(common_members),
+            20,
+            10 * len(common),
         )
 
         reasons.append(
             "member:"
             + ",".join(
-                sorted(common_members)
+                sorted(common)
             )
         )
 
-    # ----------------------------------------
-    # FC固有キーワード
-    # ----------------------------------------
-
-    post_normalized = normalize_text(
-        post["text"]
-    )
-
-    if source_type == "member_diary":
-        if "member diary" in post_normalized:
-            score += 30
-            reasons.append(
-                "fc:member_diary"
-            )
-
-    if source_type == "message":
-        if (
-            "type check" in post_normalized
-            or "message" in post_normalized
-        ):
-            score += 25
-            reasons.append(
-                "fc:message"
-            )
-
-    if source_type == "movie":
-        if "movie" in post_normalized:
-            score += 20
-            reasons.append(
-                "fc:movie"
-            )
-
-    if source_type == "radio":
-        if (
-            "web radio" in post_normalized
-            or "radio" in post_normalized
-        ):
-            score += 20
-            reasons.append(
-                "fc:radio"
-            )
-
     return {
-        "score": round(
-            score,
-            1,
-        ),
+        "score": score,
         "reasons": reasons,
-        "title": title,
-        "date": (
-            item_date.isoformat()
-            if item_date
-            else None
-        ),
-        "source_type": source_type,
-        "id": item.get("id"),
-        "url": item.get("url"),
     }
 
 
-def find_candidates(
+def find_matches(
     post,
-    existing,
+    detected,
+    datasets,
 ):
-    post_date = (
-        post["created_at_jst"].date()
-        if post.get("created_at_jst")
-        else None
+    detected_type = (
+        detected["type"]
+    )
+
+    files = get_candidate_files(
+        detected_type
+    )
+
+    if not files:
+        return []
+
+    members = extract_members(
+        post["text"]
+    )
+
+    event_dates = extract_event_dates(
+        post["text"],
+        post["created_at_jst"],
+    )
+
+    extracted_title = extract_fc_title(
+        post["text"],
+        detected_type,
+    )
+
+    schedule_names = (
+        extract_schedule_names(
+            post["text"]
+        )
+        if detected_type == "schedule"
+        else []
     )
 
     candidates = []
 
-    for item in existing:
-        item_date = get_item_date(
-            item
-        )
+    for file_type in files:
+        for item in datasets.get(
+            file_type,
+            [],
+        ):
+            match = (
+                calculate_match_score(
+                    post=post,
+                    item=item,
+                    detected_type=detected_type,
+                    extracted_title=extracted_title,
+                    schedule_names=schedule_names,
+                    event_dates=event_dates,
+                    members=members,
+                )
+            )
 
-        # X投稿日前後14日だけを基本検索範囲にする。
-        # 将来日の出演告知もあるため、
-        # 投稿後14日まで許容する。
-        if post_date and item_date:
-            delta = (
-                item_date - post_date
-            ).days
-
-            if delta < -7 or delta > 14:
+            if match["score"] < 30:
                 continue
 
-        candidate = (
-            calculate_candidate_score(
-                post,
-                item,
-            )
-        )
-
-        if candidate["score"] >= 25:
             candidates.append(
-                candidate
+                {
+                    "source_type": file_type,
+                    "id": item.get("id"),
+                    "date": (
+                        get_item_date(
+                            item
+                        ).isoformat()
+                        if get_item_date(
+                            item
+                        )
+                        else None
+                    ),
+                    "title": get_item_title(
+                        item
+                    ),
+                    "url": item.get(
+                        "url"
+                    ),
+                    "score": match[
+                        "score"
+                    ],
+                    "reasons": match[
+                        "reasons"
+                    ],
+                }
             )
 
     candidates.sort(
@@ -661,79 +1206,76 @@ def find_candidates(
     return candidates[:5]
 
 
-def preliminary_classification(
-    post,
-    candidates,
+# --------------------------------------------------
+# Result classification
+# --------------------------------------------------
+
+def classify_result(
+    detected,
+    matches,
 ):
-    text = normalize_text(
-        post["text"]
+    detected_type = (
+        detected["type"]
     )
 
-    if candidates:
-        top = candidates[0]
+    if detected_type == "exclude":
+        return "exclude_candidate"
 
-        if top["score"] >= 60:
+    if detected_type == "staff_report":
+        return (
+            "unsupported_fc_content"
+        )
+
+    if detected_type == "fc_unknown":
+        return (
+            "review_required"
+        )
+
+    if matches:
+        top = matches[0]
+
+        if top["score"] >= 70:
             return (
                 "existing_content_candidate"
             )
 
-    schedule_words = [
-        "出演",
-        "生出演",
-        "放送",
-        "radio",
-        "ラジオ",
-        "テレビ",
-        "nhk",
-        "日本テレビ",
-        "フジテレビ",
-        "stationhead",
-        "listening party",
-    ]
-
-    if any(
-        word in text
-        for word in schedule_words
-    ):
-        return "new_schedule_candidate"
-
-    excluded_words = [
-        "受注販売",
-        "販売スタート",
-        "ご購入",
-        "購入いただけます",
-    ]
-
-    if any(
-        word in text
-        for word in excluded_words
-    ):
-        return "exclude_candidate"
-
-    return "x_content_candidate"
-
-
-def preview(text, limit=180):
-    value = re.sub(
-        r"\s+",
-        " ",
-        text,
-    ).strip()
-
-    if len(value) > limit:
+    if detected_type == "schedule":
         return (
-            value[:limit]
-            + "..."
+            "new_schedule_candidate"
         )
 
-    return value
+    if detected_type in {
+        "member_diary",
+        "message",
+        "movie",
+        "photo",
+        "radio",
+    }:
+        return (
+            "review_required"
+        )
+
+    if detected_type in {
+        "sns",
+        "video",
+    }:
+        return (
+            "x_content_candidate"
+        )
+
+    return "review_required"
 
 
-def print_result(
+# --------------------------------------------------
+# Output
+# --------------------------------------------------
+
+def print_post_result(
     index,
     total,
     post,
-    candidates,
+    detected,
+    matches,
 ):
     section(
         f"POST {index}/{total}"
@@ -755,69 +1297,138 @@ def print_result(
         post["text"]
     )
 
-    classification = (
-        preliminary_classification(
-            post,
-            candidates,
+    members = extract_members(
+        post["text"]
+    )
+
+    event_dates = extract_event_dates(
+        post["text"],
+        post["created_at_jst"],
+    )
+
+    extracted_title = extract_fc_title(
+        post["text"],
+        detected["type"],
+    )
+
+    schedule_names = (
+        extract_schedule_names(
+            post["text"]
         )
+        if detected["type"]
+        == "schedule"
+        else []
     )
 
     print()
     print(
-        "PRELIMINARY CLASSIFICATION:",
-        classification,
+        "DETECTED TYPE:",
+        detected["type"],
+    )
+
+    print(
+        "TYPE REASON:",
+        detected["reason"],
+    )
+
+    print(
+        "EXTRACTED TITLE:",
+        extracted_title,
+    )
+
+    print(
+        "EXTRACTED MEMBERS:",
+        ", ".join(members)
+        if members
+        else "(none)",
+    )
+
+    print(
+        "EXTRACTED EVENT DATES:",
+        ", ".join(
+            date.isoformat()
+            for date in event_dates
+        )
+        if event_dates
+        else "(none)",
+    )
+
+    print(
+        "EXTRACTED SCHEDULE NAMES:",
+        " / ".join(
+            schedule_names
+        )
+        if schedule_names
+        else "(none)",
+    )
+
+    result = classify_result(
+        detected,
+        matches,
     )
 
     print()
-    print("MATCH CANDIDATES:")
+    print(
+        "RESULT:",
+        result,
+    )
 
-    if not candidates:
+    print()
+    print(
+        "MATCH CANDIDATES:"
+    )
+
+    if not matches:
         print(
             "(none)"
         )
         return
 
-    for number, candidate in enumerate(
-        candidates,
+    for number, match in enumerate(
+        matches,
         start=1,
     ):
         print()
         print(
             f"  [{number}] "
-            f"SCORE={candidate['score']}"
+            f"SCORE={match['score']}"
         )
 
         print(
             "      TYPE:",
-            candidate["source_type"],
+            match["source_type"],
         )
 
         print(
             "      ID:",
-            candidate["id"],
+            match["id"],
         )
 
         print(
             "      DATE:",
-            candidate["date"],
+            match["date"],
         )
 
         print(
             "      TITLE:",
-            candidate["title"],
+            match["title"],
         )
 
         print(
             "      REASONS:",
             ", ".join(
-                candidate["reasons"]
+                match["reasons"]
             ),
         )
 
 
+# --------------------------------------------------
+# Main
+# --------------------------------------------------
+
 def main():
     section(
-        "X EXISTING CONTENT MATCH DIAGNOSTIC"
+        "X TYPE-FIRST MATCH DIAGNOSTIC"
     )
 
     raw_urls = os.environ.get(
@@ -840,20 +1451,47 @@ def main():
         len(urls),
     )
 
-    existing = load_existing_data()
+    # ------------------------------------------
+    # Load datasets
+    # ------------------------------------------
 
-    posts = []
+    section(
+        "LOAD DATASETS"
+    )
+
+    datasets = {}
+
+    for name, path in (
+        DATA_FILES.items()
+    ):
+        datasets[name] = (
+            load_json(
+                path
+            )
+        )
+
+        print(
+            f"{name}: "
+            f"{len(datasets[name])}"
+        )
+
+    # ------------------------------------------
+    # Fetch posts
+    # ------------------------------------------
 
     section(
         "FETCH X POSTS"
     )
+
+    posts = []
 
     for index, item in enumerate(
         urls,
         start=1,
     ):
         print(
-            f"Fetching {index}/{len(urls)}: "
+            f"Fetching "
+            f"{index}/{len(urls)}: "
             f"{item['post_id']}"
         )
 
@@ -879,25 +1517,54 @@ def main():
                 REQUEST_INTERVAL
             )
 
+    # ------------------------------------------
+    # Analyze
+    # ------------------------------------------
+
     section(
-        "MATCH RESULTS"
+        "TYPE-FIRST MATCH RESULTS"
     )
+
+    summary = {}
 
     for index, post in enumerate(
         posts,
         start=1,
     ):
-        candidates = find_candidates(
-            post,
-            existing,
+        detected = detect_post_type(
+            post["text"]
         )
 
-        print_result(
-            index,
-            len(posts),
+        matches = find_matches(
             post,
-            candidates,
+            detected,
+            datasets,
         )
+
+        result = classify_result(
+            detected,
+            matches,
+        )
+
+        summary[result] = (
+            summary.get(
+                result,
+                0,
+            )
+            + 1
+        )
+
+        print_post_result(
+            index=index,
+            total=len(posts),
+            post=post,
+            detected=detected,
+            matches=matches,
+        )
+
+    # ------------------------------------------
+    # Summary
+    # ------------------------------------------
 
     section(
         "SUMMARY"
@@ -914,9 +1581,18 @@ def main():
     )
 
     print()
+
+    for key in sorted(
+        summary.keys()
+    ):
+        print(
+            f"{key}: "
+            f"{summary[key]}"
+        )
+
+    print()
     print(
-        "この診断では既存JSONへの"
-        "書き込みは行っていません。"
+        "No production data was modified."
     )
 
     return 0
