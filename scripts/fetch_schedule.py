@@ -24,10 +24,17 @@ SCHEDULE_LIST_URL = (
 
 OUTPUT_PATH = Path("data/schedule.json")
 
-# INI結成・サイト開設以前を大量に巡回しないため、
-# 2021年6月から開始。
-START_YEAR = 2021
-START_MONTH = 6
+# ----------------------------------------------------------
+# 差分取得設定
+#
+# 通常実行では過去全件を取り直さず、
+# 現在月から何か月前まで再確認するか。
+#
+# 公式サイト側で直近Scheduleが後から修正された場合にも
+# 対応できるよう、2か月前から再取得する。
+# ----------------------------------------------------------
+
+REFRESH_PAST_MONTHS = 2
 
 # 将来発表済みの仕事も取得するため、
 # 現在月から12か月先まで確認する。
@@ -213,13 +220,6 @@ def clean_multiline_text(value):
 
 # ==========================================================
 # Schedule本文末尾のUI文字列を除外
-#
-# 詳細ページ本文の末尾に付く
-# SHARE
-# Back
-# はサイトUIでありSchedule本文ではないため保存しない。
-#
-# 本文途中に同じ単語が存在しても削除しない。
 # ==========================================================
 
 def clean_schedule_detail_text(value):
@@ -234,16 +234,12 @@ def clean_schedule_detail_text(value):
         "\n"
     )
 
-    # 末尾の空行はclean_multiline_textですでに
-    # 除去されているが、安全のため再確認。
     while (
         lines
         and not lines[-1].strip()
     ):
         lines.pop()
 
-    # Schedule詳細ページ末尾の
-    # Backだけを削除。
     if (
         lines
         and lines[-1].strip().lower()
@@ -251,8 +247,6 @@ def clean_schedule_detail_text(value):
     ):
         lines.pop()
 
-    # Backの直前にあるSHAREだけを削除。
-    # Backがないページでも末尾SHAREはUIなので削除する。
     if (
         lines
         and lines[-1].strip().lower()
@@ -327,6 +321,13 @@ def iter_months(
             year += 1
 
 
+def month_key(year, month):
+    return (
+        f"{year:04d}-"
+        f"{month:02d}"
+    )
+
+
 # ==========================================================
 # 日付
 # ==========================================================
@@ -355,10 +356,6 @@ def extract_date_from_text(
     if not text:
         return ""
 
-    # 2026.09.17
-    # 2026/09/17
-    # 2026-09-17
-
     match = re.search(
         r"(20\d{2})"
         r"[./-]"
@@ -374,10 +371,6 @@ def extract_date_from_text(
             int(match.group(2)),
             int(match.group(3)),
         )
-
-    # 月別一覧では
-    # 09 17 [Thu]
-    # のような形式にも対応。
 
     if (
         default_year is not None
@@ -401,7 +394,6 @@ def extract_date_from_text(
                 int(match.group(1)),
             )
 
-        # 17日
         match = re.search(
             r"(\d{1,2})日",
             text,
@@ -565,14 +557,6 @@ def extract_schedule_id(url):
     return match.group(1)
 
 
-def is_schedule_detail_url(url):
-    return bool(
-        extract_schedule_id(
-            url
-        )
-    )
-
-
 # ==========================================================
 # 一覧ページ解析
 # ==========================================================
@@ -627,10 +611,6 @@ def find_schedule_entries(
         if schedule_id in seen_ids:
             continue
 
-        # --------------------------------------------------
-        # Schedule1件を囲っている親要素を探す
-        # --------------------------------------------------
-
         container = link
 
         for _ in range(8):
@@ -660,10 +640,6 @@ def find_schedule_entries(
                 strip=True,
             )
         )
-
-        # --------------------------------------------------
-        # 日付
-        # --------------------------------------------------
 
         date = ""
 
@@ -695,10 +671,6 @@ def find_schedule_entries(
                     month,
                 )
             )
-
-        # --------------------------------------------------
-        # カテゴリ
-        # --------------------------------------------------
 
         category_label = ""
 
@@ -735,10 +707,6 @@ def find_schedule_entries(
             )
         )
 
-        # --------------------------------------------------
-        # タイトル
-        # --------------------------------------------------
-
         title = ""
 
         title_element = (
@@ -763,15 +731,8 @@ def find_schedule_entries(
                 )
             )
 
-        # タイトルがリンクの子要素などで
-        # 空になる場合への保険。
-
         if not title:
             title = container_text
-
-        # --------------------------------------------------
-        # 最低限必要な値を確認
-        # --------------------------------------------------
 
         if not date:
             print(
@@ -865,8 +826,6 @@ def find_detail_content(soup):
             key=lambda item: item[0]
         )
 
-        # 最も短すぎる断片ではなく、
-        # Schedule本文として十分な量がある候補を優先。
         meaningful = [
             item
             for item in candidates
@@ -874,8 +833,6 @@ def find_detail_content(soup):
         ]
 
         if meaningful:
-            # main全体よりも、
-            # 比較的小さい本文コンテナを優先。
             return meaningful[0][1], meaningful[0][2]
 
         return (
@@ -922,10 +879,6 @@ def extract_detail_header(
         )
     )
 
-    # ------------------------------------------------------
-    # 日付
-    # ------------------------------------------------------
-
     date = (
         extract_date_from_text(
             page_text
@@ -935,10 +888,6 @@ def extract_detail_header(
             "",
         )
     )
-
-    # ------------------------------------------------------
-    # カテゴリ
-    # ------------------------------------------------------
 
     category_label = ""
 
@@ -980,10 +929,6 @@ def extract_detail_header(
             category_label
         )
     )
-
-    # ------------------------------------------------------
-    # タイトル
-    # ------------------------------------------------------
 
     title = ""
 
@@ -1033,11 +978,6 @@ def extract_detail_header(
 
 # ==========================================================
 # SNS共有リンク判定
-#
-# Facebook / X(Twitter) / LINE の「記事を共有するためのURL」
-# だけをexternalLinksから除外する。
-#
-# 通常の記事本文に掲載された関連サイトへのリンクは残す。
 # ==========================================================
 
 def is_social_share_url(url):
@@ -1059,10 +999,6 @@ def is_social_share_url(url):
         .lower()
     )
 
-    # ------------------------------------------------------
-    # Facebook共有
-    # ------------------------------------------------------
-
     if (
         host in {
             "www.facebook.com",
@@ -1082,10 +1018,6 @@ def is_social_share_url(url):
     ):
         return True
 
-    # ------------------------------------------------------
-    # X / Twitter共有
-    # ------------------------------------------------------
-
     if (
         host in {
             "twitter.com",
@@ -1103,13 +1035,6 @@ def is_social_share_url(url):
         )
     ):
         return True
-
-    # ------------------------------------------------------
-    # LINE共有
-    #
-    # INI公式サイトで実際に使用されている
-    # timeline.line.me/social-plugin/share にも対応。
-    # ------------------------------------------------------
 
     if (
         host in {
@@ -1168,11 +1093,6 @@ def is_schedule_back_link(
         ).lower()
     )
 
-    # INI公式Schedule詳細ページにある
-    # 「Back → /schedule/list/」だけを除外する。
-    #
-    # 記事本文中にINI公式サイトへの別リンクがあっても
-    # ここでは除外しない。
     if (
         host in {
             "ini-official.com",
@@ -1229,7 +1149,6 @@ def extract_external_links(
         }:
             continue
 
-        # Schedule詳細ページ自身は除外
         if (
             normalize_url(
                 detail_url
@@ -1238,8 +1157,6 @@ def extract_external_links(
         ):
             continue
 
-        # Facebook / X(Twitter) / LINEの
-        # 記事共有用URLは保存しない。
         if is_social_share_url(
             href
         ):
@@ -1252,17 +1169,12 @@ def extract_external_links(
             )
         )
 
-        # Schedule詳細ページ下部にある
-        # 「Back → Schedule一覧」のナビゲーションは保存しない。
         if is_schedule_back_link(
             href,
             label,
         ):
             continue
 
-        # サイト共通ナビゲーション等を
-        # 可能な限り除外するため、
-        # 本文コンテナ内のリンクだけを対象としている。
         if href in seen:
             continue
 
@@ -1309,8 +1221,6 @@ def fetch_schedule_detail(
         soup
     )
 
-    # Schedule本文末尾に含まれるサイトUI
-    # SHARE / Back を保存対象から除外する。
     detail_text = (
         clean_schedule_detail_text(
             detail_text
@@ -1327,8 +1237,6 @@ def fetch_schedule_detail(
         entry,
     )
 
-    # メンバー判定はタイトル＋
-    # クリーニング済み本文で行う。
     member_search_text = (
         f"{title}\n{detail_text}"
     )
@@ -1420,7 +1328,7 @@ def fetch_month(
             repr(error),
         )
 
-        return []
+        return None
 
     soup = BeautifulSoup(
         html,
@@ -1465,8 +1373,6 @@ def fetch_month(
             )
 
         except Exception as error:
-            # 個別ページ1件の失敗だけで
-            # 月全体を失わない。
             print(
                 "    WARNING:",
                 "詳細取得失敗:",
@@ -1497,7 +1403,56 @@ def fetch_month(
 
 
 # ==========================================================
+# 既存JSON読込
+# ==========================================================
+
+def load_existing_items():
+    if not OUTPUT_PATH.exists():
+        print(
+            "既存のschedule.jsonがありません。"
+        )
+
+        return []
+
+    try:
+        with OUTPUT_PATH.open(
+            "r",
+            encoding="utf-8",
+        ) as file:
+            data = json.load(
+                file
+            )
+
+    except Exception as error:
+        raise RuntimeError(
+            "既存のdata/schedule.jsonを"
+            "読み込めませんでした。"
+        ) from error
+
+    if not isinstance(
+        data,
+        list,
+    ):
+        raise RuntimeError(
+            "既存のdata/schedule.jsonが"
+            "配列ではありません。"
+        )
+
+    print(
+        "既存Schedule:",
+        len(data),
+        "件"
+    )
+
+    return data
+
+
+# ==========================================================
 # 重複排除
+#
+# scheduleIdをSchedule固有IDとして使用する。
+# 同じscheduleIdが再取得された場合は、
+# 新しく取得した内容で置き換える。
 # ==========================================================
 
 def deduplicate(items):
@@ -1513,15 +1468,68 @@ def deduplicate(items):
         if not schedule_id:
             continue
 
-        key = (
-            f"{schedule_id}:"
-            f"{item.get('date', '')}"
-        )
-
-        result[key] = item
+        result[
+            str(schedule_id)
+        ] = item
 
     return list(
         result.values()
+    )
+
+
+# ==========================================================
+# 更新対象月判定
+# ==========================================================
+
+def is_in_refresh_range(
+    item,
+    start_year,
+    start_month,
+    end_year,
+    end_month,
+):
+    date = item.get(
+        "date",
+        "",
+    )
+
+    match = re.match(
+        r"^(\d{4})-(\d{2})-\d{2}$",
+        date,
+    )
+
+    if not match:
+        # 日付が壊れている既存データは
+        # 勝手に削除しない。
+        return False
+
+    year = int(
+        match.group(1)
+    )
+
+    month = int(
+        match.group(2)
+    )
+
+    value = (
+        year * 12
+        + month
+    )
+
+    start_value = (
+        start_year * 12
+        + start_month
+    )
+
+    end_value = (
+        end_year * 12
+        + end_month
+    )
+
+    return (
+        start_value
+        <= value
+        <= end_value
     )
 
 
@@ -1598,6 +1606,14 @@ def save_json(items):
 def main():
     now = datetime.now()
 
+    start_year, start_month = (
+        add_months(
+            now.year,
+            now.month,
+            -REFRESH_PAST_MONTHS,
+        )
+    )
+
     end_year, end_month = (
         add_months(
             now.year,
@@ -1607,16 +1623,13 @@ def main():
     )
 
     print("=" * 80)
-    print("INI Schedule fetch")
+    print("INI Schedule incremental fetch")
     print("=" * 80)
 
     print(
-        "取得開始:",
-        f"{START_YEAR}-{START_MONTH:02d}",
-    )
-
-    print(
-        "取得終了:",
+        "更新対象:",
+        f"{start_year}-{start_month:02d}",
+        "〜",
         f"{end_year}-{end_month:02d}",
     )
 
@@ -1625,11 +1638,67 @@ def main():
         OUTPUT_PATH,
     )
 
-    all_items = []
+    # ------------------------------------------------------
+    # 既存データを読み込む
+    # ------------------------------------------------------
+
+    existing_items = (
+        load_existing_items()
+    )
+
+    # ------------------------------------------------------
+    # 更新対象期間より古いデータは、
+    # HTTPアクセスせずそのまま保持する。
+    # ------------------------------------------------------
+
+    preserved_items = [
+        item
+        for item in existing_items
+        if not is_in_refresh_range(
+            item,
+            start_year,
+            start_month,
+            end_year,
+            end_month,
+        )
+    ]
+
+    refresh_old_items = [
+        item
+        for item in existing_items
+        if is_in_refresh_range(
+            item,
+            start_year,
+            start_month,
+            end_year,
+            end_month,
+        )
+    ]
+
+    print(
+        "そのまま保持:",
+        len(preserved_items),
+        "件"
+    )
+
+    print(
+        "再取得対象だった既存データ:",
+        len(refresh_old_items),
+        "件"
+    )
+
+    # ------------------------------------------------------
+    # 直近〜将来分だけ公式サイトから再取得
+    # ------------------------------------------------------
+
+    refreshed_items = []
+
+    successful_months = set()
+    failed_months = set()
 
     for year, month in iter_months(
-        START_YEAR,
-        START_MONTH,
+        start_year,
+        start_month,
         end_year,
         end_month,
     ):
@@ -1640,14 +1709,87 @@ def main():
             )
         )
 
-        all_items.extend(
-            month_items
+        key = month_key(
+            year,
+            month,
         )
 
-        # 月ページ間にも少し間隔を置く。
+        if month_items is None:
+            failed_months.add(
+                key
+            )
+
+            print(
+                "WARNING:",
+                key,
+                "の一覧取得に失敗したため、"
+                "既存データを保持します。"
+            )
+
+        else:
+            successful_months.add(
+                key
+            )
+
+            refreshed_items.extend(
+                month_items
+            )
+
         time.sleep(
             REQUEST_INTERVAL
         )
+
+    # ------------------------------------------------------
+    # 月一覧の取得に失敗した月については、
+    # 既存JSONのデータを消さず保持する。
+    # ------------------------------------------------------
+
+    failed_month_existing = []
+
+    for item in refresh_old_items:
+        date = item.get(
+            "date",
+            "",
+        )
+
+        item_month = (
+            date[:7]
+            if len(date) >= 7
+            else ""
+        )
+
+        if (
+            item_month
+            in failed_months
+        ):
+            failed_month_existing.append(
+                item
+            )
+
+    # ------------------------------------------------------
+    # マージ
+    #
+    # 1. 更新対象外の過去データ
+    # 2. 取得失敗月の既存データ
+    # 3. 正常に再取得できた最新データ
+    #
+    # の順で入れる。
+    # scheduleIdが重複した場合は後のデータが優先。
+    # ------------------------------------------------------
+
+    all_items = []
+
+    all_items.extend(
+        preserved_items
+    )
+
+    all_items.extend(
+        failed_month_existing
+    )
+
+    all_items.extend(
+        refreshed_items
+    )
 
     all_items = deduplicate(
         all_items
@@ -1656,6 +1798,31 @@ def main():
     all_items.sort(
         key=sort_key
     )
+
+    # ------------------------------------------------------
+    # 安全チェック
+    #
+    # 既存データがあるのに、何らかの不具合で
+    # 全体件数が極端に減った場合は保存しない。
+    # ------------------------------------------------------
+
+    if existing_items:
+        minimum_safe_count = int(
+            len(existing_items)
+            * 0.90
+        )
+
+        if (
+            len(all_items)
+            < minimum_safe_count
+        ):
+            raise RuntimeError(
+                "更新後のSchedule件数が"
+                "既存データの90%未満になりました。"
+                "データ消失防止のため保存を中止します。"
+                f" existing={len(existing_items)}"
+                f" new={len(all_items)}"
+            )
 
     save_json(
         all_items
@@ -1667,10 +1834,54 @@ def main():
     print("=" * 80)
 
     print(
-        "Schedule:",
+        "既存Schedule:",
+        len(existing_items),
+        "件"
+    )
+
+    print(
+        "保持した過去データ:",
+        len(preserved_items),
+        "件"
+    )
+
+    print(
+        "今回再取得:",
+        len(refreshed_items),
+        "件"
+    )
+
+    print(
+        "取得失敗月から保持:",
+        len(failed_month_existing),
+        "件"
+    )
+
+    print(
+        "最終Schedule:",
         len(all_items),
         "件"
     )
+
+    print(
+        "正常取得月:",
+        len(successful_months),
+    )
+
+    print(
+        "取得失敗月:",
+        len(failed_months),
+    )
+
+    if failed_months:
+        print(
+            "失敗した月:",
+            ", ".join(
+                sorted(
+                    failed_months
+                )
+            ),
+        )
 
     if all_items:
         print()
