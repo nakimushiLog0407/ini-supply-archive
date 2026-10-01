@@ -64387,6 +64387,28 @@
     "detailText": "2026.09.27\n[Sun]\nTV\nCX『SUNDAYブレイク.』7:00-8:55\n▼番組名\nCX『SUNDAYブレイク.』\n▼放送日時\n2026年9月27日（日）7:00-8:55\n▼番組HP\nfujitv.co.jp/sundaybreak/\nシュウ・フェンファンが生出演いたします。"
   },
   {
+    "id": "schedule-4480",
+    "scheduleId": "4480",
+    "type": "schedule",
+    "group": "schedule",
+    "category": "radio",
+    "categoryLabel": "Radio",
+    "date": "2026-09-30",
+    "title": "NHK-FM『ミュージックライン』21:45-22:30",
+    "url": "https://ini-official.com/schedule/detail/4480",
+    "members": [
+      "後藤威尊",
+      "髙塚大夢"
+    ],
+    "externalLinks": [
+      {
+        "label": "https://www.nhk.jp/p/ml/rs/Z9WGYY3GP5/",
+        "url": "https://www.nhk.jp/p/ml/rs/Z9WGYY3GP5/"
+      }
+    ],
+    "detailText": "2026.09.30\n[Wed]\nRadio\nNHK-FM『ミュージックライン』21:45-22:30\n▼番組名\nNHK-FM『ミュージックライン』\n▼放送日時\n2026年9月30日（水）21:45-22:30\n▼番組HP\nhttps://www.nhk.jp/p/ml/rs/Z9WGYY3GP5/\n後藤威尊、髙塚大夢が出演いたします。"
+  },
+  {
     "id": "schedule-4364",
     "scheduleId": "4364",
     "type": "schedule",
@@ -64429,6 +64451,27 @@
     "detailText": "2026.10.01\n[Thu]\nTV\nMnet『M COUNTDOWN』18:00-20:00\n▼番組名\nMnet『M COUNTDOWN』\n▼放送日時\n2026年10月1日（木）18:00-20:00\n▼番組HP\nhttps://mnetjp.com/mcountdown/\nhttps://poc.mnetplus.world/mcountdown/ja/play\n日韓同時生放送"
   },
   {
+    "id": "schedule-4479",
+    "scheduleId": "4479",
+    "type": "schedule",
+    "group": "schedule",
+    "category": "tv",
+    "categoryLabel": "TV",
+    "date": "2026-10-01",
+    "title": "テレビ信州『ゆうがたGet!every.』15:50-19:00",
+    "url": "https://ini-official.com/schedule/detail/4479",
+    "members": [
+      "藤牧京介"
+    ],
+    "externalLinks": [
+      {
+        "label": "https://www.tsb.jp/u-get/",
+        "url": "https://www.tsb.jp/u-get/"
+      }
+    ],
+    "detailText": "2026.10.01\n[Thu]\nTV\nテレビ信州『ゆうがたGet!every.』15:50-19:00\n▼番組名\nテレビ信州『ゆうがたGet!every.』\n▼放送日時\n2026年10月1日（木）15:50-19:00\n▼番組HP\nhttps://www.tsb.jp/u-get/\n藤牧京介が出演いたします。"
+  },
+  {
     "id": "schedule-4471",
     "scheduleId": "4471",
     "type": "schedule",
@@ -64468,6 +64511,27 @@
       }
     ],
     "detailText": "2026.10.03\n[Sat]\nRadio\nTOKYO FM/JFN『From INI』毎週金曜日深夜25:00-27:00\n▼番組名\nTOKYO FM/JFN『From INI』\n▼放送日時\n2026年10月2日（金）25:00-27:00\n▼番組HP\nhttps://audee.jp/program/show/59121"
+  },
+  {
+    "id": "schedule-4481",
+    "scheduleId": "4481",
+    "type": "schedule",
+    "group": "schedule",
+    "category": "live_event",
+    "categoryLabel": "Live／Event",
+    "date": "2026-10-04",
+    "title": "第20 回アジア競技大会 閉会式 WARM-UP STAGE",
+    "url": "https://ini-official.com/schedule/detail/4481",
+    "members": [
+      "木村柾哉"
+    ],
+    "externalLinks": [
+      {
+        "label": "https://www.aichi-nagoya2026.org/",
+        "url": "https://www.aichi-nagoya2026.org/"
+      }
+    ],
+    "detailText": "2026.10.04\n[Sun]\nLive／Event\n第20 回アジア競技大会 閉会式 WARM-UP STAGE\n◼︎日程\n10月4日（日）\n本人確認開始 13:00/開門 13:30\nWARM-UP STAGE開始 16:00\n※WARM-UP STAGE開始後(16:30～)は入場規制がございます。\n◾️会場\n愛知・名古屋市瑞穂公園陸上競技場(パロマ瑞穂スタジアム)\n◾️公式サイト\nhttps://www.aichi-nagoya2026.org/\n木村柾哉が出演いたします。"
   },
   {
     "id": "schedule-4440",
