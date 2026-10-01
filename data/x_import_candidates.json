@@ -1,1 +1,830 @@
-[]
+[
+  {
+    "postId": "2105115418432299345",
+    "url": "https://x.com/official__ini/status/2105115418432299345",
+    "postedAt": "2026-09-30T11:00:01+09:00",
+    "author": "official__INI",
+    "text": "[📢] #INIng_Party\n#INI 9TH SINGLE \"ANTHEM\"\nListening Party 🎧\n\n2026.09.30(Wed) 20:30-21:30\n\n#フェンファン #髙塚大夢 がボイス出演🧸🐹\n\nFollow our @STATIONHEAD\nhttps://t.co/rNJZxqUt9Y\n\n#INI_ANTHEM\n#INI_YKWTD\n#INI_BEYONDTHESKY\n#INI_1NARIDE",
+    "detected": {
+      "type": "schedule",
+      "reason": "appearance_or_event",
+      "title": "ANTHEM",
+      "members": [
+        "シュウ・フェンファン",
+        "髙塚大夢"
+      ],
+      "eventDates": [
+        "2026-09-30"
+      ],
+      "scheduleNames": [
+        "listening party",
+        "ining_party",
+        "stationhead"
+      ],
+      "strongVideoKeywords": [],
+      "weakVideoKeywords": []
+    },
+    "automaticResult": "new_schedule_candidate",
+    "suggestion": {
+      "action": "new_schedule",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": "listening_party:2026-09-30"
+    },
+    "matches": [
+      {
+        "sourceType": "schedule",
+        "id": "schedule-4480",
+        "date": "2026-09-30",
+        "title": "NHK-FM『ミュージックライン』21:45-22:30",
+        "url": "https://ini-official.com/schedule/detail/4480",
+        "score": 120,
+        "filterReason": "event_date_exact",
+        "identityMatch": false,
+        "memberConflict": null,
+        "reasons": [
+          "event_date:exact",
+          "member:髙塚大夢"
+        ]
+      },
+      {
+        "sourceType": "schedule",
+        "id": "schedule-4364",
+        "date": "2026-09-30",
+        "title": "BARFOUT! SPECIAL EDITION AUTUMN 2026",
+        "url": "https://ini-official.com/schedule/detail/4364",
+        "score": 100,
+        "filterReason": "event_date_exact",
+        "identityMatch": false,
+        "memberConflict": null,
+        "reasons": [
+          "event_date:exact"
+        ]
+      }
+    ],
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "2105124575638098412",
+    "url": "https://x.com/official__ini/status/2105124575638098412",
+    "postedAt": "2026-09-30T11:36:24+09:00",
+    "author": "official__INI",
+    "text": "[📢]\n\n10月8日(木)10:25〜\n日本テレビ「#DayDay.」\n#DottiDotti 👀コーナーに\n#INI の生出演が決定！\n\n'You Know What To Do' をフルサイズで\n披露させていただきます！\nぜひご覧ください🤝\n\n@ntv_DayDay\n#INI_ANTHEM #INI_YKWTD",
+    "detected": {
+      "type": "schedule",
+      "reason": "appearance_or_event",
+      "title": "DayDay.",
+      "members": [],
+      "eventDates": [
+        "2026-10-08"
+      ],
+      "scheduleNames": [
+        "dayday.",
+        "dayday"
+      ],
+      "strongVideoKeywords": [],
+      "weakVideoKeywords": []
+    },
+    "automaticResult": "existing_content_candidate",
+    "suggestion": {
+      "action": "link_existing",
+      "targetType": "schedule",
+      "targetId": "schedule-4477",
+      "groupKey": null
+    },
+    "matches": [
+      {
+        "sourceType": "schedule",
+        "id": "schedule-4477",
+        "date": "2026-10-08",
+        "title": "NTV『DayDay.』9:00-11:10",
+        "url": "https://ini-official.com/schedule/detail/4477",
+        "score": 200,
+        "filterReason": "event_date_exact",
+        "identityMatch": true,
+        "memberConflict": null,
+        "reasons": [
+          "event_date:exact",
+          "schedule_name:strong"
+        ]
+      }
+    ],
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "2105129929495212297",
+    "url": "https://x.com/official__ini/status/2105129929495212297",
+    "postedAt": "2026-09-30T11:57:41+09:00",
+    "author": "official__INI",
+    "text": "[📢]\n\n#INI｜'You Know What To Do'\n\n#田島将吾 #松田迅 の\nMVコメンタリーを期間限定で公開🤓😎\n\n🔗https://t.co/h1vLolb7Te\n\n🎧視聴方法\n①動画内の設定[⚙]を選択\n②[音声トラック]を選択し[日本語(解説)]に切り替え\n\n#INI_ANTHEM #INI_YKWTD",
+    "detected": {
+      "type": "video",
+      "reason": "video_content",
+      "title": "You Know What To Do",
+      "members": [
+        "田島将吾",
+        "松田迅"
+      ],
+      "eventDates": [],
+      "scheduleNames": [],
+      "strongVideoKeywords": [
+        "田島将吾",
+        "松田迅",
+        "mvコメンタリー"
+      ],
+      "weakVideoKeywords": [
+        "you know what to do",
+        "ini_anthem",
+        "ini_ykwtd"
+      ]
+    },
+    "automaticResult": "x_content_candidate",
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "matches": [],
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "2105190916898308519",
+    "url": "https://x.com/official__ini/status/2105190916898308519",
+    "postedAt": "2026-09-30T16:00:01+09:00",
+    "author": "official__INI",
+    "text": "𝟐𝟎𝟐𝟔 𝑰𝑵𝑰 𝟓𝑻𝑯 𝑨𝑵𝑵𝑰𝑽𝑬𝑹𝑺𝑨𝑹𝒀 𝑫𝑶𝑴𝑬 𝑻𝑶𝑼𝑹 [𝑪𝑰𝑻𝒀 𝑶𝑭 𝑳𝑰𝑮𝑯𝑻𝑺]\n\nCAPSULE TOYの受注販売が決定いたしました！\n\n受付期間内であれば、いつでもご購入いただけます。\n※混雑時は時間をおいてご注文ください。\n\n🗓️受注販売期間\n9/30(水)17:30〜10/4(日)23:59\n\n▼詳細 https://t.co/IT5c5rfKQ8",
+    "detected": {
+      "type": "exclude",
+      "reason": "sales_or_merchandise",
+      "title": null,
+      "members": [],
+      "eventDates": [
+        "2026-09-30",
+        "2026-10-04"
+      ],
+      "scheduleNames": [],
+      "strongVideoKeywords": [],
+      "weakVideoKeywords": []
+    },
+    "automaticResult": "exclude_candidate",
+    "suggestion": {
+      "action": "exclude",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "matches": [],
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "2105213562583134642",
+    "url": "https://x.com/official__ini/status/2105213562583134642",
+    "postedAt": "2026-09-30T17:30:00+09:00",
+    "author": "official__INI",
+    "text": "𝟐𝟎𝟐𝟔 𝑰𝑵𝑰 𝟓𝑻𝑯 𝑨𝑵𝑵𝑰𝑽𝑬𝑹𝑺𝑨𝑹𝒀 𝑫𝑶𝑴𝑬 𝑻𝑶𝑼𝑹 [𝑪𝑰𝑻𝒀 𝑶𝑭 𝑳𝑰𝑮𝑯𝑻𝑺]\n\nCAPSULE TOY\n受注販売スタート！\n\n受付期間内であれば、いつでもご購入いただけます。\n※混雑時は時間をおいてご注文ください。\n\n🗓️受注販売期間\n9/30(水)17:30〜10/4(日)23:59\n\n▼詳細",
+    "detected": {
+      "type": "exclude",
+      "reason": "sales_or_merchandise",
+      "title": null,
+      "members": [],
+      "eventDates": [
+        "2026-09-30",
+        "2026-10-04"
+      ],
+      "scheduleNames": [],
+      "strongVideoKeywords": [],
+      "weakVideoKeywords": []
+    },
+    "automaticResult": "exclude_candidate",
+    "suggestion": {
+      "action": "exclude",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "matches": [],
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "2105217336357912595",
+    "url": "https://x.com/official__ini/status/2105217336357912595",
+    "postedAt": "2026-09-30T17:45:00+09:00",
+    "author": "official__INI",
+    "text": "✨OFFICIAL FANCLUB✨\nコンテンツ更新情報\n\n「INI Type Check vol.5」が公開されました。\n\nサイト内［Message］より、\nチェックしてください。\n\nhttps://t.co/lh66d4d0PI\n\n#INI #INI_FC #INI相性診断 #INI_Type_Check https://t.co/isVYurtn96",
+    "detected": {
+      "type": "message",
+      "reason": "fc_message",
+      "title": "INI Type Check vol.5",
+      "members": [],
+      "eventDates": [],
+      "scheduleNames": [],
+      "strongVideoKeywords": [],
+      "weakVideoKeywords": []
+    },
+    "automaticResult": "review_required",
+    "suggestion": {
+      "action": "review",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null,
+      "reason": "review_required"
+    },
+    "matches": [],
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "2105222361041842500",
+    "url": "https://x.com/official__ini/status/2105222361041842500",
+    "postedAt": "2026-09-30T18:04:58+09:00",
+    "author": "official__INI",
+    "text": "[📱]\n\n#INI | 'You Know What To Do' \n#HIROTO w/ #BEFIRST #RYUHEI\n\nTikTok ▶https://t.co/yQx4gRQCPX\nShorts ▶https://t.co/7dIKpuh5Qb\nReels ▶https://t.co/orcLS3L7ff\n\nありがとうございました！\n\n@BEFIRSTofficial\n\n#西洸人 #INI_YKWTD",
+    "detected": {
+      "type": "video",
+      "reason": "video_content",
+      "title": "You Know What To Do",
+      "members": [
+        "西洸人"
+      ],
+      "eventDates": [],
+      "scheduleNames": [],
+      "strongVideoKeywords": [
+        "hiroto",
+        "befirst",
+        "ryuhei",
+        "西洸人"
+      ],
+      "weakVideoKeywords": [
+        "you know what to do",
+        "ini_ykwtd"
+      ]
+    },
+    "automaticResult": "existing_content_candidate",
+    "suggestion": {
+      "action": "link_existing",
+      "targetType": "youtube",
+      "targetId": "youtube-xRO4-4xAcB4",
+      "groupKey": null
+    },
+    "matches": [
+      {
+        "sourceType": "youtube",
+        "id": "youtube-xRO4-4xAcB4",
+        "date": "2026-09-30",
+        "title": "#INI | 'You Know What To Do' #HIROTO w/ #BEFIRST #RYUHEI #西洸人 #INI_YKWTD",
+        "url": null,
+        "score": 260,
+        "filterReason": "publish_date_exact",
+        "identityMatch": true,
+        "memberConflict": false,
+        "reasons": [
+          "publish_date:exact",
+          "strong_video_keywords:hiroto,befirst,ryuhei,西洸人",
+          "weak_video_keywords:you know what to do,ini_ykwtd",
+          "member:西洸人"
+        ]
+      }
+    ],
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "2105224884678955419",
+    "url": "https://x.com/official__ini/status/2105224884678955419",
+    "postedAt": "2026-09-30T18:15:00+09:00",
+    "author": "official__INI",
+    "text": "✨OFFICIAL FANCLUB✨\nコンテンツ更新情報\n\n「Member Diary」が公開されました！\n\n🔽柾哉です\n\nサイト内［Member Diary］より、\nチェックしてください。\n\nhttps://t.co/lh66d4d0PI\n\n#INI #木村柾哉 #INI_FC",
+    "detected": {
+      "type": "member_diary",
+      "reason": "fc_member_diary",
+      "title": "柾哉です",
+      "members": [
+        "木村柾哉"
+      ],
+      "eventDates": [],
+      "scheduleNames": [],
+      "strongVideoKeywords": [],
+      "weakVideoKeywords": []
+    },
+    "automaticResult": "existing_content_candidate",
+    "suggestion": {
+      "action": "link_existing",
+      "targetType": "member_diary",
+      "targetId": "member-diary-677",
+      "groupKey": null
+    },
+    "matches": [
+      {
+        "sourceType": "member_diary",
+        "id": "member-diary-677",
+        "date": "2026-09-30",
+        "title": "柾哉です",
+        "url": "https://ini-official.com/blog/detail/677/",
+        "score": 230,
+        "filterReason": "publish_date_exact",
+        "identityMatch": null,
+        "memberConflict": null,
+        "reasons": [
+          "publish_date:exact",
+          "title:exact",
+          "member:木村柾哉"
+        ]
+      },
+      {
+        "sourceType": "member_diary",
+        "id": "member-diary-678",
+        "date": "2026-09-30",
+        "title": "CITY OF LIGHTS✨",
+        "url": "https://ini-official.com/blog/detail/678/",
+        "score": 80,
+        "filterReason": "publish_date_exact",
+        "identityMatch": null,
+        "memberConflict": null,
+        "reasons": [
+          "publish_date:exact"
+        ]
+      }
+    ],
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "2105229747848692218",
+    "url": "https://x.com/official__ini/status/2105229747848692218",
+    "postedAt": "2026-09-30T18:34:19+09:00",
+    "author": "official__INI",
+    "text": "[📱] Instagram Reels UP!!!\n\nSISI\n#木村柾哉 Behind the scenes\n(https://t.co/0NJkhQqzMt)\n\n@sisi_tokyo2020\n\n#ぜんぶヒーローに任せて\n#SISIアイムユアヒーロー #INI",
+    "detected": {
+      "type": "sns",
+      "reason": "social_content",
+      "title": null,
+      "members": [
+        "木村柾哉"
+      ],
+      "eventDates": [],
+      "scheduleNames": [],
+      "strongVideoKeywords": [
+        "木村柾哉",
+        "ぜんぶヒ",
+        "sisiアイムユアヒ"
+      ],
+      "weakVideoKeywords": []
+    },
+    "automaticResult": "x_content_candidate",
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "matches": [],
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "2105237123414868086",
+    "url": "https://x.com/official__ini/status/2105237123414868086",
+    "postedAt": "2026-09-30T19:03:38+09:00",
+    "author": "official__INI",
+    "text": "[📱] TikTok UP!!!\n\nLove 💛\n最近黄色が好き\n(https://t.co/FFnNv8IJ8J)\n\n#INI #田島将吾 #SHOGO",
+    "detected": {
+      "type": "sns",
+      "reason": "social_content",
+      "title": null,
+      "members": [
+        "田島将吾"
+      ],
+      "eventDates": [],
+      "scheduleNames": [],
+      "strongVideoKeywords": [
+        "田島将吾",
+        "shogo"
+      ],
+      "weakVideoKeywords": []
+    },
+    "automaticResult": "x_content_candidate",
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "matches": [],
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "2105239984274088421",
+    "url": "https://x.com/official__ini/status/2105239984274088421",
+    "postedAt": "2026-09-30T19:15:00+09:00",
+    "author": "official__INI",
+    "text": "✨OFFICIAL FANCLUB✨\nコンテンツ更新情報\n\n「Member Diary」が公開されました！\n\n🔽 CITY OF LIGHTS✨\n\nサイト内［Member Diary］より、\nチェックしてください。\n\nhttps://t.co/lh66d4d0PI\n\n#INI #フェンファン #INI_FC",
+    "detected": {
+      "type": "member_diary",
+      "reason": "fc_member_diary",
+      "title": "CITY OF LIGHTS✨",
+      "members": [
+        "シュウ・フェンファン"
+      ],
+      "eventDates": [],
+      "scheduleNames": [],
+      "strongVideoKeywords": [],
+      "weakVideoKeywords": []
+    },
+    "automaticResult": "existing_content_candidate",
+    "suggestion": {
+      "action": "link_existing",
+      "targetType": "member_diary",
+      "targetId": "member-diary-678",
+      "groupKey": null
+    },
+    "matches": [
+      {
+        "sourceType": "member_diary",
+        "id": "member-diary-678",
+        "date": "2026-09-30",
+        "title": "CITY OF LIGHTS✨",
+        "url": "https://ini-official.com/blog/detail/678/",
+        "score": 230,
+        "filterReason": "publish_date_exact",
+        "identityMatch": null,
+        "memberConflict": null,
+        "reasons": [
+          "publish_date:exact",
+          "title:exact",
+          "member:シュウ・フェンファン"
+        ]
+      },
+      {
+        "sourceType": "member_diary",
+        "id": "member-diary-677",
+        "date": "2026-09-30",
+        "title": "柾哉です",
+        "url": "https://ini-official.com/blog/detail/677/",
+        "score": 80,
+        "filterReason": "publish_date_exact",
+        "identityMatch": null,
+        "memberConflict": null,
+        "reasons": [
+          "publish_date:exact"
+        ]
+      }
+    ],
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "2105253218502717652",
+    "url": "https://x.com/official__ini/status/2105253218502717652",
+    "postedAt": "2026-09-30T20:07:35+09:00",
+    "author": "official__INI",
+    "text": "[📱]\n\n見てるの気づいてるよ🪞\n\nTikTok ▶https://t.co/bqkLQMsJ1N\nShorts ▶https://t.co/EME06ETD3w\nReels ▶https://t.co/qZKASdRli0\n\n#INI #INI_YKWTD",
+    "detected": {
+      "type": "video",
+      "reason": "video_content",
+      "title": null,
+      "members": [],
+      "eventDates": [],
+      "scheduleNames": [],
+      "strongVideoKeywords": [
+        "見てるの気づいてるよ"
+      ],
+      "weakVideoKeywords": [
+        "ini_ykwtd"
+      ]
+    },
+    "automaticResult": "existing_content_candidate",
+    "suggestion": {
+      "action": "link_existing",
+      "targetType": "youtube",
+      "targetId": "youtube-viz_y2VHqKw",
+      "groupKey": null
+    },
+    "matches": [
+      {
+        "sourceType": "youtube",
+        "id": "youtube-viz_y2VHqKw",
+        "date": "2026-09-30",
+        "title": "見てるの気づいてるよ🪞 #INI #INI_YKWTD",
+        "url": null,
+        "score": 135,
+        "filterReason": "publish_date_exact",
+        "identityMatch": true,
+        "memberConflict": false,
+        "reasons": [
+          "publish_date:exact",
+          "strong_video_keywords:見てるの気づいてるよ",
+          "weak_video_keywords:ini_ykwtd"
+        ]
+      }
+    ],
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "2105255084074627457",
+    "url": "https://x.com/official__ini/status/2105255084074627457",
+    "postedAt": "2026-09-30T20:15:00+09:00",
+    "author": "official__INI",
+    "text": "✨OFFICIAL FANCLUB✨\nコンテンツ更新情報\n\n「Staff Report」が公開されました！\n\n🔽MINIの皆様、こんにちは！\n\nサイト内［Staff Report］より、\nチェックしてください。\n\nhttps://t.co/lh66d4d0PI\n\n#INI #INI_FC #StaffReport",
+    "detected": {
+      "type": "staff_report",
+      "reason": "fc_staff_report",
+      "title": "MINIの皆様、こんにちは！",
+      "members": [],
+      "eventDates": [],
+      "scheduleNames": [],
+      "strongVideoKeywords": [],
+      "weakVideoKeywords": []
+    },
+    "automaticResult": "unsupported_fc_content",
+    "suggestion": {
+      "action": "review",
+      "targetType": "fc_content",
+      "targetId": null,
+      "groupKey": null,
+      "reason": "unsupported_fc_content"
+    },
+    "matches": [],
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "2105258859032117732",
+    "url": "https://x.com/official__ini/status/2105258859032117732",
+    "postedAt": "2026-09-30T20:30:00+09:00",
+    "author": "official__INI",
+    "text": "[📢] #INIng_Party\n#INI 9TH SINGLE \"ANTHEM\"\nListening Party START🎧\n\n#フェンファン #髙塚大夢 がボイス出演中🧸🐹\n\nFollow our @STATIONHEAD\nhttps://t.co/rNJZxqUt9Y\n\n#INI_ANTHEM\n#INI_YKWTD\n#INI_BEYONDTHESKY\n#INI_1NARIDE",
+    "detected": {
+      "type": "schedule",
+      "reason": "appearance_or_event",
+      "title": "ANTHEM",
+      "members": [
+        "シュウ・フェンファン",
+        "髙塚大夢"
+      ],
+      "eventDates": [],
+      "scheduleNames": [
+        "listening party",
+        "ining_party",
+        "stationhead"
+      ],
+      "strongVideoKeywords": [],
+      "weakVideoKeywords": []
+    },
+    "automaticResult": "new_schedule_candidate",
+    "suggestion": {
+      "action": "new_schedule",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": "listening_party:2026-09-30"
+    },
+    "matches": [
+      {
+        "sourceType": "schedule",
+        "id": "schedule-4480",
+        "date": "2026-09-30",
+        "title": "NHK-FM『ミュージックライン』21:45-22:30",
+        "url": "https://ini-official.com/schedule/detail/4480",
+        "score": 80,
+        "filterReason": "post_date_exact",
+        "identityMatch": false,
+        "memberConflict": null,
+        "reasons": [
+          "post_date:exact",
+          "member:髙塚大夢"
+        ]
+      },
+      {
+        "sourceType": "schedule",
+        "id": "schedule-4364",
+        "date": "2026-09-30",
+        "title": "BARFOUT! SPECIAL EDITION AUTUMN 2026",
+        "url": "https://ini-official.com/schedule/detail/4364",
+        "score": 60,
+        "filterReason": "post_date_exact",
+        "identityMatch": false,
+        "memberConflict": null,
+        "reasons": [
+          "post_date:exact"
+        ]
+      }
+    ],
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "2105275599497707632",
+    "url": "https://x.com/official__ini/status/2105275599497707632",
+    "postedAt": "2026-09-30T21:36:31+09:00",
+    "author": "official__INI",
+    "text": "[📢] #INIng_Party\n#INI 9TH SINGLE \"ANTHEM\"\nListening Party 🎧\n\nwith #フェンファン #髙塚大夢 🧸🐹\n\nアーカイブはこちらから\n🔗https://t.co/AYfmWQjZvE\n\n#INI_ANTHEM\n#INI_YKWTD\n#INI_BEYONDTHESKY\n#INI_1NARIDE",
+    "detected": {
+      "type": "schedule",
+      "reason": "appearance_or_event",
+      "title": "ANTHEM",
+      "members": [
+        "シュウ・フェンファン",
+        "髙塚大夢"
+      ],
+      "eventDates": [],
+      "scheduleNames": [
+        "listening party",
+        "ining_party"
+      ],
+      "strongVideoKeywords": [],
+      "weakVideoKeywords": []
+    },
+    "automaticResult": "new_schedule_candidate",
+    "suggestion": {
+      "action": "new_schedule",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": "listening_party:2026-09-30"
+    },
+    "matches": [
+      {
+        "sourceType": "schedule",
+        "id": "schedule-4480",
+        "date": "2026-09-30",
+        "title": "NHK-FM『ミュージックライン』21:45-22:30",
+        "url": "https://ini-official.com/schedule/detail/4480",
+        "score": 80,
+        "filterReason": "post_date_exact",
+        "identityMatch": false,
+        "memberConflict": null,
+        "reasons": [
+          "post_date:exact",
+          "member:髙塚大夢"
+        ]
+      },
+      {
+        "sourceType": "schedule",
+        "id": "schedule-4364",
+        "date": "2026-09-30",
+        "title": "BARFOUT! SPECIAL EDITION AUTUMN 2026",
+        "url": "https://ini-official.com/schedule/detail/4364",
+        "score": 60,
+        "filterReason": "post_date_exact",
+        "identityMatch": false,
+        "memberConflict": null,
+        "reasons": [
+          "post_date:exact"
+        ]
+      }
+    ],
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "2105289058394185758",
+    "url": "https://x.com/official__ini/status/2105289058394185758",
+    "postedAt": "2026-09-30T22:30:00+09:00",
+    "author": "official__INI",
+    "text": "[📸] 260930\nNHK-FM\n「#ミュージックライン」\n\n#後藤威尊 #髙塚大夢 が出演しました🕊️🐹\nありがとうございました！\n\n@nhk_musicjp\n#INI #Todays_INI https://t.co/8NHQRMfEUl",
+    "detected": {
+      "type": "schedule",
+      "reason": "appearance_or_event",
+      "title": "ミュージックライン",
+      "members": [
+        "後藤威尊",
+        "髙塚大夢"
+      ],
+      "eventDates": [
+        "2026-09-30"
+      ],
+      "scheduleNames": [
+        "ミュージックライン"
+      ],
+      "strongVideoKeywords": [],
+      "weakVideoKeywords": []
+    },
+    "automaticResult": "existing_content_candidate",
+    "suggestion": {
+      "action": "link_existing",
+      "targetType": "schedule",
+      "targetId": "schedule-4480",
+      "groupKey": null
+    },
+    "matches": [
+      {
+        "sourceType": "schedule",
+        "id": "schedule-4480",
+        "date": "2026-09-30",
+        "title": "NHK-FM『ミュージックライン』21:45-22:30",
+        "url": "https://ini-official.com/schedule/detail/4480",
+        "score": 240,
+        "filterReason": "event_date_exact",
+        "identityMatch": true,
+        "memberConflict": null,
+        "reasons": [
+          "event_date:exact",
+          "schedule_name:strong",
+          "member:後藤威尊,髙塚大夢"
+        ]
+      },
+      {
+        "sourceType": "schedule",
+        "id": "schedule-4364",
+        "date": "2026-09-30",
+        "title": "BARFOUT! SPECIAL EDITION AUTUMN 2026",
+        "url": "https://ini-official.com/schedule/detail/4364",
+        "score": 100,
+        "filterReason": "event_date_exact",
+        "identityMatch": false,
+        "memberConflict": null,
+        "reasons": [
+          "event_date:exact"
+        ]
+      }
+    ],
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  }
+]
