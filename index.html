@@ -2,6 +2,7 @@
 <html lang="ja">
 
 <head>
+
   <meta charset="UTF-8">
 
   <meta
@@ -13,27 +14,42 @@
 
   <link
     rel="stylesheet"
-    href="style.css"
+    href="style.css?v=20261001-1"
   >
+
 </head>
+
 
 <body>
 
   <main class="app">
 
+
     <!-- =========================
-         CALENDAR画面
+         CALENDAR
     ========================== -->
 
     <div id="calendarView">
 
+
       <header class="app-header">
-        <h1>INI SUPPLY ARCHIVE</h1>
+
+        <h1>
+          INI SUPPLY ARCHIVE
+        </h1>
+
       </header>
+
+
+      <!-- =========================
+           カレンダー
+      ========================== -->
 
       <section class="calendar-section">
 
+
         <div class="calendar-header">
+
 
           <button
             id="prevMonth"
@@ -43,14 +59,18 @@
             ‹
           </button>
 
+
           <button
             id="monthPickerButton"
             class="month-picker-button"
             type="button"
             aria-label="年月を選択"
           >
+
             <span id="currentMonth"></span>
+
           </button>
+
 
           <button
             id="nextMonth"
@@ -60,19 +80,32 @@
             ›
           </button>
 
+
         </div>
 
+
+        <!-- 曜日 -->
 
         <div class="weekdays">
+
           <div>月</div>
+
           <div>火</div>
+
           <div>水</div>
+
           <div>木</div>
+
           <div>金</div>
+
           <div>土</div>
+
           <div>日</div>
+
         </div>
 
+
+        <!-- 日付 -->
 
         <div
           id="calendar"
@@ -80,7 +113,10 @@
         ></div>
 
 
+        <!-- 凡例 -->
+
         <div class="calendar-legend">
+
 
           <div class="calendar-legend-item">
 
@@ -88,7 +124,9 @@
               class="dot youtube-dot"
             ></span>
 
-            <span>YouTube</span>
+            <span>
+              YouTube
+            </span>
 
           </div>
 
@@ -99,7 +137,9 @@
               class="dot fc-dot"
             ></span>
 
-            <span>FC Contents</span>
+            <span>
+              FC Contents
+            </span>
 
           </div>
 
@@ -110,30 +150,55 @@
               class="dot schedule-dot"
             ></span>
 
-            <span>Schedule</span>
+            <span>
+              Schedule
+            </span>
 
           </div>
 
+
+          <div class="calendar-legend-item">
+
+            <span
+              class="dot x-dot"
+            ></span>
+
+            <span>
+              X
+            </span>
+
+          </div>
+
+
         </div>
+
 
       </section>
 
 
+      <!-- =========================
+           選択日の供給
+      ========================== -->
+
       <section class="supplies-section">
+
 
         <h2 id="selectedDate">
           日付を選択してください
         </h2>
 
+
         <div id="supplyList"></div>
 
+
       </section>
+
 
     </div>
 
 
     <!-- =========================
-         EXPLORE画面
+         EXPLORE
     ========================== -->
 
     <div
@@ -141,14 +206,23 @@
       hidden
     >
 
+
       <header class="app-header">
-        <h1>EXPLORE</h1>
+
+        <h1>
+          EXPLORE
+        </h1>
+
       </header>
 
 
       <section class="explore-section">
 
+
+        <!-- 検索 -->
+
         <div class="explore-search">
+
 
           <span
             class="explore-search-icon"
@@ -156,6 +230,7 @@
           >
             ⌕
           </span>
+
 
           <input
             id="exploreSearchInput"
@@ -166,10 +241,14 @@
             aria-label="供給を検索"
           >
 
+
         </div>
 
 
+        <!-- カテゴリ -->
+
         <div class="explore-filter">
+
 
           <span class="explore-filter-label">
             カテゴリ
@@ -185,12 +264,14 @@
             aria-expanded="false"
           >
 
+
             <span
               id="exploreCategoryLabel"
               class="explore-category-label"
             >
               すべて
             </span>
+
 
             <span
               class="explore-category-arrow"
@@ -199,21 +280,30 @@
               ›
             </span>
 
+
           </button>
+
 
         </div>
 
 
+        <!-- 検索結果見出し -->
+
         <div class="explore-result-header">
+
 
           <span id="exploreResultLabel">
             ALL
           </span>
 
+
           <span id="exploreResultCount"></span>
+
 
         </div>
 
+
+        <!-- 検索結果 -->
 
         <div id="exploreList"></div>
 
@@ -227,13 +317,15 @@
           さらに表示
         </button>
 
+
       </section>
+
 
     </div>
 
 
     <!-- =========================
-         DETAIL画面
+         DETAIL
     ========================== -->
 
     <div
@@ -242,7 +334,9 @@
       hidden
     >
 
+
       <header class="detail-header">
+
 
         <button
           id="detailBackButton"
@@ -253,19 +347,28 @@
           ‹
         </button>
 
-        <span>DETAIL</span>
+
+        <span>
+          DETAIL
+        </span>
+
 
         <div class="detail-header-space"></div>
+
 
       </header>
 
 
       <section class="detail-content">
 
+
+        <!-- サムネイル -->
+
         <div
           id="detailThumbnailWrapper"
           class="detail-thumbnail-wrapper"
         >
+
 
           <img
             id="detailThumbnail"
@@ -274,8 +377,11 @@
             alt=""
           >
 
+
         </div>
 
+
+        <!-- 種別 -->
 
         <div
           id="detailType"
@@ -283,17 +389,23 @@
         ></div>
 
 
+        <!-- タイトル -->
+
         <h1
           id="detailTitle"
           class="detail-title"
         ></h1>
 
 
+        <!-- 日付 -->
+
         <p
           id="detailDate"
           class="detail-date"
         ></p>
 
+
+        <!-- Member Diaryなどのメンバー -->
 
         <p
           id="detailMember"
@@ -312,20 +424,23 @@
           hidden
         >
 
+
           <div class="detail-section-label">
             出演メンバー
           </div>
+
 
           <div
             id="detailScheduleMembersText"
             class="detail-schedule-members-text"
           ></div>
 
+
         </div>
 
 
         <!-- =========================
-             Schedule 詳細本文
+             Schedule / X 本文
         ========================== -->
 
         <div
@@ -336,23 +451,30 @@
 
 
         <!-- =========================
-             Schedule X POSTS
+             関連X投稿
+
+             Scheduleだけではなく、
+             YouTube / FC Contentsでも
+             共通して使用する。
         ========================== -->
 
         <div
-          id="detailScheduleXPosts"
-          class="detail-schedule-x-posts"
+          id="detailXPosts"
+          class="detail-x-posts"
           hidden
         >
+
 
           <div class="detail-section-label">
             X POSTS
           </div>
 
+
           <div
-            id="detailScheduleXPostsList"
-            class="detail-schedule-x-posts-list"
+            id="detailXPostsList"
+            class="detail-x-posts-list"
           ></div>
+
 
         </div>
 
@@ -367,17 +489,24 @@
           hidden
         >
 
+
           <div class="detail-section-label">
             関連リンク
           </div>
+
 
           <div
             id="detailScheduleLinksList"
             class="detail-schedule-links-list"
           ></div>
 
+
         </div>
 
+
+        <!-- =========================
+             メイン外部リンク
+        ========================== -->
 
         <a
           id="detailExternalLink"
@@ -387,17 +516,22 @@
           rel="noopener noreferrer"
         >
 
+
           <span id="detailExternalLinkText">
             外部サイトで見る
           </span>
+
 
           <span aria-hidden="true">
             ↗
           </span>
 
+
         </a>
 
+
       </section>
+
 
     </div>
 
@@ -412,34 +546,51 @@
       hidden
     >
 
+
       <div class="month-picker">
 
-        <h2>年月を選択</h2>
+
+        <h2>
+          年月を選択
+        </h2>
 
 
         <div class="month-picker-selects">
 
+
           <label>
 
-            <span>年</span>
+
+            <span>
+              年
+            </span>
+
 
             <select id="yearSelect"></select>
 
+
           </label>
 
 
           <label>
 
-            <span>月</span>
+
+            <span>
+              月
+            </span>
+
 
             <select id="monthSelect"></select>
 
+
           </label>
+
 
         </div>
 
 
         <div class="month-picker-actions">
+
 
           <button
             id="monthPickerCancel"
@@ -448,6 +599,7 @@
             キャンセル
           </button>
 
+
           <button
             id="monthPickerGo"
             type="button"
@@ -455,9 +607,12 @@
             移動
           </button>
 
+
         </div>
 
+
       </div>
+
 
     </div>
 
@@ -472,12 +627,14 @@
       hidden
     >
 
+
       <div
         class="category-sheet"
         role="dialog"
         aria-modal="true"
         aria-labelledby="categorySheetTitle"
       >
+
 
         <div
           class="category-sheet-handle"
@@ -486,6 +643,7 @@
 
 
         <div class="category-sheet-header">
+
 
           <h2 id="categorySheetTitle">
             カテゴリを選択
@@ -501,16 +659,21 @@
             ×
           </button>
 
+
         </div>
 
 
         <div class="category-sheet-options">
+
+
+          <!-- すべて -->
 
           <button
             class="category-sheet-option selected"
             type="button"
             data-category="all"
           >
+
 
             <span
               class="category-sheet-check"
@@ -519,12 +682,16 @@
               ✓
             </span>
 
+
             <span class="category-sheet-option-label">
               すべて
             </span>
 
+
           </button>
 
+
+          <!-- YouTube -->
 
           <button
             class="category-sheet-option"
@@ -532,21 +699,33 @@
             data-category="youtube"
           >
 
+
             <span
               class="category-sheet-check"
               aria-hidden="true"
             ></span>
 
+
             <span class="category-sheet-option-label">
 
-              <span class="dot youtube-dot"></span>
 
-              <span>YouTube</span>
+              <span
+                class="dot youtube-dot"
+              ></span>
+
+
+              <span>
+                YouTube
+              </span>
+
 
             </span>
 
+
           </button>
 
+
+          <!-- Member Diary -->
 
           <button
             class="category-sheet-option"
@@ -554,21 +733,33 @@
             data-category="member_diary"
           >
 
+
             <span
               class="category-sheet-check"
               aria-hidden="true"
             ></span>
 
+
             <span class="category-sheet-option-label">
 
-              <span class="dot fc-dot"></span>
 
-              <span>Member Diary</span>
+              <span
+                class="dot fc-dot"
+              ></span>
+
+
+              <span>
+                Member Diary
+              </span>
+
 
             </span>
 
+
           </button>
 
+
+          <!-- Movie -->
 
           <button
             class="category-sheet-option"
@@ -576,21 +767,33 @@
             data-category="movie"
           >
 
+
             <span
               class="category-sheet-check"
               aria-hidden="true"
             ></span>
 
+
             <span class="category-sheet-option-label">
 
-              <span class="dot fc-dot"></span>
 
-              <span>Movie</span>
+              <span
+                class="dot fc-dot"
+              ></span>
+
+
+              <span>
+                Movie
+              </span>
+
 
             </span>
 
+
           </button>
 
+
+          <!-- Radio -->
 
           <button
             class="category-sheet-option"
@@ -598,21 +801,33 @@
             data-category="radio"
           >
 
+
             <span
               class="category-sheet-check"
               aria-hidden="true"
             ></span>
 
+
             <span class="category-sheet-option-label">
 
-              <span class="dot fc-dot"></span>
 
-              <span>Radio</span>
+              <span
+                class="dot fc-dot"
+              ></span>
+
+
+              <span>
+                Radio
+              </span>
+
 
             </span>
 
+
           </button>
 
+
+          <!-- Photo -->
 
           <button
             class="category-sheet-option"
@@ -620,21 +835,33 @@
             data-category="photo"
           >
 
+
             <span
               class="category-sheet-check"
               aria-hidden="true"
             ></span>
 
+
             <span class="category-sheet-option-label">
 
-              <span class="dot fc-dot"></span>
 
-              <span>Photo</span>
+              <span
+                class="dot fc-dot"
+              ></span>
+
+
+              <span>
+                Photo
+              </span>
+
 
             </span>
 
+
           </button>
 
+
+          <!-- Message -->
 
           <button
             class="category-sheet-option"
@@ -642,21 +869,33 @@
             data-category="message"
           >
 
+
             <span
               class="category-sheet-check"
               aria-hidden="true"
             ></span>
 
+
             <span class="category-sheet-option-label">
 
-              <span class="dot fc-dot"></span>
 
-              <span>Message</span>
+              <span
+                class="dot fc-dot"
+              ></span>
+
+
+              <span>
+                Message
+              </span>
+
 
             </span>
 
+
           </button>
 
+
+          <!-- Schedule -->
 
           <button
             class="category-sheet-option"
@@ -664,26 +903,74 @@
             data-category="schedule"
           >
 
+
             <span
               class="category-sheet-check"
               aria-hidden="true"
             ></span>
 
+
             <span class="category-sheet-option-label">
 
-              <span class="dot schedule-dot"></span>
 
-              <span>Schedule</span>
+              <span
+                class="dot schedule-dot"
+              ></span>
+
+
+              <span>
+                Schedule
+              </span>
+
 
             </span>
 
+
           </button>
+
+
+          <!-- X -->
+
+          <button
+            class="category-sheet-option"
+            type="button"
+            data-category="x"
+          >
+
+
+            <span
+              class="category-sheet-check"
+              aria-hidden="true"
+            ></span>
+
+
+            <span class="category-sheet-option-label">
+
+
+              <span
+                class="dot x-dot"
+              ></span>
+
+
+              <span>
+                X
+              </span>
+
+
+            </span>
+
+
+          </button>
+
 
         </div>
 
+
       </div>
 
+
     </div>
+
 
   </main>
 
@@ -697,13 +984,18 @@
     class="bottom-nav"
   >
 
+
     <button
       id="calendarNavButton"
       class="nav-item active"
       type="button"
     >
 
-      <span>CALENDAR</span>
+
+      <span>
+        CALENDAR
+      </span>
+
 
     </button>
 
@@ -714,20 +1006,28 @@
       type="button"
     >
 
-      <span>EXPLORE</span>
+
+      <span>
+        EXPLORE
+      </span>
+
 
     </button>
+
 
   </nav>
 
 
   <!--
     キャッシュ対策。
-    app.jsを変更したときは
-    このバージョン番号も変更する。
+
+    今回のX対応版app.jsを
+    確実に読み込ませるため
+    バージョン番号を更新。
   -->
 
-  <script src="app.js?v=20260930-4"></script>
+  <script src="app.js?v=20261001-1"></script>
+
 
 </body>
 
