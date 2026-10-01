@@ -3,6 +3,11 @@ name: Confirm X Import
 on:
   workflow_dispatch:
     inputs:
+      confirmation:
+        description: "本番反映する場合は APPLY と入力"
+        required: true
+        type: string
+
       approvals_json:
         description: "ChatGPTとの確認後に作成した確定JSON"
         required: true
@@ -20,6 +25,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Require explicit confirmation
+        env:
+          CONFIRMATION: ${{ inputs.confirmation }}
+        run: |
+          if [ "$CONFIRMATION" != "APPLY" ]; then
+            echo "Confirmation must be exactly APPLY."
+            exit 1
+          fi
+
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
@@ -47,7 +61,7 @@ jobs:
               Path("data/content_x_links.json"),
               Path("data/x_contents.json"),
               Path("data/x_excluded.json"),
-              Path("data/schedule.json"),
+              Path("data/x_schedule.json"),
           ]
 
           for path in paths:
@@ -57,7 +71,10 @@ jobs:
               ) as file:
                   data = json.load(file)
 
-              if not isinstance(data, list):
+              if not isinstance(
+                  data,
+                  list,
+              ):
                   raise SystemExit(
                       f"{path} must contain a JSON array"
                   )
@@ -87,7 +104,7 @@ jobs:
             data/content_x_links.json \
             data/x_contents.json \
             data/x_excluded.json \
-            data/schedule.json
+            data/x_schedule.json
 
           git commit -m "Confirm X import"
 
