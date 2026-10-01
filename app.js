@@ -1,130 +1,95 @@
-const calendar = document.getElementById("calendar");
-const currentMonth = document.getElementById("currentMonth");
-const selectedDate = document.getElementById("selectedDate");
-const supplyList = document.getElementById("supplyList");
+const $ = id => document.getElementById(id);
 
-const prevMonthButton = document.getElementById("prevMonth");
-const nextMonthButton = document.getElementById("nextMonth");
-
-const monthPickerButton = document.getElementById("monthPickerButton");
-const monthPicker = document.getElementById("monthPicker");
-const yearSelect = document.getElementById("yearSelect");
-const monthSelect = document.getElementById("monthSelect");
-const monthPickerCancel = document.getElementById("monthPickerCancel");
-const monthPickerGo = document.getElementById("monthPickerGo");
-
-const calendarView = document.getElementById("calendarView");
-const exploreView = document.getElementById("exploreView");
-const detailView = document.getElementById("detailView");
-const bottomNav = document.getElementById("bottomNav");
-
-const calendarNavButton = document.getElementById("calendarNavButton");
-const exploreNavButton = document.getElementById("exploreNavButton");
-
-const exploreSearchInput = document.getElementById("exploreSearchInput");
-const exploreResultLabel = document.getElementById("exploreResultLabel");
-const exploreResultCount = document.getElementById("exploreResultCount");
-const exploreList = document.getElementById("exploreList");
-const exploreLoadMore = document.getElementById("exploreLoadMore");
-
-const exploreCategoryButton =
-  document.getElementById("exploreCategoryButton");
-
-const exploreCategoryLabel =
-  document.getElementById("exploreCategoryLabel");
-
-const categorySheet =
-  document.getElementById("categorySheet");
-
-const categorySheetClose =
-  document.getElementById("categorySheetClose");
-
-const categorySheetOptions =
-  document.querySelectorAll(".category-sheet-option");
-
-const detailBackButton =
-  document.getElementById("detailBackButton");
-
-const detailThumbnailWrapper =
-  document.getElementById("detailThumbnailWrapper");
-
-const detailThumbnail =
-  document.getElementById("detailThumbnail");
-
-const detailType =
-  document.getElementById("detailType");
-
-const detailTitle =
-  document.getElementById("detailTitle");
-
-const detailDate =
-  document.getElementById("detailDate");
-
-const detailMember =
-  document.getElementById("detailMember");
-
-const detailExternalLink =
-  document.getElementById("detailExternalLink");
-
-const detailExternalLinkText =
-  document.getElementById("detailExternalLinkText");
+const calendar = $("calendar");
+const currentMonth = $("currentMonth");
+const selectedDate = $("selectedDate");
+const supplyList = $("supplyList");
+const prevMonthButton = $("prevMonth");
+const nextMonthButton = $("nextMonth");
+const monthPickerButton = $("monthPickerButton");
+const monthPicker = $("monthPicker");
+const yearSelect = $("yearSelect");
+const monthSelect = $("monthSelect");
+const monthPickerCancel = $("monthPickerCancel");
+const monthPickerGo = $("monthPickerGo");
+const calendarView = $("calendarView");
+const exploreView = $("exploreView");
+const detailView = $("detailView");
+const bottomNav = $("bottomNav");
+const calendarNavButton = $("calendarNavButton");
+const exploreNavButton = $("exploreNavButton");
+const exploreSearchInput = $("exploreSearchInput");
+const exploreResultLabel = $("exploreResultLabel");
+const exploreResultCount = $("exploreResultCount");
+const exploreList = $("exploreList");
+const exploreLoadMore = $("exploreLoadMore");
+const exploreCategoryButton = $("exploreCategoryButton");
+const exploreCategoryLabel = $("exploreCategoryLabel");
+const categorySheet = $("categorySheet");
+const categorySheetClose = $("categorySheetClose");
+const categorySheetOptions = document.querySelectorAll(
+  ".category-sheet-option"
+);
+const detailBackButton = $("detailBackButton");
+const detailThumbnailWrapper = $("detailThumbnailWrapper");
+const detailThumbnail = $("detailThumbnail");
+const detailType = $("detailType");
+const detailTitle = $("detailTitle");
+const detailDate = $("detailDate");
+const detailMember = $("detailMember");
+const detailScheduleMembers = $("detailScheduleMembers");
+const detailScheduleMembersText = $("detailScheduleMembersText");
+const detailScheduleText = $("detailScheduleText");
+const detailXPosts = $("detailXPosts");
+const detailXPostsList = $("detailXPostsList");
+const detailScheduleLinks = $("detailScheduleLinks");
+const detailScheduleLinksList = $("detailScheduleLinksList");
+const detailExternalLink = $("detailExternalLink");
+const detailExternalLinkText = $("detailExternalLinkText");
 
 
 /* ==========================================================
-   Schedule DETAIL
-========================================================== */
-
-const detailScheduleMembers =
-  document.getElementById("detailScheduleMembers");
-
-const detailScheduleMembersText =
-  document.getElementById("detailScheduleMembersText");
-
-const detailScheduleText =
-  document.getElementById("detailScheduleText");
-
-const detailScheduleXPosts =
-  document.getElementById("detailScheduleXPosts");
-
-const detailScheduleXPostsList =
-  document.getElementById("detailScheduleXPostsList");
-
-const detailScheduleLinks =
-  document.getElementById("detailScheduleLinks");
-
-const detailScheduleLinksList =
-  document.getElementById("detailScheduleLinksList");
-
-
-/* ==========================================================
-   基本データ
+   データ
 ========================================================== */
 
 let supplies = [];
+let contentXLinks = [];
 
-/*
-  Scheduleに手動で関連付ける
-  X投稿URL一覧。
-*/
-let scheduleXLinks = [];
+
+/* ==========================================================
+   カレンダー状態
+========================================================== */
 
 const today = new Date();
 
-let displayYear = today.getFullYear();
-let displayMonth = today.getMonth();
+let displayYear =
+  today.getFullYear();
 
-let selectedDateKey = formatDateKey(
-  today.getFullYear(),
-  today.getMonth(),
-  today.getDate()
-);
+let displayMonth =
+  today.getMonth();
+
+let selectedDateKey =
+  formatDateKey(
+    today.getFullYear(),
+    today.getMonth(),
+    today.getDate()
+  );
 
 let currentMainView = "calendar";
 
+
+/* ==========================================================
+   EXPLORE状態
+========================================================== */
+
 const EXPLORE_PAGE_SIZE = 50;
 
-let exploreVisibleCount = EXPLORE_PAGE_SIZE;
-let selectedExploreCategory = "all";
+let exploreVisibleCount =
+  EXPLORE_PAGE_SIZE;
+
+let selectedExploreCategory =
+  "all";
+
 
 const exploreCategoryNames = {
   all: "すべて",
@@ -134,21 +99,24 @@ const exploreCategoryNames = {
   radio: "Radio",
   photo: "Photo",
   message: "Message",
-  schedule: "Schedule"
+  schedule: "Schedule",
+  x: "X"
 };
 
 
 /* ==========================================================
-   JSON
+   JSON読み込み
 ========================================================== */
 
 async function fetchJson(path) {
-  const response = await fetch(
-    `${path}?v=${Date.now()}`,
-    {
-      cache: "no-store"
-    }
-  );
+  const response =
+    await fetch(
+      `${path}?v=${Date.now()}`,
+      {
+        cache: "no-store"
+      }
+    );
+
 
   if (!response.ok) {
     throw new Error(
@@ -156,7 +124,10 @@ async function fetchJson(path) {
     );
   }
 
-  const data = await response.json();
+
+  const data =
+    await response.json();
+
 
   if (!Array.isArray(data)) {
     throw new Error(
@@ -164,13 +135,18 @@ async function fetchJson(path) {
     );
   }
 
+
   return data;
 }
 
 
-async function loadSupplyFile(path, label) {
+async function loadSupplyFile(
+  path,
+  label
+) {
   try {
-    const data = await fetchJson(path);
+    const data =
+      await fetchJson(path);
 
     console.log(
       `${label}: ${data.length}件読み込み`
@@ -183,10 +159,6 @@ async function loadSupplyFile(path, label) {
       error
     );
 
-    /*
-      1ファイルの失敗でアプリ全体を
-      停止させない。
-    */
     return [];
   }
 }
@@ -194,102 +166,106 @@ async function loadSupplyFile(path, label) {
 
 async function loadSupplies() {
   const [
-    youtubeSupplies,
-    memberDiarySupplies,
-    movieSupplies,
-    radioSupplies,
-    photoSupplies,
-    messageSupplies,
-    scheduleSupplies,
-    loadedScheduleXLinks
-  ] = await Promise.all([
-    loadSupplyFile(
-      "data/youtube.json",
-      "YouTube"
-    ),
+    youtube,
+    memberDiary,
+    movie,
+    radio,
+    photo,
+    message,
+    schedule,
+    xSchedule,
+    xContents,
+    links
+  ] =
+    await Promise.all([
+      loadSupplyFile(
+        "data/youtube.json",
+        "YouTube"
+      ),
 
-    loadSupplyFile(
-      "data/member_diary.json",
-      "Member Diary"
-    ),
+      loadSupplyFile(
+        "data/member_diary.json",
+        "Member Diary"
+      ),
 
-    loadSupplyFile(
-      "data/movie.json",
-      "Movie"
-    ),
+      loadSupplyFile(
+        "data/movie.json",
+        "Movie"
+      ),
 
-    loadSupplyFile(
-      "data/radio.json",
-      "Radio"
-    ),
+      loadSupplyFile(
+        "data/radio.json",
+        "Radio"
+      ),
 
-    loadSupplyFile(
-      "data/photo.json",
-      "Photo"
-    ),
+      loadSupplyFile(
+        "data/photo.json",
+        "Photo"
+      ),
 
-    loadSupplyFile(
-      "data/message.json",
-      "Message"
-    ),
+      loadSupplyFile(
+        "data/message.json",
+        "Message"
+      ),
 
-    loadSupplyFile(
-      "data/schedule.json",
-      "Schedule"
-    ),
+      loadSupplyFile(
+        "data/schedule.json",
+        "Schedule"
+      ),
 
-    loadSupplyFile(
-      "data/schedule_x_links.json",
-      "Schedule X Links"
-    )
-  ]);
+      loadSupplyFile(
+        "data/x_schedule.json",
+        "X Schedule"
+      ),
 
-  /*
-    Xリンクは供給データそのものではないため
-    suppliesには混ぜない。
-  */
-  scheduleXLinks =
-    loadedScheduleXLinks;
+      loadSupplyFile(
+        "data/x_contents.json",
+        "X Contents"
+      ),
+
+      loadSupplyFile(
+        "data/content_x_links.json",
+        "Content X Links"
+      )
+    ]);
+
+
+  contentXLinks = links;
+
 
   supplies = [
-    ...youtubeSupplies,
-    ...memberDiarySupplies,
-    ...movieSupplies,
-    ...radioSupplies,
-    ...photoSupplies,
-    ...messageSupplies,
-    ...scheduleSupplies
+    ...youtube,
+    ...memberDiary,
+    ...movie,
+    ...radio,
+    ...photo,
+    ...message,
+    ...schedule,
+    ...xSchedule,
+    ...xContents
   ];
+
 
   console.log(
     `全供給データ: ${supplies.length}件`
   );
 
   console.log(
-    `Schedule X Links: ${scheduleXLinks.length}件`
+    `Content X Links: ${contentXLinks.length}件`
   );
 
-  /*
-    Scheduleを含むデータを読み込んだ後、
-    年月選択肢を作り直す。
-
-    これにより翌年以降のScheduleが
-    JSONに存在する場合も選択できる。
-  */
 
   createMonthPickerOptions();
 
-  /*
-    データ取得後、
-    現在表示している画面だけ更新する。
-  */
 
-  if (currentMainView === "calendar") {
+  if (
+    currentMainView === "calendar"
+  ) {
     renderCalendar();
     renderSelectedDate();
-  }
-
-  if (currentMainView === "explore") {
+  } else if (
+    currentMainView === "explore"
+  ) {
     renderExplore();
   }
 }
@@ -299,68 +275,98 @@ async function loadSupplies() {
    日付
 ========================================================== */
 
-function formatDateKey(year, month, day) {
-  const formattedMonth =
-    String(month + 1).padStart(2, "0");
-
-  const formattedDay =
-    String(day).padStart(2, "0");
-
-  return `${year}-${formattedMonth}-${formattedDay}`;
+function formatDateKey(
+  year,
+  month,
+  day
+) {
+  return (
+    `${year}-` +
+    `${String(month + 1).padStart(2, "0")}-` +
+    `${String(day).padStart(2, "0")}`
+  );
 }
 
 
-function formatDisplayDate(dateString) {
+function formatDisplayDate(
+  dateString
+) {
   if (!dateString) {
     return "";
   }
+
 
   const [
     year,
     month,
     day
-  ] = dateString
-    .split("-")
-    .map(Number);
+  ] =
+    dateString
+      .split("-")
+      .map(Number);
+
 
   if (
-    !year ||
-    !month ||
-    !day
+    year &&
+    month &&
+    day
   ) {
-    return dateString;
+    return (
+      `${year}年` +
+      `${month}月` +
+      `${day}日`
+    );
   }
 
-  return `${year}年${month}月${day}日`;
+
+  return dateString;
 }
 
 
 /* ==========================================================
-   供給の並び順
+   並び順
 ========================================================== */
 
-function compareSuppliesAscending(a, b) {
+function compareSuppliesAscending(
+  a,
+  b
+) {
   const aDate =
-    a.publishedAt ||
-    a.date ||
-    "";
+    String(
+      a.publishedAt ||
+      a.postedAt ||
+      a.date ||
+      ""
+    );
 
   const bDate =
-    b.publishedAt ||
-    b.date ||
-    "";
+    String(
+      b.publishedAt ||
+      b.postedAt ||
+      b.date ||
+      ""
+    );
+
 
   const dateComparison =
-    aDate.localeCompare(bDate);
+    aDate.localeCompare(
+      bDate
+    );
 
-  if (dateComparison !== 0) {
+
+  if (
+    dateComparison !== 0
+  ) {
     return dateComparison;
   }
+
 
   return String(
     a.id || ""
   ).localeCompare(
-    String(b.id || ""),
+    String(
+      b.id || ""
+    ),
     "ja",
     {
       numeric: true
@@ -370,90 +376,112 @@ function compareSuppliesAscending(a, b) {
 
 
 /* ==========================================================
-   FC Contents判定
+   カテゴリ判定
 ========================================================== */
 
-function isFcSupply(supply) {
+function isFcSupply(
+  supply
+) {
   return (
     supply.group === "fc" ||
-    supply.type === "member_diary" ||
-    supply.type === "movie" ||
-    supply.type === "radio" ||
-    supply.type === "photo" ||
-    supply.type === "message"
+    [
+      "member_diary",
+      "movie",
+      "radio",
+      "photo",
+      "message"
+    ].includes(
+      supply.type
+    )
   );
 }
 
 
 /* ==========================================================
-   CALENDAR
+   カレンダー
 ========================================================== */
 
 function renderCalendar() {
-  /*
-    描画対象が存在しない場合は
-    JavaScript全体を止めない。
-  */
-
-  if (!calendar || !currentMonth) {
-    console.error(
-      "カレンダー用DOMが見つかりません。"
-    );
-
+  if (
+    !calendar ||
+    !currentMonth
+  ) {
     return;
   }
 
+
   calendar.innerHTML = "";
+
 
   currentMonth.textContent =
     `${displayYear}年${displayMonth + 1}月`;
 
-  const firstDay = new Date(
-    displayYear,
-    displayMonth,
-    1
-  );
 
-  const lastDate = new Date(
-    displayYear,
-    displayMonth + 1,
-    0
-  ).getDate();
+  const firstDay =
+    new Date(
+      displayYear,
+      displayMonth,
+      1
+    );
+
+
+  const lastDate =
+    new Date(
+      displayYear,
+      displayMonth + 1,
+      0
+    ).getDate();
+
 
   /*
-    JavaScriptのgetDay()
-    0 = 日曜日
-    1 = 月曜日
-    ...
-    6 = 土曜日
+    月曜日始まり。
 
-    カレンダーは月曜始まりなので変換。
+    JS:
+    日=0
+    月=1
+    ...
+    土=6
+
+    ↓
+
+    月=0
+    ...
+    日=6
   */
 
   const startPosition =
-    (firstDay.getDay() + 6) % 7;
+    (
+      firstDay.getDay() +
+      6
+    ) % 7;
 
 
-  /* 月初より前の空セル */
+  /*
+    月初前の空白
+  */
 
   for (
     let i = 0;
     i < startPosition;
     i++
   ) {
-    const emptyCell =
-      document.createElement("div");
+    const empty =
+      document.createElement(
+        "div"
+      );
 
-    emptyCell.className =
+    empty.className =
       "calendar-day empty";
 
     calendar.appendChild(
-      emptyCell
+      empty
     );
   }
 
 
-  /* 日付セル */
+  /*
+    日付
+  */
 
   for (
     let day = 1;
@@ -467,132 +495,195 @@ function renderCalendar() {
         day
       );
 
-    const dayButton =
-      document.createElement("button");
 
-    dayButton.type = "button";
-    dayButton.className = "calendar-day";
+    const button =
+      document.createElement(
+        "button"
+      );
+
+    button.type =
+      "button";
+
+    button.className =
+      "calendar-day";
 
 
-    /* 今日 */
+    /*
+      今日
+    */
 
     if (
-      displayYear === today.getFullYear() &&
-      displayMonth === today.getMonth() &&
-      day === today.getDate()
+      displayYear ===
+        today.getFullYear() &&
+      displayMonth ===
+        today.getMonth() &&
+      day ===
+        today.getDate()
     ) {
-      dayButton.classList.add("today");
+      button.classList.add(
+        "today"
+      );
     }
 
 
-    /* 選択日 */
+    /*
+      選択日
+    */
 
-    if (dateKey === selectedDateKey) {
-      dayButton.classList.add("selected");
+    if (
+      dateKey ===
+      selectedDateKey
+    ) {
+      button.classList.add(
+        "selected"
+      );
     }
 
 
-    const dayNumber =
-      document.createElement("span");
+    const number =
+      document.createElement(
+        "span"
+      );
 
-    dayNumber.className = "day-number";
-    dayNumber.textContent = String(day);
+    number.className =
+      "day-number";
 
-    dayButton.appendChild(
-      dayNumber
+    number.textContent =
+      String(day);
+
+    button.appendChild(
+      number
     );
 
 
-    /* YouTube */
+    /*
+      この日の供給
+    */
+
+    const daySupplies =
+      supplies.filter(
+        supply =>
+          supply.date ===
+          dateKey
+      );
+
 
     const hasYouTube =
-      supplies.some(
+      daySupplies.some(
         supply =>
-          supply.date === dateKey &&
-          supply.type === "youtube"
+          supply.type ===
+          "youtube"
       );
 
 
-    /* FC Contents */
-
-    const hasFcContents =
-      supplies.some(
-        supply =>
-          supply.date === dateKey &&
-          isFcSupply(supply)
+    const hasFc =
+      daySupplies.some(
+        isFcSupply
       );
 
-
-    /* Schedule */
 
     const hasSchedule =
-      supplies.some(
+      daySupplies.some(
         supply =>
-          supply.date === dateKey &&
-          supply.type === "schedule"
+          supply.type ===
+          "schedule"
+      );
+
+
+    const hasX =
+      daySupplies.some(
+        supply =>
+          supply.type ===
+          "x"
       );
 
 
     if (
       hasYouTube ||
-      hasFcContents ||
-      hasSchedule
+      hasFc ||
+      hasSchedule ||
+      hasX
     ) {
       const dots =
-        document.createElement("div");
+        document.createElement(
+          "div"
+        );
 
-      dots.className = "supply-dots";
+      dots.className =
+        "supply-dots";
 
 
       if (hasYouTube) {
-        const youtubeDot =
-          document.createElement("span");
+        const dot =
+          document.createElement(
+            "span"
+          );
 
-        youtubeDot.className =
+        dot.className =
           "dot youtube-dot";
 
         dots.appendChild(
-          youtubeDot
+          dot
         );
       }
 
 
-      if (hasFcContents) {
-        const fcDot =
-          document.createElement("span");
+      if (hasFc) {
+        const dot =
+          document.createElement(
+            "span"
+          );
 
-        fcDot.className =
+        dot.className =
           "dot fc-dot";
 
         dots.appendChild(
-          fcDot
+          dot
         );
       }
 
 
       if (hasSchedule) {
-        const scheduleDot =
-          document.createElement("span");
+        const dot =
+          document.createElement(
+            "span"
+          );
 
-        scheduleDot.className =
+        dot.className =
           "dot schedule-dot";
 
         dots.appendChild(
-          scheduleDot
+          dot
         );
       }
 
 
-      dayButton.appendChild(
+      if (hasX) {
+        const dot =
+          document.createElement(
+            "span"
+          );
+
+        dot.className =
+          "dot x-dot";
+
+        dots.appendChild(
+          dot
+        );
+      }
+
+
+      button.appendChild(
         dots
       );
     }
 
 
-    dayButton.addEventListener(
+    button.addEventListener(
       "click",
       () => {
-        selectedDateKey = dateKey;
+        selectedDateKey =
+          dateKey;
 
         renderCalendar();
         renderSelectedDate();
@@ -601,14 +692,40 @@ function renderCalendar() {
 
 
     calendar.appendChild(
-      dayButton
+      button
     );
   }
 }
 
 
 /* ==========================================================
-   CALENDAR下部一覧
+   メンバー表示
+========================================================== */
+
+function getMemberText(
+  supply
+) {
+  if (
+    Array.isArray(
+      supply.members
+    ) &&
+    supply.members.length > 0
+  ) {
+    return supply.members.join(
+      "・"
+    );
+  }
+
+
+  return (
+    supply.member ||
+    ""
+  );
+}
+
+
+/* ==========================================================
+   選択日の供給
 ========================================================== */
 
 function createSupplyItem(
@@ -617,21 +734,30 @@ function createSupplyItem(
   showMember = false
 ) {
   const item =
-    document.createElement("button");
+    document.createElement(
+      "button"
+    );
 
-  item.type = "button";
-  item.className = "supply-item";
+  item.type =
+    "button";
+
+  item.className =
+    "supply-item";
 
 
   const text =
-    document.createElement("span");
+    document.createElement(
+      "span"
+    );
 
   text.className =
     "supply-item-text";
 
 
   const title =
-    document.createElement("span");
+    document.createElement(
+      "span"
+    );
 
   title.className =
     "supply-title";
@@ -639,55 +765,64 @@ function createSupplyItem(
   title.textContent =
     supply.title || "";
 
-  text.appendChild(title);
+
+  text.appendChild(
+    title
+  );
+
+
+  const memberText =
+    getMemberText(
+      supply
+    );
 
 
   if (
-    showMember &&
-    supply.member
+    (
+      showMember ||
+      supply.type ===
+        "schedule" ||
+      supply.type ===
+        "x"
+    ) &&
+    memberText
   ) {
     const member =
-      document.createElement("span");
+      document.createElement(
+        "span"
+      );
 
     member.className =
       "supply-member";
 
     member.textContent =
-      supply.member;
+      memberText;
 
-    text.appendChild(member);
-  }
-
-
-  if (
-    supply.type === "schedule" &&
-    Array.isArray(supply.members) &&
-    supply.members.length > 0
-  ) {
-    const member =
-      document.createElement("span");
-
-    member.className =
-      "supply-member";
-
-    member.textContent =
-      supply.members.join("・");
-
-    text.appendChild(member);
+    text.appendChild(
+      member
+    );
   }
 
 
   const arrow =
-    document.createElement("span");
+    document.createElement(
+      "span"
+    );
 
   arrow.className =
     "supply-arrow";
 
-  arrow.textContent = "›";
+  arrow.textContent =
+    "›";
 
 
-  item.appendChild(text);
-  item.appendChild(arrow);
+  item.appendChild(
+    text
+  );
+
+  item.appendChild(
+    arrow
+  );
 
 
   item.addEventListener(
@@ -718,27 +853,42 @@ function appendSupplyCategory(
 
 
   const category =
-    document.createElement("div");
+    document.createElement(
+      "div"
+    );
 
   category.className =
     "supply-category";
 
 
   const categoryTitle =
-    document.createElement("div");
+    document.createElement(
+      "div"
+    );
 
   categoryTitle.className =
     "supply-category-title";
 
 
-  let dotClass = "fc-dot";
+  let dotClass =
+    "fc-dot";
 
-  if (title === "YouTube") {
-    dotClass = "youtube-dot";
-  }
 
-  if (title === "Schedule") {
-    dotClass = "schedule-dot";
+  if (
+    title === "YouTube"
+  ) {
+    dotClass =
+      "youtube-dot";
+  } else if (
+    title === "Schedule"
+  ) {
+    dotClass =
+      "schedule-dot";
+  } else if (
+    title === "X"
+  ) {
+    dotClass =
+      "x-dot";
   }
 
 
@@ -780,13 +930,14 @@ function renderSelectedDate() {
     return;
   }
 
+
   selectedDate.textContent =
     formatDisplayDate(
       selectedDateKey
     );
 
 
-  const selectedSupplies =
+  const selected =
     supplies
       .filter(
         supply =>
@@ -798,11 +949,12 @@ function renderSelectedDate() {
       );
 
 
-  supplyList.innerHTML = "";
+  supplyList.innerHTML =
+    "";
 
 
   if (
-    selectedSupplies.length === 0
+    selected.length === 0
   ) {
     supplyList.innerHTML = `
       <p class="no-supplies">
@@ -814,84 +966,85 @@ function renderSelectedDate() {
   }
 
 
-  const youtubeSupplies =
-    selectedSupplies.filter(
-      supply =>
-        supply.type === "youtube"
-    );
-
-  const memberDiarySupplies =
-    selectedSupplies.filter(
-      supply =>
-        supply.type ===
-        "member_diary"
-    );
-
-  const movieSupplies =
-    selectedSupplies.filter(
-      supply =>
-        supply.type === "movie"
-    );
-
-  const radioSupplies =
-    selectedSupplies.filter(
-      supply =>
-        supply.type === "radio"
-    );
-
-  const photoSupplies =
-    selectedSupplies.filter(
-      supply =>
-        supply.type === "photo"
-    );
-
-  const messageSupplies =
-    selectedSupplies.filter(
-      supply =>
-        supply.type === "message"
-    );
-
-  const scheduleSupplies =
-    selectedSupplies.filter(
-      supply =>
-        supply.type === "schedule"
-    );
-
-
   appendSupplyCategory(
     "YouTube",
-    youtubeSupplies
+    selected.filter(
+      supply =>
+        supply.type ===
+        "youtube"
+    )
   );
+
 
   appendSupplyCategory(
     "Member Diary",
-    memberDiarySupplies,
+    selected.filter(
+      supply =>
+        supply.type ===
+        "member_diary"
+    ),
     true
   );
 
+
   appendSupplyCategory(
     "Movie",
-    movieSupplies
+    selected.filter(
+      supply =>
+        supply.type ===
+        "movie"
+    )
   );
+
 
   appendSupplyCategory(
     "Radio",
-    radioSupplies
+    selected.filter(
+      supply =>
+        supply.type ===
+        "radio"
+    )
   );
+
 
   appendSupplyCategory(
     "Photo",
-    photoSupplies
+    selected.filter(
+      supply =>
+        supply.type ===
+        "photo"
+    )
   );
+
 
   appendSupplyCategory(
     "Message",
-    messageSupplies
+    selected.filter(
+      supply =>
+        supply.type ===
+        "message"
+    )
   );
+
 
   appendSupplyCategory(
     "Schedule",
-    scheduleSupplies
+    selected.filter(
+      supply =>
+        supply.type ===
+        "schedule"
+    )
+  );
+
+
+  appendSupplyCategory(
+    "X",
+    selected.filter(
+      supply =>
+        supply.type ===
+        "x"
+    ),
+    true
   );
 }
 
@@ -903,16 +1056,11 @@ function renderSelectedDate() {
 function matchesExploreCategory(
   supply
 ) {
-  if (
-    selectedExploreCategory ===
-    "all"
-  ) {
-    return true;
-  }
-
   return (
+    selectedExploreCategory ===
+      "all" ||
     supply.type ===
-    selectedExploreCategory
+      selectedExploreCategory
   );
 }
 
@@ -925,52 +1073,60 @@ function getExploreSupplies() {
       .toLocaleLowerCase();
 
 
-  const sortedSupplies =
-    [...supplies].sort(
-      (a, b) => {
-        const aDate =
-          a.publishedAt ||
-          a.date ||
-          "";
+  const sorted =
+    [...supplies]
+      .sort(
+        (a, b) => {
+          const aDate =
+            String(
+              a.publishedAt ||
+              a.postedAt ||
+              a.date ||
+              ""
+            );
 
-        const bDate =
-          b.publishedAt ||
-          b.date ||
-          "";
-
-        const dateComparison =
-          bDate.localeCompare(
-            aDate
-          );
-
-        if (
-          dateComparison !== 0
-        ) {
-          return dateComparison;
-        }
+          const bDate =
+            String(
+              b.publishedAt ||
+              b.postedAt ||
+              b.date ||
+              ""
+            );
 
 
-        return String(
-          b.id || ""
-        ).localeCompare(
-          String(a.id || ""),
-          "ja",
-          {
-            numeric: true
+          const comparison =
+            bDate.localeCompare(
+              aDate
+            );
+
+
+          if (
+            comparison !== 0
+          ) {
+            return comparison;
           }
-        );
-      }
-    );
 
 
-  const categoryFiltered =
-    sortedSupplies.filter(
-      matchesExploreCategory
-    );
+          return String(
+            b.id || ""
+          ).localeCompare(
+            String(
+              a.id || ""
+            ),
+            "ja",
+            {
+              numeric: true
+            }
+          );
+        }
+      )
+      .filter(
+        matchesExploreCategory
+      );
 
 
   if (!rawQuery) {
-    return categoryFiltered;
+    return sorted;
   }
 
 
@@ -980,67 +1136,31 @@ function getExploreSupplies() {
       .filter(Boolean);
 
 
-  return categoryFiltered.filter(
+  return sorted.filter(
     supply => {
-      const title =
-        String(
-          supply.title || ""
-        ).toLocaleLowerCase();
-
-
-      if (
-        supply.type ===
-        "member_diary"
-      ) {
-        const member =
-          String(
-            supply.member || ""
-          ).toLocaleLowerCase();
-
-        const searchText =
-          `${title} ${member}`;
-
-        return keywords.every(
-          keyword =>
-            searchText.includes(
-              keyword
-            )
-        );
-      }
-
-
-      if (
-        supply.type ===
-        "schedule"
-      ) {
-        const members =
+      const fields = [
+        supply.title,
+        supply.member,
+        supply.categoryLabel,
+        supply.text,
+        ...(
           Array.isArray(
             supply.members
           )
-            ? supply.members.join(" ")
-            : "";
-
-        const categoryLabel =
-          String(
-            supply.categoryLabel || ""
-          );
-
-        const searchText =
-          `${title} ${members} ${categoryLabel}`
-            .toLocaleLowerCase();
-
-        return keywords.every(
-          keyword =>
-            searchText.includes(
-              keyword
-            )
-        );
-      }
+            ? supply.members
+            : []
+        )
+      ]
+        .filter(Boolean)
+        .join(" ")
+        .toLocaleLowerCase();
 
 
       return keywords.every(
         keyword =>
-          title.includes(keyword)
+          fields.includes(
+            keyword
+          )
       );
     }
   );
@@ -1052,7 +1172,8 @@ function setExploreItemCategory(
   supply
 ) {
   if (
-    supply.type === "youtube"
+    supply.type ===
+    "youtube"
   ) {
     category.innerHTML = `
       <span class="dot youtube-dot"></span>
@@ -1064,44 +1185,61 @@ function setExploreItemCategory(
 
 
   if (
-    supply.type === "schedule"
+    supply.type ===
+    "schedule"
   ) {
-    const scheduleLabel =
+    const label =
       supply.categoryLabel
         ? `Schedule / ${supply.categoryLabel}`
         : "Schedule";
 
+
     category.innerHTML = `
       <span class="dot schedule-dot"></span>
-      <span>${scheduleLabel}</span>
+      <span>${label}</span>
     `;
 
     return;
   }
 
 
-  const fcCategoryNames = {
+  if (
+    supply.type ===
+    "x"
+  ) {
+    category.innerHTML = `
+      <span class="dot x-dot"></span>
+      <span>X</span>
+    `;
+
+    return;
+  }
+
+
+  const names = {
     member_diary:
       "Member Diary",
+
     movie:
       "Movie",
+
     radio:
       "Radio",
+
     photo:
       "Photo",
+
     message:
       "Message"
   };
 
 
   if (
-    fcCategoryNames[
-      supply.type
-    ]
+    names[supply.type]
   ) {
     category.innerHTML = `
       <span class="dot fc-dot"></span>
-      <span>${fcCategoryNames[supply.type]}</span>
+      <span>${names[supply.type]}</span>
     `;
 
     return;
@@ -1116,10 +1254,7 @@ function setExploreItemCategory(
 function renderExplore() {
   if (
     !exploreSearchInput ||
-    !exploreResultLabel ||
-    !exploreResultCount ||
-    !exploreList ||
-    !exploreLoadMore
+    !exploreList
   ) {
     return;
   }
@@ -1130,7 +1265,8 @@ function renderExplore() {
       .value
       .trim();
 
-  const filteredSupplies =
+
+  const filtered =
     getExploreSupplies();
 
 
@@ -1147,19 +1283,20 @@ function renderExplore() {
     exploreResultLabel.textContent =
       exploreCategoryNames[
         selectedExploreCategory
-      ] ||
-      "ALL";
+      ] || "ALL";
   }
 
 
   exploreResultCount.textContent =
-    `${filteredSupplies.length.toLocaleString()}件`;
+    `${filtered.length.toLocaleString()}件`;
 
-  exploreList.innerHTML = "";
+
+  exploreList.innerHTML =
+    "";
 
 
   if (
-    filteredSupplies.length === 0
+    filtered.length === 0
   ) {
     exploreList.innerHTML = `
       <p class="explore-empty">
@@ -1167,187 +1304,194 @@ function renderExplore() {
       </p>
     `;
 
-    exploreLoadMore.hidden = true;
+    exploreLoadMore.hidden =
+      true;
 
     return;
   }
 
 
-  const visibleSupplies =
-    filteredSupplies.slice(
+  filtered
+    .slice(
       0,
       exploreVisibleCount
-    );
+    )
+    .forEach(
+      supply => {
+        const item =
+          document.createElement(
+            "button"
+          );
+
+        item.type =
+          "button";
+
+        item.className =
+          "explore-item";
 
 
-  visibleSupplies.forEach(
-    supply => {
-      const item =
-        document.createElement("button");
+        const date =
+          document.createElement(
+            "span"
+          );
 
-      item.type = "button";
-      item.className = "explore-item";
+        date.className =
+          "explore-item-date";
+
+        date.textContent =
+          formatDisplayDate(
+            supply.date
+          );
 
 
-      const date =
-        document.createElement("span");
+        const category =
+          document.createElement(
+            "span"
+          );
 
-      date.className =
-        "explore-item-date";
+        category.className =
+          "explore-item-category";
 
-      date.textContent =
-        formatDisplayDate(
-          supply.date
+
+        setExploreItemCategory(
+          category,
+          supply
         );
 
 
-      const category =
-        document.createElement("span");
+        const main =
+          document.createElement(
+            "span"
+          );
 
-      category.className =
-        "explore-item-category";
-
-      setExploreItemCategory(
-        category,
-        supply
-      );
+        main.className =
+          "explore-item-main";
 
 
-      const main =
-        document.createElement("span");
+        const text =
+          document.createElement(
+            "span"
+          );
 
-      main.className =
-        "explore-item-main";
-
-
-      const text =
-        document.createElement("span");
-
-      text.className =
-        "explore-item-text";
+        text.className =
+          "explore-item-text";
 
 
-      const title =
-        document.createElement("span");
+        const title =
+          document.createElement(
+            "span"
+          );
 
-      title.className =
-        "explore-item-title";
+        title.className =
+          "explore-item-title";
 
-      title.textContent =
-        supply.title || "";
-
-      text.appendChild(title);
-
-
-      if (
-        supply.type ===
-          "member_diary" &&
-        supply.member
-      ) {
-        const member =
-          document.createElement("span");
-
-        member.className =
-          "explore-item-member";
-
-        member.textContent =
-          supply.member;
-
-        text.appendChild(member);
-      }
+        title.textContent =
+          supply.title || "";
 
 
-      if (
-        supply.type === "schedule" &&
-        Array.isArray(supply.members) &&
-        supply.members.length > 0
-      ) {
-        const member =
-          document.createElement("span");
-
-        member.className =
-          "explore-item-member";
-
-        member.textContent =
-          supply.members.join("・");
-
-        text.appendChild(member);
-      }
+        text.appendChild(
+          title
+        );
 
 
-      const arrow =
-        document.createElement("span");
-
-      arrow.className =
-        "explore-item-arrow";
-
-      arrow.textContent = "›";
+        const memberText =
+          getMemberText(
+            supply
+          );
 
 
-      main.appendChild(text);
-      main.appendChild(arrow);
+        if (
+          memberText &&
+          [
+            "member_diary",
+            "schedule",
+            "x"
+          ].includes(
+            supply.type
+          )
+        ) {
+          const member =
+            document.createElement(
+              "span"
+            );
 
-      item.appendChild(date);
-      item.appendChild(category);
-      item.appendChild(main);
+          member.className =
+            "explore-item-member";
 
+          member.textContent =
+            memberText;
 
-      item.addEventListener(
-        "click",
-        () => {
-          openDetail(
-            supply,
-            "explore"
+          text.appendChild(
+            member
           );
         }
-      );
 
 
-      exploreList.appendChild(
-        item
-      );
-    }
-  );
+        const arrow =
+          document.createElement(
+            "span"
+          );
+
+        arrow.className =
+          "explore-item-arrow";
+
+        arrow.textContent =
+          "›";
+
+
+        main.appendChild(
+          text
+        );
+
+        main.appendChild(
+          arrow
+        );
+
+
+        item.appendChild(
+          date
+        );
+
+        item.appendChild(
+          category
+        );
+
+        item.appendChild(
+          main
+        );
+
+
+        item.addEventListener(
+          "click",
+          () => {
+            openDetail(
+              supply,
+              "explore"
+            );
+          }
+        );
+
+
+        exploreList.appendChild(
+          item
+        );
+      }
+    );
 
 
   exploreLoadMore.hidden =
     exploreVisibleCount >=
-    filteredSupplies.length;
+    filtered.length;
 }
 
 
 /* ==========================================================
-   EXPLOREイベント
-========================================================== */
-
-exploreSearchInput.addEventListener(
-  "input",
-  () => {
-    exploreVisibleCount =
-      EXPLORE_PAGE_SIZE;
-
-    renderExplore();
-  }
-);
-
-
-exploreLoadMore.addEventListener(
-  "click",
-  () => {
-    exploreVisibleCount +=
-      EXPLORE_PAGE_SIZE;
-
-    renderExplore();
-  }
-);
-
-
-/* ==========================================================
-   カテゴリシート
+   EXPLOREカテゴリ選択
 ========================================================== */
 
 function openCategorySheet() {
-  categorySheet.hidden = false;
+  categorySheet.hidden =
+    false;
 
   exploreCategoryButton.setAttribute(
     "aria-expanded",
@@ -1359,7 +1503,8 @@ function openCategorySheet() {
 
 
 function closeCategorySheet() {
-  categorySheet.hidden = true;
+  categorySheet.hidden =
+    true;
 
   exploreCategoryButton.setAttribute(
     "aria-expanded",
@@ -1371,28 +1516,26 @@ function closeCategorySheet() {
 function updateCategorySheetSelection() {
   categorySheetOptions.forEach(
     option => {
-      const category =
-        option.dataset.category;
+      const selected =
+        option.dataset.category ===
+        selectedExploreCategory;
+
+
+      option.classList.toggle(
+        "selected",
+        selected
+      );
+
 
       const check =
         option.querySelector(
           ".category-sheet-check"
         );
 
-      const isSelected =
-        category ===
-        selectedExploreCategory;
-
-
-      option.classList.toggle(
-        "selected",
-        isSelected
-      );
-
 
       if (check) {
         check.textContent =
-          isSelected
+          selected
             ? "✓"
             : "";
       }
@@ -1403,89 +1546,34 @@ function updateCategorySheetSelection() {
   exploreCategoryLabel.textContent =
     exploreCategoryNames[
       selectedExploreCategory
-    ] ||
-    "すべて";
+    ] || "すべて";
 }
 
 
-exploreCategoryButton.addEventListener(
-  "click",
-  openCategorySheet
-);
-
-
-categorySheetClose.addEventListener(
-  "click",
-  closeCategorySheet
-);
-
-
-categorySheetOptions.forEach(
-  option => {
-    option.addEventListener(
-      "click",
-      () => {
-        const category =
-          option.dataset.category;
-
-        if (!category) {
-          return;
-        }
-
-        selectedExploreCategory =
-          category;
-
-        exploreVisibleCount =
-          EXPLORE_PAGE_SIZE;
-
-        updateCategorySheetSelection();
-        renderExplore();
-        closeCategorySheet();
-      }
-    );
-  }
-);
-
-
-categorySheet.addEventListener(
-  "click",
-  event => {
-    if (
-      event.target ===
-      categorySheet
-    ) {
-      closeCategorySheet();
-    }
-  }
-);
-
-
-document.addEventListener(
-  "keydown",
-  event => {
-    if (
-      event.key === "Escape" &&
-      !categorySheet.hidden
-    ) {
-      closeCategorySheet();
-    }
-  }
-);
-
-
 /* ==========================================================
-   画面切り替え
+   メイン画面切り替え
 ========================================================== */
 
 function showCalendarView() {
   closeCategorySheet();
 
-  currentMainView = "calendar";
 
-  calendarView.hidden = false;
-  exploreView.hidden = true;
-  detailView.hidden = true;
-  bottomNav.hidden = false;
+  currentMainView =
+    "calendar";
+
+
+  calendarView.hidden =
+    false;
+
+  exploreView.hidden =
+    true;
+
+  detailView.hidden =
+    true;
+
+  bottomNav.hidden =
+    false;
+
 
   calendarNavButton.classList.add(
     "active"
@@ -1495,10 +1583,6 @@ function showCalendarView() {
     "active"
   );
 
-  /*
-    CALENDARを表示するときは
-    必ず年月・日付を作り直す。
-  */
 
   renderCalendar();
   renderSelectedDate();
@@ -1506,12 +1590,22 @@ function showCalendarView() {
 
 
 function showExploreView() {
-  currentMainView = "explore";
+  currentMainView =
+    "explore";
 
-  calendarView.hidden = true;
-  exploreView.hidden = false;
-  detailView.hidden = true;
-  bottomNav.hidden = false;
+
+  calendarView.hidden =
+    true;
+
+  exploreView.hidden =
+    false;
+
+  detailView.hidden =
+    true;
+
+  bottomNav.hidden =
+    false;
+
 
   calendarNavButton.classList.remove(
     "active"
@@ -1521,69 +1615,78 @@ function showExploreView() {
     "active"
   );
 
+
   renderExplore();
 }
 
 
-calendarNavButton.addEventListener(
-  "click",
-  () => {
-    showCalendarView();
-
-    window.scrollTo({
-      top: 0,
-      behavior: "auto"
-    });
-  }
-);
-
-
-exploreNavButton.addEventListener(
-  "click",
-  () => {
-    showExploreView();
-
-    window.scrollTo({
-      top: 0,
-      behavior: "auto"
-    });
-  }
-);
-
-
 /* ==========================================================
-   DETAIL 共通リセット
+   DETAIL初期化
 ========================================================== */
 
 function resetDetail() {
-  detailThumbnailWrapper.hidden = true;
-  detailThumbnail.src = "";
-  detailThumbnail.alt = "";
+  detailThumbnailWrapper.hidden =
+    true;
 
-  detailType.innerHTML = "";
+  detailThumbnail.src =
+    "";
 
-  detailMember.hidden = true;
-  detailMember.textContent = "";
+  detailThumbnail.alt =
+    "";
 
-  detailScheduleMembers.hidden = true;
-  detailScheduleMembersText.textContent = "";
 
-  detailScheduleText.hidden = true;
-  detailScheduleText.textContent = "";
+  detailType.innerHTML =
+    "";
 
-  detailScheduleXPosts.hidden = true;
-  detailScheduleXPostsList.innerHTML = "";
 
-  detailScheduleLinks.hidden = true;
-  detailScheduleLinksList.innerHTML = "";
+  detailMember.hidden =
+    true;
+
+  detailMember.textContent =
+    "";
+
+
+  detailScheduleMembers.hidden =
+    true;
+
+  detailScheduleMembersText.textContent =
+    "";
+
+
+  detailScheduleText.hidden =
+    true;
+
+  detailScheduleText.textContent =
+    "";
+
+
+  detailXPosts.hidden =
+    true;
+
+  detailXPostsList.innerHTML =
+    "";
+
+
+  detailScheduleLinks.hidden =
+    true;
+
+  detailScheduleLinksList.innerHTML =
+    "";
+
 
   detailExternalLink.classList.remove(
     "youtube-link",
     "fc-link",
-    "schedule-link"
+    "schedule-link",
+    "x-link"
   );
 
-  detailExternalLink.hidden = false;
+
+  detailExternalLink.hidden =
+    false;
+
+  detailExternalLink.href =
+    "#";
 }
 
 
@@ -1604,12 +1707,6 @@ function setFcDetail(
 
     detailThumbnail.alt =
       `${supply.title}のサムネイル`;
-  } else {
-    detailThumbnailWrapper.hidden =
-      true;
-
-    detailThumbnail.src = "";
-    detailThumbnail.alt = "";
   }
 
 
@@ -1619,14 +1716,13 @@ function setFcDetail(
   `;
 
 
-  detailMember.hidden = true;
-  detailMember.textContent = "";
-
   detailExternalLink.href =
     supply.url || "#";
 
+
   detailExternalLinkText.textContent =
     "公式サイトで見る";
+
 
   detailExternalLink.classList.add(
     "fc-link"
@@ -1635,84 +1731,175 @@ function setFcDetail(
 
 
 /* ==========================================================
-   Schedule X POSTS
+   X投稿
 ========================================================== */
 
-function getScheduleXPostUrls(supply) {
-  const scheduleId =
-    String(
-      supply.scheduleId || ""
-    ).trim();
-
-  if (!scheduleId) {
-    return [];
-  }
-
-
-  const matchedEntry =
-    scheduleXLinks.find(
-      entry =>
-        entry &&
-        String(
-          entry.scheduleId || ""
-        ).trim() === scheduleId
-    );
-
-
+function normalizeXPosts(
+  posts
+) {
   if (
-    !matchedEntry ||
-    !Array.isArray(
-      matchedEntry.urls
-    )
+    !Array.isArray(posts)
   ) {
     return [];
   }
 
 
-  /*
-    空文字や不正な値を除外し、
-    同じURLが重複している場合も
-    1件だけ表示する。
-  */
+  const seen =
+    new Set();
 
-  return [
-    ...new Set(
-      matchedEntry.urls
-        .map(
-          url =>
-            String(url || "").trim()
-        )
-        .filter(Boolean)
+
+  return posts
+    .map(
+      post => {
+        if (
+          typeof post ===
+          "string"
+        ) {
+          return {
+            url: post
+          };
+        }
+
+
+        return post || {};
+      }
     )
-  ];
+    .filter(
+      post => {
+        const url =
+          String(
+            post.url || ""
+          ).trim();
+
+
+        if (
+          !url ||
+          seen.has(url)
+        ) {
+          return false;
+        }
+
+
+        seen.add(url);
+
+        return true;
+      }
+    );
 }
 
 
-function renderScheduleXPosts(supply) {
-  detailScheduleXPosts.hidden = true;
-  detailScheduleXPostsList.innerHTML = "";
+/* ==========================================================
+   関連X投稿取得
+========================================================== */
+
+function getRelatedXPosts(
+  supply
+) {
+  /*
+    X由来Scheduleの場合は
+    x_schedule.json 内の
+    xPostsを使用できる。
+  */
+
+  const embedded =
+    normalizeXPosts(
+      supply.xPosts
+    );
 
 
-  const urls =
-    getScheduleXPostUrls(
+  const targetId =
+    String(
+      supply.id || ""
+    ).trim();
+
+
+  const targetType =
+    String(
+      supply.type || ""
+    ).trim();
+
+
+  /*
+    content_x_links.jsonから
+    既存コンテンツに紐付いたX投稿を取得。
+  */
+
+  const linked =
+    contentXLinks
+      .filter(
+        entry =>
+          entry &&
+          String(
+            entry.targetId || ""
+          ).trim() ===
+            targetId &&
+          (
+            !entry.targetType ||
+            String(
+              entry.targetType
+            ).trim() ===
+              targetType
+          )
+      )
+      .flatMap(
+        entry =>
+          normalizeXPosts(
+            entry.xPosts
+          )
+      );
+
+
+  /*
+    embeddedとlinkedの両方を統合し、
+    URL重複を除去する。
+  */
+
+  return normalizeXPosts([
+    ...embedded,
+    ...linked
+  ]);
+}
+
+
+/* ==========================================================
+   X POSTS表示
+========================================================== */
+
+function renderXPosts(
+  supply
+) {
+  detailXPosts.hidden =
+    true;
+
+  detailXPostsList.innerHTML =
+    "";
+
+
+  const posts =
+    getRelatedXPosts(
       supply
     );
 
 
-  if (urls.length === 0) {
+  if (
+    posts.length === 0
+  ) {
     return;
   }
 
 
-  urls.forEach(
-    url => {
+  posts.forEach(
+    post => {
       const anchor =
-        document.createElement("a");
+        document.createElement(
+          "a"
+        );
 
       anchor.className =
-        "detail-schedule-x-post-link";
+        "detail-x-post-link";
 
-      anchor.href = url;
+      anchor.href =
+        post.url;
 
       anchor.target =
         "_blank";
@@ -1721,29 +1908,45 @@ function renderScheduleXPosts(supply) {
         "noopener noreferrer";
 
 
-      const linkText =
-        document.createElement("span");
+      const text =
+        document.createElement(
+          "span"
+        );
 
-      linkText.textContent =
-        "Xで見る";
+      text.className =
+        "detail-x-post-link-text";
+
+
+      if (post.text) {
+        text.textContent =
+          String(
+            post.text
+          )
+            .replace(
+              /\s+/g,
+              " "
+            )
+            .trim();
+      } else {
+        text.textContent =
+          "Xで見る";
+      }
 
 
       const arrow =
-        document.createElement("span");
+        document.createElement(
+          "span"
+        );
 
       arrow.className =
-        "detail-schedule-x-post-arrow";
+        "detail-x-post-arrow";
 
-      arrow.textContent = "↗";
-
-      arrow.setAttribute(
-        "aria-hidden",
-        "true"
-      );
+      arrow.textContent =
+        "↗";
 
 
       anchor.appendChild(
-        linkText
+        text
       );
 
       anchor.appendChild(
@@ -1751,21 +1954,15 @@ function renderScheduleXPosts(supply) {
       );
 
 
-      detailScheduleXPostsList.appendChild(
+      detailXPostsList.appendChild(
         anchor
       );
     }
   );
 
 
-  if (
-    detailScheduleXPostsList
-      .children
-      .length > 0
-  ) {
-    detailScheduleXPosts.hidden =
-      false;
-  }
+  detailXPosts.hidden =
+    false;
 }
 
 
@@ -1773,28 +1970,19 @@ function renderScheduleXPosts(supply) {
    Schedule DETAIL
 ========================================================== */
 
-function setScheduleDetail(supply) {
+function setScheduleDetail(
+  supply
+) {
   /*
-    Scheduleにはサムネイルを表示しない。
-  */
-
-  detailThumbnailWrapper.hidden = true;
-  detailThumbnail.src = "";
-  detailThumbnail.alt = "";
-
-
-  /*
-    Schedule内のカテゴリも表示する。
-    例:
-    Schedule / TV
-    Schedule / Radio
-    Schedule / Magazine
+    X由来Scheduleも
+    通常Scheduleと同じ黄色で表示する。
   */
 
   const scheduleType =
     supply.categoryLabel
       ? `Schedule / ${supply.categoryLabel}`
       : "Schedule";
+
 
   detailType.innerHTML = `
     <span class="dot schedule-dot"></span>
@@ -1803,68 +1991,49 @@ function setScheduleDetail(supply) {
 
 
   /*
-    既存の単一member欄は使用しない。
-  */
-
-  detailMember.hidden = true;
-  detailMember.textContent = "";
-
-
-  /*
     出演メンバー
   */
 
   if (
-    Array.isArray(supply.members) &&
+    Array.isArray(
+      supply.members
+    ) &&
     supply.members.length > 0
   ) {
     detailScheduleMembers.hidden =
       false;
 
     detailScheduleMembersText.textContent =
-      supply.members.join("・");
-  } else {
-    detailScheduleMembers.hidden =
-      true;
-
-    detailScheduleMembersText.textContent =
-      "";
+      supply.members.join(
+        "・"
+      );
   }
 
 
   /*
-    Schedule本文
+    詳細本文
   */
 
-  const detailText =
+  const body =
     String(
       supply.detailText || ""
     ).trim();
 
-  if (detailText) {
+
+  if (body) {
     detailScheduleText.hidden =
       false;
 
     detailScheduleText.textContent =
-      detailText;
-  } else {
-    detailScheduleText.hidden =
-      true;
-
-    detailScheduleText.textContent =
-      "";
+      body;
   }
 
 
   /*
-    X POSTS
-
-    schedule_x_links.json の
-    scheduleIdとScheduleのscheduleIdを
-    照合して表示する。
+    関連X投稿
   */
 
-  renderScheduleXPosts(
+  renderXPosts(
     supply
   );
 
@@ -1881,109 +2050,107 @@ function setScheduleDetail(supply) {
       : [];
 
 
-  if (externalLinks.length > 0) {
-    detailScheduleLinks.hidden =
-      false;
-
-    externalLinks.forEach(
-      link => {
-        if (!link || !link.url) {
-          return;
-        }
-
-        const anchor =
-          document.createElement("a");
-
-        anchor.className =
-          "detail-schedule-link";
-
-        anchor.href =
-          link.url;
-
-        anchor.target =
-          "_blank";
-
-        anchor.rel =
-          "noopener noreferrer";
-
-
-        const linkText =
-          document.createElement("span");
-
-        linkText.className =
-          "detail-schedule-link-text";
-
-        /*
-          labelが空の場合はURLを表示する。
-        */
-
-        linkText.textContent =
-          String(
-            link.label || link.url
-          );
-
-
-        const arrow =
-          document.createElement("span");
-
-        arrow.className =
-          "detail-schedule-link-arrow";
-
-        arrow.textContent = "↗";
-
-        arrow.setAttribute(
-          "aria-hidden",
-          "true"
-        );
-
-
-        anchor.appendChild(
-          linkText
-        );
-
-        anchor.appendChild(
-          arrow
-        );
-
-
-        detailScheduleLinksList.appendChild(
-          anchor
-        );
+  externalLinks.forEach(
+    link => {
+      if (
+        !link ||
+        !link.url
+      ) {
+        return;
       }
-    );
 
 
-    /*
-      不正な要素しかなかった場合への保険。
-    */
+      const anchor =
+        document.createElement(
+          "a"
+        );
 
-    if (
-      detailScheduleLinksList
-        .children
-        .length === 0
-    ) {
-      detailScheduleLinks.hidden =
-        true;
+      anchor.className =
+        "detail-schedule-link";
+
+      anchor.href =
+        link.url;
+
+      anchor.target =
+        "_blank";
+
+      anchor.rel =
+        "noopener noreferrer";
+
+
+      const text =
+        document.createElement(
+          "span"
+        );
+
+      text.className =
+        "detail-schedule-link-text";
+
+      text.textContent =
+        String(
+          link.label ||
+          link.url
+        );
+
+
+      const arrow =
+        document.createElement(
+          "span"
+        );
+
+      arrow.className =
+        "detail-schedule-link-arrow";
+
+      arrow.textContent =
+        "↗";
+
+
+      anchor.appendChild(
+        text
+      );
+
+      anchor.appendChild(
+        arrow
+      );
+
+
+      detailScheduleLinksList.appendChild(
+        anchor
+      );
     }
-  } else {
-    detailScheduleLinks.hidden =
-      true;
-  }
+  );
+
+
+  detailScheduleLinks.hidden =
+    detailScheduleLinksList
+      .children
+      .length === 0;
 
 
   /*
-    INI公式Scheduleページ
+    公式Scheduleの場合は
+    INI公式サイトへのリンク。
+
+    X由来Scheduleでurlがある場合は
+    関連ページとして表示。
   */
 
   if (supply.url) {
-    detailExternalLink.hidden =
-      false;
-
     detailExternalLink.href =
       supply.url;
 
-    detailExternalLinkText.textContent =
-      "INI公式サイトで見る";
+
+    if (
+      supply.source ===
+      "x"
+    ) {
+      detailExternalLinkText.textContent =
+        "関連ページを見る";
+    } else {
+      detailExternalLinkText.textContent =
+        "INI公式サイトで見る";
+    }
+
 
     detailExternalLink.classList.add(
       "schedule-link"
@@ -1991,9 +2158,78 @@ function setScheduleDetail(supply) {
   } else {
     detailExternalLink.hidden =
       true;
+  }
+}
 
+
+/* ==========================================================
+   X独自コンテンツ DETAIL
+========================================================== */
+
+function setXDetail(
+  supply
+) {
+  detailType.innerHTML = `
+    <span class="dot x-dot"></span>
+    <span>X</span>
+  `;
+
+
+  /*
+    メンバー
+  */
+
+  const memberText =
+    getMemberText(
+      supply
+    );
+
+
+  if (memberText) {
+    detailMember.hidden =
+      false;
+
+    detailMember.textContent =
+      memberText;
+  }
+
+
+  /*
+    X本文
+  */
+
+  const body =
+    String(
+      supply.text || ""
+    ).trim();
+
+
+  if (body) {
+    detailScheduleText.hidden =
+      false;
+
+    detailScheduleText.textContent =
+      body;
+  }
+
+
+  /*
+    X投稿へのリンク
+  */
+
+  if (supply.url) {
     detailExternalLink.href =
-      "#";
+      supply.url;
+
+    detailExternalLinkText.textContent =
+      "Xで見る";
+
+    detailExternalLink.classList.add(
+      "x-link"
+    );
+  } else {
+    detailExternalLink.hidden =
+      true;
   }
 }
 
@@ -2006,14 +2242,13 @@ function openDetail(
   supply,
   fromView
 ) {
-  currentMainView = fromView;
+  currentMainView =
+    fromView;
+
 
   /*
-    前に開いていたDETAILの表示を
-    必ずすべて初期化する。
-
-    Schedule → YouTubeなどへ移動した際に
-    Schedule本文が残ることを防ぐ。
+    前のDETAIL表示を
+    必ず初期化する。
   */
 
   resetDetail();
@@ -2021,6 +2256,7 @@ function openDetail(
 
   detailTitle.textContent =
     supply.title || "";
+
 
   detailDate.textContent =
     formatDisplayDate(
@@ -2031,11 +2267,13 @@ function openDetail(
   /* YouTube */
 
   if (
-    supply.type === "youtube"
+    supply.type ===
+    "youtube"
   ) {
     const youtubeUrl =
       supply.url ||
       `https://www.youtube.com/watch?v=${supply.videoId}`;
+
 
     const thumbnailUrl =
       supply.thumbnail ||
@@ -2067,6 +2305,11 @@ function openDetail(
     detailExternalLink.classList.add(
       "youtube-link"
     );
+
+
+    renderXPosts(
+      supply
+    );
   }
 
 
@@ -2076,13 +2319,6 @@ function openDetail(
     supply.type ===
     "member_diary"
   ) {
-    detailThumbnailWrapper.hidden =
-      true;
-
-    detailThumbnail.src = "";
-    detailThumbnail.alt = "";
-
-
     detailType.innerHTML = `
       <span class="dot fc-dot"></span>
       <span>Member Diary</span>
@@ -2090,12 +2326,11 @@ function openDetail(
 
 
     if (supply.member) {
-      detailMember.hidden = false;
+      detailMember.hidden =
+        false;
+
       detailMember.textContent =
         supply.member;
-    } else {
-      detailMember.hidden = true;
-      detailMember.textContent = "";
     }
 
 
@@ -2108,53 +2343,49 @@ function openDetail(
     detailExternalLink.classList.add(
       "fc-link"
     );
-  }
 
 
-  /* Movie */
-
-  else if (
-    supply.type === "movie"
-  ) {
-    setFcDetail(
-      supply,
-      "Movie"
+    renderXPosts(
+      supply
     );
   }
 
 
-  /* Radio */
+  /* FC Contents */
 
   else if (
-    supply.type === "radio"
+    [
+      "movie",
+      "radio",
+      "photo",
+      "message"
+    ].includes(
+      supply.type
+    )
   ) {
+    const names = {
+      movie:
+        "Movie",
+
+      radio:
+        "Radio",
+
+      photo:
+        "Photo",
+
+      message:
+        "Message"
+    };
+
+
     setFcDetail(
       supply,
-      "Radio"
+      names[supply.type]
     );
-  }
 
 
-  /* Photo */
-
-  else if (
-    supply.type === "photo"
-  ) {
-    setFcDetail(
-      supply,
-      "Photo"
-    );
-  }
-
-
-  /* Message */
-
-  else if (
-    supply.type === "message"
-  ) {
-    setFcDetail(
-      supply,
-      "Message"
+    renderXPosts(
+      supply
     );
   }
 
@@ -2162,9 +2393,22 @@ function openDetail(
   /* Schedule */
 
   else if (
-    supply.type === "schedule"
+    supply.type ===
+    "schedule"
   ) {
     setScheduleDetail(
+      supply
+    );
+  }
+
+
+  /* X */
+
+  else if (
+    supply.type ===
+    "x"
+  ) {
+    setXDetail(
       supply
     );
   }
@@ -2173,27 +2417,34 @@ function openDetail(
   /* 未知の種別 */
 
   else {
-    detailThumbnailWrapper.hidden =
-      true;
-
-    detailThumbnail.src = "";
-    detailThumbnail.alt = "";
-
     detailType.textContent =
       supply.type || "";
+
 
     detailExternalLink.href =
       supply.url || "#";
 
     detailExternalLinkText.textContent =
       "外部サイトで見る";
+
+
+    renderXPosts(
+      supply
+    );
   }
 
 
-  calendarView.hidden = true;
-  exploreView.hidden = true;
-  detailView.hidden = false;
-  bottomNav.hidden = true;
+  calendarView.hidden =
+    true;
+
+  exploreView.hidden =
+    true;
+
+  detailView.hidden =
+    false;
+
+  bottomNav.hidden =
+    true;
 
 
   window.scrollTo({
@@ -2208,81 +2459,22 @@ function openDetail(
 ========================================================== */
 
 function closeDetail() {
-  detailView.hidden = true;
-  bottomNav.hidden = false;
+  detailView.hidden =
+    true;
+
+  bottomNav.hidden =
+    false;
 
 
   if (
-    currentMainView === "explore"
+    currentMainView ===
+    "explore"
   ) {
-    calendarView.hidden = true;
-    exploreView.hidden = false;
-
-    calendarNavButton.classList.remove(
-      "active"
-    );
-
-    exploreNavButton.classList.add(
-      "active"
-    );
-
-    renderExplore();
+    showExploreView();
   } else {
-    calendarView.hidden = false;
-    exploreView.hidden = true;
-
-    calendarNavButton.classList.add(
-      "active"
-    );
-
-    exploreNavButton.classList.remove(
-      "active"
-    );
-
-    renderCalendar();
-    renderSelectedDate();
+    showCalendarView();
   }
 }
-
-
-detailBackButton.addEventListener(
-  "click",
-  closeDetail
-);
-
-
-/* ==========================================================
-   月移動
-========================================================== */
-
-prevMonthButton.addEventListener(
-  "click",
-  () => {
-    displayMonth--;
-
-    if (displayMonth < 0) {
-      displayMonth = 11;
-      displayYear--;
-    }
-
-    renderCalendar();
-  }
-);
-
-
-nextMonthButton.addEventListener(
-  "click",
-  () => {
-    displayMonth++;
-
-    if (displayMonth > 11) {
-      displayMonth = 0;
-      displayYear++;
-    }
-
-    renderCalendar();
-  }
-);
 
 
 /* ==========================================================
@@ -2296,28 +2488,20 @@ function getLatestDataYear() {
 
   supplies.forEach(
     supply => {
-      const dateString =
+      const match =
         String(
           supply.date || ""
-        );
-
-      const match =
-        dateString.match(
+        ).match(
           /^(\d{4})-\d{2}-\d{2}$/
         );
 
-      if (!match) {
-        return;
-      }
 
-      const year =
-        Number(match[1]);
-
-      if (
-        Number.isFinite(year) &&
-        year > latestYear
-      ) {
-        latestYear = year;
+      if (match) {
+        latestYear =
+          Math.max(
+            latestYear,
+            Number(match[1])
+          );
       }
     }
   );
@@ -2336,37 +2520,22 @@ function createMonthPickerOptions() {
   }
 
 
-  /*
-    作り直す前の選択値を保持する。
-  */
+  yearSelect.innerHTML =
+    "";
 
-  const previousYear =
-    yearSelect.value;
+  monthSelect.innerHTML =
+    "";
 
-  const previousMonth =
-    monthSelect.value;
-
-
-  yearSelect.innerHTML = "";
-  monthSelect.innerHTML = "";
-
-  const startYear = 2021;
 
   /*
-    現在年と、
-    実際の供給データに存在する最大年を比較。
-
-    Scheduleに翌年以降の予定が存在すれば
-    その年まで自動的に追加される。
+    2021年から
+    データ上の最新年まで。
   */
-
-  const latestYear =
-    getLatestDataYear();
-
 
   for (
-    let year = latestYear;
-    year >= startYear;
+    let year =
+      getLatestDataYear();
+    year >= 2021;
     year--
   ) {
     const option =
@@ -2374,7 +2543,9 @@ function createMonthPickerOptions() {
         "option"
       );
 
-    option.value = year;
+    option.value =
+      year;
+
     option.textContent =
       `${year}年`;
 
@@ -2394,7 +2565,9 @@ function createMonthPickerOptions() {
         "option"
       );
 
-    option.value = month;
+    option.value =
+      month;
+
     option.textContent =
       `${month}月`;
 
@@ -2404,61 +2577,207 @@ function createMonthPickerOptions() {
   }
 
 
-  /*
-    現在表示している年月を優先。
-    それが存在しない場合だけ以前の値を使用。
-  */
+  yearSelect.value =
+    String(
+      displayYear
+    );
 
-  const displayYearOption =
-    [...yearSelect.options]
-      .some(
-        option =>
-          Number(option.value) ===
-          displayYear
-      );
-
-
-  if (displayYearOption) {
-    yearSelect.value =
-      String(displayYear);
-  } else if (previousYear) {
-    yearSelect.value =
-      previousYear;
-  }
-
-
-  if (
-    displayMonth >= 0 &&
-    displayMonth <= 11
-  ) {
-    monthSelect.value =
-      String(displayMonth + 1);
-  } else if (previousMonth) {
-    monthSelect.value =
-      previousMonth;
-  }
+  monthSelect.value =
+    String(
+      displayMonth + 1
+    );
 }
 
+
+/* ==========================================================
+   EXPLOREイベント
+========================================================== */
+
+exploreSearchInput.addEventListener(
+  "input",
+  () => {
+    exploreVisibleCount =
+      EXPLORE_PAGE_SIZE;
+
+    renderExplore();
+  }
+);
+
+
+exploreLoadMore.addEventListener(
+  "click",
+  () => {
+    exploreVisibleCount +=
+      EXPLORE_PAGE_SIZE;
+
+    renderExplore();
+  }
+);
+
+
+exploreCategoryButton.addEventListener(
+  "click",
+  openCategorySheet
+);
+
+
+categorySheetClose.addEventListener(
+  "click",
+  closeCategorySheet
+);
+
+
+categorySheetOptions.forEach(
+  option => {
+    option.addEventListener(
+      "click",
+      () => {
+        if (
+          !option.dataset.category
+        ) {
+          return;
+        }
+
+
+        selectedExploreCategory =
+          option.dataset.category;
+
+
+        exploreVisibleCount =
+          EXPLORE_PAGE_SIZE;
+
+
+        updateCategorySheetSelection();
+
+        renderExplore();
+
+        closeCategorySheet();
+      }
+    );
+  }
+);
+
+
+categorySheet.addEventListener(
+  "click",
+  event => {
+    if (
+      event.target ===
+      categorySheet
+    ) {
+      closeCategorySheet();
+    }
+  }
+);
+
+
+document.addEventListener(
+  "keydown",
+  event => {
+    if (
+      event.key ===
+        "Escape" &&
+      !categorySheet.hidden
+    ) {
+      closeCategorySheet();
+    }
+  }
+);
+
+
+/* ==========================================================
+   下部ナビ
+========================================================== */
+
+calendarNavButton.addEventListener(
+  "click",
+  () => {
+    showCalendarView();
+
+    window.scrollTo({
+      top: 0,
+      behavior: "auto"
+    });
+  }
+);
+
+
+exploreNavButton.addEventListener(
+  "click",
+  () => {
+    showExploreView();
+
+    window.scrollTo({
+      top: 0,
+      behavior: "auto"
+    });
+  }
+);
+
+
+/* ==========================================================
+   DETAILイベント
+========================================================== */
+
+detailBackButton.addEventListener(
+  "click",
+  closeDetail
+);
+
+
+/* ==========================================================
+   月移動
+========================================================== */
+
+prevMonthButton.addEventListener(
+  "click",
+  () => {
+    displayMonth--;
+
+
+    if (
+      displayMonth < 0
+    ) {
+      displayMonth = 11;
+      displayYear--;
+    }
+
+
+    renderCalendar();
+  }
+);
+
+
+nextMonthButton.addEventListener(
+  "click",
+  () => {
+    displayMonth++;
+
+
+    if (
+      displayMonth > 11
+    ) {
+      displayMonth = 0;
+      displayYear++;
+    }
+
+
+    renderCalendar();
+  }
+);
+
+
+/* ==========================================================
+   年月選択イベント
+========================================================== */
 
 monthPickerButton.addEventListener(
   "click",
   () => {
-    /*
-      データ更新後の最大年を
-      確実に反映するため、
-      開くたびに作り直す。
-    */
-
     createMonthPickerOptions();
 
-
-    yearSelect.value =
-      String(displayYear);
-
-    monthSelect.value =
-      String(displayMonth + 1);
-
-    monthPicker.hidden = false;
+    monthPicker.hidden =
+      false;
   }
 );
 
@@ -2466,7 +2785,8 @@ monthPickerButton.addEventListener(
 monthPickerCancel.addEventListener(
   "click",
   () => {
-    monthPicker.hidden = true;
+    monthPicker.hidden =
+      true;
   }
 );
 
@@ -2474,32 +2794,20 @@ monthPickerCancel.addEventListener(
 monthPickerGo.addEventListener(
   "click",
   () => {
-    const selectedYear =
-      Number(yearSelect.value);
-
-    const selectedMonth =
-      Number(monthSelect.value);
-
-
-    if (
-      !Number.isFinite(
-        selectedYear
-      ) ||
-      !Number.isFinite(
-        selectedMonth
-      )
-    ) {
-      return;
-    }
-
-
     displayYear =
-      selectedYear;
+      Number(
+        yearSelect.value
+      );
 
     displayMonth =
-      selectedMonth - 1;
+      Number(
+        monthSelect.value
+      ) - 1;
 
-    monthPicker.hidden = true;
+
+    monthPicker.hidden =
+      true;
+
 
     renderCalendar();
   }
@@ -2513,7 +2821,8 @@ monthPicker.addEventListener(
       event.target ===
       monthPicker
     ) {
-      monthPicker.hidden = true;
+      monthPicker.hidden =
+        true;
     }
   }
 );
@@ -2523,51 +2832,30 @@ monthPicker.addEventListener(
    初期化
 ========================================================== */
 
-let appInitialized = false;
+let appInitialized =
+  false;
 
 
 function initializeApp() {
-  if (appInitialized) {
+  if (
+    appInitialized
+  ) {
     return;
   }
 
-  appInitialized = true;
+
+  appInitialized =
+    true;
+
 
   console.log(
     "INI Supply Archive 初期化開始"
   );
 
 
-  /*
-    年月選択肢を作成。
-
-    この時点ではJSON取得前なので
-    現在年までが作られる。
-
-    JSON取得後にloadSupplies()から
-    もう一度作り直される。
-  */
-
   createMonthPickerOptions();
 
-
-  /*
-    EXPLOREカテゴリ状態を反映。
-  */
-
   updateCategorySheetSelection();
-
-
-  /*
-    ★重要
-
-    初回表示でもCALENDARボタンを
-    押したときとまったく同じ関数を使用する。
-
-    JSON取得は待たない。
-    そのためデータ取得に失敗しても
-    年月と1〜31の日付は必ず表示される。
-  */
 
   showCalendarView();
 
@@ -2577,25 +2865,22 @@ function initializeApp() {
   );
 
 
-  /*
-    カレンダーを描画した後で
-    データ取得を開始。
-  */
-
   loadSupplies();
 }
 
 
 /*
-  index.htmlのscriptがbody末尾にある場合は
+  index.htmlのscriptが
+  body末尾にある場合は
   通常すでにDOMが完成している。
 
-  ただしSafari等も考慮して
+  Safari等も考慮して
   readyStateを確認する。
 */
 
 if (
-  document.readyState === "loading"
+  document.readyState ===
+  "loading"
 ) {
   document.addEventListener(
     "DOMContentLoaded",
@@ -2610,17 +2895,16 @@ if (
 
 
 /*
-  iPhone Safariのbfcache復元対策。
-
-  ページ復元時にも、
-  CALENDAR表示中なら再描画する。
+  iPhone Safariの
+  bfcache復元対策。
 */
 
 window.addEventListener(
   "pageshow",
   () => {
     if (
-      currentMainView === "calendar" &&
+      currentMainView ===
+        "calendar" &&
       !calendarView.hidden
     ) {
       renderCalendar();
