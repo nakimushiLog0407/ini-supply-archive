@@ -21,9 +21,7 @@ import requests
 TIMEOUT = 30
 REQUEST_INTERVAL = 1.0
 
-SYNDICATION_ENDPOINT = (
-    "https://cdn.syndication.twimg.com/tweet-result"
-)
+SYNDICATION_ENDPOINT = "https://cdn.syndication.twimg.com/tweet-result"
 
 USER_AGENT = (
     "Mozilla/5.0 "
@@ -33,7 +31,6 @@ USER_AGENT = (
     "Chrome/140.0.0.0 "
     "Safari/537.36"
 )
-
 
 DATA_FILES = {
     "schedule": Path("data/schedule.json"),
@@ -45,66 +42,32 @@ DATA_FILES = {
     "radio": Path("data/radio.json"),
 }
 
-
 MEMBER_ALIASES = {
-    "池﨑理人": [
-        "池﨑理人",
-        "池崎理人",
-        "理人",
-        "RIHITO",
-    ],
-    "尾崎匠海": [
-        "尾崎匠海",
-        "匠海",
-        "TAKUMI",
-    ],
-    "木村柾哉": [
-        "木村柾哉",
-        "柾哉",
-        "MASAYA",
-    ],
-    "後藤威尊": [
-        "後藤威尊",
-        "威尊",
-        "TAKERU",
-    ],
-    "佐野雄大": [
-        "佐野雄大",
-        "雄大",
-        "YUDAI",
-    ],
+    "池﨑理人": ["池﨑理人", "池崎理人", "理人", "RIHITO"],
+    "尾崎匠海": ["尾崎匠海", "匠海", "TAKUMI"],
+    "木村柾哉": ["木村柾哉", "柾哉", "MASAYA"],
+    "後藤威尊": ["後藤威尊", "威尊", "TAKERU"],
+    "佐野雄大": ["佐野雄大", "雄大", "YUDAI"],
     "シュウ・フェンファン": [
         "シュウ・フェンファン",
         "許豊凡",
         "フェンファン",
         "FENGFAN",
     ],
-    "髙塚大夢": [
-        "髙塚大夢",
-        "高塚大夢",
-        "大夢",
-        "HIROMU",
-    ],
-    "田島将吾": [
-        "田島将吾",
-        "将吾",
-        "SHOGO",
-    ],
-    "西洸人": [
-        "西洸人",
-        "洸人",
-        "HIROTO",
-    ],
-    "藤牧京介": [
-        "藤牧京介",
-        "京介",
-        "KYOSUKE",
-    ],
-    "松田迅": [
-        "松田迅",
-        "迅",
-        "JIN",
-    ],
+    "髙塚大夢": ["髙塚大夢", "高塚大夢", "大夢", "HIROMU"],
+    "田島将吾": ["田島将吾", "将吾", "SHOGO"],
+    "西洸人": ["西洸人", "洸人", "HIROTO"],
+    "藤牧京介": ["藤牧京介", "京介", "KYOSUKE"],
+    "松田迅": ["松田迅", "迅", "JIN"],
+}
+
+# YouTube照合で「これだけ一致しても同一動画とはみなさない」補助語。
+# 曲名・作品共通タグは複数の別動画で共有されやすいため。
+WEAK_VIDEO_KEYWORDS = {
+    "you know what to do",
+    "ini_ykwtd",
+    "ini_anthem",
+    "anthem",
 }
 
 
@@ -126,9 +89,7 @@ def normalize_text(value):
     value = unicodedata.normalize(
         "NFKC",
         str(value),
-    )
-
-    value = value.lower()
+    ).lower()
 
     value = re.sub(
         r"https?://\S+",
@@ -146,9 +107,7 @@ def normalize_text(value):
 
 
 def compact_text(value):
-    value = normalize_text(
-        value
-    )
+    value = normalize_text(value)
 
     value = re.sub(
         r"[@#＃]",
@@ -169,17 +128,12 @@ def clean_hashtag(value):
     if not value:
         return ""
 
-    value = value.replace(
-        "#",
-        "",
+    return (
+        value
+        .replace("#", "")
+        .replace("＃", "")
+        .strip()
     )
-
-    value = value.replace(
-        "＃",
-        "",
-    )
-
-    return value.strip()
 
 
 def normalize_x_url(url):
@@ -214,9 +168,7 @@ def parse_urls(raw):
         if not token:
             continue
 
-        item = normalize_x_url(
-            token
-        )
+        item = normalize_x_url(token)
 
         if not item:
             continue
@@ -247,9 +199,7 @@ def convert_to_jst(created_at):
     )
 
     return dt.astimezone(
-        ZoneInfo(
-            "Asia/Tokyo"
-        )
+        ZoneInfo("Asia/Tokyo")
     )
 
 
@@ -259,9 +209,7 @@ def load_json(path):
             "r",
             encoding="utf-8",
         ) as file:
-            data = json.load(
-                file
-            )
+            data = json.load(file)
 
         if isinstance(
             data,
@@ -332,16 +280,53 @@ def get_item_title(item):
     ]
 
     for key in keys:
-        value = item.get(
-            key
-        )
+        value = item.get(key)
 
         if value:
-            return str(
-                value
-            )
+            return str(value)
 
     return ""
+
+
+def date_distance(
+    date_a,
+    date_b,
+):
+    if (
+        not date_a
+        or not date_b
+    ):
+        return None
+
+    return abs(
+        (
+            date_a
+            - date_b
+        ).days
+    )
+
+
+def similarity(a, b):
+    a = compact_text(a)
+    b = compact_text(b)
+
+    if not a or not b:
+        return 0.0
+
+    if a == b:
+        return 1.0
+
+    if (
+        a in b
+        or b in a
+    ):
+        return 0.95
+
+    return SequenceMatcher(
+        None,
+        a,
+        b,
+    ).ratio()
 
 
 # ==========================================================
@@ -370,9 +355,7 @@ def fetch_post(item):
         return None
 
     created = convert_to_jst(
-        data.get(
-            "created_at"
-        )
+        data.get("created_at")
     )
 
     user = (
@@ -381,23 +364,15 @@ def fetch_post(item):
     )
 
     return {
-        "post_id": (
-            item["post_id"]
-        ),
-        "url": (
-            item["url"]
-        ),
+        "post_id": item["post_id"],
+        "url": item["url"],
         "text": (
             data.get("text")
             or ""
         ),
-        "created_at_jst": (
-            created
-        ),
-        "author": (
-            user.get(
-                "screen_name"
-            )
+        "created_at_jst": created,
+        "author": user.get(
+            "screen_name"
         ),
     }
 
@@ -407,9 +382,7 @@ def fetch_post(item):
 # ==========================================================
 
 def extract_members(text):
-    compact = compact_text(
-        text
-    )
+    compact = compact_text(text)
 
     result = []
 
@@ -418,9 +391,7 @@ def extract_members(text):
     ):
         for alias in aliases:
             alias_compact = (
-                compact_text(
-                    alias
-                )
+                compact_text(alias)
             )
 
             if (
@@ -447,9 +418,7 @@ def extract_item_members(item):
         "detailText",
         "description",
     ]:
-        value = item.get(
-            key
-        )
+        value = item.get(key)
 
         if isinstance(
             value,
@@ -466,9 +435,7 @@ def extract_item_members(item):
             )
 
     return extract_members(
-        "\n".join(
-            values
-        )
+        "\n".join(values)
     )
 
 
@@ -487,18 +454,13 @@ def extract_event_dates(
         post_datetime.date()
     )
 
-    year = (
-        post_date.year
-    )
+    year = post_date.year
 
     dates = []
 
-    # ------------------------------------------------------
     # 2026.09.30
     # 2026/09/30
     # 2026年09月30日
-    # ------------------------------------------------------
-
     for match in re.finditer(
         r"\b(20\d{2})"
         r"[./年]"
@@ -509,29 +471,18 @@ def extract_event_dates(
         text,
     ):
         try:
-            date = datetime(
-                int(
-                    match.group(1)
-                ),
-                int(
-                    match.group(2)
-                ),
-                int(
-                    match.group(3)
-                ),
-            ).date()
-
             dates.append(
-                date
+                datetime(
+                    int(match.group(1)),
+                    int(match.group(2)),
+                    int(match.group(3)),
+                ).date()
             )
 
         except ValueError:
             pass
 
-    # ------------------------------------------------------
     # 10月8日
-    # ------------------------------------------------------
-
     for match in re.finditer(
         r"(?<!\d)"
         r"(\d{1,2})月"
@@ -541,16 +492,10 @@ def extract_event_dates(
         try:
             date = datetime(
                 year,
-                int(
-                    match.group(1)
-                ),
-                int(
-                    match.group(2)
-                ),
+                int(match.group(1)),
+                int(match.group(2)),
             ).date()
 
-            # 11〜12月の投稿から
-            # 1〜2月の予定を告知した場合
             if (
                 post_date.month >= 11
                 and date.month <= 2
@@ -561,53 +506,38 @@ def extract_event_dates(
                     date.day,
                 ).date()
 
-            dates.append(
-                date
-            )
+            dates.append(date)
 
         except ValueError:
             pass
 
-    # ------------------------------------------------------
     # 260930
-    # ------------------------------------------------------
-
     for match in re.finditer(
         r"(?<!\d)"
         r"(\d{2})(\d{2})(\d{2})"
         r"(?!\d)",
         text,
     ):
-        yy = int(
-            match.group(1)
-        )
-
-        mm = int(
-            match.group(2)
-        )
-
-        dd = int(
-            match.group(3)
-        )
-
         try:
-            date = datetime(
-                2000 + yy,
-                mm,
-                dd,
-            ).date()
-
             dates.append(
-                date
+                datetime(
+                    2000
+                    + int(
+                        match.group(1)
+                    ),
+                    int(
+                        match.group(2)
+                    ),
+                    int(
+                        match.group(3)
+                    ),
+                ).date()
             )
 
         except ValueError:
             pass
 
-    # ------------------------------------------------------
     # 9/30
-    # ------------------------------------------------------
-
     for match in re.finditer(
         r"(?<!\d)"
         r"(\d{1,2})/"
@@ -616,18 +546,16 @@ def extract_event_dates(
         text,
     ):
         try:
-            date = datetime(
-                year,
-                int(
-                    match.group(1)
-                ),
-                int(
-                    match.group(2)
-                ),
-            ).date()
-
             dates.append(
-                date
+                datetime(
+                    year,
+                    int(
+                        match.group(1)
+                    ),
+                    int(
+                        match.group(2)
+                    ),
+                ).date()
             )
 
         except ValueError:
@@ -637,9 +565,7 @@ def extract_event_dates(
 
     for date in dates:
         if date not in unique:
-            unique.append(
-                date
-            )
+            unique.append(date)
 
     return unique
 
@@ -671,9 +597,7 @@ def extract_quoted_phrases(text):
                 value
                 and value not in result
             ):
-                result.append(
-                    value
-                )
+                result.append(value)
 
     return result
 
@@ -682,12 +606,6 @@ def extract_fc_title(
     text,
     detected_type,
 ):
-    # ------------------------------------------------------
-    # Member Diary
-    #
-    # 🔽柾哉です
-    # ------------------------------------------------------
-
     if (
         detected_type
         == "member_diary"
@@ -703,16 +621,7 @@ def extract_fc_title(
                 .strip()
             )
 
-    # ------------------------------------------------------
-    # Message
-    #
-    # 「INI Type Check vol.5」が公開されました
-    # ------------------------------------------------------
-
-    if (
-        detected_type
-        == "message"
-    ):
+    if detected_type == "message":
         match = re.search(
             r"「([^」]+)」"
             r"が公開されました",
@@ -724,10 +633,6 @@ def extract_fc_title(
                 match.group(1)
                 .strip()
             )
-
-    # ------------------------------------------------------
-    # Staff Report
-    # ------------------------------------------------------
 
     if (
         detected_type
@@ -744,10 +649,8 @@ def extract_fc_title(
                 .strip()
             )
 
-    phrases = (
-        extract_quoted_phrases(
-            text
-        )
+    phrases = extract_quoted_phrases(
+        text
     )
 
     if phrases:
@@ -757,41 +660,17 @@ def extract_fc_title(
 
 
 def extract_schedule_names(text):
+    """
+    Scheduleの「固有名」候補を抽出する。
+
+    v4では、曲名だけで別Scheduleに結び付かないようにする。
+    Listening Party投稿の「ANTHEM」は作品名なので、
+    Schedule固有名としては使用しない。
+    """
+
+    normalized = normalize_text(text)
+
     result = []
-
-    # ------------------------------------------------------
-    # 括弧で囲まれた番組名
-    # ------------------------------------------------------
-
-    for phrase in (
-        extract_quoted_phrases(
-            text
-        )
-    ):
-        normalized_phrase = (
-            normalize_text(
-                phrase
-            )
-        )
-
-        if (
-            normalized_phrase
-            and normalized_phrase
-            not in result
-        ):
-            result.append(
-                normalized_phrase
-            )
-
-    normalized = normalize_text(
-        text
-    )
-
-    # ------------------------------------------------------
-    # 今回確認できている代表的な番組・イベント
-    #
-    # 曲名だけの「ANTHEM」はここに入れない。
-    # ------------------------------------------------------
 
     known_patterns = [
         "dayday.",
@@ -807,9 +686,28 @@ def extract_schedule_names(text):
             value in normalized
             and value not in result
         ):
-            result.append(
-                value
-            )
+            result.append(value)
+
+    weak_work_names = {
+        "anthem",
+        "you know what to do",
+    }
+
+    for phrase in (
+        extract_quoted_phrases(text)
+    ):
+        value = normalize_text(
+            phrase
+        )
+
+        if value in weak_work_names:
+            continue
+
+        if (
+            value
+            and value not in result
+        ):
+            result.append(value)
 
     return result
 
@@ -819,20 +717,12 @@ def extract_schedule_names(text):
 # ==========================================================
 
 def extract_video_keywords(text):
-    normalized = normalize_text(
-        text
-    )
+    normalized = normalize_text(text)
 
     result = []
 
-    # ------------------------------------------------------
-    # 引用符内
-    # ------------------------------------------------------
-
     for phrase in (
-        extract_quoted_phrases(
-            text
-        )
+        extract_quoted_phrases(text)
     ):
         phrase = normalize_text(
             phrase
@@ -840,20 +730,12 @@ def extract_video_keywords(text):
 
         if (
             len(
-                compact_text(
-                    phrase
-                )
+                compact_text(phrase)
             )
             >= 3
             and phrase not in result
         ):
-            result.append(
-                phrase
-            )
-
-    # ------------------------------------------------------
-    # ハッシュタグ
-    # ------------------------------------------------------
+            result.append(phrase)
 
     for hashtag in re.findall(
         r"[#＃]"
@@ -864,7 +746,6 @@ def extract_video_keywords(text):
             hashtag
         )
 
-        # INIなど汎用すぎるものは除外
         if value in {
             "ini",
             "mini",
@@ -873,27 +754,18 @@ def extract_video_keywords(text):
 
         if (
             len(
-                compact_text(
-                    value
-                )
+                compact_text(value)
             )
             < 3
         ):
             continue
 
         if value not in result:
-            result.append(
-                value
-            )
-
-    # ------------------------------------------------------
-    # 特徴的な本文
-    # ------------------------------------------------------
+            result.append(value)
 
     special_patterns = [
         "mvコメンタリー",
         "you know what to do",
-        "hi roto",
         "hiroto",
         "befirst",
         "ryuhei",
@@ -905,11 +777,30 @@ def extract_video_keywords(text):
             value in normalized
             and value not in result
         ):
-            result.append(
-                value
-            )
+            result.append(value)
 
     return result
+
+
+def split_video_keywords(keywords):
+    weak = []
+    strong = []
+
+    for keyword in keywords:
+        normalized = normalize_text(
+            keyword
+        )
+
+        if (
+            normalized
+            in WEAK_VIDEO_KEYWORDS
+        ):
+            weak.append(keyword)
+
+        else:
+            strong.append(keyword)
+
+    return strong, weak
 
 
 # ==========================================================
@@ -917,9 +808,7 @@ def extract_video_keywords(text):
 # ==========================================================
 
 def detect_post_type(text):
-    normalized = normalize_text(
-        text
-    )
+    normalized = normalize_text(text)
 
     # ------------------------------------------------------
     # 対象外
@@ -1069,7 +958,7 @@ def detect_post_type(text):
         }
 
     # ------------------------------------------------------
-    # YouTube / クロスプラットフォーム動画
+    # YouTube
     # ------------------------------------------------------
 
     video_words = [
@@ -1090,7 +979,7 @@ def detect_post_type(text):
         }
 
     # ------------------------------------------------------
-    # X / SNS独自コンテンツ
+    # SNS
     # ------------------------------------------------------
 
     sns_words = [
@@ -1118,61 +1007,7 @@ def detect_post_type(text):
 
 
 # ==========================================================
-# 類似度
-# ==========================================================
-
-def similarity(a, b):
-    a = compact_text(
-        a
-    )
-
-    b = compact_text(
-        b
-    )
-
-    if not a or not b:
-        return 0.0
-
-    if a == b:
-        return 1.0
-
-    if (
-        a in b
-        or b in a
-    ):
-        return 0.95
-
-    return SequenceMatcher(
-        None,
-        a,
-        b,
-    ).ratio()
-
-
-# ==========================================================
-# 日付距離
-# ==========================================================
-
-def date_distance(
-    date_a,
-    date_b,
-):
-    if (
-        not date_a
-        or not date_b
-    ):
-        return None
-
-    return abs(
-        (
-            date_a
-            - date_b
-        ).days
-    )
-
-
-# ==========================================================
-# Schedule候補の事前絞り込み
+# 候補の事前絞り込み
 # ==========================================================
 
 def filter_schedule_candidates(
@@ -1188,20 +1023,12 @@ def filter_schedule_candidates(
         else None
     )
 
-    # ------------------------------------------------------
-    # 明示的な出演日がある場合
-    #
-    # まず完全一致日だけを見る。
-    # これがv3の最重要変更点。
-    # ------------------------------------------------------
-
     if event_dates:
         exact = [
             item
             for item in items
-            if get_item_date(
-                item
-            ) in event_dates
+            if get_item_date(item)
+            in event_dates
         ]
 
         if exact:
@@ -1210,33 +1037,26 @@ def filter_schedule_candidates(
                 "event_date_exact",
             )
 
-        # 完全一致がない場合のみ±1日
         near = []
 
         for item in items:
             item_date = (
-                get_item_date(
-                    item
-                )
+                get_item_date(item)
             )
 
             if not item_date:
                 continue
 
-            for event_date in (
-                event_dates
+            if any(
+                date_distance(
+                    item_date,
+                    event_date,
+                )
+                <= 1
+                for event_date
+                in event_dates
             ):
-                if (
-                    date_distance(
-                        item_date,
-                        event_date,
-                    )
-                    <= 1
-                ):
-                    near.append(
-                        item
-                    )
-                    break
+                near.append(item)
 
         if near:
             return (
@@ -1244,28 +1064,17 @@ def filter_schedule_candidates(
                 "event_date_near",
             )
 
-        # 日付が取れたのに該当Scheduleが
-        # 見つからない場合、
-        # 昔の同名番組へ飛ばさない。
         return (
             [],
             "event_date_no_match",
         )
 
-    # ------------------------------------------------------
-    # 出演日が本文にない場合
-    #
-    # 「出演しました」等は投稿日当日の出来事である
-    # 可能性が高いため、投稿日を優先する。
-    # ------------------------------------------------------
-
     if post_date:
         same_day = [
             item
             for item in items
-            if get_item_date(
-                item
-            ) == post_date
+            if get_item_date(item)
+            == post_date
         ]
 
         if same_day:
@@ -1278,9 +1087,7 @@ def filter_schedule_candidates(
 
         for item in items:
             item_date = (
-                get_item_date(
-                    item
-                )
+                get_item_date(item)
             )
 
             if (
@@ -1291,9 +1098,7 @@ def filter_schedule_candidates(
                 )
                 <= 1
             ):
-                near.append(
-                    item
-                )
+                near.append(item)
 
         if near:
             return (
@@ -1301,17 +1106,11 @@ def filter_schedule_candidates(
                 "post_date_near",
             )
 
-    # 日付が使えない場合のみ
-    # 全Scheduleから探す。
     return (
         items,
         "no_date_filter",
     )
 
-
-# ==========================================================
-# FC候補の事前絞り込み
-# ==========================================================
 
 def filter_fc_candidates(
     post,
@@ -1331,16 +1130,11 @@ def filter_fc_candidates(
             "no_post_date",
         )
 
-    # ------------------------------------------------------
-    # 同日を最優先
-    # ------------------------------------------------------
-
     same_day = [
         item
         for item in items
-        if get_item_date(
-            item
-        ) == post_date
+        if get_item_date(item)
+        == post_date
     ]
 
     if same_day:
@@ -1349,17 +1143,11 @@ def filter_fc_candidates(
             "publish_date_exact",
         )
 
-    # ------------------------------------------------------
-    # 同日がなければ±1日
-    # ------------------------------------------------------
-
     near = []
 
     for item in items:
         item_date = (
-            get_item_date(
-                item
-            )
+            get_item_date(item)
         )
 
         if (
@@ -1370,9 +1158,7 @@ def filter_fc_candidates(
             )
             <= 1
         ):
-            near.append(
-                item
-            )
+            near.append(item)
 
     if near:
         return (
@@ -1380,20 +1166,11 @@ def filter_fc_candidates(
             "publish_date_near",
         )
 
-    # ------------------------------------------------------
-    # 最新JSONに該当日のFCデータがない場合、
-    # 古いタイトル類似だけで誤判定させない。
-    # ------------------------------------------------------
-
     return (
         [],
         "publish_date_no_match",
     )
 
-
-# ==========================================================
-# YouTube候補の事前絞り込み
-# ==========================================================
 
 def filter_youtube_candidates(
     post,
@@ -1413,16 +1190,11 @@ def filter_youtube_candidates(
             "no_post_date",
         )
 
-    # ------------------------------------------------------
-    # 投稿当日
-    # ------------------------------------------------------
-
     same_day = [
         item
         for item in items
-        if get_item_date(
-            item
-        ) == post_date
+        if get_item_date(item)
+        == post_date
     ]
 
     if same_day:
@@ -1431,17 +1203,11 @@ def filter_youtube_candidates(
             "publish_date_exact",
         )
 
-    # ------------------------------------------------------
-    # ±1日
-    # ------------------------------------------------------
-
     near = []
 
     for item in items:
         item_date = (
-            get_item_date(
-                item
-            )
+            get_item_date(item)
         )
 
         if (
@@ -1452,9 +1218,7 @@ def filter_youtube_candidates(
             )
             <= 1
         ):
-            near.append(
-                item
-            )
+            near.append(item)
 
     if near:
         return (
@@ -1462,15 +1226,11 @@ def filter_youtube_candidates(
             "publish_date_near",
         )
 
-    # YouTubeはX告知と公開日に多少差が
-    # 出る可能性があるため±3日まで拡張。
     wider = []
 
     for item in items:
         item_date = (
-            get_item_date(
-                item
-            )
+            get_item_date(item)
         )
 
         if (
@@ -1481,9 +1241,7 @@ def filter_youtube_candidates(
             )
             <= 3
         ):
-            wider.append(
-                item
-            )
+            wider.append(item)
 
     if wider:
         return (
@@ -1512,15 +1270,28 @@ def score_schedule(
     score = 0
     reasons = []
 
-    item_date = (
-        get_item_date(
-            item
-        )
+    # v4:
+    # 日付やメンバーではなく、
+    # 「このScheduleそのもの」と判断できる
+    # 固有情報が一致したかを別管理する。
+    identity_match = False
+
+    item_date = get_item_date(item)
+
+    item_title = get_item_title(
+        item
     )
 
-    item_title = (
-        get_item_title(
-            item
+    item_search_text = (
+        normalize_text(
+            item_title
+            + "\n"
+            + str(
+                item.get(
+                    "detailText",
+                    "",
+                )
+            )
         )
     )
 
@@ -1534,6 +1305,7 @@ def score_schedule(
         in event_dates
     ):
         score += 100
+
         reasons.append(
             "event_date:exact"
         )
@@ -1543,6 +1315,7 @@ def score_schedule(
         == "event_date_near"
     ):
         score += 30
+
         reasons.append(
             "event_date:near"
         )
@@ -1552,6 +1325,7 @@ def score_schedule(
         == "post_date_exact"
     ):
         score += 60
+
         reasons.append(
             "post_date:exact"
         )
@@ -1561,68 +1335,66 @@ def score_schedule(
         == "post_date_near"
     ):
         score += 20
+
         reasons.append(
             "post_date:near"
         )
 
     # ------------------------------------------------------
-    # 番組・イベント名
+    # 番組・イベント固有名
     # ------------------------------------------------------
 
     best_name = 0.0
-    best_name_value = None
 
     for name in schedule_names:
-        current = similarity(
-            name,
-            item_title,
+        current = max(
+            similarity(
+                name,
+                item_title,
+            ),
+            similarity(
+                name,
+                item_search_text,
+            ),
         )
 
-        if current > best_name:
-            best_name = current
-            best_name_value = name
+        best_name = max(
+            best_name,
+            current,
+        )
 
     if best_name >= 0.90:
         score += 100
+
         reasons.append(
             "schedule_name:strong"
         )
 
+        identity_match = True
+
     elif best_name >= 0.70:
         score += 65
+
         reasons.append(
             "schedule_name:medium"
         )
 
+        identity_match = True
+
     elif best_name >= 0.50:
         score += 30
+
         reasons.append(
             "schedule_name:weak"
         )
 
     # ------------------------------------------------------
-    # Listening Party特別処理
-    #
-    # ANTHEMではなく
-    # Listening Party / STATIONHEAD をイベント識別に使う。
+    # Listening Party固有判定
     # ------------------------------------------------------
 
     post_normalized = (
         normalize_text(
             post["text"]
-        )
-    )
-
-    item_normalized = (
-        normalize_text(
-            item_title
-            + "\n"
-            + str(
-                item.get(
-                    "detailText",
-                    ""
-                )
-            )
         )
     )
 
@@ -1636,7 +1408,7 @@ def score_schedule(
     )
 
     listening_item = any(
-        value in item_normalized
+        value in item_search_text
         for value in [
             "listening party",
             "stationhead",
@@ -1649,18 +1421,23 @@ def score_schedule(
         and listening_item
     ):
         score += 120
+
         reasons.append(
-            "event_identity:listening_party"
+            "event_identity:"
+            "listening_party"
         )
+
+        identity_match = True
 
     # ------------------------------------------------------
     # メンバー
+    #
+    # 補助点にはするが、
+    # v4ではこれだけで既存Scheduleにはしない。
     # ------------------------------------------------------
 
     item_members = set(
-        extract_item_members(
-            item
-        )
+        extract_item_members(item)
     )
 
     common_members = (
@@ -1689,6 +1466,9 @@ def score_schedule(
     return {
         "score": score,
         "reasons": reasons,
+        "identity_match": (
+            identity_match
+        ),
     }
 
 
@@ -1707,20 +1487,15 @@ def score_fc(
     reasons = []
 
     item_title = (
-        get_item_title(
-            item
-        )
+        get_item_title(item)
     )
-
-    # ------------------------------------------------------
-    # 投稿日
-    # ------------------------------------------------------
 
     if (
         filter_reason
         == "publish_date_exact"
     ):
         score += 80
+
         reasons.append(
             "publish_date:exact"
         )
@@ -1730,13 +1505,10 @@ def score_fc(
         == "publish_date_near"
     ):
         score += 25
+
         reasons.append(
             "publish_date:near"
         )
-
-    # ------------------------------------------------------
-    # コンテンツタイトル
-    # ------------------------------------------------------
 
     if extracted_title:
         title_score = similarity(
@@ -1746,30 +1518,27 @@ def score_fc(
 
         if title_score >= 0.95:
             score += 120
+
             reasons.append(
                 "title:exact"
             )
 
         elif title_score >= 0.80:
             score += 90
+
             reasons.append(
                 "title:strong"
             )
 
         elif title_score >= 0.60:
             score += 45
+
             reasons.append(
                 "title:medium"
             )
 
-    # ------------------------------------------------------
-    # メンバー
-    # ------------------------------------------------------
-
     item_members = set(
-        extract_item_members(
-            item
-        )
+        extract_item_members(item)
     )
 
     common_members = (
@@ -1816,13 +1585,11 @@ def score_youtube(
     reasons = []
 
     item_title = (
-        get_item_title(
-            item
-        )
+        get_item_title(item)
     )
 
-    item_normalized = (
-        normalize_text(
+    item_compact = (
+        compact_text(
             item_title
         )
     )
@@ -1836,6 +1603,7 @@ def score_youtube(
         == "publish_date_exact"
     ):
         score += 70
+
         reasons.append(
             "publish_date:exact"
         )
@@ -1845,6 +1613,7 @@ def score_youtube(
         == "publish_date_near"
     ):
         score += 30
+
         reasons.append(
             "publish_date:near"
         )
@@ -1854,19 +1623,26 @@ def score_youtube(
         == "publish_date_3days"
     ):
         score += 10
+
         reasons.append(
             "publish_date:3days"
         )
 
     # ------------------------------------------------------
-    # 動画固有キーワード
+    # 強いキーワード / 弱いキーワードを分離
     # ------------------------------------------------------
 
-    keyword_hits = []
-
-    for keyword in (
+    (
+        strong_keywords,
+        weak_keywords,
+    ) = split_video_keywords(
         video_keywords
-    ):
+    )
+
+    strong_hits = []
+    weak_hits = []
+
+    for keyword in strong_keywords:
         keyword_compact = (
             compact_text(
                 keyword
@@ -1874,40 +1650,77 @@ def score_youtube(
         )
 
         if (
-            not keyword_compact
-            or len(
+            keyword_compact
+            and len(
                 keyword_compact
-            ) < 3
+            )
+            >= 3
+            and keyword_compact
+            in item_compact
         ):
-            continue
+            strong_hits.append(
+                keyword
+            )
 
-        item_compact = (
+    for keyword in weak_keywords:
+        keyword_compact = (
             compact_text(
-                item_normalized
+                keyword
             )
         )
 
         if (
             keyword_compact
+            and len(
+                keyword_compact
+            )
+            >= 3
+            and keyword_compact
             in item_compact
         ):
-            keyword_hits.append(
+            weak_hits.append(
                 keyword
             )
 
-    if keyword_hits:
+    # ------------------------------------------------------
+    # 強い固有情報
+    # ------------------------------------------------------
+
+    if strong_hits:
         score += min(
-            120,
-            45
+            140,
+            55
             * len(
-                keyword_hits
+                strong_hits
             ),
         )
 
         reasons.append(
-            "video_keywords:"
+            "strong_video_keywords:"
             + ",".join(
-                keyword_hits[:4]
+                strong_hits[:4]
+            )
+        )
+
+    # ------------------------------------------------------
+    # 曲名・作品共通タグ
+    #
+    # v4では補助点だけ。
+    # ------------------------------------------------------
+
+    if weak_hits:
+        score += min(
+            30,
+            10
+            * len(
+                weak_hits
+            ),
+        )
+
+        reasons.append(
+            "weak_video_keywords:"
+            + ",".join(
+                weak_hits[:4]
             )
         )
 
@@ -1916,20 +1729,22 @@ def score_youtube(
     # ------------------------------------------------------
 
     item_members = set(
-        extract_item_members(
-            item
-        )
+        extract_item_members(item)
+    )
+
+    post_members = set(
+        members
     )
 
     common_members = (
-        set(members)
+        post_members
         & item_members
     )
 
     if common_members:
         score += min(
-            50,
-            25
+            60,
+            30
             * len(
                 common_members
             ),
@@ -1944,10 +1759,112 @@ def score_youtube(
             )
         )
 
+    # ------------------------------------------------------
+    # メンバー不一致
+    #
+    # 投稿でメンバーが明示され、
+    # 候補動画にも別メンバーが明示されている場合、
+    # 同一動画ではない可能性が高い。
+    # ------------------------------------------------------
+
+    member_conflict = bool(
+        post_members
+        and item_members
+        and not common_members
+    )
+
+    if member_conflict:
+        score -= 80
+
+        reasons.append(
+            "member:conflict"
+        )
+
+    # ------------------------------------------------------
+    # identity_match
+    #
+    # 日付＋曲名だけではTrueにならない。
+    # ------------------------------------------------------
+
+    identity_match = bool(
+        strong_hits
+        or common_members
+    )
+
     return {
         "score": score,
         "reasons": reasons,
+        "identity_match": (
+            identity_match
+        ),
+        "strong_keyword_hits": (
+            strong_hits
+        ),
+        "weak_keyword_hits": (
+            weak_hits
+        ),
+        "member_conflict": (
+            member_conflict
+        ),
     }
+
+
+# ==========================================================
+# 候補作成
+# ==========================================================
+
+def make_candidate(
+    source_type,
+    item,
+    match,
+    filter_reason,
+):
+    item_date = (
+        get_item_date(item)
+    )
+
+    candidate = {
+        "source_type": source_type,
+        "id": item.get("id"),
+        "date": (
+            item_date.isoformat()
+            if item_date
+            else None
+        ),
+        "title": (
+            get_item_title(item)
+        ),
+        "url": item.get("url"),
+        "score": match["score"],
+        "filter_reason": (
+            filter_reason
+        ),
+        "reasons": (
+            match["reasons"]
+        ),
+    }
+
+    if (
+        "identity_match"
+        in match
+    ):
+        candidate[
+            "identity_match"
+        ] = match[
+            "identity_match"
+        ]
+
+    if (
+        "member_conflict"
+        in match
+    ):
+        candidate[
+            "member_conflict"
+        ] = match[
+            "member_conflict"
+        ]
+
+    return candidate
 
 
 # ==========================================================
@@ -2010,7 +1927,10 @@ def find_matches(
         detected_type
         == "schedule"
     ):
-        items, filter_reason = (
+        (
+            items,
+            filter_reason,
+        ) = (
             filter_schedule_candidates(
                 post,
                 datasets.get(
@@ -2026,13 +1946,19 @@ def find_matches(
                 post=post,
                 item=item,
                 event_dates=event_dates,
-                schedule_names=schedule_names,
+                schedule_names=(
+                    schedule_names
+                ),
                 members=members,
                 filter_reason=(
                     filter_reason
                 ),
             )
 
+            # 日付だけ一致したものも
+            # 診断候補としては表示する。
+            # ただしidentity_match=Falseなら
+            # 既存Schedule確定には使わない。
             if (
                 match["score"]
                 < 40
@@ -2059,7 +1985,10 @@ def find_matches(
         "photo",
         "radio",
     }:
-        items, filter_reason = (
+        (
+            items,
+            filter_reason,
+        ) = (
             filter_fc_candidates(
                 post,
                 datasets.get(
@@ -2105,7 +2034,10 @@ def find_matches(
         "video",
         "sns",
     }:
-        items, filter_reason = (
+        (
+            items,
+            filter_reason,
+        ) = (
             filter_youtube_candidates(
                 post,
                 datasets.get(
@@ -2128,27 +2060,23 @@ def find_matches(
                 ),
             )
 
-            # 日付だけ一致した動画を
-            # 自動候補にしない。
-            meaningful_reason = any(
-                reason.startswith(
-                    (
-                        "video_keywords:",
-                        "member:",
-                    )
-                )
-                for reason in (
-                    match[
-                        "reasons"
-                    ]
-                )
-            )
-
+            # v4:
+            # 曲名・共通タグ＋日付だけでは
+            # YouTube候補にしない。
             if (
                 match["score"]
                 < 50
-                or not meaningful_reason
+                or not match[
+                    "identity_match"
+                ]
             ):
+                continue
+
+            # 投稿側と候補側で
+            # 明示メンバーが完全に食い違う場合も除外。
+            if match[
+                "member_conflict"
+            ]:
                 continue
 
             candidates.append(
@@ -2171,50 +2099,6 @@ def find_matches(
     return candidates[:5]
 
 
-def make_candidate(
-    source_type,
-    item,
-    match,
-    filter_reason,
-):
-    item_date = (
-        get_item_date(
-            item
-        )
-    )
-
-    return {
-        "source_type": (
-            source_type
-        ),
-        "id": (
-            item.get("id")
-        ),
-        "date": (
-            item_date.isoformat()
-            if item_date
-            else None
-        ),
-        "title": (
-            get_item_title(
-                item
-            )
-        ),
-        "url": (
-            item.get("url")
-        ),
-        "score": (
-            match["score"]
-        ),
-        "filter_reason": (
-            filter_reason
-        ),
-        "reasons": (
-            match["reasons"]
-        ),
-    }
-
-
 # ==========================================================
 # 最終分類
 # ==========================================================
@@ -2227,10 +2111,6 @@ def classify_result(
         detected["type"]
     )
 
-    # ------------------------------------------------------
-    # 対象外
-    # ------------------------------------------------------
-
     if (
         detected_type
         == "exclude"
@@ -2238,10 +2118,6 @@ def classify_result(
         return (
             "exclude_candidate"
         )
-
-    # ------------------------------------------------------
-    # 未対応FC
-    # ------------------------------------------------------
 
     if (
         detected_type
@@ -2261,6 +2137,9 @@ def classify_result(
 
     # ------------------------------------------------------
     # Schedule
+    #
+    # v4:
+    # 日付＋メンバーだけでは既存Scheduleにしない。
     # ------------------------------------------------------
 
     if (
@@ -2270,9 +2149,11 @@ def classify_result(
         if matches:
             top = matches[0]
 
-            # 日付＋番組名等で十分な根拠がある
             if (
-                top["score"]
+                top.get(
+                    "identity_match"
+                )
+                and top["score"]
                 >= 100
             ):
                 return (
@@ -2294,16 +2175,16 @@ def classify_result(
         "photo",
         "radio",
     }:
-        if matches:
-            top = matches[0]
-
-            if (
-                top["score"]
-                >= 100
-            ):
-                return (
-                    "existing_content_candidate"
-                )
+        if (
+            matches
+            and matches[0][
+                "score"
+            ]
+            >= 100
+        ):
+            return (
+                "existing_content_candidate"
+            )
 
         return (
             "review_required"
@@ -2321,7 +2202,10 @@ def classify_result(
             top = matches[0]
 
             if (
-                top["score"]
+                top.get(
+                    "identity_match"
+                )
+                and top["score"]
                 >= 100
             ):
                 return (
@@ -2338,7 +2222,7 @@ def classify_result(
 
 
 # ==========================================================
-# Listening Partyグループ判定
+# 同一イベントグループ
 # ==========================================================
 
 def detect_group_key(
@@ -2468,6 +2352,13 @@ def print_post_result(
         else []
     )
 
+    (
+        strong_video_keywords,
+        weak_video_keywords,
+    ) = split_video_keywords(
+        video_keywords
+    )
+
     group_key = (
         detect_group_key(
             post,
@@ -2499,9 +2390,7 @@ def print_post_result(
     print(
         "EXTRACTED MEMBERS:",
         (
-            ", ".join(
-                members
-            )
+            ", ".join(members)
             if members
             else "(none)"
         ),
@@ -2532,12 +2421,23 @@ def print_post_result(
     )
 
     print(
-        "VIDEO KEYWORDS:",
+        "STRONG VIDEO KEYWORDS:",
         (
             " / ".join(
-                video_keywords
+                strong_video_keywords
             )
-            if video_keywords
+            if strong_video_keywords
+            else "(none)"
+        ),
+    )
+
+    print(
+        "WEAK VIDEO KEYWORDS:",
+        (
+            " / ".join(
+                weak_video_keywords
+            )
+            if weak_video_keywords
             else "(none)"
         ),
     )
@@ -2609,6 +2509,22 @@ def print_post_result(
         )
 
         print(
+            "      IDENTITY MATCH:",
+            match.get(
+                "identity_match",
+                "(n/a)",
+            ),
+        )
+
+        print(
+            "      MEMBER CONFLICT:",
+            match.get(
+                "member_conflict",
+                "(n/a)",
+            ),
+        )
+
+        print(
             "      REASONS:",
             ", ".join(
                 match[
@@ -2624,7 +2540,7 @@ def print_post_result(
 
 def main():
     section(
-        "X TYPE-FIRST MATCH DIAGNOSTIC V3"
+        "X TYPE-FIRST MATCH DIAGNOSTIC V4"
     )
 
     raw_urls = (
@@ -2663,9 +2579,7 @@ def main():
         DATA_FILES.items()
     ):
         datasets[name] = (
-            load_json(
-                path
-            )
+            load_json(path)
         )
 
         print(
@@ -2724,7 +2638,7 @@ def main():
     # ------------------------------------------------------
 
     section(
-        "TYPE-FIRST MATCH RESULTS V3"
+        "TYPE-FIRST MATCH RESULTS V4"
     )
 
     summary = {}
@@ -2768,17 +2682,10 @@ def main():
         )
 
         if group_key:
-            if (
-                group_key
-                not in group_summary
-            ):
-                group_summary[
-                    group_key
-                ] = []
-
-            group_summary[
-                group_key
-            ].append(
+            group_summary.setdefault(
+                group_key,
+                [],
+            ).append(
                 post["post_id"]
             )
 
@@ -2819,7 +2726,7 @@ def main():
         )
 
     # ------------------------------------------------------
-    # 同一イベントグループ
+    # グループ
     # ------------------------------------------------------
 
     section(
@@ -2849,6 +2756,7 @@ def main():
                 )
 
     print()
+
     print(
         "No production data was modified."
     )
