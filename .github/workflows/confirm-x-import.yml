@@ -1,0 +1,96 @@
+name: Confirm X Import
+
+on:
+  workflow_dispatch:
+    inputs:
+      approvals_json:
+        description: "ChatGPTとの確認後に作成した確定JSON"
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: x-import-confirm
+  cancel-in-progress: false
+
+jobs:
+  confirm-x-import:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Apply confirmed X import
+        env:
+          APPROVALS_JSON: ${{ inputs.approvals_json }}
+        run: |
+          python scripts/confirm_x_import.py
+
+      - name: Validate JSON files
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          paths = [
+              Path("data/x_import_candidates.json"),
+              Path("data/content_x_links.json"),
+              Path("data/x_contents.json"),
+              Path("data/x_excluded.json"),
+              Path("data/schedule.json"),
+          ]
+
+          for path in paths:
+              with path.open(
+                  "r",
+                  encoding="utf-8",
+              ) as file:
+                  data = json.load(file)
+
+              if not isinstance(data, list):
+                  raise SystemExit(
+                      f"{path} must contain a JSON array"
+                  )
+
+              print(
+                  f"{path}: {len(data)}"
+              )
+          PY
+
+      - name: Show changes
+        run: |
+          git status --short
+          git diff --stat
+
+      - name: Commit confirmed X import
+        run: |
+          if git diff --quiet; then
+            echo "No changes."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add \
+            data/x_import_candidates.json \
+            data/content_x_links.json \
+            data/x_contents.json \
+            data/x_excluded.json \
+            data/schedule.json
+
+          git commit -m "Confirm X import"
+
+          git fetch origin main
+          git rebase origin/main
+          git push origin HEAD:main
