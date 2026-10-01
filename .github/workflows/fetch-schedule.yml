@@ -6,6 +6,13 @@ on:
 permissions:
   contents: write
 
+# 他のデータ取得Workflowと同時に実行しないための設定。
+# 今後、Member Diary / Message / Movie / Photo / Radio / YouTubeにも
+# 同じgroup名を設定する。
+concurrency:
+  group: ini-data-fetch
+  cancel-in-progress: false
+
 jobs:
   fetch-schedule:
     runs-on: ubuntu-latest
@@ -13,6 +20,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -175,5 +184,14 @@ jobs:
             exit 0
           fi
 
+          # まず取得結果をローカルcommitとして保存する。
           git commit -m "Update Schedule data"
-          git push
+
+          # Workflow実行中にmainが更新されていても、
+          # 最新mainの上へ今回のcommitを積み直してからpushする。
+          echo "===== Sync with latest main ====="
+          git fetch origin main
+          git rebase origin/main
+
+          echo "===== Push Schedule data ====="
+          git push origin HEAD:main
