@@ -1,10 +1,21 @@
 name: Fetch Member Diary
 
 on:
+  # 手動実行
   workflow_dispatch:
+
+  # 毎日22:31（日本時間）に自動実行
+  schedule:
+    - cron: "31 22 * * *"
+      timezone: "Asia/Tokyo"
 
 permissions:
   contents: write
+
+# データ取得Workflow同士を同時実行しない。
+concurrency:
+  group: ini-data-fetch
+  cancel-in-progress: false
 
 jobs:
   fetch-member-diary:
