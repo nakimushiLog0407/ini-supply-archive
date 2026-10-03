@@ -1,10 +1,21 @@
 name: Fetch INI Photo
 
 on:
+  # 手動実行
   workflow_dispatch:
+
+  # 毎日22:46（日本時間）に自動実行
+  schedule:
+    - cron: "46 22 * * *"
+      timezone: "Asia/Tokyo"
 
 permissions:
   contents: write
+
+# データ取得Workflow同士を同時実行しない。
+concurrency:
+  group: ini-data-fetch
+  cancel-in-progress: false
 
 jobs:
   fetch-photo:
@@ -72,16 +83,11 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          # 先にgit addする。
-          # これにより、新規作成された未追跡の
-          # data/photo.json もGitの判定対象になる。
           git add data/photo.json
 
           echo "===== git status ====="
           git status --short
 
-          # git add後のステージ済み差分を確認する。
-          # 新規ファイルもここでは正しく検出される。
           if git diff --cached --quiet; then
             echo "data/photo.json に変更はありません。"
             exit 0
