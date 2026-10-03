@@ -1,10 +1,21 @@
 name: Fetch INI Message
 
 on:
+  # 手動実行
   workflow_dispatch:
+
+  # 毎日22:36（日本時間）に自動実行
+  schedule:
+    - cron: "36 22 * * *"
+      timezone: "Asia/Tokyo"
 
 permissions:
   contents: write
+
+# データ取得Workflow同士を同時実行しない。
+concurrency:
+  group: ini-data-fetch
+  cancel-in-progress: false
 
 jobs:
   fetch-message:
@@ -72,8 +83,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          # 新規ファイルも検出できるよう、
-          # 差分判定より先にgit addする。
           git add data/message.json
 
           echo "===== git status ====="
