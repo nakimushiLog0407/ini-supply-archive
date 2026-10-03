@@ -63849,7 +63849,7 @@
     "category": "live_event",
     "categoryLabel": "Live／Event",
     "date": "2026-09-12",
-    "title": "CDTV ライブ！ライブ！秋の大感謝祭2026",
+    "title": "CDTVライブ！ライブ！秋の大感謝祭2026",
     "url": "https://ini-official.com/schedule/detail/4268",
     "members": [],
     "externalLinks": [
@@ -63858,7 +63858,7 @@
         "url": "https://www.tbs.co.jp/cdtv_livelive/"
       }
     ],
-    "detailText": "2026.09.12\n[Sat]\nLive／Event\nCDTV ライブ！ライブ！秋の大感謝祭2026\n■日程\n9月11日（金）、12日（土）、13日（日） 開場 : 16:30／開演 : 18:00\n※INIは9月12日（土）に出演いたします。\n■場所：東京ガーデンシアター\n(東京都江東区有明2丁目1-6)\n■出演\nINI／IMP.／GENERATIONS\n■公式サイト\nhttps://www.tbs.co.jp/cdtv_livelive/"
+    "detailText": "2026.09.12\n[Sat]\nLive／Event\nCDTVライブ！ライブ！秋の大感謝祭2026\n■日程\n9月11日（金）、12日（土）、13日（日） 開場 : 16:30／開演 : 18:00\n※INIは9月12日（土）に出演いたします。\n■場所：東京ガーデンシアター\n(東京都江東区有明2丁目1-6)\n■出演\nINI／IMP.／GENERATIONS\n■公式サイト\nhttps://www.tbs.co.jp/cdtv_livelive/"
   },
   {
     "id": "schedule-4411",
@@ -64494,6 +64494,27 @@
     "detailText": "2026.10.02\n[Fri]\nRadio\nFm yokohama『ZERO-8』22:00-23:00\n▼番組名\nFm yokohama『ZERO-8』\n▼放送日時\n2026年10月2日（金）22:00-23:00\n▼番組HP\nhttps://www.fmyokohama.jp/zero8/\n髙塚大夢、田島将吾が生出演いたします。"
   },
   {
+    "id": "schedule-4482",
+    "scheduleId": "4482",
+    "type": "schedule",
+    "group": "schedule",
+    "category": "radio",
+    "categoryLabel": "Radio",
+    "date": "2026-10-02",
+    "title": "SBCラジオ『坂ちゃんのずくだせえぶりでぃ』9:05-13:00",
+    "url": "https://ini-official.com/schedule/detail/4482",
+    "members": [
+      "藤牧京介"
+    ],
+    "externalLinks": [
+      {
+        "label": "https://sbc21.co.jp/blogwp/zukudase/",
+        "url": "https://sbc21.co.jp/blogwp/zukudase/"
+      }
+    ],
+    "detailText": "2026.10.02\n[Fri]\nRadio\nSBCラジオ『坂ちゃんのずくだせえぶりでぃ』9:05-13:00\n▼番組名\nSBCラジオ『坂ちゃんのずくだせえぶりでぃ』\n▼放送日時\n2026年10月2日（金）9:05-13:00\n▼番組HP\nhttps://sbc21.co.jp/blogwp/zukudase/\n藤牧京介がコメント出演いたします。"
+  },
+  {
     "id": "schedule-4442",
     "scheduleId": "4442",
     "type": "schedule",
@@ -64655,6 +64676,28 @@
     "detailText": "2026.10.13\n[Tue]\nBirthday\n田島 将吾's Birthday！"
   },
   {
+    "id": "schedule-4449",
+    "scheduleId": "4449",
+    "type": "schedule",
+    "group": "schedule",
+    "category": "radio",
+    "categoryLabel": "Radio",
+    "date": "2026-10-17",
+    "title": "FM802『SATURDAY AMUSIC ISLANDS -MORNING EDITION-』7:00-12:00",
+    "url": "https://ini-official.com/schedule/detail/4449",
+    "members": [
+      "尾崎匠海",
+      "後藤威尊"
+    ],
+    "externalLinks": [
+      {
+        "label": "https://funky802.com/saiam/",
+        "url": "https://funky802.com/saiam/"
+      }
+    ],
+    "detailText": "2026.10.17\n[Sat]\nRadio\nFM802『SATURDAY AMUSIC ISLANDS -MORNING EDITION-』7:00-12:00\n▼番組名\nFM802『SATURDAY AMUSIC ISLANDS -MORNING EDITION-』\n▼放送日時\n2026年10月17日（土）7:00-12:00\n▼番組HP\nhttps://funky802.com/saiam/\n尾崎匠海、後藤威尊が出演いたします。"
+  },
+  {
     "id": "schedule-4444",
     "scheduleId": "4444",
     "type": "schedule",
@@ -64789,6 +64832,27 @@
       }
     ],
     "detailText": "2026.10.31\n[Sat]\nRadio\nTOKYO FM/JFN『From INI』毎週金曜日深夜25:00-27:00\n▼番組名\nTOKYO FM/JFN『From INI』\n▼放送日時\n2026年10月30日（金）25:00-27:00\n▼番組HP\nhttps://audee.jp/program/show/59121"
+  },
+  {
+    "id": "schedule-4486",
+    "scheduleId": "4486",
+    "type": "schedule",
+    "group": "schedule",
+    "category": "live_event",
+    "categoryLabel": "Live／Event",
+    "date": "2026-11-01",
+    "title": "OTRN [ Sound Lab ]",
+    "url": "https://ini-official.com/schedule/detail/4486",
+    "members": [
+      "西洸人"
+    ],
+    "externalLinks": [
+      {
+        "label": "https://jetmusic-official.com/",
+        "url": "https://jetmusic-official.com/"
+      }
+    ],
+    "detailText": "2026.11.01\n[Sun]\nLive／Event\nOTRN [ Sound Lab ]\n◾️日程\n2026年10月31日(土) 開場16:30 / 開演17:30\n2026年11月1日(日) 開場14:00 / 開演15:00\n※西洸人は11月1日(日)に出演いたします。\n◾️会場\nYOKOHAMA BUNTAI（〒231-0032 神奈川県横浜市中区不老町２丁目７番１）\n◾️公式HP\nhttps://jetmusic-official.com/"
   },
   {
     "id": "schedule-4473",
