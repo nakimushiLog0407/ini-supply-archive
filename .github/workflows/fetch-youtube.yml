@@ -12,6 +12,11 @@ on:
 permissions:
   contents: write
 
+# データ取得Workflow同士を同時実行しない。
+concurrency:
+  group: ini-data-fetch
+  cancel-in-progress: false
+
 jobs:
   fetch-youtube:
     runs-on: ubuntu-latest
