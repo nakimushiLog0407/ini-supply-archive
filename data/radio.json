@@ -943,5 +943,14 @@
     "title": "「きょうすけ らじお。」#12",
     "thumbnail": "https://ini-official.com/static2/prod/new_movie/thumbnail/337/a5d383a7d73c494b9f3332b05e51fe58149c027c3e9ed28001ede597c049e9d0_t.jpeg",
     "url": "https://ini-official.com/streams/detail/623"
+  },
+  {
+    "id": "radio-621",
+    "type": "radio",
+    "group": "fc",
+    "date": "2026-10-02",
+    "title": "INI WEB RADIO vol.92",
+    "thumbnail": "https://ini-official.com/static2/prod/new_movie/thumbnail/337/a8e3d47bdcdc849e215594961b1fbd6162daaf4e7b2c90f8cc3e151cf0dd18c0_t.png",
+    "url": "https://ini-official.com/streams/detail/621"
   }
 ]
