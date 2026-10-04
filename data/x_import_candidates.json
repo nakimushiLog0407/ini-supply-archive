@@ -26,11 +26,12 @@
     },
     "matches": [],
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
+      "status": "confirmed",
+      "action": "exclude",
+      "targetType": "excluded",
       "targetId": null,
-      "note": null
+      "note": "2021-06-13確認済み。既存コンテンツの公開・更新通知、またはサイト／FC開設告知のため対象外。",
+      "confirmedAt": "2026-10-04T23:41:05+09:00"
     }
   },
   {
@@ -61,11 +62,12 @@
     },
     "matches": [],
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
       "targetId": null,
-      "note": null
+      "note": "2021-06-13確認済み。X投稿そのものが供給となる投稿。",
+      "confirmedAt": "2026-10-04T23:41:05+09:00"
     }
   },
   {
@@ -96,11 +98,12 @@
     },
     "matches": [],
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
       "targetId": null,
-      "note": null
+      "note": "2021-06-13確認済み。X投稿そのものが供給となる投稿。",
+      "confirmedAt": "2026-10-04T23:41:05+09:00"
     }
   },
   {
@@ -131,11 +134,12 @@
     },
     "matches": [],
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
       "targetId": null,
-      "note": null
+      "note": "2021-06-13確認済み。X投稿そのものが供給となる投稿。",
+      "confirmedAt": "2026-10-04T23:41:05+09:00"
     }
   },
   {
@@ -166,11 +170,12 @@
     },
     "matches": [],
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
       "targetId": null,
-      "note": null
+      "note": "2021-06-13確認済み。X投稿そのものが供給となる投稿。",
+      "confirmedAt": "2026-10-04T23:41:05+09:00"
     }
   },
   {
@@ -201,11 +206,12 @@
     },
     "matches": [],
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
       "targetId": null,
-      "note": null
+      "note": "2021-06-13確認済み。X投稿そのものが供給となる投稿。",
+      "confirmedAt": "2026-10-04T23:41:05+09:00"
     }
   },
   {
@@ -236,11 +242,12 @@
     },
     "matches": [],
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
       "targetId": null,
-      "note": null
+      "note": "2021-06-13確認済み。X投稿そのものが供給となる投稿。",
+      "confirmedAt": "2026-10-04T23:41:05+09:00"
     }
   },
   {
@@ -271,11 +278,12 @@
     },
     "matches": [],
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
       "targetId": null,
-      "note": null
+      "note": "2021-06-13確認済み。X投稿そのものが供給となる投稿。",
+      "confirmedAt": "2026-10-04T23:41:05+09:00"
     }
   },
   {
@@ -306,11 +314,12 @@
     },
     "matches": [],
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
       "targetId": null,
-      "note": null
+      "note": "2021-06-13確認済み。X投稿そのものが供給となる投稿。",
+      "confirmedAt": "2026-10-04T23:41:05+09:00"
     }
   },
   {
@@ -341,11 +350,12 @@
     },
     "matches": [],
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
       "targetId": null,
-      "note": null
+      "note": "2021-06-13確認済み。X投稿そのものが供給となる投稿。",
+      "confirmedAt": "2026-10-04T23:41:05+09:00"
     }
   },
   {
@@ -376,11 +386,12 @@
     },
     "matches": [],
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
       "targetId": null,
-      "note": null
+      "note": "2021-06-13確認済み。X投稿そのものが供給となる投稿。",
+      "confirmedAt": "2026-10-04T23:41:05+09:00"
     }
   },
   {
@@ -411,11 +422,12 @@
     },
     "matches": [],
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
       "targetId": null,
-      "note": null
+      "note": "2021-06-13確認済み。X投稿そのものが供給となる投稿。",
+      "confirmedAt": "2026-10-04T23:41:05+09:00"
     }
   },
   {
@@ -444,11 +456,12 @@
     },
     "matches": [],
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
+      "status": "confirmed",
+      "action": "exclude",
+      "targetType": "excluded",
       "targetId": null,
-      "note": null
+      "note": "2021-06-13確認済み。既存コンテンツの公開・更新通知、またはサイト／FC開設告知のため対象外。",
+      "confirmedAt": "2026-10-04T23:41:05+09:00"
     }
   },
   {
@@ -477,11 +490,12 @@
     },
     "matches": [],
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
       "targetId": null,
-      "note": null
+      "note": "2021-06-13確認済み。X投稿そのものが供給となる投稿。",
+      "confirmedAt": "2026-10-04T23:41:05+09:00"
     }
   },
   {
@@ -510,11 +524,12 @@
     },
     "matches": [],
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
+      "status": "confirmed",
+      "action": "exclude",
+      "targetType": "excluded",
       "targetId": null,
-      "note": null
+      "note": "2021-06-13確認済み。既存コンテンツの公開・更新通知、またはサイト／FC開設告知のため対象外。",
+      "confirmedAt": "2026-10-04T23:41:05+09:00"
     }
   },
   {
@@ -545,11 +560,12 @@
     },
     "matches": [],
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
       "targetId": null,
-      "note": null
+      "note": "2021-06-13確認済み。X投稿そのものが供給となる投稿。",
+      "confirmedAt": "2026-10-04T23:41:05+09:00"
     }
   },
   {
@@ -580,11 +596,12 @@
     },
     "matches": [],
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
       "targetId": null,
-      "note": null
+      "note": "2021-06-13確認済み。X投稿そのものが供給となる投稿。",
+      "confirmedAt": "2026-10-04T23:41:05+09:00"
     }
   },
   {
@@ -615,11 +632,12 @@
     },
     "matches": [],
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
       "targetId": null,
-      "note": null
+      "note": "2021-06-13確認済み。X投稿そのものが供給となる投稿。",
+      "confirmedAt": "2026-10-04T23:41:05+09:00"
     }
   },
   {
@@ -652,11 +670,12 @@
     },
     "matches": [],
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
       "targetId": null,
-      "note": null
+      "note": "2021-06-13確認済み。X投稿そのものが供給となる投稿。",
+      "confirmedAt": "2026-10-04T23:41:05+09:00"
     }
   },
   {
@@ -687,11 +706,12 @@
     },
     "matches": [],
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
       "targetId": null,
-      "note": null
+      "note": "2021-06-13確認済み。X投稿そのものが供給となる投稿。",
+      "confirmedAt": "2026-10-04T23:41:05+09:00"
     }
   },
   {
@@ -722,11 +742,12 @@
     },
     "matches": [],
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
       "targetId": null,
-      "note": null
+      "note": "2021-06-13確認済み。X投稿そのものが供給となる投稿。",
+      "confirmedAt": "2026-10-04T23:41:05+09:00"
     }
   },
   {
@@ -757,11 +778,12 @@
     },
     "matches": [],
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
       "targetId": null,
-      "note": null
+      "note": "2021-06-13確認済み。X投稿そのものが供給となる投稿。",
+      "confirmedAt": "2026-10-04T23:41:05+09:00"
     }
   },
   {
@@ -792,11 +814,12 @@
     },
     "matches": [],
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
       "targetId": null,
-      "note": null
+      "note": "2021-06-13確認済み。X投稿そのものが供給となる投稿。",
+      "confirmedAt": "2026-10-04T23:41:05+09:00"
     }
   },
   {
@@ -827,11 +850,12 @@
     },
     "matches": [],
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
       "targetId": null,
-      "note": null
+      "note": "2021-06-13確認済み。X投稿そのものが供給となる投稿。",
+      "confirmedAt": "2026-10-04T23:41:05+09:00"
     }
   },
   {
@@ -862,11 +886,12 @@
     },
     "matches": [],
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
       "targetId": null,
-      "note": null
+      "note": "2021-06-13確認済み。X投稿そのものが供給となる投稿。",
+      "confirmedAt": "2026-10-04T23:41:05+09:00"
     }
   },
   {
@@ -897,11 +922,12 @@
     },
     "matches": [],
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
       "targetId": null,
-      "note": null
+      "note": "2021-06-13確認済み。X投稿そのものが供給となる投稿。",
+      "confirmedAt": "2026-10-04T23:41:05+09:00"
     }
   }
 ]
