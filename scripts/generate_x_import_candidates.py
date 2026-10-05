@@ -63,88 +63,13 @@ def save_candidates(candidates):
         file.write("\n")
 
 
-def load_datasets():
-    datasets = {}
-
-    for name, path in (
-        matcher.DATA_FILES.items()
-    ):
-        datasets[name] = (
-            matcher.load_json(path)
-        )
-
-        print(
-            f"{name}: "
-            f"{len(datasets[name])}"
-        )
-
-    return datasets
-
-
-def serialize_match(match):
-    if not match:
-        return None
-
-    return {
-        "sourceType": (
-            match.get(
-                "source_type"
-            )
-        ),
-        "id": (
-            match.get("id")
-        ),
-        "date": (
-            match.get("date")
-        ),
-        "title": (
-            match.get("title")
-        ),
-        "url": (
-            match.get("url")
-        ),
-        "score": (
-            match.get("score")
-        ),
-        "filterReason": (
-            match.get(
-                "filter_reason"
-            )
-        ),
-        "identityMatch": (
-            match.get(
-                "identity_match"
-            )
-        ),
-        "memberConflict": (
-            match.get(
-                "member_conflict"
-            )
-        ),
-        "reasons": (
-            match.get(
-                "reasons",
-                [],
-            )
-        ),
-    }
-
-
 def build_suggestion(
     detected,
-    matches,
     group_key,
 ):
-    # Xは他カテゴリーへ紐づけず、
-    # Xカテゴリー内だけで管理する。
-    # matches/group_keyは振り分け確認用の
-    # 参考情報として候補データに残す。
-    result = matcher.classify_result(
-        detected,
-        matches,
-    )
-
-    if result == "exclude_candidate":
+    # Xは他カテゴリーへ照合・紐付けせず、
+    # X投稿そのものの判定だけで管理する。
+    if detected["type"] == "exclude":
         action = "exclude"
     else:
         action = "new_x_content"
@@ -156,10 +81,10 @@ def build_suggestion(
         "groupKey": group_key,
     }
 
+
 def build_candidate(
     post,
     detected,
-    matches,
 ):
     group_key = (
         matcher.detect_group_key(
@@ -171,15 +96,7 @@ def build_candidate(
     suggestion = (
         build_suggestion(
             detected,
-            matches,
             group_key,
-        )
-    )
-
-    result = (
-        matcher.classify_result(
-            detected,
-            matches,
         )
     )
 
@@ -302,21 +219,10 @@ def build_candidate(
             ),
         },
 
-        "automaticResult": (
-            result
-        ),
 
         "suggestion": (
             suggestion
         ),
-
-        "matches": [
-            serialize_match(
-                match
-            )
-            for match
-            in matches
-        ],
 
         "review": {
             "status": "pending",
@@ -752,14 +658,6 @@ def main():
     )
 
     matcher.section(
-        "LOAD DATASETS"
-    )
-
-    datasets = (
-        load_datasets()
-    )
-
-    matcher.section(
         "FETCH AND ANALYZE"
     )
 
@@ -797,19 +695,10 @@ def main():
                 )
             )
 
-            matches = (
-                matcher.find_matches(
-                    post,
-                    detected,
-                    datasets,
-                )
-            )
-
             candidate = (
                 build_candidate(
                     post,
                     detected,
-                    matches,
                 )
             )
 
@@ -820,13 +709,6 @@ def main():
             print(
                 "  TYPE:",
                 detected["type"],
-            )
-
-            print(
-                "  RESULT:",
-                candidate[
-                    "automaticResult"
-                ],
             )
 
             print(
