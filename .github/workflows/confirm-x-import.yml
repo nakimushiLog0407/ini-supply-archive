@@ -58,10 +58,8 @@ jobs:
 
           paths = [
               Path("data/x_import_candidates.json"),
-              Path("data/content_x_links.json"),
               Path("data/x_contents.json"),
               Path("data/x_excluded.json"),
-              Path("data/x_schedule.json"),
           ]
 
           for path in paths:
@@ -101,10 +99,8 @@ jobs:
 
           git add \
             data/x_import_candidates.json \
-            data/content_x_links.json \
             data/x_contents.json \
-            data/x_excluded.json \
-            data/x_schedule.json
+            data/x_excluded.json
 
           git commit -m "Confirm X import"
 
