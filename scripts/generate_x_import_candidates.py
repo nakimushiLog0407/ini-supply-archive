@@ -134,104 +134,26 @@ def build_suggestion(
     matches,
     group_key,
 ):
+    # Xは他カテゴリーへ紐づけず、
+    # Xカテゴリー内だけで管理する。
+    # matches/group_keyは振り分け確認用の
+    # 参考情報として候補データに残す。
     result = matcher.classify_result(
         detected,
         matches,
     )
 
-    top_match = (
-        matches[0]
-        if matches
-        else None
-    )
-
-    if (
-        result
-        == "existing_content_candidate"
-        and top_match
-    ):
-        return {
-            "action": "link_existing",
-            "targetType": (
-                top_match[
-                    "source_type"
-                ]
-            ),
-            "targetId": (
-                top_match["id"]
-            ),
-            "groupKey": (
-                group_key
-            ),
-        }
-
-    if (
-        result
-        == "new_schedule_candidate"
-    ):
-        return {
-            "action": "new_schedule",
-            "targetType": None,
-            "targetId": None,
-            "groupKey": (
-                group_key
-            ),
-        }
-
-    if (
-        result
-        == "x_content_candidate"
-    ):
-        return {
-            "action": "new_x_content",
-            "targetType": None,
-            "targetId": None,
-            "groupKey": (
-                group_key
-            ),
-        }
-
-    if (
-        result
-        == "exclude_candidate"
-    ):
-        return {
-            "action": "exclude",
-            "targetType": None,
-            "targetId": None,
-            "groupKey": (
-                group_key
-            ),
-        }
-
-    if (
-        result
-        == "unsupported_fc_content"
-    ):
-        return {
-            "action": "review",
-            "targetType": (
-                "fc_content"
-            ),
-            "targetId": None,
-            "groupKey": (
-                group_key
-            ),
-            "reason": (
-                "unsupported_fc_content"
-            ),
-        }
+    if result == "exclude_candidate":
+        action = "exclude"
+    else:
+        action = "new_x_content"
 
     return {
-        "action": "review",
+        "action": action,
         "targetType": None,
         "targetId": None,
-        "groupKey": (
-            group_key
-        ),
-        "reason": result,
+        "groupKey": group_key,
     }
-
 
 def build_candidate(
     post,
