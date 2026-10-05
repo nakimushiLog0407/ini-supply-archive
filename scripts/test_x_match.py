@@ -895,7 +895,7 @@ def detect_post_type(text):
     # 対象外
     # ------------------------------------------------------
 
-    exclude_words = [
+    sales_words = [
         "受注販売",
         "ご購入いただけます",
         "販売スタート",
@@ -904,12 +904,87 @@ def detect_post_type(text):
 
     if any(
         word in normalized
-        for word in exclude_words
+        for word in sales_words
     ):
         return {
             "type": "exclude",
             "reason": (
                 "sales_or_merchandise"
+            ),
+        }
+
+    # サイト／FCそのものの開設告知は供給として記録しない。
+    if (
+        (
+            "official site"
+            in normalized
+            or "official fanclub"
+            in normalized
+        )
+        and any(
+            word in normalized
+            for word in [
+                "open!",
+                "open！",
+                "オープン",
+                "開設",
+            ]
+        )
+    ):
+        return {
+            "type": "exclude",
+            "reason": (
+                "site_or_fanclub_open_notice"
+            ),
+        }
+
+    # FC内のコンテンツが更新・公開されたことだけを知らせる
+    # 告知投稿はX供給としては記録しない。
+    # 個別のMember Diary等を示す投稿は、この一般通知より
+    # 後段のFC判定に渡せるよう除外する。
+    fc_content_labels = [
+        "member diary",
+        "staff report",
+        "[message]",
+        "［message］",
+        "[movie]",
+        "［movie］",
+        "[photo]",
+        "［photo］",
+        "[radio]",
+        "［radio］",
+    ]
+
+    is_specific_fc_content = any(
+        label in normalized
+        for label in fc_content_labels
+    )
+
+    if (
+        "official fanclub"
+        in normalized
+        and not is_specific_fc_content
+        and (
+            "コンテンツ更新情報"
+            in normalized
+            or (
+                "contents"
+                in normalized
+                and any(
+                    word in normalized
+                    for word in [
+                        "公開されました",
+                        "更新しました",
+                        "更新情報",
+                    ]
+                )
+            )
+        )
+    ):
+        return {
+            "type": "exclude",
+            "reason": (
+                "fanclub_content_update_notice"
             ),
         }
 
