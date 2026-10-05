@@ -345,6 +345,10 @@ def build_candidate(
         "text": (
             post["text"]
         ),
+        "media": (
+            post.get("media")
+            or []
+        ),
 
         "detected": {
             "type": (

@@ -40,6 +40,7 @@ const detailMember = $("detailMember");
 const detailScheduleMembers = $("detailScheduleMembers");
 const detailScheduleMembersText = $("detailScheduleMembersText");
 const detailScheduleText = $("detailScheduleText");
+const detailXMedia = $("detailXMedia");
 const detailXPosts = $("detailXPosts");
 const detailXPostsList = $("detailXPostsList");
 const detailScheduleLinks = $("detailScheduleLinks");
@@ -1660,6 +1661,13 @@ function resetDetail() {
     "";
 
 
+  detailXMedia.hidden =
+    true;
+
+  detailXMedia.innerHTML =
+    "";
+
+
   detailXPosts.hidden =
     true;
 
@@ -1789,6 +1797,88 @@ function normalizeXPosts(
 
 
 /* ==========================================================
+   X メディア表示
+========================================================== */
+
+function renderXMedia(
+  media,
+  container
+) {
+  if (
+    !container ||
+    !Array.isArray(media)
+  ) {
+    return false;
+  }
+
+  const validMedia =
+    media.filter(
+      item =>
+        item &&
+        (
+          (
+            item.type === "photo" &&
+            item.url
+          ) ||
+          (
+            item.type === "video" &&
+            item.videoUrl
+          )
+        )
+    );
+
+  if (validMedia.length === 0) {
+    return false;
+  }
+
+  container.innerHTML = "";
+  container.classList.toggle(
+    "single",
+    validMedia.length === 1
+  );
+
+  validMedia.forEach(
+    item => {
+      if (item.type === "photo") {
+        const image =
+          document.createElement("img");
+
+        image.className =
+          "detail-x-media-image";
+        image.src = item.url;
+        image.alt = "X投稿の画像";
+        image.loading = "lazy";
+
+        container.appendChild(image);
+        return;
+      }
+
+      const video =
+        document.createElement("video");
+
+      video.className =
+        "detail-x-media-video";
+      video.src = item.videoUrl;
+
+      if (item.thumbnailUrl) {
+        video.poster =
+          item.thumbnailUrl;
+      }
+
+      video.controls = true;
+      video.preload = "metadata";
+      video.playsInline = true;
+
+      container.appendChild(video);
+    }
+  );
+
+  container.hidden = false;
+  return true;
+}
+
+
+/* ==========================================================
    関連X投稿取得
 ========================================================== */
 
@@ -1895,6 +1985,29 @@ function renderXPosts(
           "a"
         );
 
+      const card =
+        document.createElement(
+          "div"
+        );
+
+      card.className =
+        "detail-x-post-card";
+
+
+      const media =
+        document.createElement(
+          "div"
+        );
+
+      media.className =
+        "detail-x-post-media";
+
+      renderXMedia(
+        post.media,
+        media
+      );
+
+
       anchor.className =
         "detail-x-post-link";
 
@@ -1954,8 +2067,16 @@ function renderXPosts(
       );
 
 
-      detailXPostsList.appendChild(
+      card.appendChild(
+        media
+      );
+
+      card.appendChild(
         anchor
+      );
+
+      detailXPostsList.appendChild(
+        card
       );
     }
   );
@@ -2192,6 +2313,16 @@ function setXDetail(
     detailMember.textContent =
       memberText;
   }
+
+
+  /*
+    Xメディア
+  */
+
+  renderXMedia(
+    supply.media,
+    detailXMedia
+  );
 
 
   /*
