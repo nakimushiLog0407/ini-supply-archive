@@ -333,6 +333,86 @@ def similarity(a, b):
 # X投稿取得
 # ==========================================================
 
+def extract_media(data):
+    media = []
+
+    for item in (
+        data.get("mediaDetails")
+        or []
+    ):
+        if not isinstance(item, dict):
+            continue
+
+        media_type = item.get("type")
+        original_info = (
+            item.get("original_info")
+            or {}
+        )
+        width = original_info.get("width")
+        height = original_info.get("height")
+
+        if media_type == "photo":
+            url = item.get("media_url_https")
+
+            if url:
+                media.append({
+                    "type": "photo",
+                    "url": url,
+                    "width": width,
+                    "height": height,
+                })
+
+        elif media_type in {
+            "video",
+            "animated_gif",
+        }:
+            video_info = (
+                item.get("video_info")
+                or {}
+            )
+            mp4_variants = [
+                variant
+                for variant
+                in (
+                    video_info.get("variants")
+                    or []
+                )
+                if (
+                    isinstance(variant, dict)
+                    and variant.get("content_type")
+                    == "video/mp4"
+                    and variant.get("url")
+                )
+            ]
+
+            if not mp4_variants:
+                continue
+
+            best_variant = max(
+                mp4_variants,
+                key=lambda variant: (
+                    variant.get("bitrate")
+                    or 0
+                ),
+            )
+
+            media.append({
+                "type": "video",
+                "thumbnailUrl": (
+                    item.get("media_url_https")
+                    or ""
+                ),
+                "videoUrl": best_variant["url"],
+                "width": width,
+                "height": height,
+                "durationMillis": (
+                    video_info.get("duration_millis")
+                ),
+            })
+
+    return media
+
+
 def fetch_post(item):
     response = requests.get(
         SYNDICATION_ENDPOINT,
@@ -374,6 +454,7 @@ def fetch_post(item):
         "author": user.get(
             "screen_name"
         ),
+        "media": extract_media(data),
     }
 
 
