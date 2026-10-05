@@ -366,6 +366,12 @@ def make_x_post(
             )
             or ""
         ),
+        "media": (
+            candidate.get(
+                "media"
+            )
+            or []
+        ),
     }
 
 
@@ -653,6 +659,12 @@ def add_x_content(
             candidate[
                 "postId"
             ]
+        ),
+        "media": (
+            candidate.get(
+                "media"
+            )
+            or []
         ),
         "source": "x",
     }
