@@ -2,6 +2,7 @@
 
 import json
 import os
+import re
 import sys
 import time
 from datetime import datetime
@@ -327,6 +328,233 @@ def build_candidate(
     }
 
 
+
+GENERIC_GROUP_HASHTAGS = {
+    "ini",
+    "mini",
+}
+
+
+def extract_group_hashtags(text):
+    result = []
+
+    for value in re.findall(
+        r"[#＃]([0-9A-Za-z_ぁ-んァ-ヶ一-龯髙﨑]+)",
+        text or "",
+    ):
+        normalized = value.lower()
+
+        if normalized in GENERIC_GROUP_HASHTAGS:
+            continue
+
+        if normalized not in result:
+            result.append(normalized)
+
+    return result
+
+
+def candidate_date(candidate):
+    value = candidate.get("postedAt")
+
+    if not value:
+        return None
+
+    try:
+        return datetime.fromisoformat(value).date()
+    except ValueError:
+        return None
+
+
+def candidate_datetime(candidate):
+    value = candidate.get("postedAt")
+
+    if not value:
+        return None
+
+    try:
+        return datetime.fromisoformat(value)
+    except ValueError:
+        return None
+
+
+def set_group_suggestion(
+    candidates,
+    group_key,
+    reason,
+    proposed_title=None,
+):
+    post_ids = [
+        str(item["postId"])
+        for item in candidates
+    ]
+
+    for item in candidates:
+        item["suggestion"]["groupKey"] = group_key
+        item["groupSuggestion"] = {
+            "groupKey": group_key,
+            "reason": reason,
+            "proposedTitle": proposed_title,
+            "postIds": post_ids,
+            "postCount": len(post_ids),
+        }
+
+
+def apply_group_suggestions(candidates):
+    """
+    X内だけのグループ候補を付ける。
+    自動確定はせず、人間がConfirm時に最終判断する。
+
+    優先1:
+      同日・複数投稿で共有される特徴的なハッシュタグ。
+      #INI / #MINI のような汎用タグは使わない。
+
+    優先2:
+      共通タグがなくても、同日に90分以内で連続し、
+      各投稿が別々の1メンバーを含み、画像付きである場合は
+      member_series としてレビュー候補にする。
+    """
+
+    assigned = set()
+
+    hashtag_groups = {}
+
+    for item in candidates:
+        date = candidate_date(item)
+
+        if not date:
+            continue
+
+        for hashtag in extract_group_hashtags(
+            item.get("text", "")
+        ):
+            hashtag_groups.setdefault(
+                (date.isoformat(), hashtag),
+                [],
+            ).append(item)
+
+    for (
+        date_value,
+        hashtag,
+    ), items in hashtag_groups.items():
+        if len(items) < 2:
+            continue
+
+        key = (
+            f"hashtag:{date_value}:"
+            f"{hashtag}"
+        )
+
+        set_group_suggestion(
+            items,
+            key,
+            "shared_distinctive_hashtag",
+            "#" + hashtag.upper(),
+        )
+
+        assigned.update(
+            str(item["postId"])
+            for item in items
+        )
+
+    by_date = {}
+
+    for item in candidates:
+        post_id = str(item["postId"])
+
+        if post_id in assigned:
+            continue
+
+        members = (
+            item.get("detected", {})
+            .get("members", [])
+        )
+
+        media = item.get("media") or []
+
+        if (
+            len(members) != 1
+            or not any(
+                value.get("type") == "photo"
+                for value in media
+                if isinstance(value, dict)
+            )
+        ):
+            continue
+
+        date = candidate_date(item)
+
+        if not date:
+            continue
+
+        by_date.setdefault(
+            date.isoformat(),
+            [],
+        ).append(item)
+
+    for date_value, items in by_date.items():
+        items.sort(
+            key=lambda item: (
+                item.get("postedAt") or "",
+                str(item.get("postId") or ""),
+            )
+        )
+
+        series = []
+
+        def flush_series():
+            nonlocal series
+
+            if len(series) < 3:
+                series = []
+                return
+
+            members = [
+                item["detected"]["members"][0]
+                for item in series
+            ]
+
+            if len(set(members)) != len(members):
+                series = []
+                return
+
+            first_id = str(series[0]["postId"])
+
+            set_group_suggestion(
+                series,
+                (
+                    f"member_series:"
+                    f"{date_value}:"
+                    f"{first_id}"
+                ),
+                "same_day_close_time_distinct_members_with_photos",
+                None,
+            )
+
+            series = []
+
+        previous_dt = None
+
+        for item in items:
+            current_dt = candidate_datetime(item)
+
+            if (
+                previous_dt is not None
+                and current_dt is not None
+                and (
+                    current_dt - previous_dt
+                ).total_seconds()
+                > 90 * 60
+            ):
+                flush_series()
+
+            series.append(item)
+            previous_dt = current_dt
+
+        flush_series()
+
+    return candidates
+
+
 def merge_candidates(
     existing,
     generated,
@@ -639,6 +867,42 @@ def main():
             "No candidates generated."
         )
         return 1
+
+    generated = apply_group_suggestions(
+        generated
+    )
+
+    matcher.section(
+        "GROUP SUGGESTIONS"
+    )
+
+    group_summary = {}
+
+    for candidate in generated:
+        group = candidate.get(
+            "groupSuggestion"
+        )
+
+        if not group:
+            continue
+
+        group_summary[
+            group["groupKey"]
+        ] = group
+
+    if not group_summary:
+        print("(none)")
+    else:
+        for group in group_summary.values():
+            print(
+                group["groupKey"],
+                "=>",
+                group["postCount"],
+                "posts / title:",
+                group["proposedTitle"],
+                "/ reason:",
+                group["reason"],
+            )
 
     matcher.section(
         "MERGE CANDIDATES"
