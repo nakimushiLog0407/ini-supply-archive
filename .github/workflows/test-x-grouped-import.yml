@@ -1,0 +1,167 @@
+name: Test X Grouped Import
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout feature branch
+        uses: actions/checkout@v4
+
+      - name: Syntax check
+        run: |
+          python -m py_compile scripts/confirm_x_import.py
+          python -m py_compile scripts/generate_x_import_candidates.py
+          node --check app.js
+
+      - name: Test grouped X import
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          import subprocess
+          import tempfile
+          from pathlib import Path
+
+          repo = Path.cwd()
+          script = repo / "scripts" / "confirm_x_import.py"
+
+          def candidate(post_id, posted_at, text, member=None):
+              return {
+                  "postId": post_id,
+                  "url": f"https://x.com/INI_official/status/{post_id}",
+                  "postedAt": posted_at,
+                  "author": "INI_official",
+                  "text": text,
+                  "media": [{
+                      "type": "photo",
+                      "url": f"https://example.invalid/{post_id}.jpg"
+                  }],
+                  "detected": {
+                      "type": "sns",
+                      "title": None,
+                      "members": [member] if member else []
+                  },
+                  "review": {
+                      "status": "pending",
+                      "action": None,
+                      "targetType": None,
+                      "targetId": None,
+                      "note": None
+                  }
+              }
+
+          candidates = [
+              candidate("1001", "2021-06-13T10:00:00+09:00", "Artist photo 1", "Member A"),
+              candidate("1002", "2021-06-13T10:01:00+09:00", "Artist photo 2", "Member B"),
+              candidate("1003", "2021-06-13T10:02:00+09:00", "Single supply"),
+              candidate("1004", "2021-06-13T10:03:00+09:00", "Exclude me"),
+              candidate("2001", "2021-06-14T10:00:00+09:00", "Different date")
+          ]
+
+          with tempfile.TemporaryDirectory() as tmp:
+              work = Path(tmp)
+              (work / "data").mkdir()
+              (work / "data" / "x_import_candidates.json").write_text(
+                  json.dumps(candidates, ensure_ascii=False, indent=2) + "\n",
+                  encoding="utf-8"
+              )
+              (work / "data" / "x_contents.json").write_text("[]\n", encoding="utf-8")
+              (work / "data" / "x_excluded.json").write_text("[]\n", encoding="utf-8")
+
+              approvals = [
+                  {
+                      "action": "new_x_content",
+                      "postIds": ["1001", "1002"],
+                      "title": "Artist Photos"
+                  },
+                  {
+                      "action": "new_x_content",
+                      "postIds": ["1003"],
+                      "title": "Single Supply"
+                  },
+                  {
+                      "action": "exclude",
+                      "postIds": ["1004"]
+                  }
+              ]
+
+              env = os.environ.copy()
+              env["APPROVALS_JSON"] = json.dumps(approvals)
+              subprocess.run(
+                  ["python", str(script)],
+                  cwd=work,
+                  env=env,
+                  check=True
+              )
+
+              contents = json.loads(
+                  (work / "data" / "x_contents.json").read_text(encoding="utf-8")
+              )
+              excluded = json.loads(
+                  (work / "data" / "x_excluded.json").read_text(encoding="utf-8")
+              )
+              reviewed = json.loads(
+                  (work / "data" / "x_import_candidates.json").read_text(encoding="utf-8")
+              )
+
+              assert len(contents) == 2
+              grouped = next(x for x in contents if x["title"] == "Artist Photos")
+              assert [p["postId"] for p in grouped["posts"]] == ["1001", "1002"]
+              assert grouped["date"] == "2021-06-13"
+              assert grouped["members"] == ["Member A", "Member B"]
+              assert grouped["posts"][0]["media"][0]["type"] == "photo"
+              assert len(excluded) == 1 and excluded[0]["postId"] == "1004"
+              assert all(
+                  x["review"]["status"] == "confirmed"
+                  for x in reviewed
+                  if x["postId"] in {"1001", "1002", "1003", "1004"}
+              )
+
+              # 同じ投稿を再登録しようとしたら失敗する。
+              env["APPROVALS_JSON"] = json.dumps([{
+                  "action": "new_x_content",
+                  "postIds": ["1001"],
+                  "title": "Duplicate"
+              }])
+              duplicate = subprocess.run(
+                  ["python", str(script)],
+                  cwd=work,
+                  env=env
+              )
+              assert duplicate.returncode != 0
+
+          # 異なる日付を1グループにする入力は、書き込み前に拒否する。
+          with tempfile.TemporaryDirectory() as tmp:
+              work = Path(tmp)
+              (work / "data").mkdir()
+              (work / "data" / "x_import_candidates.json").write_text(
+                  json.dumps(candidates, ensure_ascii=False, indent=2) + "\n",
+                  encoding="utf-8"
+              )
+              (work / "data" / "x_contents.json").write_text("[]\n", encoding="utf-8")
+              (work / "data" / "x_excluded.json").write_text("[]\n", encoding="utf-8")
+
+              env = os.environ.copy()
+              env["APPROVALS_JSON"] = json.dumps([{
+                  "action": "new_x_content",
+                  "postIds": ["1001", "2001"],
+                  "title": "Invalid Group"
+              }])
+              invalid = subprocess.run(
+                  ["python", str(script)],
+                  cwd=work,
+                  env=env
+              )
+              assert invalid.returncode != 0
+              assert json.loads(
+                  (work / "data" / "x_contents.json").read_text(encoding="utf-8")
+              ) == []
+
+          print("ALL GROUPED X IMPORT TESTS PASSED")
+          PY
