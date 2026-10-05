@@ -1942,13 +1942,18 @@ function renderXPosts(
 
 
       if (post.text) {
+        /*
+          Xの取得データ末尾に含まれる
+          メディア用t.co URLは表示しない。
+          元データ自体は変更しない。
+        */
         text.textContent =
           String(
             post.text
           )
             .replace(
-              /\s+/g,
-              " "
+              /[ \t]+https:\/\/t\.co\/[A-Za-z0-9]+\s*$/u,
+              ""
             )
             .trim();
       } else {
