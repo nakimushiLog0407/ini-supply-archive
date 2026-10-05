@@ -64555,6 +64555,25 @@
     "detailText": "2026.10.04\n[Sun]\nLive／Event\n第20 回アジア競技大会 閉会式 WARM-UP STAGE\n◼︎日程\n10月4日（日）\n本人確認開始 13:00/開門 13:30\nWARM-UP STAGE開始 16:00\n※WARM-UP STAGE開始後(16:30～)は入場規制がございます。\n◾️会場\n愛知・名古屋市瑞穂公園陸上競技場(パロマ瑞穂スタジアム)\n◾️公式サイト\nhttps://www.aichi-nagoya2026.org/\n木村柾哉が出演いたします。"
   },
   {
+    "id": "schedule-4487",
+    "scheduleId": "4487",
+    "type": "schedule",
+    "group": "schedule",
+    "category": "tv",
+    "categoryLabel": "TV",
+    "date": "2026-10-05",
+    "title": "SBS『2026 SBS 인기가요 Live In Tokyo』14:55〜",
+    "url": "https://ini-official.com/schedule/detail/4487",
+    "members": [],
+    "externalLinks": [
+      {
+        "label": "https://programs.sbs.co.kr/enter/sbssuperconcert/main",
+        "url": "https://programs.sbs.co.kr/enter/sbssuperconcert/main"
+      }
+    ],
+    "detailText": "2026.10.05\n[Mon]\nTV\nSBS『2026 SBS 인기가요 Live In Tokyo』14:55〜\n▼番組名\nSBS『2026 SBS 인기가요 Live In Tokyo』\n▼放送日時\n2026年10月5日（月）14:55〜\n▼番組HP\nhttps://programs.sbs.co.kr/enter/sbssuperconcert/main"
+  },
+  {
     "id": "schedule-4440",
     "scheduleId": "4440",
     "type": "schedule",
@@ -64576,6 +64595,27 @@
     "detailText": "2026.10.07\n[Wed]\nLive／Event\n松田迅 × 球団OB 三嶋一輝氏 トークショー\n■日時\n2026年10月7日(水)15:30～16:30 (開場 14:30)\n■会場\nTHE LIVE Supported by 大和地所\n■公式サイト\nhttps://the-live.com/\n松田迅が出演いたします。"
   },
   {
+    "id": "schedule-4488",
+    "scheduleId": "4488",
+    "type": "schedule",
+    "group": "schedule",
+    "category": "tv",
+    "categoryLabel": "TV",
+    "date": "2026-10-07",
+    "title": "NTV『DayDay.』9:00-11:10",
+    "url": "https://ini-official.com/schedule/detail/4488",
+    "members": [
+      "シュウ・フェンファン"
+    ],
+    "externalLinks": [
+      {
+        "label": "https://www.ntv.co.jp/dayday/",
+        "url": "https://www.ntv.co.jp/dayday/"
+      }
+    ],
+    "detailText": "2026.10.07\n[Wed]\nTV\nNTV『DayDay.』9:00-11:10\n▼番組名\nNTV『DayDay.』\n▼放送日時\n2026年10月7日（水）9:00-11:10\n▼番組HP\nhttps://www.ntv.co.jp/dayday/\nシュウ・フェンファンが出演いたします。"
+  },
+  {
     "id": "schedule-4477",
     "scheduleId": "4477",
     "type": "schedule",
@@ -64593,6 +64633,25 @@
       }
     ],
     "detailText": "2026.10.08\n[Thu]\nTV\nNTV『DayDay.』9:00-11:10\n▼番組名\nNTV『DayDay.』\n▼放送日時\n2026年10月8日（木）9:00-11:10\n▼番組HP\nhttps://www.ntv.co.jp/dayday/"
+  },
+  {
+    "id": "schedule-4490",
+    "scheduleId": "4490",
+    "type": "schedule",
+    "group": "schedule",
+    "category": "tv",
+    "categoryLabel": "TV",
+    "date": "2026-10-10",
+    "title": "NHK『Venue101』23:00-23:30",
+    "url": "https://ini-official.com/schedule/detail/4490",
+    "members": [],
+    "externalLinks": [
+      {
+        "label": "https://www.nhk.or.jp/music/venue101/",
+        "url": "https://www.nhk.or.jp/music/venue101/"
+      }
+    ],
+    "detailText": "2026.10.10\n[Sat]\nTV\nNHK『Venue101』23:00-23:30\n▼番組名\nNHK『Venue101』\n▼放送日時\n2026年10月10日（土）23:00-23:30\n▼番組HP\nhttps://www.nhk.or.jp/music/venue101/"
   },
   {
     "id": "schedule-4443",
