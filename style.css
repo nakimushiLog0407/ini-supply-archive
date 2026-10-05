@@ -487,6 +487,60 @@ button {
 
 
 /* ==========================================================
+   DETAIL X メディア
+========================================================== */
+
+.detail-x-media,
+.detail-x-post-media {
+  display: grid;
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+  gap: 4px;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #f2f2f2;
+}
+
+.detail-x-media {
+  margin-top: 24px;
+}
+
+.detail-x-media.single,
+.detail-x-post-media.single {
+  grid-template-columns: 1fr;
+}
+
+.detail-x-media-image,
+.detail-x-media-video {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 560px;
+  object-fit: contain;
+  background: #000;
+}
+
+.detail-x-post-card {
+  overflow: hidden;
+  border: 1px solid #e5e5e5;
+  border-radius: 10px;
+  background: #fff;
+}
+
+.detail-x-post-card
+.detail-x-post-media {
+  border-radius: 0;
+}
+
+.detail-x-post-card
+.detail-x-post-link {
+  border: 0;
+  border-radius: 0;
+}
+
+
+/* ==========================================================
    DETAIL 関連X投稿
 ========================================================== */
 
