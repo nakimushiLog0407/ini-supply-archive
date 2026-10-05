@@ -332,6 +332,23 @@ def build_candidate(
 GENERIC_GROUP_HASHTAGS = {
     "ini",
     "mini",
+    "アイエヌアイ",
+}
+
+# メンバー個人を示すタグは、同日の別シリーズでも
+# 再利用されるためグループキーには使わない。
+MEMBER_GROUP_HASHTAGS = {
+    "池﨑理人", "ikezakirihito",
+    "尾崎匠海", "ozakitakumi",
+    "木村柾哉", "kimuramasaya",
+    "後藤威尊", "gototakeru",
+    "佐野雄大", "sanoyudai",
+    "許豊凡", "xufengfan",
+    "髙塚大夢", "takatsukahiromu",
+    "田島将吾", "tajimashogo",
+    "西洸人", "nishihiroto",
+    "藤牧京介", "fujimakikyosuke",
+    "松田迅", "matsudajin",
 }
 
 
@@ -344,7 +361,13 @@ def extract_group_hashtags(text):
     ):
         normalized = value.lower()
 
-        if normalized in GENERIC_GROUP_HASHTAGS:
+        if (
+            normalized in GENERIC_GROUP_HASHTAGS
+            or normalized in {
+                value.lower()
+                for value in MEMBER_GROUP_HASHTAGS
+            }
+        ):
             continue
 
         if normalized not in result:
@@ -436,7 +459,10 @@ def apply_group_suggestions(candidates):
         date_value,
         hashtag,
     ), items in hashtag_groups.items():
-        if len(items) < 2:
+        # 2件程度の偶然の共通タグではまとめない。
+        # メンバーシリーズのようなまとまりを想定し、
+        # 3件以上をグループ候補の最低条件にする。
+        if len(items) < 3:
             continue
 
         key = (
