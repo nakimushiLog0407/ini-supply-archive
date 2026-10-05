@@ -36,11 +36,12 @@
     },
     "matches": [],
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
+      "status": "confirmed",
+      "action": "exclude",
+      "targetType": "excluded",
       "targetId": null,
-      "note": null
+      "note": "YouTubeで動画が投稿されているためX供給としては対象外",
+      "confirmedAt": "2026-10-05T20:43:20+09:00"
     }
   },
   {
@@ -78,11 +79,12 @@
     },
     "matches": [],
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
-      "targetId": null,
-      "note": null
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
+      "targetId": "x-1403956315836194820",
+      "note": null,
+      "confirmedAt": "2026-10-05T20:43:20+09:00"
     }
   },
   {
@@ -120,11 +122,12 @@
     },
     "matches": [],
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
-      "targetId": null,
-      "note": null
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
+      "targetId": "x-1403956315836194820",
+      "note": null,
+      "confirmedAt": "2026-10-05T20:43:20+09:00"
     }
   },
   {
@@ -162,11 +165,12 @@
     },
     "matches": [],
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
-      "targetId": null,
-      "note": null
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
+      "targetId": "x-1403956315836194820",
+      "note": null,
+      "confirmedAt": "2026-10-05T20:43:20+09:00"
     }
   },
   {
@@ -204,11 +208,12 @@
     },
     "matches": [],
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
-      "targetId": null,
-      "note": null
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
+      "targetId": "x-1403956315836194820",
+      "note": null,
+      "confirmedAt": "2026-10-05T20:43:20+09:00"
     }
   },
   {
@@ -246,11 +251,12 @@
     },
     "matches": [],
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
-      "targetId": null,
-      "note": null
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
+      "targetId": "x-1403956315836194820",
+      "note": null,
+      "confirmedAt": "2026-10-05T20:43:20+09:00"
     }
   },
   {
@@ -288,11 +294,12 @@
     },
     "matches": [],
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
-      "targetId": null,
-      "note": null
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
+      "targetId": "x-1403956315836194820",
+      "note": null,
+      "confirmedAt": "2026-10-05T20:43:20+09:00"
     }
   },
   {
@@ -330,11 +337,12 @@
     },
     "matches": [],
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
-      "targetId": null,
-      "note": null
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
+      "targetId": "x-1403956315836194820",
+      "note": null,
+      "confirmedAt": "2026-10-05T20:43:20+09:00"
     }
   },
   {
@@ -372,11 +380,12 @@
     },
     "matches": [],
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
-      "targetId": null,
-      "note": null
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
+      "targetId": "x-1403956315836194820",
+      "note": null,
+      "confirmedAt": "2026-10-05T20:43:20+09:00"
     }
   },
   {
@@ -414,11 +423,12 @@
     },
     "matches": [],
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
-      "targetId": null,
-      "note": null
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
+      "targetId": "x-1403956315836194820",
+      "note": null,
+      "confirmedAt": "2026-10-05T20:43:20+09:00"
     }
   },
   {
@@ -456,11 +466,12 @@
     },
     "matches": [],
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
-      "targetId": null,
-      "note": null
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
+      "targetId": "x-1403956315836194820",
+      "note": null,
+      "confirmedAt": "2026-10-05T20:43:20+09:00"
     }
   },
   {
@@ -498,11 +509,12 @@
     },
     "matches": [],
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
-      "targetId": null,
-      "note": null
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
+      "targetId": "x-1403956315836194820",
+      "note": null,
+      "confirmedAt": "2026-10-05T20:43:20+09:00"
     }
   },
   {
@@ -538,11 +550,12 @@
     },
     "matches": [],
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
+      "status": "confirmed",
+      "action": "exclude",
+      "targetType": "excluded",
       "targetId": null,
-      "note": null
+      "note": "OFFICIAL SITE・OFFICIAL FANCLUBオープンのお知らせ投稿のため対象外",
+      "confirmedAt": "2026-10-05T20:43:20+09:00"
     }
   },
   {
@@ -578,11 +591,12 @@
     },
     "matches": [],
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
-      "targetId": null,
-      "note": null
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
+      "targetId": "x-1404021275782115329",
+      "note": null,
+      "confirmedAt": "2026-10-05T20:43:20+09:00"
     }
   },
   {
@@ -611,11 +625,12 @@
     },
     "matches": [],
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
+      "status": "confirmed",
+      "action": "exclude",
+      "targetType": "excluded",
       "targetId": null,
-      "note": null
+      "note": "FCコンテンツ公開のお知らせ投稿のため対象外",
+      "confirmedAt": "2026-10-05T20:43:20+09:00"
     }
   },
   {
@@ -653,11 +668,12 @@
     },
     "matches": [],
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
-      "targetId": null,
-      "note": null
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
+      "targetId": "x-1404063421725696007",
+      "note": null,
+      "confirmedAt": "2026-10-05T20:43:20+09:00"
     }
   },
   {
@@ -695,11 +711,12 @@
     },
     "matches": [],
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
-      "targetId": null,
-      "note": null
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
+      "targetId": "x-1404063421725696007",
+      "note": null,
+      "confirmedAt": "2026-10-05T20:43:20+09:00"
     }
   },
   {
@@ -737,11 +754,12 @@
     },
     "matches": [],
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
-      "targetId": null,
-      "note": null
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
+      "targetId": "x-1404063421725696007",
+      "note": null,
+      "confirmedAt": "2026-10-05T20:43:20+09:00"
     }
   },
   {
@@ -781,11 +799,12 @@
     },
     "matches": [],
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
-      "targetId": null,
-      "note": null
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
+      "targetId": "x-1404063421725696007",
+      "note": null,
+      "confirmedAt": "2026-10-05T20:43:20+09:00"
     }
   },
   {
@@ -823,11 +842,12 @@
     },
     "matches": [],
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
-      "targetId": null,
-      "note": null
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
+      "targetId": "x-1404063421725696007",
+      "note": null,
+      "confirmedAt": "2026-10-05T20:43:20+09:00"
     }
   },
   {
@@ -865,11 +885,12 @@
     },
     "matches": [],
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
-      "targetId": null,
-      "note": null
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
+      "targetId": "x-1404063421725696007",
+      "note": null,
+      "confirmedAt": "2026-10-05T20:43:20+09:00"
     }
   },
   {
@@ -907,11 +928,12 @@
     },
     "matches": [],
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
-      "targetId": null,
-      "note": null
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
+      "targetId": "x-1404063421725696007",
+      "note": null,
+      "confirmedAt": "2026-10-05T20:43:20+09:00"
     }
   },
   {
@@ -949,11 +971,12 @@
     },
     "matches": [],
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
-      "targetId": null,
-      "note": null
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
+      "targetId": "x-1404063421725696007",
+      "note": null,
+      "confirmedAt": "2026-10-05T20:43:20+09:00"
     }
   },
   {
@@ -991,11 +1014,12 @@
     },
     "matches": [],
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
-      "targetId": null,
-      "note": null
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
+      "targetId": "x-1404063421725696007",
+      "note": null,
+      "confirmedAt": "2026-10-05T20:43:20+09:00"
     }
   },
   {
@@ -1033,11 +1057,12 @@
     },
     "matches": [],
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
-      "targetId": null,
-      "note": null
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
+      "targetId": "x-1404063421725696007",
+      "note": null,
+      "confirmedAt": "2026-10-05T20:43:20+09:00"
     }
   },
   {
@@ -1075,11 +1100,12 @@
     },
     "matches": [],
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
-      "targetId": null,
-      "note": null
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
+      "targetId": "x-1404063421725696007",
+      "note": null,
+      "confirmedAt": "2026-10-05T20:43:20+09:00"
     }
   }
 ]
