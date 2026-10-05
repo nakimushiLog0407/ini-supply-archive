@@ -54,7 +54,6 @@ const detailExternalLinkText = $("detailExternalLinkText");
 ========================================================== */
 
 let supplies = [];
-let contentXLinks = [];
 
 
 /* ==========================================================
@@ -173,10 +172,8 @@ async function loadSupplies() {
     radio,
     photo,
     message,
-    schedule,
-    xSchedule,
-    xContents,
-    links
+    schedule ,
+    xContents
   ] =
     await Promise.all([
       loadSupplyFile(
@@ -215,23 +212,11 @@ async function loadSupplies() {
       ),
 
       loadSupplyFile(
-        "data/x_schedule.json",
-        "X Schedule"
-      ),
-
-      loadSupplyFile(
         "data/x_contents.json",
         "X Contents"
-      ),
-
-      loadSupplyFile(
-        "data/content_x_links.json",
-        "Content X Links"
       )
     ]);
 
-
-  contentXLinks = links;
 
 
   supplies = [
@@ -242,17 +227,12 @@ async function loadSupplies() {
     ...photo,
     ...message,
     ...schedule,
-    ...xSchedule,
     ...xContents
   ];
 
 
   console.log(
     `全供給データ: ${supplies.length}件`
-  );
-
-  console.log(
-    `Content X Links: ${contentXLinks.length}件`
   );
 
 
@@ -1882,75 +1862,6 @@ function renderXMedia(
    関連X投稿取得
 ========================================================== */
 
-function getRelatedXPosts(
-  supply
-) {
-  /*
-    X由来Scheduleの場合は
-    x_schedule.json 内の
-    xPostsを使用できる。
-  */
-
-  const embedded =
-    normalizeXPosts(
-      supply.xPosts
-    );
-
-
-  const targetId =
-    String(
-      supply.id || ""
-    ).trim();
-
-
-  const targetType =
-    String(
-      supply.type || ""
-    ).trim();
-
-
-  /*
-    content_x_links.jsonから
-    既存コンテンツに紐付いたX投稿を取得。
-  */
-
-  const linked =
-    contentXLinks
-      .filter(
-        entry =>
-          entry &&
-          String(
-            entry.targetId || ""
-          ).trim() ===
-            targetId &&
-          (
-            !entry.targetType ||
-            String(
-              entry.targetType
-            ).trim() ===
-              targetType
-          )
-      )
-      .flatMap(
-        entry =>
-          normalizeXPosts(
-            entry.xPosts
-          )
-      );
-
-
-  /*
-    embeddedとlinkedの両方を統合し、
-    URL重複を除去する。
-  */
-
-  return normalizeXPosts([
-    ...embedded,
-    ...linked
-  ]);
-}
-
-
 /* ==========================================================
    X POSTS表示
 ========================================================== */
@@ -1966,8 +1877,8 @@ function renderXPosts(
 
 
   const posts =
-    getRelatedXPosts(
-      supply
+    normalizeXPosts(
+      supply.posts
     );
 
 
@@ -2150,14 +2061,6 @@ function setScheduleDetail(
   }
 
 
-  /*
-    関連X投稿
-  */
-
-  renderXPosts(
-    supply
-  );
-
 
   /*
     関連リンク
@@ -2296,10 +2199,6 @@ function setXDetail(
   `;
 
 
-  /*
-    メンバー
-  */
-
   const memberText =
     getMemberText(
       supply
@@ -2316,52 +2215,22 @@ function setXDetail(
 
 
   /*
-    Xメディア
+    X供給は1件以上のpostsを持つ。
+    単独投稿も同じUIで表示する。
   */
 
-  renderXMedia(
-    supply.media,
-    detailXMedia
+  renderXPosts(
+    supply
   );
 
 
   /*
-    X本文
+    供給単位の外部リンクは持たない。
+    各投稿カードからXへ移動する。
   */
 
-  const body =
-    String(
-      supply.text || ""
-    ).trim();
-
-
-  if (body) {
-    detailScheduleText.hidden =
-      false;
-
-    detailScheduleText.textContent =
-      body;
-  }
-
-
-  /*
-    X投稿へのリンク
-  */
-
-  if (supply.url) {
-    detailExternalLink.href =
-      supply.url;
-
-    detailExternalLinkText.textContent =
-      "Xで見る";
-
-    detailExternalLink.classList.add(
-      "x-link"
-    );
-  } else {
-    detailExternalLink.hidden =
-      true;
-  }
+  detailExternalLink.hidden =
+    true;
 }
 
 
@@ -2437,10 +2306,6 @@ function openDetail(
       "youtube-link"
     );
 
-
-    renderXPosts(
-      supply
-    );
   }
 
 
@@ -2475,10 +2340,6 @@ function openDetail(
       "fc-link"
     );
 
-
-    renderXPosts(
-      supply
-    );
   }
 
 
@@ -2514,10 +2375,6 @@ function openDetail(
       names[supply.type]
     );
 
-
-    renderXPosts(
-      supply
-    );
   }
 
 
@@ -2558,10 +2415,6 @@ function openDetail(
     detailExternalLinkText.textContent =
       "外部サイトで見る";
 
-
-    renderXPosts(
-      supply
-    );
   }
 
 

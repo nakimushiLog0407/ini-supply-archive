@@ -9,115 +9,44 @@ from pathlib import Path
 from zoneinfo import ZoneInfo
 
 
-CANDIDATES_FILE = Path(
-    "data/x_import_candidates.json"
-)
-
-LINKS_FILE = Path(
-    "data/content_x_links.json"
-)
-
-X_CONTENTS_FILE = Path(
-    "data/x_contents.json"
-)
-
-EXCLUDED_FILE = Path(
-    "data/x_excluded.json"
-)
-
-X_SCHEDULE_FILE = Path(
-    "data/x_schedule.json"
-)
-
-
-TARGET_FILES = {
-    "youtube": Path(
-        "data/youtube.json"
-    ),
-    "member_diary": Path(
-        "data/member_diary.json"
-    ),
-    "movie": Path(
-        "data/movie.json"
-    ),
-    "radio": Path(
-        "data/radio.json"
-    ),
-    "photo": Path(
-        "data/photo.json"
-    ),
-    "message": Path(
-        "data/message.json"
-    ),
-    "schedule": Path(
-        "data/schedule.json"
-    ),
-}
-
+CANDIDATES_FILE = Path("data/x_import_candidates.json")
+X_CONTENTS_FILE = Path("data/x_contents.json")
+EXCLUDED_FILE = Path("data/x_excluded.json")
 
 ALLOWED_ACTIONS = {
-    "link_existing",
-    "new_schedule",
     "new_x_content",
     "exclude",
     "skip",
 }
 
-
-JST = ZoneInfo(
-    "Asia/Tokyo"
-)
+JST = ZoneInfo("Asia/Tokyo")
 
 
-def load_json(
-    path,
-    default,
-):
+def load_json(path, default):
     if not path.exists():
-        return deepcopy(
-            default
-        )
+        return deepcopy(default)
 
-    with path.open(
-        "r",
-        encoding="utf-8",
-    ) as file:
-        data = json.load(
-            file
-        )
+    with path.open("r", encoding="utf-8") as file:
+        data = json.load(file)
 
-    if not isinstance(
-        data,
-        type(default),
-    ):
+    if not isinstance(data, type(default)):
         raise ValueError(
-            f"{path} has invalid "
-            "top-level type."
+            f"{path} has invalid top-level type."
         )
 
     return data
 
 
-def save_json(
-    path,
-    data,
-):
-    path.parent.mkdir(
-        parents=True,
-        exist_ok=True,
-    )
+def save_json(path, data):
+    path.parent.mkdir(parents=True, exist_ok=True)
 
-    with path.open(
-        "w",
-        encoding="utf-8",
-    ) as file:
+    with path.open("w", encoding="utf-8") as file:
         json.dump(
             data,
             file,
             ensure_ascii=False,
             indent=2,
         )
-
         file.write("\n")
 
 
@@ -132,17 +61,9 @@ def parse_approvals():
             "APPROVALS_JSON is empty."
         )
 
-    data = json.loads(
-        raw
-    )
+    data = json.loads(raw)
 
-    if (
-        not isinstance(
-            data,
-            list,
-        )
-        or not data
-    ):
+    if not isinstance(data, list) or not data:
         raise ValueError(
             "APPROVALS_JSON must be "
             "a non-empty JSON array."
@@ -151,17 +72,12 @@ def parse_approvals():
     return data
 
 
-def candidate_map(
-    candidates,
-):
+def candidate_map(candidates):
     result = {}
 
     for candidate in candidates:
         post_id = str(
-            candidate.get(
-                "postId",
-                "",
-            )
+            candidate.get("postId", "")
         ).strip()
 
         if not post_id:
@@ -175,23 +91,13 @@ def candidate_map(
                 f"postId: {post_id}"
             )
 
-        result[
-            post_id
-        ] = candidate
+        result[post_id] = candidate
 
     return result
 
 
-def normalize_post_ids(
-    value,
-):
-    if (
-        not isinstance(
-            value,
-            list,
-        )
-        or not value
-    ):
+def normalize_post_ids(value):
+    if not isinstance(value, list) or not value:
         raise ValueError(
             "Each approval requires "
             "a non-empty postIds array."
@@ -203,13 +109,8 @@ def normalize_post_ids(
     ]
 
     if (
-        any(
-            not post_id
-            for post_id
-            in post_ids
-        )
-        or len(post_ids)
-        != len(set(post_ids))
+        any(not post_id for post_id in post_ids)
+        or len(post_ids) != len(set(post_ids))
     ):
         raise ValueError(
             "postIds contains empty "
@@ -219,393 +120,80 @@ def normalize_post_ids(
     return post_ids
 
 
-def load_target_ids():
-    result = {}
-
-    for (
-        target_type,
-        path,
-    ) in TARGET_FILES.items():
-        rows = load_json(
-            path,
-            [],
-        )
-
-        result[
-            target_type
-        ] = {
-            str(
-                row.get(
-                    "id",
-                    "",
-                )
-            ).strip()
-            for row in rows
-            if str(
-                row.get(
-                    "id",
-                    "",
-                )
-            ).strip()
-        }
-
-    result[
-        "x_schedule"
-    ] = {
-        str(
-            row.get(
-                "id",
-                "",
-            )
-        ).strip()
-        for row in load_json(
-            X_SCHEDULE_FILE,
-            [],
-        )
-        if str(
-            row.get(
-                "id",
-                "",
-            )
-        ).strip()
-    }
-
-    return result
-
-
-def all_registered_post_ids(
-    links,
-    x_contents,
-    excluded,
-    x_schedules,
-):
-    locations = {}
-
-    def add(
-        post_id,
-        location,
-    ):
-        post_id = str(
-            post_id or ""
-        ).strip()
-
-        if post_id:
-            locations.setdefault(
-                post_id,
-                set(),
-            ).add(
-                location
-            )
-
-    for entry in links:
-        for post in entry.get(
-            "xPosts",
-            [],
-        ):
-            add(
-                post.get(
-                    "postId"
-                ),
-                "content_x_links",
-            )
-
-    for item in x_contents:
-        add(
-            item.get(
-                "postId"
-            ),
-            "x_contents",
-        )
-
-    for item in excluded:
-        add(
-            item.get(
-                "postId"
-            ),
-            "x_excluded",
-        )
-
-    for item in x_schedules:
-        for post in item.get(
-            "xPosts",
-            [],
-        ):
-            add(
-                post.get(
-                    "postId"
-                ),
-                "x_schedule",
-            )
-
-    return locations
-
-
-def make_x_post(
-    candidate,
-):
+def make_x_post(candidate):
     return {
-        "postId": str(
-            candidate[
-                "postId"
-            ]
-        ),
-        "url": (
-            candidate.get(
-                "url"
-            )
-            or ""
-        ),
-        "postedAt": (
-            candidate.get(
-                "postedAt"
-            )
-        ),
-        "text": (
-            candidate.get(
-                "text"
-            )
-            or ""
-        ),
-        "media": (
-            candidate.get(
-                "media"
-            )
+        "postId": str(candidate["postId"]),
+        "url": candidate.get("url") or "",
+        "postedAt": candidate.get("postedAt"),
+        "author": candidate.get("author"),
+        "text": candidate.get("text") or "",
+        "media": candidate.get("media") or [],
+        "members": (
+            (candidate.get("detected") or {})
+            .get("members")
             or []
         ),
     }
 
 
-def validate_group(
-    candidates,
-):
-    if len(
-        candidates
-    ) <= 1:
-        return
+def registered_post_ids(x_contents, excluded):
+    result = set()
 
-    group_keys = {
-        str(
-            (
-                candidate.get(
-                    "suggestion"
-                )
-                or {}
-            ).get(
-                "groupKey"
-            )
-            or ""
-        ).strip()
-        for candidate
-        in candidates
-    }
+    for item in x_contents:
+        posts = item.get("posts")
 
-    if (
-        ""
-        in group_keys
-        or len(
-            group_keys
-        )
-        != 1
-    ):
-        raise ValueError(
-            "Grouped new_schedule "
-            "posts must share one "
-            "non-empty groupKey."
-        )
+        if isinstance(posts, list):
+            for post in posts:
+                post_id = str(
+                    post.get("postId", "")
+                ).strip()
+                if post_id:
+                    result.add(post_id)
+        else:
+            # 旧形式が残っていても重複登録を防ぐ。
+            post_id = str(
+                item.get("postId", "")
+            ).strip()
+            if post_id:
+                result.add(post_id)
 
-
-def validate_schedule_input(
-    schedule,
-):
-    if not isinstance(
-        schedule,
-        dict,
-    ):
-        raise ValueError(
-            "new_schedule requires "
-            "schedule object."
-        )
-
-    date = str(
-        schedule.get(
-            "date"
-        )
-        or ""
-    ).strip()
-
-    title = str(
-        schedule.get(
-            "title"
-        )
-        or ""
-    ).strip()
-
-    if (
-        not date
-        or not title
-    ):
-        raise ValueError(
-            "new_schedule requires "
-            "schedule.date and "
-            "schedule.title."
-        )
-
-    members = schedule.get(
-        "members",
-        [],
-    )
-
-    external_links = (
-        schedule.get(
-            "externalLinks",
-            [],
-        )
-    )
-
-    if not isinstance(
-        members,
-        list,
-    ):
-        raise ValueError(
-            "schedule.members "
-            "must be an array."
-        )
-
-    if not isinstance(
-        external_links,
-        list,
-    ):
-        raise ValueError(
-            "schedule.externalLinks "
-            "must be an array."
-        )
-
-
-def deterministic_schedule_ids(
-    post_ids,
-):
-    representative = min(
-        post_ids,
-        key=lambda value: (
-            int(value)
-            if value.isdigit()
-            else value
-        ),
-    )
-
-    return (
-        (
-            "x-schedule-"
-            + representative
-        ),
-        (
-            "x-"
-            + representative
-        ),
-    )
-
-
-def add_content_link(
-    links,
-    target_type,
-    target_id,
-    candidates,
-):
-    entry = next(
-        (
-            item
-            for item in links
-            if (
-                item.get(
-                    "targetType"
-                )
-                == target_type
-                and item.get(
-                    "targetId"
-                )
-                == target_id
-            )
-        ),
-        None,
-    )
-
-    if entry is None:
-        entry = {
-            "targetType": (
-                target_type
-            ),
-            "targetId": (
-                target_id
-            ),
-            "xPosts": [],
-        }
-
-        links.append(
-            entry
-        )
-
-    if not isinstance(
-        entry.get(
-            "xPosts"
-        ),
-        list,
-    ):
-        raise ValueError(
-            "Invalid xPosts for "
-            f"{target_type}/"
-            f"{target_id}"
-        )
-
-    known_ids = {
-        str(
-            post.get(
-                "postId"
-            )
-        )
-        for post
-        in entry[
-            "xPosts"
-        ]
-    }
-
-    for candidate in candidates:
+    for item in excluded:
         post_id = str(
-            candidate[
-                "postId"
-            ]
+            item.get("postId", "")
+        ).strip()
+        if post_id:
+            result.add(post_id)
+
+    return result
+
+
+def approval_title(approval, candidates):
+    title = str(
+        approval.get("title") or ""
+    ).strip()
+
+    if title:
+        return title
+
+    if len(candidates) > 1:
+        raise ValueError(
+            "Grouped new_x_content requires title."
         )
 
-        if post_id in known_ids:
-            continue
-
-        entry[
-            "xPosts"
-        ].append(
-            make_x_post(
-                candidate
-            )
-        )
-
-        known_ids.add(
-            post_id
-        )
-
-
-def add_x_content(
-    x_contents,
-    candidate,
-):
     detected = (
-        candidate.get(
-            "detected"
-        )
+        candidates[0].get("detected")
         or {}
     )
 
-    text = (
-        candidate.get(
-            "text"
-        )
+    detected_title = str(
+        detected.get("title") or ""
+    ).strip()
+
+    if detected_title:
+        return detected_title
+
+    text = str(
+        candidates[0].get("text")
         or ""
     )
 
@@ -613,214 +201,101 @@ def add_x_content(
         text.splitlines()[0]
         if text.splitlines()
         else ""
-    )
+    ).strip()
 
-    item = {
-        "id": (
-            "x-"
-            + str(
-                candidate[
-                    "postId"
-                ]
-            )
-        ),
-        "type": "x",
-        "date": str(
-            candidate.get(
-                "postedAt"
-            )
-            or ""
-        )[:10],
-        "postedAt": (
-            candidate.get(
-                "postedAt"
-            )
-        ),
-        "title": (
-            detected.get(
-                "title"
-            )
-            or first_line[:120]
-        ),
-        "members": (
-            detected.get(
-                "members"
-            )
-            or []
-        ),
-        "text": text,
-        "url": (
-            candidate.get(
-                "url"
-            )
-            or ""
-        ),
-        "postId": str(
-            candidate[
-                "postId"
-            ]
-        ),
-        "media": (
-            candidate.get(
-                "media"
-            )
-            or []
-        ),
-        "source": "x",
-    }
-
-    x_contents.append(
-        item
-    )
+    return first_line[:120] or "X"
 
 
-def add_excluded(
-    excluded,
-    candidate,
-):
-    excluded.append({
-        "postId": str(
-            candidate[
-                "postId"
-            ]
-        ),
-        "url": (
-            candidate.get(
-                "url"
-            )
-            or ""
-        ),
-        "postedAt": (
-            candidate.get(
-                "postedAt"
-            )
-        ),
-        "text": (
-            candidate.get(
-                "text"
-            )
-            or ""
-        ),
-    })
-
-
-def add_x_schedule(
-    x_schedules,
+def add_x_content(
+    x_contents,
     approval,
     candidates,
 ):
-    schedule = approval[
-        "schedule"
+    posts = [
+        make_x_post(candidate)
+        for candidate in candidates
     ]
 
-    post_ids = [
-        str(
-            candidate[
-                "postId"
-            ]
+    posts.sort(
+        key=lambda post: (
+            post.get("postedAt") or "",
+            post.get("postId") or "",
         )
-        for candidate
-        in candidates
-    ]
+    )
 
-    (
-        item_id,
-        schedule_id,
-    ) = deterministic_schedule_ids(
-        post_ids
+    representative = posts[0]
+
+    dates = {
+        str(post.get("postedAt") or "")[:10]
+        for post in posts
+        if post.get("postedAt")
+    }
+
+    if len(dates) != 1:
+        raise ValueError(
+            "Grouped X posts must share "
+            "the same posted date."
+        )
+
+    date = next(iter(dates))
+
+    members = []
+    seen_members = set()
+
+    for post in posts:
+        for member in post.get(
+            "members",
+            [],
+        ):
+            member = str(member).strip()
+            if (
+                member
+                and member not in seen_members
+            ):
+                members.append(member)
+                seen_members.add(member)
+
+    item_id = (
+        "x-"
+        + representative["postId"]
     )
 
     if any(
-        (
-            str(
-                item.get(
-                    "id"
-                )
-            )
-            == item_id
-            or str(
-                item.get(
-                    "scheduleId"
-                )
-            )
-            == schedule_id
-        )
-        for item
-        in x_schedules
+        str(item.get("id", "")) == item_id
+        for item in x_contents
     ):
         raise ValueError(
-            "X schedule already "
-            f"exists: {item_id}"
+            f"X content already exists: {item_id}"
         )
 
     item = {
         "id": item_id,
-        "scheduleId": (
-            schedule_id
+        "type": "x",
+        "date": date,
+        "postedAt": representative.get(
+            "postedAt"
         ),
-        "type": "schedule",
-        "group": "schedule",
-        "category": str(
-            schedule.get(
-                "category"
-            )
-            or "web_media"
+        "title": approval_title(
+            approval,
+            candidates,
         ),
-        "categoryLabel": str(
-            schedule.get(
-                "categoryLabel"
-            )
-            or "Web Media"
-        ),
-        "date": str(
-            schedule[
-                "date"
-            ]
-        ).strip(),
-        "title": str(
-            schedule[
-                "title"
-            ]
-        ).strip(),
-        "url": str(
-            schedule.get(
-                "url"
-            )
-            or ""
-        ),
-        "members": (
-            schedule.get(
-                "members"
-            )
-            or []
-        ),
-        "externalLinks": (
-            schedule.get(
-                "externalLinks"
-            )
-            or []
-        ),
-        "detailText": str(
-            schedule.get(
-                "detailText"
-            )
-            or ""
-        ),
+        "members": members,
+        "posts": posts,
         "source": "x",
-        "xPosts": [
-            make_x_post(
-                candidate
-            )
-            for candidate
-            in candidates
-        ],
     }
 
-    x_schedules.append(
-        item
-    )
+    x_contents.append(item)
 
     return item_id
+
+
+def add_excluded(excluded, candidate):
+    excluded.append({
+        "postId": str(candidate["postId"]),
+        "url": candidate.get("url") or "",
+        "postedAt": candidate.get("postedAt"),
+        "text": candidate.get("text") or "",
+    })
 
 
 def mark_confirmed(
@@ -829,38 +304,20 @@ def mark_confirmed(
     target_type=None,
     target_id=None,
 ):
-    review = (
-        candidate.setdefault(
-            "review",
-            {},
-        )
+    review = candidate.setdefault(
+        "review",
+        {},
     )
 
     review.update({
         "status": "confirmed",
-        "action": (
-            approval[
-                "action"
-            ]
-        ),
-        "targetType": (
-            target_type
-        ),
-        "targetId": (
-            target_id
-        ),
-        "note": (
-            approval.get(
-                "note"
-            )
-        ),
-        "confirmedAt": (
-            datetime.now(
-                JST
-            ).isoformat(
-                timespec="seconds"
-            )
-        ),
+        "action": approval["action"],
+        "targetType": target_type,
+        "targetId": target_id,
+        "note": approval.get("note"),
+        "confirmedAt": datetime.now(
+            JST
+        ).isoformat(timespec="seconds"),
     })
 
 
@@ -869,91 +326,45 @@ def main():
         CANDIDATES_FILE,
         [],
     )
-
-    candidates_by_id = (
-        candidate_map(
-            candidates
-        )
+    candidates_by_id = candidate_map(
+        candidates
     )
-
-    approvals = (
-        parse_approvals()
-    )
-
-    links = load_json(
-        LINKS_FILE,
-        [],
-    )
+    approvals = parse_approvals()
 
     x_contents = load_json(
         X_CONTENTS_FILE,
         [],
     )
-
     excluded = load_json(
         EXCLUDED_FILE,
         [],
     )
 
-    x_schedules = load_json(
-        X_SCHEDULE_FILE,
-        [],
-    )
-
-    target_ids = (
-        load_target_ids()
-    )
-
-    registered = (
-        all_registered_post_ids(
-            links,
-            x_contents,
-            excluded,
-            x_schedules,
-        )
+    registered = registered_post_ids(
+        x_contents,
+        excluded,
     )
 
     validated = []
     seen = set()
 
-    # --------------------------------
-    # Phase 1
-    # 全入力を検証する。
-    # この段階では何も変更しない。
-    # --------------------------------
-
+    # Phase 1: 全入力を検証する。
     for raw in approvals:
-        if not isinstance(
-            raw,
-            dict,
-        ):
+        if not isinstance(raw, dict):
             raise ValueError(
-                "Each approval "
-                "must be an object."
+                "Each approval must be an object."
             )
 
-        approval = deepcopy(
-            raw
-        )
+        approval = deepcopy(raw)
+        action = approval.get("action")
 
-        action = approval.get(
-            "action"
-        )
-
-        if action not in (
-            ALLOWED_ACTIONS
-        ):
+        if action not in ALLOWED_ACTIONS:
             raise ValueError(
-                "Unsupported action: "
-                f"{action}"
+                f"Unsupported action: {action}"
             )
 
-        post_ids = (
-            normalize_post_ids(
-                approval.get(
-                    "postIds"
-                )
-            )
+        post_ids = normalize_post_ids(
+            approval.get("postIds")
         )
 
         for post_id in post_ids:
@@ -963,281 +374,104 @@ def main():
                     "multiple approvals: "
                     f"{post_id}"
                 )
+            seen.add(post_id)
 
-            seen.add(
-                post_id
-            )
-
-            if (
-                post_id
-                not in
-                candidates_by_id
-            ):
+            if post_id not in candidates_by_id:
                 raise ValueError(
                     "Unknown candidate "
                     f"postId: {post_id}"
                 )
 
-            candidate = (
-                candidates_by_id[
-                    post_id
-                ]
-            )
+            candidate = candidates_by_id[
+                post_id
+            ]
 
             status = (
-                (
-                    candidate.get(
-                        "review"
-                    )
-                    or {}
-                ).get(
-                    "status",
-                    "pending",
-                )
-            )
+                candidate.get("review")
+                or {}
+            ).get("status", "pending")
 
             if status != "pending":
                 raise ValueError(
-                    "Candidate is not "
-                    "pending: "
-                    f"{post_id} "
-                    f"({status})"
+                    "Candidate is not pending: "
+                    f"{post_id} ({status})"
                 )
 
             if (
                 action != "skip"
-                and post_id
-                in registered
+                and post_id in registered
             ):
-                locations = sorted(
-                    registered[
-                        post_id
-                    ]
-                )
-
                 raise ValueError(
-                    "postId already "
-                    "registered in "
-                    f"{locations}: "
+                    "postId already registered: "
                     f"{post_id}"
                 )
 
         selected = [
-            candidates_by_id[
-                post_id
-            ]
-            for post_id
-            in post_ids
+            candidates_by_id[post_id]
+            for post_id in post_ids
         ]
 
-        if (
-            action
-            == "link_existing"
-        ):
-            target_type = str(
-                approval.get(
-                    "targetType"
-                )
-                or ""
-            ).strip()
-
-            target_id = str(
-                approval.get(
-                    "targetId"
-                )
-                or ""
-            ).strip()
-
-            if (
-                target_type
-                not in target_ids
-                or not target_id
-            ):
-                raise ValueError(
-                    "Invalid "
-                    "link_existing "
-                    "targetType/"
-                    "targetId."
-                )
-
-            if (
-                target_id
-                not in
-                target_ids[
-                    target_type
-                ]
-            ):
-                raise ValueError(
-                    "Target does not "
-                    "exist: "
-                    f"{target_type}/"
-                    f"{target_id}"
-                )
-
-        elif (
-            action
-            == "new_schedule"
-        ):
-            validate_schedule_input(
-                approval.get(
-                    "schedule"
-                )
+        if action == "new_x_content":
+            # 複数投稿を1供給にまとめる場合は
+            # DETAIL表示用タイトルを必須とする。
+            approval_title(
+                approval,
+                selected,
             )
 
-            validate_group(
-                selected
-            )
+            dates = {
+                str(
+                    candidate.get("postedAt")
+                    or ""
+                )[:10]
+                for candidate in selected
+                if candidate.get("postedAt")
+            }
 
-            (
-                item_id,
-                schedule_id,
-            ) = (
-                deterministic_schedule_ids(
-                    post_ids
-                )
-            )
-
-            if any(
-                (
-                    str(
-                        item.get(
-                            "id"
-                        )
-                    )
-                    == item_id
-                    or str(
-                        item.get(
-                            "scheduleId"
-                        )
-                    )
-                    == schedule_id
-                )
-                for item
-                in x_schedules
-            ):
+            if len(dates) != 1:
                 raise ValueError(
-                    "X schedule already "
-                    f"exists: {item_id}"
+                    "Grouped X posts must share "
+                    "the same posted date."
                 )
 
         validated.append(
-            (
-                approval,
-                post_ids,
-            )
+            (approval, post_ids)
         )
 
-    # --------------------------------
-    # Phase 2
-    # 検証完了後、コピーだけを変更する。
-    # --------------------------------
-
-    new_candidates = deepcopy(
-        candidates
+    # Phase 2: コピーだけを変更する。
+    new_candidates = deepcopy(candidates)
+    new_candidate_map = candidate_map(
+        new_candidates
     )
-
-    new_candidate_map = (
-        candidate_map(
-            new_candidates
-        )
-    )
-
-    new_links = deepcopy(
-        links
-    )
-
     new_x_contents = deepcopy(
         x_contents
     )
+    new_excluded = deepcopy(excluded)
 
-    new_excluded = deepcopy(
-        excluded
-    )
-
-    new_x_schedules = deepcopy(
-        x_schedules
-    )
-
-    for (
-        approval,
-        post_ids,
-    ) in validated:
+    for approval, post_ids in validated:
         selected = [
-            new_candidate_map[
-                post_id
-            ]
-            for post_id
-            in post_ids
+            new_candidate_map[post_id]
+            for post_id in post_ids
         ]
 
-        action = approval[
-            "action"
-        ]
-
-        target_type = None
-        target_id = None
+        action = approval["action"]
 
         if action == "skip":
             continue
 
-        if (
-            action
-            == "link_existing"
-        ):
-            target_type = str(
-                approval[
-                    "targetType"
-                ]
-            )
+        target_type = None
+        target_id = None
 
-            target_id = str(
-                approval[
-                    "targetId"
-                ]
-            )
-
-            add_content_link(
-                new_links,
-                target_type,
-                target_id,
+        if action == "new_x_content":
+            target_type = "x"
+            target_id = add_x_content(
+                new_x_contents,
+                approval,
                 selected,
             )
 
-        elif (
-            action
-            == "new_schedule"
-        ):
-            target_type = (
-                "x_schedule"
-            )
-
-            target_id = (
-                add_x_schedule(
-                    new_x_schedules,
-                    approval,
-                    selected,
-                )
-            )
-
-        elif (
-            action
-            == "new_x_content"
-        ):
-            target_type = "x"
-
-            for candidate in selected:
-                add_x_content(
-                    new_x_contents,
-                    candidate,
-                )
-
-        elif (
-            action
-            == "exclude"
-        ):
-            target_type = (
-                "excluded"
-            )
+        elif action == "exclude":
+            target_type = "excluded"
 
             for candidate in selected:
                 add_excluded(
@@ -1253,74 +487,45 @@ def main():
                 target_id,
             )
 
-    # --------------------------------
-    # Phase 3
-    # 全処理成功後のみ保存する。
-    # --------------------------------
-
-    save_json(
-        LINKS_FILE,
-        new_links,
+    new_x_contents.sort(
+        key=lambda item: (
+            item.get("postedAt") or "",
+            item.get("id") or "",
+        )
     )
 
+    new_excluded.sort(
+        key=lambda item: (
+            item.get("postedAt") or "",
+            item.get("postId") or "",
+        )
+    )
+
+    # Phase 3: 全処理成功後のみ保存する。
     save_json(
         X_CONTENTS_FILE,
         new_x_contents,
     )
-
     save_json(
         EXCLUDED_FILE,
         new_excluded,
     )
-
-    save_json(
-        X_SCHEDULE_FILE,
-        new_x_schedules,
-    )
-
     save_json(
         CANDIDATES_FILE,
         new_candidates,
     )
 
     print(
-        "=== CONFIRM X IMPORT "
-        "COMPLETE ==="
+        "=== CONFIRM X IMPORT COMPLETE ==="
     )
-
-    print(
-        "Approvals:",
-        len(
-            validated
-        ),
-    )
-
-    print(
-        "Content X links:",
-        len(
-            new_links
-        ),
-    )
-
+    print("Approvals:", len(validated))
     print(
         "X contents:",
-        len(
-            new_x_contents
-        ),
+        len(new_x_contents),
     )
-
     print(
         "Excluded:",
-        len(
-            new_excluded
-        ),
-    )
-
-    print(
-        "X schedules:",
-        len(
-            new_x_schedules
-        ),
+        len(new_excluded),
     )
 
     return 0
@@ -1328,13 +533,7 @@ def main():
 
 if __name__ == "__main__":
     try:
-        sys.exit(
-            main()
-        )
+        sys.exit(main())
     except Exception as exc:
-        print(
-            "ERROR:",
-            exc,
-        )
-
+        print("ERROR:", exc)
         sys.exit(1)
