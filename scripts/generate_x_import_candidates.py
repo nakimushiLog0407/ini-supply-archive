@@ -348,6 +348,14 @@ def apply_group_suggestions(candidates):
     hashtag_groups = {}
 
     for item in candidates:
+        # 対象外候補は、共通ハッシュタグがあっても
+        # X供給のグループ候補には含めない。
+        if (
+            item.get("suggestion", {}).get("action")
+            == "exclude"
+        ):
+            continue
+
         date = candidate_date(item)
 
         if not date:
@@ -393,7 +401,11 @@ def apply_group_suggestions(candidates):
     for item in candidates:
         post_id = str(item["postId"])
 
-        if post_id in assigned:
+        if (
+            post_id in assigned
+            or item.get("suggestion", {}).get("action")
+            == "exclude"
+        ):
             continue
 
         members = (
@@ -691,7 +703,8 @@ def main():
 
             detected = (
                 matcher.detect_post_type(
-                    post["text"]
+                    post["text"],
+                    post.get("media"),
                 )
             )
 
