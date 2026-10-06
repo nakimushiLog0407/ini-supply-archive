@@ -1786,5 +1786,736 @@
       "note": "FCコンテンツ更新情報の告知投稿のため対象外",
       "confirmedAt": "2026-10-06T22:33:13+09:00"
     }
+  },
+  {
+    "postId": "1406409786531270656",
+    "url": "https://x.com/official__ini/status/1406409786531270656",
+    "postedAt": "2021-06-20T09:33:17+09:00",
+    "author": "official__INI",
+    "text": "[#池﨑理人]\n皆さんおっはようございま〜す！！\nINIの池﨑理人です！\n今日は日曜日ですね🌞\n僕はインドア派なので休日は家でゆっくり過ごすのが好きです😊\n1週間の疲労をしっかりリフレッシュして、楽しい日にしましょ〜♪\n元気モリモリハッピーデー❣️\n\n#INI #IKEZAKIRIHITO https://t.co/ckFzcZcf6P",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E4SSPTzVoAcUMZj.jpg",
+        "width": 1108,
+        "height": 1478
+      }
+    ],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": null,
+      "members": [
+        "池﨑理人"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1406446750034907143",
+    "url": "https://x.com/official__ini/status/1406446750034907143",
+    "postedAt": "2021-06-20T12:00:10+09:00",
+    "author": "official__INI",
+    "text": "Special thanks! message\n\n　   ー #池﨑理人 ー\n\n   #INI #IKEZAKIRIHITO https://t.co/kzBukHQBGH",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E4SyTECVgAYeET5.jpg",
+        "width": 1106,
+        "height": 1106
+      },
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E4SyVJeVUAMvs93.jpg",
+        "width": 1108,
+        "height": 1478
+      }
+    ],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": null,
+      "members": [
+        "池﨑理人"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": "member_series:2021-06-20:1406446750034907143"
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    },
+    "groupSuggestion": {
+      "groupKey": "member_series:2021-06-20:1406446750034907143",
+      "reason": "same_day_close_time_distinct_members_with_photos",
+      "proposedTitle": null,
+      "postIds": [
+        "1406446750034907143",
+        "1406447254861344769",
+        "1406447576413442055",
+        "1406448152480079873",
+        "1406448467480748033",
+        "1406448761807663106",
+        "1406449183767240707",
+        "1406449539519696905",
+        "1406449885419753479",
+        "1406450198520336389",
+        "1406451098030723074"
+      ],
+      "postCount": 11
+    }
+  },
+  {
+    "postId": "1406447254861344769",
+    "url": "https://x.com/official__ini/status/1406447254861344769",
+    "postedAt": "2021-06-20T12:02:10+09:00",
+    "author": "official__INI",
+    "text": "Special thanks! message\n\n      ー #尾崎匠海 ー\n\n   #INI #OZAKITAKUMI https://t.co/qH3OUwLS0Y",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E4S0IFNVcAM6Mlz.jpg",
+        "width": 1107,
+        "height": 1107
+      },
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E4S0JRtVIAcspE3.jpg",
+        "width": 1108,
+        "height": 1478
+      }
+    ],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": null,
+      "members": [
+        "尾崎匠海"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": "member_series:2021-06-20:1406446750034907143"
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    },
+    "groupSuggestion": {
+      "groupKey": "member_series:2021-06-20:1406446750034907143",
+      "reason": "same_day_close_time_distinct_members_with_photos",
+      "proposedTitle": null,
+      "postIds": [
+        "1406446750034907143",
+        "1406447254861344769",
+        "1406447576413442055",
+        "1406448152480079873",
+        "1406448467480748033",
+        "1406448761807663106",
+        "1406449183767240707",
+        "1406449539519696905",
+        "1406449885419753479",
+        "1406450198520336389",
+        "1406451098030723074"
+      ],
+      "postCount": 11
+    }
+  },
+  {
+    "postId": "1406447576413442055",
+    "url": "https://x.com/official__ini/status/1406447576413442055",
+    "postedAt": "2021-06-20T12:03:27+09:00",
+    "author": "official__INI",
+    "text": "Special thanks! message\n\n       ー #木村柾哉 ー\n\n  #INI #KIMURAMASAYA https://t.co/Nj6EOD7mRw",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E4S0ej4VkAQSOM1.jpg",
+        "width": 1107,
+        "height": 1107
+      },
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E4S0fKnVcAM4x93.jpg",
+        "width": 1108,
+        "height": 1478
+      }
+    ],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": null,
+      "members": [
+        "木村柾哉"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": "member_series:2021-06-20:1406446750034907143"
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    },
+    "groupSuggestion": {
+      "groupKey": "member_series:2021-06-20:1406446750034907143",
+      "reason": "same_day_close_time_distinct_members_with_photos",
+      "proposedTitle": null,
+      "postIds": [
+        "1406446750034907143",
+        "1406447254861344769",
+        "1406447576413442055",
+        "1406448152480079873",
+        "1406448467480748033",
+        "1406448761807663106",
+        "1406449183767240707",
+        "1406449539519696905",
+        "1406449885419753479",
+        "1406450198520336389",
+        "1406451098030723074"
+      ],
+      "postCount": 11
+    }
+  },
+  {
+    "postId": "1406448152480079873",
+    "url": "https://x.com/official__ini/status/1406448152480079873",
+    "postedAt": "2021-06-20T12:05:44+09:00",
+    "author": "official__INI",
+    "text": "Special thanks! message\n\n　　ー #後藤威尊 ー\n\n    #INI #GOTOTAKERU https://t.co/hMwEC74E28",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E4S0z37VIAABkJt.jpg",
+        "width": 1107,
+        "height": 1107
+      },
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E4S1BrPUYAI1kYa.jpg",
+        "width": 1108,
+        "height": 1478
+      }
+    ],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": null,
+      "members": [
+        "後藤威尊"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": "member_series:2021-06-20:1406446750034907143"
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    },
+    "groupSuggestion": {
+      "groupKey": "member_series:2021-06-20:1406446750034907143",
+      "reason": "same_day_close_time_distinct_members_with_photos",
+      "proposedTitle": null,
+      "postIds": [
+        "1406446750034907143",
+        "1406447254861344769",
+        "1406447576413442055",
+        "1406448152480079873",
+        "1406448467480748033",
+        "1406448761807663106",
+        "1406449183767240707",
+        "1406449539519696905",
+        "1406449885419753479",
+        "1406450198520336389",
+        "1406451098030723074"
+      ],
+      "postCount": 11
+    }
+  },
+  {
+    "postId": "1406448467480748033",
+    "url": "https://x.com/official__ini/status/1406448467480748033",
+    "postedAt": "2021-06-20T12:06:59+09:00",
+    "author": "official__INI",
+    "text": "Special thanks! message\n\n　　ー #佐野雄大 ー\n\n      #INI #SANOYUDAI https://t.co/AccmmYDJnp",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E4S1SKNVoAYkyOI.jpg",
+        "width": 1107,
+        "height": 1107
+      },
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E4S1TbjVUAMCiNr.jpg",
+        "width": 1108,
+        "height": 1478
+      }
+    ],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": null,
+      "members": [
+        "佐野雄大"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": "member_series:2021-06-20:1406446750034907143"
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    },
+    "groupSuggestion": {
+      "groupKey": "member_series:2021-06-20:1406446750034907143",
+      "reason": "same_day_close_time_distinct_members_with_photos",
+      "proposedTitle": null,
+      "postIds": [
+        "1406446750034907143",
+        "1406447254861344769",
+        "1406447576413442055",
+        "1406448152480079873",
+        "1406448467480748033",
+        "1406448761807663106",
+        "1406449183767240707",
+        "1406449539519696905",
+        "1406449885419753479",
+        "1406450198520336389",
+        "1406451098030723074"
+      ],
+      "postCount": 11
+    }
+  },
+  {
+    "postId": "1406448761807663106",
+    "url": "https://x.com/official__ini/status/1406448761807663106",
+    "postedAt": "2021-06-20T12:08:10+09:00",
+    "author": "official__INI",
+    "text": "Special thanks! message\n\n　　ー #許豊凡 ー\n\n    #INI #XUFENGFAN https://t.co/yKaVAjcP1t",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E4S1jEEUUAof1QD.jpg",
+        "width": 1107,
+        "height": 1107
+      },
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E4S1lLtVEAUQcoJ.jpg",
+        "width": 1108,
+        "height": 1478
+      }
+    ],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": null,
+      "members": [
+        "シュウ・フェンファン"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": "member_series:2021-06-20:1406446750034907143"
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    },
+    "groupSuggestion": {
+      "groupKey": "member_series:2021-06-20:1406446750034907143",
+      "reason": "same_day_close_time_distinct_members_with_photos",
+      "proposedTitle": null,
+      "postIds": [
+        "1406446750034907143",
+        "1406447254861344769",
+        "1406447576413442055",
+        "1406448152480079873",
+        "1406448467480748033",
+        "1406448761807663106",
+        "1406449183767240707",
+        "1406449539519696905",
+        "1406449885419753479",
+        "1406450198520336389",
+        "1406451098030723074"
+      ],
+      "postCount": 11
+    }
+  },
+  {
+    "postId": "1406449183767240707",
+    "url": "https://x.com/official__ini/status/1406449183767240707",
+    "postedAt": "2021-06-20T12:09:50+09:00",
+    "author": "official__INI",
+    "text": "Special thanks! message\n\n　     ー #髙塚大夢 ー\n\n #INI #TAKATSUKAHIROMU https://t.co/J8jUxeoI7N",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E4S12cVVUAAmuo2.jpg",
+        "width": 1107,
+        "height": 1107
+      },
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E4S16XXVEAAEHG2.jpg",
+        "width": 1108,
+        "height": 1478
+      }
+    ],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": null,
+      "members": [
+        "髙塚大夢"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": "member_series:2021-06-20:1406446750034907143"
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    },
+    "groupSuggestion": {
+      "groupKey": "member_series:2021-06-20:1406446750034907143",
+      "reason": "same_day_close_time_distinct_members_with_photos",
+      "proposedTitle": null,
+      "postIds": [
+        "1406446750034907143",
+        "1406447254861344769",
+        "1406447576413442055",
+        "1406448152480079873",
+        "1406448467480748033",
+        "1406448761807663106",
+        "1406449183767240707",
+        "1406449539519696905",
+        "1406449885419753479",
+        "1406450198520336389",
+        "1406451098030723074"
+      ],
+      "postCount": 11
+    }
+  },
+  {
+    "postId": "1406449539519696905",
+    "url": "https://x.com/official__ini/status/1406449539519696905",
+    "postedAt": "2021-06-20T12:11:15+09:00",
+    "author": "official__INI",
+    "text": "Special thanks! message\n\n　  ー #田島将吾 ー\n\n   #INI #TAJIMASHOGO https://t.co/KyIQKjFMBx",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E4S2PbFVgAI4vod.jpg",
+        "width": 1107,
+        "height": 1107
+      },
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E4S2P7MUcA0CeeW.jpg",
+        "width": 1108,
+        "height": 1478
+      }
+    ],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": null,
+      "members": [
+        "田島将吾"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": "member_series:2021-06-20:1406446750034907143"
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    },
+    "groupSuggestion": {
+      "groupKey": "member_series:2021-06-20:1406446750034907143",
+      "reason": "same_day_close_time_distinct_members_with_photos",
+      "proposedTitle": null,
+      "postIds": [
+        "1406446750034907143",
+        "1406447254861344769",
+        "1406447576413442055",
+        "1406448152480079873",
+        "1406448467480748033",
+        "1406448761807663106",
+        "1406449183767240707",
+        "1406449539519696905",
+        "1406449885419753479",
+        "1406450198520336389",
+        "1406451098030723074"
+      ],
+      "postCount": 11
+    }
+  },
+  {
+    "postId": "1406449885419753479",
+    "url": "https://x.com/official__ini/status/1406449885419753479",
+    "postedAt": "2021-06-20T12:12:37+09:00",
+    "author": "official__INI",
+    "text": "Special thanks! message\n\n　　ー #西洸人 ー\n\n    #INI #NISHIHIROTO https://t.co/esYCcjkIZM",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E4S2lWrUUAMAmjT.jpg",
+        "width": 1107,
+        "height": 1107
+      },
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E4S2n2cUYAArNmn.jpg",
+        "width": 1108,
+        "height": 1478
+      }
+    ],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": null,
+      "members": [
+        "西洸人"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": "member_series:2021-06-20:1406446750034907143"
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    },
+    "groupSuggestion": {
+      "groupKey": "member_series:2021-06-20:1406446750034907143",
+      "reason": "same_day_close_time_distinct_members_with_photos",
+      "proposedTitle": null,
+      "postIds": [
+        "1406446750034907143",
+        "1406447254861344769",
+        "1406447576413442055",
+        "1406448152480079873",
+        "1406448467480748033",
+        "1406448761807663106",
+        "1406449183767240707",
+        "1406449539519696905",
+        "1406449885419753479",
+        "1406450198520336389",
+        "1406451098030723074"
+      ],
+      "postCount": 11
+    }
+  },
+  {
+    "postId": "1406450198520336389",
+    "url": "https://x.com/official__ini/status/1406450198520336389",
+    "postedAt": "2021-06-20T12:13:52+09:00",
+    "author": "official__INI",
+    "text": "Special thanks! message\n\n　   ー #藤牧京介 ー\n\n#INI #FUJIMAKIKYOSUKE https://t.co/GX1GfN434l",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E4S24R_VoAQeUN5.jpg",
+        "width": 1107,
+        "height": 1107
+      },
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E4S25VRVgAUGmVq.jpg",
+        "width": 1108,
+        "height": 1478
+      }
+    ],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": null,
+      "members": [
+        "藤牧京介"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": "member_series:2021-06-20:1406446750034907143"
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    },
+    "groupSuggestion": {
+      "groupKey": "member_series:2021-06-20:1406446750034907143",
+      "reason": "same_day_close_time_distinct_members_with_photos",
+      "proposedTitle": null,
+      "postIds": [
+        "1406446750034907143",
+        "1406447254861344769",
+        "1406447576413442055",
+        "1406448152480079873",
+        "1406448467480748033",
+        "1406448761807663106",
+        "1406449183767240707",
+        "1406449539519696905",
+        "1406449885419753479",
+        "1406450198520336389",
+        "1406451098030723074"
+      ],
+      "postCount": 11
+    }
+  },
+  {
+    "postId": "1406451098030723074",
+    "url": "https://x.com/official__ini/status/1406451098030723074",
+    "postedAt": "2021-06-20T12:17:27+09:00",
+    "author": "official__INI",
+    "text": "Special thanks! message\n\n　　ー #松田迅 ー\n\n    #INI #MATSUDAJIN https://t.co/jeCjbUh0qM",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E4S3qo_VgAMREFw.jpg",
+        "width": 1107,
+        "height": 1107
+      },
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E4S3rmcVEAUnR5P.jpg",
+        "width": 1108,
+        "height": 1478
+      }
+    ],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": null,
+      "members": [
+        "松田迅"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": "member_series:2021-06-20:1406446750034907143"
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    },
+    "groupSuggestion": {
+      "groupKey": "member_series:2021-06-20:1406446750034907143",
+      "reason": "same_day_close_time_distinct_members_with_photos",
+      "proposedTitle": null,
+      "postIds": [
+        "1406446750034907143",
+        "1406447254861344769",
+        "1406447576413442055",
+        "1406448152480079873",
+        "1406448467480748033",
+        "1406448761807663106",
+        "1406449183767240707",
+        "1406449539519696905",
+        "1406449885419753479",
+        "1406450198520336389",
+        "1406451098030723074"
+      ],
+      "postCount": 11
+    }
   }
 ]
