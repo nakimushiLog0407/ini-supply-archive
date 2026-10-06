@@ -134,31 +134,6 @@ def build_candidate(
             )
         )
 
-    video_keywords = []
-
-    if detected["type"] in {
-        "video",
-        "sns",
-    }:
-        video_keywords = (
-            matcher.extract_video_keywords(
-                post["text"]
-            )
-        )
-
-    strong_keywords = []
-    weak_keywords = []
-
-    if video_keywords:
-        (
-            strong_keywords,
-            weak_keywords,
-        ) = (
-            matcher.split_video_keywords(
-                video_keywords
-            )
-        )
-
     posted_at = (
         post[
             "created_at_jst"
@@ -210,12 +185,6 @@ def build_candidate(
             ],
             "scheduleNames": (
                 schedule_names
-            ),
-            "strongVideoKeywords": (
-                strong_keywords
-            ),
-            "weakVideoKeywords": (
-                weak_keywords
             ),
         },
 
@@ -786,6 +755,18 @@ def main():
         print(
             "ERROR: "
             "No candidates generated."
+        )
+        return 1
+
+    # 1件でも取得・解析に失敗した場合は、候補ファイルを
+    # 部分更新せず失敗させる。供給の取りこぼしを防ぐ。
+    if fetch_errors:
+        print()
+        print(
+            "ERROR: "
+            f"{fetch_errors} of {len(urls)} X posts "
+            "could not be fetched or analyzed. "
+            "Candidate data was not updated."
         )
         return 1
 
