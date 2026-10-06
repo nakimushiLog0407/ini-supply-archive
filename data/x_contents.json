@@ -660,5 +660,36 @@
       }
     ],
     "source": "x"
+  },
+  {
+    "id": "x-1405502770010984448",
+    "type": "x",
+    "date": "2021-06-17",
+    "postedAt": "2021-06-17T21:29:08+09:00",
+    "title": "Member Post",
+    "members": [
+      "松田迅"
+    ],
+    "posts": [
+      {
+        "postId": "1405502770010984448",
+        "url": "https://x.com/official__ini/status/1405502770010984448",
+        "postedAt": "2021-06-17T21:29:08+09:00",
+        "author": "official__INI",
+        "text": "[#松田迅]\nどうもぉぉぉ、INIの松田迅です！\n今日も1日お疲れ様でした🙇‍♂️\n学校、職場で疲れた心と体を少しでも癒す事ができたら嬉しいです🥰\nこれは僕のお守りです！\nどうですか〜？似合ってますか？笑笑\n明日も1日頑張りましょう！\nおやすみなさい Good night😪\n\n#INI #MATSUDAJIN https://t.co/C7ze4nBiDL",
+        "media": [
+          {
+            "type": "photo",
+            "url": "https://pbs.twimg.com/media/E4FZUJIVkAknEJM.jpg",
+            "width": 1108,
+            "height": 1478
+          }
+        ],
+        "members": [
+          "松田迅"
+        ]
+      }
+    ],
+    "source": "x"
   }
 ]
