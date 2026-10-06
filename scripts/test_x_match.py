@@ -704,8 +704,9 @@ def split_video_keywords(keywords):
 # 投稿タイプ判定
 # ==========================================================
 
-def detect_post_type(text):
+def detect_post_type(text, media=None):
     normalized = normalize_text(text)
+    media = media or []
 
     # ------------------------------------------------------
     # 対象外
@@ -895,6 +896,45 @@ def detect_post_type(text):
         return {
             "type": "fc_unknown",
             "reason": "fc_unknown",
+        }
+
+    # ------------------------------------------------------
+    # 出演告知
+    # ------------------------------------------------------
+
+    # 出演予定を知らせるだけの投稿は対象外候補にする。
+    # ただし写真・動画が付いている場合は、告知文であっても
+    # X上の供給として残すため、後段のSchedule判定へ渡す。
+    appearance_notice_words = [
+        "出演情報",
+        "出演いたします",
+        "出演させていただきます",
+        "出演が決定",
+        "出演決定",
+    ]
+
+    has_media = any(
+        isinstance(item, dict)
+        and item.get("type") in {
+            "photo",
+            "video",
+            "animated_gif",
+        }
+        for item in media
+    )
+
+    if (
+        not has_media
+        and any(
+            word in normalized
+            for word in appearance_notice_words
+        )
+    ):
+        return {
+            "type": "exclude",
+            "reason": (
+                "appearance_notice_without_media"
+            ),
         }
 
     # ------------------------------------------------------
@@ -1145,7 +1185,8 @@ def main():
         start=1,
     ):
         detected = detect_post_type(
-            post["text"]
+            post["text"],
+            post.get("media"),
         )
 
         key = detected["type"]
