@@ -1456,5 +1456,45 @@
       "note": null,
       "confirmedAt": "2026-10-06T19:33:13+09:00"
     }
+  },
+  {
+    "postId": "1405155609498972167",
+    "url": "https://x.com/official__ini/status/1405155609498972167",
+    "postedAt": "2021-06-16T22:29:38+09:00",
+    "author": "official__INI",
+    "text": "[#木村柾哉]\nINIの木村柾哉です！\n皆さん今日はどんな1日でしたか〜？\nコメントでたくさん教えてください😌明日も皆さんの一日が楽しいこと嬉しいこと幸せに溢れた日になりますように\n僕たちも早く皆さんに会えるよう頑張っていきます！！\nおやすみなさい💤\n\n#INI #KIMURAMASAYA https://t.co/9KBg3fCja0",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E4Adk-EVgAAVM3A.jpg",
+        "width": 1108,
+        "height": 1478
+      }
+    ],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": null,
+      "members": [
+        "木村柾哉"
+      ],
+      "eventDates": [],
+      "scheduleNames": [],
+      "strongVideoKeywords": [],
+      "weakVideoKeywords": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
   }
 ]
