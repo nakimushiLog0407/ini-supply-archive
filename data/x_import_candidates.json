@@ -1712,11 +1712,12 @@
       "groupKey": null
     },
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
-      "targetId": null,
-      "note": null
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
+      "targetId": "x-1406078445860233219",
+      "note": null,
+      "confirmedAt": "2026-10-06T22:33:13+09:00"
     }
   },
   {
@@ -1748,11 +1749,12 @@
       "groupKey": null
     },
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
-      "targetId": null,
-      "note": null
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
+      "targetId": "x-1406122842358370309",
+      "note": null,
+      "confirmedAt": "2026-10-06T22:33:13+09:00"
     }
   },
   {
@@ -1777,11 +1779,12 @@
       "groupKey": null
     },
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
+      "status": "confirmed",
+      "action": "exclude",
+      "targetType": "excluded",
       "targetId": null,
-      "note": null
+      "note": "FCコンテンツ更新情報の告知投稿のため対象外",
+      "confirmedAt": "2026-10-06T22:33:13+09:00"
     }
   }
 ]
