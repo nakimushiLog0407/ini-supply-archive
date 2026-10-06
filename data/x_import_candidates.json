@@ -1595,11 +1595,12 @@
       "groupKey": null
     },
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
+      "status": "confirmed",
+      "action": "exclude",
+      "targetType": "excluded",
       "targetId": null,
-      "note": null
+      "note": "メディアなしの出演情報告知のため対象外",
+      "confirmedAt": "2026-10-06T22:27:39+09:00"
     }
   },
   {
@@ -1631,11 +1632,12 @@
       "groupKey": null
     },
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
+      "status": "confirmed",
+      "action": "exclude",
+      "targetType": "excluded",
       "targetId": null,
-      "note": null
+      "note": "同一内容がYouTubeコンテンツとして登録済みのため対象外",
+      "confirmedAt": "2026-10-06T22:27:39+09:00"
     }
   },
   {
@@ -1671,11 +1673,12 @@
       "groupKey": null
     },
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
-      "targetId": null,
-      "note": null
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
+      "targetId": "x-1405863923702657026",
+      "note": null,
+      "confirmedAt": "2026-10-06T22:27:39+09:00"
     }
   }
 ]
