@@ -1383,5 +1383,76 @@
       "note": null,
       "confirmedAt": "2026-10-06T18:11:01+09:00"
     }
+  },
+  {
+    "postId": "1404725367265452034",
+    "url": "https://x.com/official__ini/status/1404725367265452034",
+    "postedAt": "2021-06-15T18:00:00+09:00",
+    "author": "official__INI",
+    "text": "✨INI OFFICIAL FANCLUB✨\nコンテンツ更新情報\n\nPHOTOが公開されました！\nサイト内「CONTENTS」より、\nお楽しみください。\n\nhttps://t.co/bOEEkvpzgA\n\n#INI",
+    "media": [],
+    "detected": {
+      "type": "exclude",
+      "reason": "fanclub_content_update_notice",
+      "title": "CONTENTS",
+      "members": [],
+      "eventDates": [],
+      "scheduleNames": [],
+      "strongVideoKeywords": [],
+      "weakVideoKeywords": []
+    },
+    "suggestion": {
+      "action": "exclude",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1404787136750968833",
+    "url": "https://x.com/official__ini/status/1404787136750968833",
+    "postedAt": "2021-06-15T22:05:27+09:00",
+    "author": "official__INI",
+    "text": "[#藤牧京介]\nみなさんおやすみなさい💤\n明日も一日頑張りましょう！！\n\n#INI #FUJIMAKIKYOSUKE https://t.co/lKDgeMaeHM",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E37OdFAUcAk3mlw.jpg",
+        "width": 1478,
+        "height": 1108
+      }
+    ],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": null,
+      "members": [
+        "藤牧京介"
+      ],
+      "eventDates": [],
+      "scheduleNames": [],
+      "strongVideoKeywords": [],
+      "weakVideoKeywords": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
   }
 ]
