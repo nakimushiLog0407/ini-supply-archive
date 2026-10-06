@@ -1141,11 +1141,12 @@
       "groupKey": null
     },
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
-      "targetId": null,
-      "note": null
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
+      "targetId": "x-1404091188760694799",
+      "note": null,
+      "confirmedAt": "2026-10-06T18:11:01+09:00"
     }
   },
   {
@@ -1172,11 +1173,12 @@
       "groupKey": "hashtag:2021-06-14:あさチャン"
     },
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
+      "status": "confirmed",
+      "action": "exclude",
+      "targetType": "excluded",
       "targetId": null,
-      "note": null
+      "note": "出演情報のみの告知投稿のため対象外",
+      "confirmedAt": "2026-10-06T18:11:01+09:00"
     },
     "groupSuggestion": {
       "groupKey": "hashtag:2021-06-14:あさチャン",
@@ -1227,11 +1229,12 @@
       "groupKey": "hashtag:2021-06-14:あさチャン"
     },
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
-      "targetId": null,
-      "note": null
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
+      "targetId": "x-1404216476110778371",
+      "note": null,
+      "confirmedAt": "2026-10-06T18:11:01+09:00"
     },
     "groupSuggestion": {
       "groupKey": "hashtag:2021-06-14:あさチャン",
@@ -1276,11 +1279,12 @@
       "groupKey": "hashtag:2021-06-14:あさチャン"
     },
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
-      "targetId": null,
-      "note": null
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
+      "targetId": "x-1404216476110778371",
+      "note": null,
+      "confirmedAt": "2026-10-06T18:11:01+09:00"
     },
     "groupSuggestion": {
       "groupKey": "hashtag:2021-06-14:あさチャン",
@@ -1325,11 +1329,12 @@
       "groupKey": null
     },
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
-      "targetId": null,
-      "note": null
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
+      "targetId": "x-1404387635292905474",
+      "note": null,
+      "confirmedAt": "2026-10-06T18:11:01+09:00"
     }
   },
   {
@@ -1371,11 +1376,12 @@
       "groupKey": null
     },
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
-      "targetId": null,
-      "note": null
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
+      "targetId": "x-1404091188760694799",
+      "note": null,
+      "confirmedAt": "2026-10-06T18:11:01+09:00"
     }
   }
 ]
