@@ -1570,5 +1570,76 @@
       "note": null,
       "confirmedAt": "2026-10-06T19:57:17+09:00"
     }
+  },
+  {
+    "postId": "1405830265969143818",
+    "url": "https://x.com/official__ini/status/1405830265969143818",
+    "postedAt": "2021-06-18T19:10:29+09:00",
+    "author": "official__INI",
+    "text": "▲06.19(土)出演情報▼\n\n⏰11:59～\nTBS #王様のブランチ に\n出演いたします！\n※INIは13:30頃出演予定です。\n\n是非ご覧ください📺！\n\n#INI #アイエヌアイ",
+    "media": [],
+    "detected": {
+      "type": "exclude",
+      "reason": "appearance_notice_without_media",
+      "title": null,
+      "members": [],
+      "eventDates": [],
+      "scheduleNames": [],
+      "strongVideoKeywords": [],
+      "weakVideoKeywords": []
+    },
+    "suggestion": {
+      "action": "exclude",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1405863923702657026",
+    "url": "https://x.com/official__ini/status/1405863923702657026",
+    "postedAt": "2021-06-18T21:24:13+09:00",
+    "author": "official__INI",
+    "text": "[#田島将吾]\nINIの田島将吾です。\n久しぶりに散歩して感謝とお礼のお参りしてきました！\n疲れたら休んでいいから、今日1日に感謝して前向いて！ぐっすり寝ましょう^ ^\nおやすみ💤\n\n#INI #TAJIMASHOGO https://t.co/bufm4vG4BN",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E4KhyShVIAkdEyq.jpg",
+        "width": 1108,
+        "height": 1478
+      }
+    ],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": null,
+      "members": [
+        "田島将吾"
+      ],
+      "eventDates": [],
+      "scheduleNames": [],
+      "strongVideoKeywords": [],
+      "weakVideoKeywords": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
   }
 ]
