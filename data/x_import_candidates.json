@@ -1818,11 +1818,12 @@
       "groupKey": null
     },
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
-      "targetId": null,
-      "note": null
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
+      "targetId": "x-1406409786531270656",
+      "note": null,
+      "confirmedAt": "2026-10-06T22:40:28+09:00"
     }
   },
   {
@@ -1862,11 +1863,12 @@
       "groupKey": "member_series:2021-06-20:1406446750034907143"
     },
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
-      "targetId": null,
-      "note": null
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
+      "targetId": "x-1406446750034907143",
+      "note": null,
+      "confirmedAt": "2026-10-06T22:40:28+09:00"
     },
     "groupSuggestion": {
       "groupKey": "member_series:2021-06-20:1406446750034907143",
@@ -1925,11 +1927,12 @@
       "groupKey": "member_series:2021-06-20:1406446750034907143"
     },
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
-      "targetId": null,
-      "note": null
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
+      "targetId": "x-1406446750034907143",
+      "note": null,
+      "confirmedAt": "2026-10-06T22:40:28+09:00"
     },
     "groupSuggestion": {
       "groupKey": "member_series:2021-06-20:1406446750034907143",
@@ -1988,11 +1991,12 @@
       "groupKey": "member_series:2021-06-20:1406446750034907143"
     },
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
-      "targetId": null,
-      "note": null
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
+      "targetId": "x-1406446750034907143",
+      "note": null,
+      "confirmedAt": "2026-10-06T22:40:28+09:00"
     },
     "groupSuggestion": {
       "groupKey": "member_series:2021-06-20:1406446750034907143",
@@ -2051,11 +2055,12 @@
       "groupKey": "member_series:2021-06-20:1406446750034907143"
     },
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
-      "targetId": null,
-      "note": null
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
+      "targetId": "x-1406446750034907143",
+      "note": null,
+      "confirmedAt": "2026-10-06T22:40:28+09:00"
     },
     "groupSuggestion": {
       "groupKey": "member_series:2021-06-20:1406446750034907143",
@@ -2114,11 +2119,12 @@
       "groupKey": "member_series:2021-06-20:1406446750034907143"
     },
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
-      "targetId": null,
-      "note": null
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
+      "targetId": "x-1406446750034907143",
+      "note": null,
+      "confirmedAt": "2026-10-06T22:40:28+09:00"
     },
     "groupSuggestion": {
       "groupKey": "member_series:2021-06-20:1406446750034907143",
@@ -2177,11 +2183,12 @@
       "groupKey": "member_series:2021-06-20:1406446750034907143"
     },
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
-      "targetId": null,
-      "note": null
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
+      "targetId": "x-1406446750034907143",
+      "note": null,
+      "confirmedAt": "2026-10-06T22:40:28+09:00"
     },
     "groupSuggestion": {
       "groupKey": "member_series:2021-06-20:1406446750034907143",
@@ -2240,11 +2247,12 @@
       "groupKey": "member_series:2021-06-20:1406446750034907143"
     },
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
-      "targetId": null,
-      "note": null
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
+      "targetId": "x-1406446750034907143",
+      "note": null,
+      "confirmedAt": "2026-10-06T22:40:28+09:00"
     },
     "groupSuggestion": {
       "groupKey": "member_series:2021-06-20:1406446750034907143",
@@ -2303,11 +2311,12 @@
       "groupKey": "member_series:2021-06-20:1406446750034907143"
     },
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
-      "targetId": null,
-      "note": null
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
+      "targetId": "x-1406446750034907143",
+      "note": null,
+      "confirmedAt": "2026-10-06T22:40:28+09:00"
     },
     "groupSuggestion": {
       "groupKey": "member_series:2021-06-20:1406446750034907143",
@@ -2366,11 +2375,12 @@
       "groupKey": "member_series:2021-06-20:1406446750034907143"
     },
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
-      "targetId": null,
-      "note": null
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
+      "targetId": "x-1406446750034907143",
+      "note": null,
+      "confirmedAt": "2026-10-06T22:40:28+09:00"
     },
     "groupSuggestion": {
       "groupKey": "member_series:2021-06-20:1406446750034907143",
@@ -2429,11 +2439,12 @@
       "groupKey": "member_series:2021-06-20:1406446750034907143"
     },
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
-      "targetId": null,
-      "note": null
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
+      "targetId": "x-1406446750034907143",
+      "note": null,
+      "confirmedAt": "2026-10-06T22:40:28+09:00"
     },
     "groupSuggestion": {
       "groupKey": "member_series:2021-06-20:1406446750034907143",
@@ -2492,11 +2503,12 @@
       "groupKey": "member_series:2021-06-20:1406446750034907143"
     },
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
-      "targetId": null,
-      "note": null
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
+      "targetId": "x-1406446750034907143",
+      "note": null,
+      "confirmedAt": "2026-10-06T22:40:28+09:00"
     },
     "groupSuggestion": {
       "groupKey": "member_series:2021-06-20:1406446750034907143",
