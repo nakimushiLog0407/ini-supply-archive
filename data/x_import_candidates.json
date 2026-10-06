@@ -1603,6 +1603,42 @@
     }
   },
   {
+    "postId": "1405842927138459648",
+    "url": "https://x.com/official__ini/status/1405842927138459648",
+    "postedAt": "2021-06-18T20:00:47+09:00",
+    "author": "official__INI",
+    "text": "[🎞]YouTube UP!!!\n\nINI｜メンバー決定インタビュー\n\n(https://t.co/3b636Ri6fN)\n\n#INI #アイエヌアイ https://t.co/RKW45ij2x5",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E4KOsG2VIAIzD77.jpg",
+        "width": 1280,
+        "height": 720
+      }
+    ],
+    "detected": {
+      "type": "video",
+      "reason": "video_content",
+      "title": null,
+      "members": [],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
     "postId": "1405863923702657026",
     "url": "https://x.com/official__ini/status/1405863923702657026",
     "postedAt": "2021-06-18T21:24:13+09:00",
