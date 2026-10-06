@@ -598,5 +598,36 @@
       }
     ],
     "source": "x"
+  },
+  {
+    "id": "x-1404787136750968833",
+    "type": "x",
+    "date": "2021-06-15",
+    "postedAt": "2021-06-15T22:05:27+09:00",
+    "title": "Member Post",
+    "members": [
+      "藤牧京介"
+    ],
+    "posts": [
+      {
+        "postId": "1404787136750968833",
+        "url": "https://x.com/official__ini/status/1404787136750968833",
+        "postedAt": "2021-06-15T22:05:27+09:00",
+        "author": "official__INI",
+        "text": "[#藤牧京介]\nみなさんおやすみなさい💤\n明日も一日頑張りましょう！！\n\n#INI #FUJIMAKIKYOSUKE https://t.co/lKDgeMaeHM",
+        "media": [
+          {
+            "type": "photo",
+            "url": "https://pbs.twimg.com/media/E37OdFAUcAk3mlw.jpg",
+            "width": 1478,
+            "height": 1108
+          }
+        ],
+        "members": [
+          "藤牧京介"
+        ]
+      }
+    ],
+    "source": "x"
   }
 ]
