@@ -2791,5 +2791,43 @@
       "note": null,
       "confirmedAt": "2026-10-07T23:06:07+09:00"
     }
+  },
+  {
+    "postId": "1408763833200513033",
+    "url": "https://x.com/official__ini/status/1408763833200513033",
+    "postedAt": "2021-06-26T21:27:26+09:00",
+    "author": "official__INI",
+    "text": "[#藤牧京介]\nこんばんは〜！京介です！\n今日もお疲れ様でした！\n\nいつもピースしかしないので\n今日はこのポーズです！！👏\n\nそれでは明日も良い一日にしましょう！\nおやすみなさーーーーーい💤\n\n#INI #FUJIMAKIKYOSUKE https://t.co/9kBIr4np4H",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E4zvPKQVIAE8DSy.jpg",
+        "width": 1478,
+        "height": 1108
+      }
+    ],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": null,
+      "members": [
+        "藤牧京介"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
   }
 ]
