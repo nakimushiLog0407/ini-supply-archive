@@ -2830,5 +2830,44 @@
       "note": null,
       "confirmedAt": "2026-10-07T23:16:58+09:00"
     }
+  },
+  {
+    "postId": "1409126648021012486",
+    "url": "https://x.com/official__ini/status/1409126648021012486",
+    "postedAt": "2021-06-27T21:29:07+09:00",
+    "author": "official__INI",
+    "text": "[#尾崎匠海]\nINIの尾崎匠海です！\n今日は京介と〜！📸\n皆さん今日はどんな１日なりましたか？？\n皆んなのハッピー共有して〜！\n僕は今日炒飯をやっと食べれたよ☺️\nおいしかった✨\n明日も一緒に笑って過ごそうね！\nおやすみ💤💤\n\n#INI #OZAKITAKUMI https://t.co/GJliXd4ytp",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E445NylUYAcgMP0.jpg",
+        "width": 1108,
+        "height": 1478
+      }
+    ],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": null,
+      "members": [
+        "尾崎匠海",
+        "藤牧京介"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
   }
 ]
