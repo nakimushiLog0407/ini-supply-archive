@@ -1342,5 +1342,36 @@
       }
     ],
     "source": "x"
+  },
+  {
+    "id": "x-1409513960655646725",
+    "type": "x",
+    "date": "2021-06-28",
+    "postedAt": "2021-06-28T23:08:10+09:00",
+    "title": "Member Post",
+    "members": [
+      "佐野雄大"
+    ],
+    "posts": [
+      {
+        "postId": "1409513960655646725",
+        "url": "https://x.com/official__ini/status/1409513960655646725",
+        "postedAt": "2021-06-28T23:08:10+09:00",
+        "author": "official__INI",
+        "text": "[#佐野雄大]\nINIの佐野雄大です！\n今日も1日お疲れ様です🥳\n\nさっきたけると一緒に筋トレをしました💪\nそして雪だるまになりました☃️\n\n早くムキムキになってみなさんに会いたいですっ☺️\nそれではおやすみなさい〜💤\n明日もみなさんにたくさん幸せが訪れますように😉！\n\n#INI #SANOYUDAI https://t.co/NspBrypyrt",
+        "media": [
+          {
+            "type": "photo",
+            "url": "https://pbs.twimg.com/media/E4-ZeQhUUAAwgBH.jpg",
+            "width": 1108,
+            "height": 1478
+          }
+        ],
+        "members": [
+          "佐野雄大"
+        ]
+      }
+    ],
+    "source": "x"
   }
 ]
