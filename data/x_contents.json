@@ -1373,5 +1373,36 @@
       }
     ],
     "source": "x"
+  },
+  {
+    "id": "x-1409840408738238467",
+    "type": "x",
+    "date": "2021-06-29",
+    "postedAt": "2021-06-29T20:45:21+09:00",
+    "title": "Member Post",
+    "members": [
+      "田島将吾"
+    ],
+    "posts": [
+      {
+        "postId": "1409840408738238467",
+        "url": "https://x.com/official__ini/status/1409840408738238467",
+        "postedAt": "2021-06-29T20:45:21+09:00",
+        "author": "official__INI",
+        "text": "[#田島将吾]\n森で写真撮りがち\nfresh airで新たなスタートをもう切っているんだと再確認。\nみなさんに早く会いたいです！\nがんばる！\n🌳🍀🌿🌲🌱🦚📗🔋\n\n#INI #TAJIMASHOGO https://t.co/heTB5gf8SP",
+        "media": [
+          {
+            "type": "photo",
+            "url": "https://pbs.twimg.com/media/E5DCX-aUcAQB0s6.jpg",
+            "width": 1280,
+            "height": 1280
+          }
+        ],
+        "members": [
+          "田島将吾"
+        ]
+      }
+    ],
+    "source": "x"
   }
 ]
