@@ -64914,6 +64914,27 @@
     "detailText": "2026.11.01\n[Sun]\nLive／Event\nOTRN [ Sound Lab ]\n◾️日程\n2026年10月31日(土) 開場16:30 / 開演17:30\n2026年11月1日(日) 開場14:00 / 開演15:00\n※西洸人は11月1日(日)に出演いたします。\n◾️会場\nYOKOHAMA BUNTAI（〒231-0032 神奈川県横浜市中区不老町２丁目７番１）\n◾️公式HP\nhttps://jetmusic-official.com/"
   },
   {
+    "id": "schedule-4399",
+    "scheduleId": "4399",
+    "type": "schedule",
+    "group": "schedule",
+    "category": "magazine",
+    "categoryLabel": "Magazine",
+    "date": "2026-11-06",
+    "title": "LEE 2026年12月号",
+    "url": "https://ini-official.com/schedule/detail/4399",
+    "members": [
+      "木村柾哉"
+    ],
+    "externalLinks": [
+      {
+        "label": "https://lee.hpplus.jp/",
+        "url": "https://lee.hpplus.jp/"
+      }
+    ],
+    "detailText": "2026.11.06\n[Fri]\nMagazine\nLEE 2026年12月号\nhttps://lee.hpplus.jp/\n木村柾哉 インタビュー"
+  },
+  {
     "id": "schedule-4473",
     "scheduleId": "4473",
     "type": "schedule",
