@@ -2909,5 +2909,101 @@
       "note": null,
       "confirmedAt": "2026-10-07T23:57:17+09:00"
     }
+  },
+  {
+    "postId": "1409726663592579076",
+    "url": "https://x.com/official__ini/status/1409726663592579076",
+    "postedAt": "2021-06-29T13:13:22+09:00",
+    "author": "official__INI",
+    "text": "✨INI OFFICIAL FANCLUB✨\nWEB RADIOへのメッセージを募集開始！\nまた、INIへの質問「Q&amp;A」も大募集！\n\nたくさんのおたよりをお待ちしております！\n\nhttps://t.co/1ahif2gm2k\n\n#INI",
+    "media": [],
+    "detected": {
+      "type": "fc_unknown",
+      "reason": "fc_unknown",
+      "title": "Q&amp;A",
+      "members": [],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1409798799225065472",
+    "url": "https://x.com/official__ini/status/1409798799225065472",
+    "postedAt": "2021-06-29T18:00:01+09:00",
+    "author": "official__INI",
+    "text": "✨INI OFFICIAL FANCLUB✨\n\n INIと共に歩んでくださる皆様のファンネームを募集いたします。\n皆様からお寄せ頂いた案の中から、後日ファンネームを決定いたします。\nINIの支えになってくださるファンの皆様からのたくさんのご応募をお待ちしております！\n\nhttps://t.co/9JeSBGghXf\n\n#INI",
+    "media": [],
+    "detected": {
+      "type": "fc_unknown",
+      "reason": "fc_unknown",
+      "title": null,
+      "members": [],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1409840408738238467",
+    "url": "https://x.com/official__ini/status/1409840408738238467",
+    "postedAt": "2021-06-29T20:45:21+09:00",
+    "author": "official__INI",
+    "text": "[#田島将吾]\n森で写真撮りがち\nfresh airで新たなスタートをもう切っているんだと再確認。\nみなさんに早く会いたいです！\nがんばる！\n🌳🍀🌿🌲🌱🦚📗🔋\n\n#INI #TAJIMASHOGO https://t.co/heTB5gf8SP",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E5DCX-aUcAQB0s6.jpg",
+        "width": 1280,
+        "height": 1280
+      }
+    ],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": null,
+      "members": [
+        "田島将吾"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
   }
 ]
