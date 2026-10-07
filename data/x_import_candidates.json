@@ -2637,5 +2637,79 @@
       "note": null,
       "confirmedAt": "2026-10-07T22:51:41+09:00"
     }
+  },
+  {
+    "postId": "1407666476836810754",
+    "url": "https://x.com/official__ini/status/1407666476836810754",
+    "postedAt": "2021-06-23T20:46:55+09:00",
+    "author": "official__INI",
+    "text": "[#後藤威尊]\nこんばんは。後藤威尊です💍\n\n筋トレを再開しました！必ず成果が出ると信じて、継続頑張ります👏\n皆さんも何か継続しているものがあれば教えてください😌\n\n後藤威尊2人分の供給です。\nこのポーズはたけポーズと名付けます\n\nおやすみなさい🕊\n\n夢で逢えるといいですね😉\n\n #INI #GOTOTAKERU https://t.co/bRjoeUj52R",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E4kJK92VUAIUCy3.jpg",
+        "width": 1478,
+        "height": 1108
+      }
+    ],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": null,
+      "members": [
+        "後藤威尊"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1407696243711565825",
+    "url": "https://x.com/official__ini/status/1407696243711565825",
+    "postedAt": "2021-06-23T22:45:12+09:00",
+    "author": "official__INI",
+    "text": "事務所の先輩、JO1の皆さんに\nご挨拶させていただきました！\n僕たちもJO1さんのようにファンの皆さんにかっこいい姿をお見せできるよう頑張ります✨\n\n#INI #JO1_INI_はじめまして\n#LAPONEエンタテイメント https://t.co/9C1yOnT0C4",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E4kkRDHVEAk7w42.jpg",
+        "width": 2048,
+        "height": 1536
+      }
+    ],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": null,
+      "members": [],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
   }
 ]
