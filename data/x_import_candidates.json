@@ -2669,11 +2669,12 @@
       "groupKey": null
     },
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
-      "targetId": null,
-      "note": null
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
+      "targetId": "x-1407666476836810754",
+      "note": null,
+      "confirmedAt": "2026-10-07T22:56:17+09:00"
     }
   },
   {
@@ -2705,11 +2706,12 @@
       "groupKey": null
     },
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
-      "targetId": null,
-      "note": null
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
+      "targetId": "x-1407696243711565825",
+      "note": null,
+      "confirmedAt": "2026-10-07T22:56:17+09:00"
     }
   }
 ]
