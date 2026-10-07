@@ -2823,11 +2823,12 @@
       "groupKey": null
     },
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
-      "targetId": null,
-      "note": null
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
+      "targetId": "x-1408763833200513033",
+      "note": null,
+      "confirmedAt": "2026-10-07T23:16:58+09:00"
     }
   }
 ]
