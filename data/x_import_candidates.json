@@ -2529,5 +2529,72 @@
       ],
       "postCount": 11
     }
+  },
+  {
+    "postId": "1406907291748556801",
+    "url": "https://x.com/official__ini/status/1406907291748556801",
+    "postedAt": "2021-06-21T18:30:12+09:00",
+    "author": "official__INI",
+    "text": "INIを応援してくれている皆様へお知らせです。\n\nhttps://t.co/xSr5hNAsSU",
+    "media": [],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": null,
+      "members": [],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1406975569560883208",
+    "url": "https://x.com/official__ini/status/1406975569560883208",
+    "postedAt": "2021-06-21T23:01:30+09:00",
+    "author": "official__INI",
+    "text": "[#髙塚大夢]\nみなさんどうもこんにちは！\n今日は朝からコンテンツ撮影でした！\n今は季節の変わり目だから、お体には気をつけて！\n今週も1週間頑張っていきましょ〜👍\nおやすみなさい🌙\n\n #INI #TAKATSUKAHIROMU https://t.co/T26BYV4mZG",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E4aUz_eVIAAriFu.jpg",
+        "width": 1108,
+        "height": 1478
+      }
+    ],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": null,
+      "members": [
+        "髙塚大夢"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
   }
 ]
