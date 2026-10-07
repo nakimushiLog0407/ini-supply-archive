@@ -120,7 +120,37 @@ def normalize_post_ids(value):
     return post_ids
 
 
-def make_x_post(candidate):
+def normalize_members(value):
+    if not isinstance(value, list):
+        raise ValueError(
+            "members must be an array."
+        )
+
+    members = []
+    seen = set()
+
+    for item in value:
+        member = str(item).strip()
+
+        if not member:
+            raise ValueError(
+                "members contains an empty value."
+            )
+
+        if member not in seen:
+            members.append(member)
+            seen.add(member)
+
+    return members
+
+
+def make_x_post(candidate, members=None):
+    detected_members = (
+        (candidate.get("detected") or {})
+        .get("members")
+        or []
+    )
+
     return {
         "postId": str(candidate["postId"]),
         "url": candidate.get("url") or "",
@@ -129,9 +159,9 @@ def make_x_post(candidate):
         "text": candidate.get("text") or "",
         "media": candidate.get("media") or [],
         "members": (
-            (candidate.get("detected") or {})
-            .get("members")
-            or []
+            members
+            if members is not None
+            else detected_members
         ),
     }
 
@@ -211,8 +241,17 @@ def add_x_content(
     approval,
     candidates,
 ):
+    approval_members = approval.get("members")
+    if approval_members is not None:
+        approval_members = normalize_members(
+            approval_members
+        )
+
     posts = [
-        make_x_post(candidate)
+        make_x_post(
+            candidate,
+            approval_members,
+        )
         for candidate in candidates
     ]
 
@@ -412,6 +451,11 @@ def main():
         ]
 
         if action == "new_x_content":
+            if "members" in approval:
+                normalize_members(
+                    approval["members"]
+                )
+
             # 複数投稿を1供給にまとめる場合は
             # DETAIL表示用タイトルを必須とする。
             approval_title(
