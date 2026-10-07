@@ -2745,11 +2745,12 @@
       "groupKey": null
     },
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
-      "targetId": null,
-      "note": null
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
+      "targetId": "x-1408073572279414784",
+      "note": null,
+      "confirmedAt": "2026-10-07T23:00:37+09:00"
     }
   }
 ]
