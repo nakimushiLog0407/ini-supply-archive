@@ -2784,11 +2784,12 @@
       "groupKey": null
     },
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
-      "targetId": null,
-      "note": null
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
+      "targetId": "x-1408379456306040840",
+      "note": null,
+      "confirmedAt": "2026-10-07T23:06:07+09:00"
     }
   }
 ]

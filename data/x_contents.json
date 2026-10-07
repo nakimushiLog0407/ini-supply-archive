@@ -1249,5 +1249,36 @@
       }
     ],
     "source": "x"
+  },
+  {
+    "id": "x-1408379456306040840",
+    "type": "x",
+    "date": "2021-06-25",
+    "postedAt": "2021-06-25T20:00:03+09:00",
+    "title": "Member Post",
+    "members": [
+      "シュウ・フェンファン"
+    ],
+    "posts": [
+      {
+        "postId": "1408379456306040840",
+        "url": "https://x.com/official__ini/status/1408379456306040840",
+        "postedAt": "2021-06-25T20:00:03+09:00",
+        "author": "official__INI",
+        "text": "[#許豊凡]\n\nこんばんは💤\n許豊凡です！\n\n今週もお疲れ様でした！よく頑張りましたね！週末はゆっくり休みましょう☺️❤️\n\nしばらくの間、お会いすることは出来なくなるけど、絶対にもっとパワーアップして戻ってきます💪\n\n寂しいけど、一緒に乗り越えましょう！\n\nまたね！\n\n#INI #XUFENGFAN https://t.co/BnHq9g0Yki",
+        "media": [
+          {
+            "type": "photo",
+            "url": "https://pbs.twimg.com/media/E4uRpcYVIAE0GSl.jpg",
+            "width": 1108,
+            "height": 1478
+          }
+        ],
+        "members": [
+          "シュウ・フェンファン"
+        ]
+      }
+    ],
+    "source": "x"
   }
 ]
