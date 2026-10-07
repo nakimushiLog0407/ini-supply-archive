@@ -2752,5 +2752,43 @@
       "note": null,
       "confirmedAt": "2026-10-07T23:00:37+09:00"
     }
+  },
+  {
+    "postId": "1408379456306040840",
+    "url": "https://x.com/official__ini/status/1408379456306040840",
+    "postedAt": "2021-06-25T20:00:03+09:00",
+    "author": "official__INI",
+    "text": "[#許豊凡]\n\nこんばんは💤\n許豊凡です！\n\n今週もお疲れ様でした！よく頑張りましたね！週末はゆっくり休みましょう☺️❤️\n\nしばらくの間、お会いすることは出来なくなるけど、絶対にもっとパワーアップして戻ってきます💪\n\n寂しいけど、一緒に乗り越えましょう！\n\nまたね！\n\n#INI #XUFENGFAN https://t.co/BnHq9g0Yki",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E4uRpcYVIAE0GSl.jpg",
+        "width": 1108,
+        "height": 1478
+      }
+    ],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": null,
+      "members": [
+        "シュウ・フェンファン"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
   }
 ]
