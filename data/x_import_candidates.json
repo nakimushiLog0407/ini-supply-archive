@@ -3008,5 +3008,43 @@
       "note": null,
       "confirmedAt": "2026-10-08T00:01:28+09:00"
     }
+  },
+  {
+    "postId": "1410212677608087552",
+    "url": "https://x.com/official__ini/status/1410212677608087552",
+    "postedAt": "2021-06-30T21:24:37+09:00",
+    "author": "official__INI",
+    "text": "[#池﨑理人]\nINIの理人でーす！！\n\n今日も学校や仕事、本当にお疲れ様です(*- -)\n\n僕達も皆様に早く会えるように頑張ります💪\n\n体調にだけは気をつけて無理せずやっていきましょう〜！\n\nMay tomorrow be a good day also💕\n\nおやすみなさい！\n\n#INI #IKEZAKIRIHITO https://t.co/VFYHYZU9jy",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E5IU9G2VkAEx5Tx.jpg",
+        "width": 1108,
+        "height": 1478
+      }
+    ],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": null,
+      "members": [
+        "池﨑理人"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
   }
 ]
