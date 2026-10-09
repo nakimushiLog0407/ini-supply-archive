@@ -3567,5 +3567,392 @@
       "note": null,
       "confirmedAt": "2026-10-09T15:26:37+09:00"
     }
+  },
+  {
+    "postId": "1414590424325378051",
+    "url": "https://x.com/official__ini/status/1414590424325378051",
+    "postedAt": "2021-07-12T23:20:13+09:00",
+    "author": "official__INI",
+    "text": "[#木村柾哉]\nこんばんは🌃今日は僕、柾哉です！\n\n皆さんは寝る時抱き枕欲しい派ですか？僕はあったら嬉しいな派です\n落ちつきますよね🧸\n\n明日からファンクラブがグランドオープンします！楽しみ☺︎\nそれでは、\nおやすみなさーーーーーい！\n\n#INI #KIMURAMASAYA https://t.co/cuscSlxfIg",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E6GifMYUUAciROO.jpg",
+        "width": 1289,
+        "height": 1108
+      }
+    ],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": null,
+      "members": [
+        "木村柾哉"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1414873484149276675",
+    "url": "https://x.com/official__ini/status/1414873484149276675",
+    "postedAt": "2021-07-13T18:05:00+09:00",
+    "author": "official__INI",
+    "text": "INI \nOFFICIAL SITE\nOFFICIAL FANCLUB\nGRAND OPEN!\n\n(https://t.co/UZnugE0QVU)\n\n#INI #アイエヌアイ",
+    "media": [],
+    "detected": {
+      "type": "exclude",
+      "reason": "site_or_fanclub_open_notice",
+      "title": null,
+      "members": [],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "exclude",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1414925107227553798",
+    "url": "https://x.com/official__ini/status/1414925107227553798",
+    "postedAt": "2021-07-13T21:30:08+09:00",
+    "author": "official__INI",
+    "text": "[#髙塚大夢]\n今日は…INI結成1ヶ月記念日!!🎊\n1ヶ月前のあの景色を今も鮮明に覚えています。INIみんなで今もこれからもがんばります!!\nファンクラブもグランドオープンしたので見てね〜✨\n\n今日は最近のお気に入りアクセとパシャリ📸\nほんじゃ!トマンナヨ～!\n\n#これはたけポーズ\n#INI #TAKATSUKAHIROMU https://t.co/Mn3xCeC0tg",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E6LS4hVVIAU2QEC.jpg",
+        "width": 1050,
+        "height": 1478
+      }
+    ],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": null,
+      "members": [
+        "髙塚大夢"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1415091233811177477",
+    "url": "https://x.com/official__ini/status/1415091233811177477",
+    "postedAt": "2021-07-14T08:30:15+09:00",
+    "author": "official__INI",
+    "text": "[#藤牧京介]\nおはようございまーーーーーす！☀️\n朝が苦手な藤牧京介です！\n\nなかなか起きれないので、アラームは起きたい時間の30分前から5分置きにかけます！⏰\n\n今日も一日がんばるぞー👊\n\n#これはまっきーポーズ\n#京ちゃんポーズでもいい\n#まかせます\n#INI #FUJIMAKIKYOSUKE https://t.co/2BJV2fFxXb",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E6Np94nVoAARSSv.jpg",
+        "width": 1108,
+        "height": 1478
+      }
+    ],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": null,
+      "members": [
+        "藤牧京介"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1415230875340480515",
+    "url": "https://x.com/official__ini/status/1415230875340480515",
+    "postedAt": "2021-07-14T17:45:09+09:00",
+    "author": "official__INI",
+    "text": "✨OFFICIAL FANCLUB✨\nコンテンツ更新情報\n\n「Photo」が公開されました！\n\n🔽INIクラス BEHIND\n\nサイト内［Photo］より、\nチェックしてください。\n\nhttps://t.co/lh66d3URBA\n\n#INI #アイエヌアイ #INIクラス",
+    "media": [],
+    "detected": {
+      "type": "photo",
+      "reason": "fc_photo",
+      "title": "Photo",
+      "members": [],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1415452326400167943",
+    "url": "https://x.com/official__ini/status/1415452326400167943",
+    "postedAt": "2021-07-15T08:25:07+09:00",
+    "author": "official__INI",
+    "text": "[#松田迅]\nGood morning! 皆さんいい朝ですね！\n松田迅です😊\n私はいつも朝お風呂に入って\n目を覚まして1日がスタートします！\n\n最近メンバーで流行ってる自分ポーズ\nMJも考えてみました！是非使ってください！\n\nまだ寝てるの？遅刻しちゃうぞ😝\n\n#MJポーズ #実は1回も使ったことない\n#INI #MATSUDAJIN https://t.co/NZ7FWc0K8F",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E6SyYguUUAMZpRd.jpg",
+        "width": 1108,
+        "height": 1478
+      }
+    ],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": null,
+      "members": [
+        "松田迅"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1415599517760724992",
+    "url": "https://x.com/official__ini/status/1415599517760724992",
+    "postedAt": "2021-07-15T18:10:00+09:00",
+    "author": "official__INI",
+    "text": "✨OFFICIAL FANCLUB✨\nコンテンツ更新情報\n\n「Member Diary」が公開されました！\n\n🔽雄大から甘えん坊な一面があると暴露された柾哉です🧏🏻‍♂笑\n\nサイト内［Member Diary］より、\nチェックしてください。\n\nhttps://t.co/lh66d4ct0a\n\n#INI #MemberDiary #木村柾哉",
+    "media": [],
+    "detected": {
+      "type": "member_diary",
+      "reason": "fc_member_diary",
+      "title": "雄大から甘えん坊な一面があると暴露された柾哉です🧏🏻‍♂笑",
+      "members": [
+        "木村柾哉",
+        "佐野雄大"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1416051256527790085",
+    "url": "https://x.com/official__ini/status/1416051256527790085",
+    "postedAt": "2021-07-17T00:05:03+09:00",
+    "author": "official__INI",
+    "text": "[#西洸人]\nひろとです！\n\n日焼け止めって毎日塗った方がいいって最近初めて知りました。海に行く時しか塗らない物だと思ってたからビックリです。\n\nもう寝ちゃったかな？\nおやすみなさい☺️\n\n#MJポーズ\n#INI #NISHIHIROTO https://t.co/7ZUuA64KhQ",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E6bTG9rVgAIKKJ2.jpg",
+        "width": 1108,
+        "height": 1477
+      }
+    ],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": null,
+      "members": [
+        "西洸人"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1416331518629212160",
+    "url": "https://x.com/official__ini/status/1416331518629212160",
+    "postedAt": "2021-07-17T18:38:42+09:00",
+    "author": "official__INI",
+    "text": "✨OFFICIAL FANCLUB✨\nコンテンツ更新情報\n\n「Member Diary」が公開されました！\n\n🔽最近\"天気の子\"を観たたじです！\n\nサイト内［Member Diary］より、\nチェックしてください。\n\nhttps://t.co/lh66d3URBA\n\n#INI #MemberDiary #田島将吾",
+    "media": [],
+    "detected": {
+      "type": "member_diary",
+      "reason": "fc_member_diary",
+      "title": "最近\"天気の子\"を観たたじです！",
+      "members": [
+        "田島将吾"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1416367109890736129",
+    "url": "https://x.com/official__ini/status/1416367109890736129",
+    "postedAt": "2021-07-17T21:00:08+09:00",
+    "author": "official__INI",
+    "text": "[#尾崎匠海]\nINIの尾崎匠海です！\n今日も一日お疲れ様🌈\n頑張るのも大事だけど\n疲れた時は僕たちのことを見てゆっくり休んでくださいね！✨\n皆んなの癒しにもなれてたら嬉しいな😳\nおやすみなさい💤\n\n#INI #OZAKITAKUMI https://t.co/ca4WQac4CG",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E6fyYJZVIAAA_39.jpg",
+        "width": 1280,
+        "height": 1280
+      }
+    ],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": null,
+      "members": [
+        "尾崎匠海"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1416563394564395008",
+    "url": "https://x.com/official__ini/status/1416563394564395008",
+    "postedAt": "2021-07-18T10:00:06+09:00",
+    "author": "official__INI",
+    "text": "[#木村柾哉]\nおはようございます☀\n朝の10時をお知らせします柾哉です\n\n今日は日曜日ですね〜！\n皆さんどんな休日にしますか？✊🏻\nあ、てことは明日は、、、\nｿﾘｿﾘｿﾘｿﾘﾜｯﾄ?もう休みじゃない!\nｺﾞｲｺﾞｲｺﾞｲｺﾞｲﾝ聞いてんの?\n\n#今日は日曜日\n#INI #KIMURAMASAYA https://t.co/fp6SRe1v6W",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E6ik4xNVIAIS6m8.jpg",
+        "width": 1108,
+        "height": 1478
+      }
+    ],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": null,
+      "members": [
+        "木村柾哉"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
   }
 ]
