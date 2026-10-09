@@ -4655,5 +4655,541 @@
       "note": null,
       "confirmedAt": "2026-10-09T16:47:31+09:00"
     }
+  },
+  {
+    "postId": "1419668009531052034",
+    "url": "https://x.com/official__ini/status/1419668009531052034",
+    "postedAt": "2021-07-26T23:36:44+09:00",
+    "author": "official__INI",
+    "text": "[#西洸人]\n起きてますかー？\n\nこんばんは\n世話好きな頑張り屋で優しくて、\n陽気で、気配り上手なひろとです！\n僕達の初の特番がGYAO!さんにて\n放送されることが発表されましたね☺️\n7/30！\n楽しみ！\n絶対絶対見てね？\n見なきゃ…\n\nおやすみなさい✌️\n\n#INI #NISHIHIROTO https://t.co/qiTKU8ou2D",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E7OshthVkAI5S1D.jpg",
+        "width": 1280,
+        "height": 1280
+      }
+    ],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": null,
+      "members": [
+        "西洸人"
+      ],
+      "eventDates": [
+        "2021-07-30"
+      ],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1419945656391634947",
+    "url": "https://x.com/official__ini/status/1419945656391634947",
+    "postedAt": "2021-07-27T18:00:00+09:00",
+    "author": "official__INI",
+    "text": "✨OFFICIAL FANCLUB✨\nコンテンツ更新情報\n\n「Member Diary」が公開されました！\n\n🔽理人です！オシャレ大好き！\n\nサイト内［Member Diary］より、\nチェックしてください。\n\nhttps://t.co/lh66d3URBA\n\n#INI #MemberDiary #池﨑理人",
+    "media": [],
+    "detected": {
+      "type": "member_diary",
+      "reason": "fc_member_diary",
+      "title": "理人です！オシャレ大好き！",
+      "members": [
+        "池﨑理人"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1419972133371871236",
+    "url": "https://x.com/official__ini/status/1419972133371871236",
+    "postedAt": "2021-07-27T19:45:13+09:00",
+    "author": "official__INI",
+    "text": "[#髙塚大夢]\nこんばんは！髙塚大夢です🙃\n学生の皆さんは、夏休みやね！！\n今年の夏はどう過ごしますかー？？\n僕はINIのみんなと練習頑張ります💪\n夏バテには気をつけてね！\nしっかりと水分取ることね！！\n皆さんにとって今年の夏が素敵な季節になりますように✨\n\n#INI #TAKATSUKAHIROMU https://t.co/knVbNo1LCL",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E7TBIKTVoAIEO_s.jpg",
+        "width": 1108,
+        "height": 1478
+      }
+    ],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": null,
+      "members": [
+        "髙塚大夢"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1420308053958696964",
+    "url": "https://x.com/official__ini/status/1420308053958696964",
+    "postedAt": "2021-07-28T18:00:02+09:00",
+    "author": "official__INI",
+    "text": "✨OFFICIAL FANCLUB✨\nコンテンツ更新情報\n\n「INI WEB RADIO」が公開されました！\n\nサイト内［Radio］より、\nチェックしてください。\n\nhttps://t.co/lh66d3URBA\n\n#INI #WebRadio_vol2 https://t.co/9nIV2qDufn",
+    "media": [
+      {
+        "type": "video",
+        "thumbnailUrl": "https://pbs.twimg.com/ext_tw_video_thumb/1420232690096238599/pu/img/gmOV3MWFRSifpPLa.jpg",
+        "videoUrl": "https://video.twimg.com/ext_tw_video/1420232690096238599/pu/vid/960x540/qMGt0md2ITFI422K.mp4?tag=12",
+        "width": 960,
+        "height": 540,
+        "durationMillis": 70358
+      }
+    ],
+    "detected": {
+      "type": "radio",
+      "reason": "fc_radio",
+      "title": "INI WEB RADIO",
+      "members": [],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1420333272228265984",
+    "url": "https://x.com/official__ini/status/1420333272228265984",
+    "postedAt": "2021-07-28T19:40:15+09:00",
+    "author": "official__INI",
+    "text": "[#後藤威尊]\n今日は君の寝顔見てから眠るって決めていたのに気づけば君の腕の中で寝てた後藤威尊です💍\n\nこれは~75億分の11人と~ファン達が出逢って恋に落ち~♪\n\nファンの皆様と出逢えたことは本当に運命やし、皆様と繋がることができて本当に幸せやとふと感じた1日でした🕊ILY~♡\n\n#INI #GOTOTAKERU https://t.co/iSj3AfdUmq",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E7YJlPAUYAQRJGy.jpg",
+        "width": 1538,
+        "height": 2048
+      }
+    ],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": null,
+      "members": [
+        "後藤威尊"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1420670439056023554",
+    "url": "https://x.com/official__ini/status/1420670439056023554",
+    "postedAt": "2021-07-29T18:00:02+09:00",
+    "author": "official__INI",
+    "text": "✨OFFICIAL FANCLUB✨\nコンテンツ更新情報\n\n「Member Diary」が公開されました！\n\n🔽ペット大好き髙塚大夢です！\n\nサイト内［Member Diary］より、\nチェックしてください。\n\nhttps://t.co/lh66d3URBA\n\n#INI #MemberDiary #髙塚大夢",
+    "media": [],
+    "detected": {
+      "type": "member_diary",
+      "reason": "fc_member_diary",
+      "title": "ペット大好き髙塚大夢です！",
+      "members": [
+        "髙塚大夢"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1420734646698995712",
+    "url": "https://x.com/official__ini/status/1420734646698995712",
+    "postedAt": "2021-07-29T22:15:10+09:00",
+    "author": "official__INI",
+    "text": "[#木村柾哉]\n皆さん今日も1日お疲れ様でした🕶\n明日は金曜日！なんだかテンション上がります！7月も残り2日！？早すぎー👽\n\n暑い日が続いてますが体調に気をつけながらお仕事頑張ってたくさん遊んでくださいね！この夏INIみんなで遊びに行けたらいいな✊🏻~フェンファンを添えて~\n\n#INI #KIMURAMASAYA https://t.co/3GoGYnv3de",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E7d2n_wUUAYH7Oa.jpg",
+        "width": 1109,
+        "height": 1479
+      }
+    ],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": null,
+      "members": [
+        "木村柾哉",
+        "シュウ・フェンファン"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1420972418588282881",
+    "url": "https://x.com/official__ini/status/1420972418588282881",
+    "postedAt": "2021-07-30T13:59:59+09:00",
+    "author": "official__INI",
+    "text": "▲07.30(金)出演情報▼\n\n⏰21:00〜\n #GYAO にて配信スタート\n『はじめまして！僕たちINIです！』\n\n＼INI初の特番👏🏻／\n是非ご覧ください！\n\n#INI #アイエヌアイ\n#はじめましてINI",
+    "media": [],
+    "detected": {
+      "type": "exclude",
+      "reason": "appearance_notice_without_media",
+      "title": "はじめまして！僕たちINIです！",
+      "members": [],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "exclude",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1421014010258857984",
+    "url": "https://x.com/official__ini/status/1421014010258857984",
+    "postedAt": "2021-07-30T16:45:15+09:00",
+    "author": "official__INI",
+    "text": "[#尾崎匠海]\n匠海です✨\n皆んなに早く会いたいよ〜😭\n直接会える日は凄く嬉しいんだろうな！\nそして今日は21時からGYAO!さんにて初の特番です！\nこれが決まったのも応援してくれる皆んなのおかげです！\nありがとう🤤是非見てね🌈\nよし！練習いってきます！\n残りも一緒に頑張ろう😚\n\n#INI #OZAKITAKUMI https://t.co/sIzWXFxNrr",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E7h0tdtVEAM-4iI.jpg",
+        "width": 954,
+        "height": 1272
+      }
+    ],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": null,
+      "members": [
+        "尾崎匠海"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1421025271340277764",
+    "url": "https://x.com/official__ini/status/1421025271340277764",
+    "postedAt": "2021-07-30T17:30:00+09:00",
+    "author": "official__INI",
+    "text": "✨OFFICIAL FANCLUB✨\nコンテンツ更新情報\n\n新企画「INI 10の質問」が公開されました！\n\nサイト内［Movie］より、\nチェックしてください。\n\nhttps://t.co/lh66d4ct0a\n\n#INI #INI10の質問 #後藤威尊 https://t.co/9iYswG9cV0",
+    "media": [
+      {
+        "type": "video",
+        "thumbnailUrl": "https://pbs.twimg.com/ext_tw_video_thumb/1421019097228214274/pu/img/6bzimmn1udHZQK4n.jpg",
+        "videoUrl": "https://video.twimg.com/ext_tw_video/1421019097228214274/pu/vid/960x540/ON4RZ0gILDDyDOuT.mp4?tag=12",
+        "width": 960,
+        "height": 540,
+        "durationMillis": 70417
+      }
+    ],
+    "detected": {
+      "type": "movie",
+      "reason": "fc_movie",
+      "title": "INI 10の質問",
+      "members": [
+        "後藤威尊"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1421304609830625284",
+    "url": "https://x.com/official__ini/status/1421304609830625284",
+    "postedAt": "2021-07-31T12:00:00+09:00",
+    "author": "official__INI",
+    "text": "いつもINIを応援していただき\nありがとうございます！\n\nなんと！！\n8月からadidasさんとの\n広告契約が決定しました🎉\n\n8月中旬から各店舗にて\n展開されていきます！\nお楽しみに～！！\n\n#adidas\n#INI #アイエヌアイ https://t.co/zgfbc64IPz",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E7ij4jZVkAAN5o9.jpg",
+        "width": 1200,
+        "height": 900
+      }
+    ],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": null,
+      "members": [],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1421395211620687875",
+    "url": "https://x.com/official__ini/status/1421395211620687875",
+    "postedAt": "2021-07-31T18:00:01+09:00",
+    "author": "official__INI",
+    "text": "✨OFFICIAL FANCLUB✨\nコンテンツ更新情報\n\n「Member Diary」が公開されました！\n\n🔽肘と顎ってくっつかないらしいです。\n\nサイト内［Member Diary］より、\nチェックしてください。\n\nhttps://t.co/lh66d4ct0a\n\n#INI #MemberDiary #西洸人",
+    "media": [],
+    "detected": {
+      "type": "member_diary",
+      "reason": "fc_member_diary",
+      "title": "肘と顎ってくっつかないらしいです。",
+      "members": [
+        "西洸人"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1421425490074558468",
+    "url": "https://x.com/official__ini/status/1421425490074558468",
+    "postedAt": "2021-07-31T20:00:20+09:00",
+    "author": "official__INI",
+    "text": "[#藤牧京介]\nこんばんわー！京介です！\n\n7月も今日で終わりですね🧊\n\n夏といえばセミだと思いますが、セミの鳴き声って電話越しだと聞こえないらしいです🤠\n\nということで8月も頑張っていきましょー！\n\n#INI #FUJIMAKIKYOSUKE https://t.co/N3eyC1HdJV",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E7nq8neVkAMooH3.jpg",
+        "width": 1074,
+        "height": 1524
+      }
+    ],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": null,
+      "members": [
+        "藤牧京介"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1421701410098343936",
+    "url": "https://x.com/official__ini/status/1421701410098343936",
+    "postedAt": "2021-08-01T14:16:44+09:00",
+    "author": "official__INI",
+    "text": "[#松田迅]\n松田迅です😎\n今日は一緒にテスト勉強してくれる\n幼馴染みたいな感じで撮りました笑笑\n\nもう夏ですね！今年の夏は楽しめていますか？\nMJは毎日が充実していてとっても楽しいです😊\n皆さんの夏の予定など色々教えてくださーい😚\n\n#ちなみに\n#夏休みの課題は1週間前に焦る派\n#INI #MATSUDAJIN https://t.co/jjXyNQbBgD",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E7rl5P3VcAIo9E2.jpg",
+        "width": 1280,
+        "height": 1280
+      }
+    ],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": null,
+      "members": [
+        "松田迅"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1421757600924803073",
+    "url": "https://x.com/official__ini/status/1421757600924803073",
+    "postedAt": "2021-08-01T18:00:01+09:00",
+    "author": "official__INI",
+    "text": "✨OFFICIAL FANCLUB✨\nコンテンツ更新情報\n\n「Member Diary」が公開されました！\n\n🔽可愛いよりかっこいいと言われたいゆうだいです🐏\n\nサイト内［Member Diary］より、\nチェックしてください。\n\nhttps://t.co/lh66d3URBA\n\n#INI #MemberDiary #佐野雄大",
+    "media": [],
+    "detected": {
+      "type": "member_diary",
+      "reason": "fc_member_diary",
+      "title": "可愛いよりかっこいいと言われたいゆうだいです🐏",
+      "members": [
+        "佐野雄大"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
   }
 ]
