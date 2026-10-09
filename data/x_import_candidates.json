@@ -5750,11 +5750,12 @@
       "groupKey": null
     },
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
-      "targetId": null,
-      "note": null
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
+      "targetId": "x-1424717224749666306",
+      "note": null,
+      "confirmedAt": "2026-10-09T22:05:11+09:00"
     }
   },
   {
@@ -5788,11 +5789,12 @@
       "groupKey": null
     },
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
-      "targetId": null,
-      "note": null
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
+      "targetId": "x-1424747298714787846",
+      "note": null,
+      "confirmedAt": "2026-10-09T22:05:11+09:00"
     }
   },
   {
@@ -5819,11 +5821,12 @@
       "groupKey": null
     },
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
+      "status": "confirmed",
+      "action": "exclude",
+      "targetType": "excluded",
       "targetId": null,
-      "note": null
+      "note": "FC Member Diary更新告知",
+      "confirmedAt": "2026-10-09T22:05:11+09:00"
     }
   },
   {
@@ -5857,11 +5860,12 @@
       "groupKey": null
     },
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
-      "targetId": null,
-      "note": null
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
+      "targetId": "x-1425049307246338052",
+      "note": null,
+      "confirmedAt": "2026-10-09T22:05:11+09:00"
     }
   },
   {
@@ -5895,11 +5899,12 @@
       "groupKey": null
     },
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
-      "targetId": null,
-      "note": null
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
+      "targetId": "x-1425301218264375305",
+      "note": null,
+      "confirmedAt": "2026-10-09T22:05:11+09:00"
     }
   },
   {
@@ -5933,11 +5938,12 @@
       "groupKey": null
     },
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
+      "status": "confirmed",
+      "action": "exclude",
+      "targetType": "excluded",
       "targetId": null,
-      "note": null
+      "note": "FC WEB RADIO更新告知・本編冒頭映像",
+      "confirmedAt": "2026-10-09T22:05:11+09:00"
     }
   },
   {
@@ -5971,11 +5977,12 @@
       "groupKey": null
     },
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
-      "targetId": null,
-      "note": null
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
+      "targetId": "x-1425766238999879681",
+      "note": null,
+      "confirmedAt": "2026-10-09T22:05:11+09:00"
     }
   },
   {
@@ -6000,11 +6007,12 @@
       "groupKey": null
     },
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
+      "status": "confirmed",
+      "action": "exclude",
+      "targetType": "excluded",
       "targetId": null,
-      "note": null
+      "note": "INI MAILサービス開始告知",
+      "confirmedAt": "2026-10-09T22:05:11+09:00"
     }
   },
   {
@@ -6031,11 +6039,12 @@
       "groupKey": null
     },
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
+      "status": "confirmed",
+      "action": "exclude",
+      "targetType": "excluded",
       "targetId": null,
-      "note": null
+      "note": "FC Member Diary更新告知",
+      "confirmedAt": "2026-10-09T22:05:11+09:00"
     }
   },
   {
@@ -6071,11 +6080,12 @@
       "groupKey": null
     },
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
-      "targetId": null,
-      "note": null
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
+      "targetId": "x-1426184861249773579",
+      "note": null,
+      "confirmedAt": "2026-10-09T22:05:11+09:00"
     }
   },
   {
@@ -6111,11 +6121,12 @@
       "groupKey": null
     },
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
+      "status": "confirmed",
+      "action": "exclude",
+      "targetType": "excluded",
       "targetId": null,
-      "note": null
+      "note": "FC Movie更新告知・本編冒頭映像",
+      "confirmedAt": "2026-10-09T22:05:11+09:00"
     }
   },
   {
@@ -6149,11 +6160,12 @@
       "groupKey": null
     },
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
-      "targetId": null,
-      "note": null
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
+      "targetId": "x-1426468683778461700",
+      "note": null,
+      "confirmedAt": "2026-10-09T22:05:11+09:00"
     }
   },
   {
@@ -6189,11 +6201,12 @@
       "groupKey": null
     },
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
-      "targetId": null,
-      "note": null
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
+      "targetId": "x-1426907282139275264",
+      "note": null,
+      "confirmedAt": "2026-10-09T22:05:11+09:00"
     }
   }
 ]
