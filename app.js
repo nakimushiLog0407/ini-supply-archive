@@ -95,6 +95,7 @@ const exploreCategoryNames = {
   all: "すべて",
   youtube: "YouTube",
   member_diary: "Member Diary",
+  staff_report: "Staff Report",
   movie: "Movie",
   radio: "Radio",
   photo: "Photo",
@@ -168,6 +169,7 @@ async function loadSupplies() {
   const [
     youtube,
     memberDiary,
+    staffReport,
     movie,
     radio,
     photo,
@@ -184,6 +186,11 @@ async function loadSupplies() {
       loadSupplyFile(
         "data/member_diary.json",
         "Member Diary"
+      ),
+
+      loadSupplyFile(
+        "data/staff_report.json",
+        "Staff Report"
       ),
 
       loadSupplyFile(
@@ -222,6 +229,7 @@ async function loadSupplies() {
   supplies = [
     ...youtube,
     ...memberDiary,
+    ...staffReport,
     ...movie,
     ...radio,
     ...photo,
@@ -367,6 +375,7 @@ function isFcSupply(
     supply.group === "fc" ||
     [
       "member_diary",
+      "staff_report",
       "movie",
       "radio",
       "photo",
@@ -969,6 +978,14 @@ function renderSelectedDate() {
 
 
   appendSupplyCategory(
+    "Staff Report",
+    selected.filter(
+      supply => supply.type === "staff_report"
+    ),
+    true
+  );
+
+  appendSupplyCategory(
     "Movie",
     selected.filter(
       supply =>
@@ -1200,6 +1217,9 @@ function setExploreItemCategory(
   const names = {
     member_diary:
       "Member Diary",
+
+    staff_report:
+      "Staff Report",
 
     movie:
       "Movie",
@@ -2347,6 +2367,20 @@ function openDetail(
 
   }
 
+
+  /* Staff Report */
+
+  else if (
+    supply.type === "staff_report"
+  ) {
+    detailType.innerHTML = `
+      <span class="dot fc-dot"></span>
+      <span>Staff Report</span>
+    `;
+    detailExternalLink.href = supply.url || "#";
+    detailExternalLinkText.textContent = "公式サイトで見る";
+    detailExternalLink.classList.add("fc-link");
+  }
 
   /* FC Contents */
 

@@ -1,0 +1,48 @@
+name: Fetch Staff Report
+
+on:
+  # 手動実行
+  workflow_dispatch:
+
+  # 毎日22:31（日本時間）に自動実行
+  schedule:
+    - cron: "37 22 * * *"
+      timezone: "Asia/Tokyo"
+
+permissions:
+  contents: write
+
+# データ取得Workflow同士を同時実行しない。
+concurrency:
+  group: ini-data-fetch
+  cancel-in-progress: false
+
+jobs:
+  fetch-staff-report:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Fetch Staff Report
+        run: python scripts/fetch_staff_report.py
+
+      - name: Commit updated data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add data/staff_report.json
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Update Staff Report data"
+            git push
+          fi
