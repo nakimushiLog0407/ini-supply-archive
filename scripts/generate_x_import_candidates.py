@@ -100,11 +100,37 @@ def build_candidate(
         )
     )
 
+
+    # 本文冒頭の [#メンバー名] を投稿者として優先する。
+    # 投稿種別やタイトルの判定には影響させない。
+    leading_tag = re.match(
+        r"^\s*\[#([^\]\n]+)\]",
+        post["text"],
+    )
+
+    author_member = None
+
+    if leading_tag:
+        tag_name = leading_tag.group(1).strip()
+
+        for canonical, aliases in (
+            matcher.MEMBER_ALIASES.items()
+        ):
+            if (
+                tag_name == canonical
+                or tag_name in aliases
+            ):
+                author_member = canonical
+                break
+
     members = (
-        matcher.extract_members(
+        [author_member]
+        if author_member
+        else matcher.extract_members(
             post["text"]
         )
     )
+
 
     event_dates = (
         matcher.extract_event_dates(
