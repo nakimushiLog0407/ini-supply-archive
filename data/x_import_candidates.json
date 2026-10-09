@@ -3965,5 +3965,679 @@
       "note": null,
       "confirmedAt": "2026-10-09T16:14:49+09:00"
     }
+  },
+  {
+    "postId": "1416933324623253504",
+    "url": "https://x.com/official__ini/status/1416933324623253504",
+    "postedAt": "2021-07-19T10:30:04+09:00",
+    "author": "official__INI",
+    "text": "[#後藤威尊]\nｼﾞﾘﾘﾘﾘﾘﾘ~！\n10時30分！10時30分！\nぽわわわーん\n\nおはようございます！\n7月19日月曜日です！\n竹千代テレビをごら……\n\nｿﾘｿﾘｿﾘｿﾘﾜｯﾄ?! (　³ω³ )\n\n2時間半遅刻じゃん！(;´༎ຶД༎ຶ`)\n\nｺﾞｲｺﾞｲｺﾞｲｺﾞｲﾝ(･ω･)…\n\n二度寝すっか_(:3 」∠)_\n\n#INI #GOTOTAKERU https://t.co/WrEA559OA4",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E6n1WPZVEAAYFS7.jpg",
+        "width": 1080,
+        "height": 1518
+      }
+    ],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": null,
+      "members": [
+        "後藤威尊"
+      ],
+      "eventDates": [
+        "2021-07-19"
+      ],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1417046555681599493",
+    "url": "https://x.com/official__ini/status/1417046555681599493",
+    "postedAt": "2021-07-19T18:00:00+09:00",
+    "author": "official__INI",
+    "text": "✨OFFICIAL FANCLUB✨\nコンテンツ更新情報\n\n「Member Diary」が公開されました！\n\n🔽みんなの王子様になりたい後藤威尊です💍🕊⚪️\n\nサイト内［Member Diary］より、\nチェックしてください。\n\nhttps://t.co/lh66d4ct0a\n\n#INI #MemberDiary #後藤威尊",
+    "media": [],
+    "detected": {
+      "type": "member_diary",
+      "reason": "fc_member_diary",
+      "title": "みんなの王子様になりたい後藤威尊です💍🕊⚪️",
+      "members": [
+        "後藤威尊"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1417289739342811138",
+    "url": "https://x.com/official__ini/status/1417289739342811138",
+    "postedAt": "2021-07-20T10:06:20+09:00",
+    "author": "official__INI",
+    "text": "[#田島将吾]\n굿모닝 !\n저 아침에 자고 일어나면 얼굴이 띵띵 부어요🥱\n오늘도 좋은 하루를 보내요!\n\n朝は顔がめた腫れます^^;\nてことでお腹空いたので朝ご飯食べてきます！\nみんなも朝ご飯しっかり食べてね^ ^\n今日も良い1日を！\n\n#京ちゃんポーズ\n#INI #TAJIMASHOGO https://t.co/rf85dIOEC7",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E6s5fd1VgAMihFB.jpg",
+        "width": 1108,
+        "height": 1478
+      }
+    ],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": null,
+      "members": [
+        "田島将吾"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1417650602780151811",
+    "url": "https://x.com/official__ini/status/1417650602780151811",
+    "postedAt": "2021-07-21T10:00:17+09:00",
+    "author": "official__INI",
+    "text": "[#藤牧京介]\nおはようございます☀️\n\n昨日は人生初パックをしました👻\n\nあ、全然関係無いですけど、カタツムリって歯が10000以上もあるらしいですよ。。\n\nそれでは今日も1日頑張りましょー🔥🔥💪😤🔥🔥\n\n#INI #FUJIMAKIKYOSUKE https://t.co/TPNXxWWnTY",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E6yBtUUVcAILagw.jpg",
+        "width": 1108,
+        "height": 1478
+      }
+    ],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": null,
+      "members": [
+        "藤牧京介"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1417771332800966663",
+    "url": "https://x.com/official__ini/status/1417771332800966663",
+    "postedAt": "2021-07-21T18:00:01+09:00",
+    "author": "official__INI",
+    "text": "✨OFFICIAL FANCLUB✨\nコンテンツ更新情報\n\n「Member Diary」が公開されました！\n\n🔽最近大食い系のYouTubeを見るのにハマっている京介です！\n\nサイト内［Member Diary］より、\nチェックしてください。\n\nhttps://t.co/lh66d3URBA\n\n#INI #MemberDiary #藤牧京介",
+    "media": [],
+    "detected": {
+      "type": "member_diary",
+      "reason": "fc_member_diary",
+      "title": "最近大食い系のYouTubeを見るのにハマっている京介です！",
+      "members": [
+        "藤牧京介"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1418005414474510337",
+    "url": "https://x.com/official__ini/status/1418005414474510337",
+    "postedAt": "2021-07-22T09:30:10+09:00",
+    "author": "official__INI",
+    "text": "[#髙塚大夢]\nおはよぉ…\nどうも、朝が苦手な髙塚です😪\n最近のみんなの朝ツイートに便乗してみましたが、やっぱ眠いよぉ！？\n皆さんも、毎日朝からお仕事学校家事その他諸々、お疲れ様です、、！！\n\n今日から4連休ですね！！！\n湯船浸かって、ゆっくり休んでください〜🛁\n\n#INI #TAKATSUKAHIROMU https://t.co/56dWUdYHjJ",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E63EZn-UYAM1I9b.jpg",
+        "width": 1568,
+        "height": 1044
+      }
+    ],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": null,
+      "members": [
+        "髙塚大夢"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1418043127131037698",
+    "url": "https://x.com/official__ini/status/1418043127131037698",
+    "postedAt": "2021-07-22T12:00:02+09:00",
+    "author": "official__INI",
+    "text": "[🎞]YouTube UP!!!\n\nINI | INIクラス🏫 Part2\n(https://t.co/wNjhwNtTzC)\n\n#INI #アイエヌアイ #INIクラス",
+    "media": [],
+    "detected": {
+      "type": "video",
+      "reason": "video_content",
+      "title": null,
+      "members": [],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": "hashtag:2021-07-22:iniクラス"
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    },
+    "groupSuggestion": {
+      "groupKey": "hashtag:2021-07-22:iniクラス",
+      "reason": "shared_distinctive_hashtag",
+      "proposedTitle": "#INIクラス",
+      "postIds": [
+        "1418043127131037698",
+        "1418088465254653955",
+        "1418088664286912513",
+        "1418089038448185353"
+      ],
+      "postCount": 4
+    }
+  },
+  {
+    "postId": "1418088465254653955",
+    "url": "https://x.com/official__ini/status/1418088465254653955",
+    "postedAt": "2021-07-22T15:00:11+09:00",
+    "author": "official__INI",
+    "text": "YouTubeコンテンツ \n#INIクラス Part2\nご覧いただけましたか？\n\nYouTubeでは紹介しきれなかった\n11人の寄せ書きを公開✍🏻\n\n#池﨑理人 #IKEZAKIRIHITO\n#尾崎匠海 #OZAKITAKUMI\n#木村柾哉 #KIMURAMASAYA\n#後藤威尊 #GOTOTAKERU https://t.co/VEnrXZzHFp",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E64P8SDUYAEt9yi.jpg",
+        "width": 1200,
+        "height": 1200
+      },
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E64P8SDVgAEuXKf.jpg",
+        "width": 1200,
+        "height": 1200
+      },
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E64P8SDVEAErAzK.jpg",
+        "width": 1200,
+        "height": 1200
+      },
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E64P8SDUYAI0UJh.jpg",
+        "width": 1200,
+        "height": 1200
+      }
+    ],
+    "detected": {
+      "type": "video",
+      "reason": "video_content",
+      "title": null,
+      "members": [
+        "池﨑理人",
+        "尾崎匠海",
+        "木村柾哉",
+        "後藤威尊"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": "hashtag:2021-07-22:iniクラス"
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    },
+    "groupSuggestion": {
+      "groupKey": "hashtag:2021-07-22:iniクラス",
+      "reason": "shared_distinctive_hashtag",
+      "proposedTitle": "#INIクラス",
+      "postIds": [
+        "1418043127131037698",
+        "1418088465254653955",
+        "1418088664286912513",
+        "1418089038448185353"
+      ],
+      "postCount": 4
+    }
+  },
+  {
+    "postId": "1418088664286912513",
+    "url": "https://x.com/official__ini/status/1418088664286912513",
+    "postedAt": "2021-07-22T15:00:59+09:00",
+    "author": "official__INI",
+    "text": "YouTubeコンテンツ \n#INIクラス Part2\nご覧いただけましたか？\n\nYouTubeでは紹介しきれなかった\n11人の寄せ書きを公開✍🏻\n\n#佐野雄大 #SANOYUDAI\n#許豊凡 #XUFENGFAN\n#髙塚大夢 #TAKATSUKAHIROMU\n#田島将吾 #TAJIMASHOGO https://t.co/VRHheJTU73",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E64QH3uVkAA8VZo.jpg",
+        "width": 1200,
+        "height": 1200
+      },
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E64QH30UcAMFNnt.jpg",
+        "width": 1200,
+        "height": 1200
+      },
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E64QH39VIAgTvgf.jpg",
+        "width": 1200,
+        "height": 1200
+      },
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E64QH4GUYAEq2oU.jpg",
+        "width": 1200,
+        "height": 1200
+      }
+    ],
+    "detected": {
+      "type": "video",
+      "reason": "video_content",
+      "title": null,
+      "members": [
+        "佐野雄大",
+        "シュウ・フェンファン",
+        "髙塚大夢",
+        "田島将吾"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": "hashtag:2021-07-22:iniクラス"
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    },
+    "groupSuggestion": {
+      "groupKey": "hashtag:2021-07-22:iniクラス",
+      "reason": "shared_distinctive_hashtag",
+      "proposedTitle": "#INIクラス",
+      "postIds": [
+        "1418043127131037698",
+        "1418088465254653955",
+        "1418088664286912513",
+        "1418089038448185353"
+      ],
+      "postCount": 4
+    }
+  },
+  {
+    "postId": "1418089038448185353",
+    "url": "https://x.com/official__ini/status/1418089038448185353",
+    "postedAt": "2021-07-22T15:02:28+09:00",
+    "author": "official__INI",
+    "text": "YouTubeコンテンツ \n#INIクラス Part2\nご覧いただけましたか？\n\nYouTubeでは紹介しきれなかった\n11人の寄せ書きを公開✍🏻\n\n#西洸人 #NISHIHIROTO\n#藤牧京介 #FUJIMAKIKYOSUKE\n#松田迅 #MATSUDAJIN https://t.co/sruBOOiGLs",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E64Qdo8VgAUZOxu.jpg",
+        "width": 1200,
+        "height": 1200
+      },
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E64QdpAVEAIAyPS.jpg",
+        "width": 1200,
+        "height": 1200
+      },
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E64QdpKUcAUVIAF.jpg",
+        "width": 1200,
+        "height": 1200
+      }
+    ],
+    "detected": {
+      "type": "video",
+      "reason": "video_content",
+      "title": null,
+      "members": [
+        "西洸人",
+        "藤牧京介",
+        "松田迅"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": "hashtag:2021-07-22:iniクラス"
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    },
+    "groupSuggestion": {
+      "groupKey": "hashtag:2021-07-22:iniクラス",
+      "reason": "shared_distinctive_hashtag",
+      "proposedTitle": "#INIクラス",
+      "postIds": [
+        "1418043127131037698",
+        "1418088465254653955",
+        "1418088664286912513",
+        "1418089038448185353"
+      ],
+      "postCount": 4
+    }
+  },
+  {
+    "postId": "1418133720565911556",
+    "url": "https://x.com/official__ini/status/1418133720565911556",
+    "postedAt": "2021-07-22T18:00:01+09:00",
+    "author": "official__INI",
+    "text": "✨OFFICIAL FANCLUB✨\nコンテンツ更新情報\n\n「Staff Report」が公開されました！\n\n🔽あっという間に…！\n\nサイト内［Staff Report］より、\nチェックしてください。\n\nhttps://t.co/lh66d3URBA\n\n#INI #StaffReport",
+    "media": [],
+    "detected": {
+      "type": "staff_report",
+      "reason": "fc_staff_report",
+      "title": "あっという間に…！",
+      "members": [],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1418497190461276163",
+    "url": "https://x.com/official__ini/status/1418497190461276163",
+    "postedAt": "2021-07-23T18:04:19+09:00",
+    "author": "official__INI",
+    "text": "✨OFFICIAL FANCLUB✨\nコンテンツ更新情報\n\n「Member Diary」が公開されました！\n\n🔽早く大食い企画をしたいMJです\n\nサイト内［Member Diary］より、\nチェックしてください。\n\nhttps://t.co/lh66d3URBA\n\n#INI #MemberDiary #松田迅",
+    "media": [],
+    "detected": {
+      "type": "member_diary",
+      "reason": "fc_member_diary",
+      "title": "早く大食い企画をしたいMJです",
+      "members": [
+        "松田迅"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1418516018188541956",
+    "url": "https://x.com/official__ini/status/1418516018188541956",
+    "postedAt": "2021-07-23T19:19:08+09:00",
+    "author": "official__INI",
+    "text": "[#池﨑理人]\n理人です！！\n\n金曜日、4連休2日目ですね〜！\n\n最近暑すぎませんか！？\nシャワーでサッパリ3150！\n\n体調にだけ気をつけて、\n楽しみましょう！\n\n僕はインドア派なので最近は暇な時\nゲームずっとやってます！🐉⚔️\n\n皆さんの暇つぶしも教えてください〜！\n\n#INI #IKEZAKIRIHITO https://t.co/Z1zll6V2oC",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E6-Uy8MVkAAGJCy.jpg",
+        "width": 1108,
+        "height": 1478
+      }
+    ],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": null,
+      "members": [
+        "池﨑理人"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1418737161705201666",
+    "url": "https://x.com/official__ini/status/1418737161705201666",
+    "postedAt": "2021-07-24T09:57:52+09:00",
+    "author": "official__INI",
+    "text": "[#松田迅]\n松田迅だよん😎\n今日はしょうごさんとひろとくんとの\n写真を載せてみました！\n2人とも頼りになるお兄ちゃんで、すごく\nかわいがってくれるのでちゅきが溢れる🥰\n\n4連休、いっぱい休んでね！\nMJは休みの日は大体寝てます笑笑\n\n#寝る子は育つ\n#INI #MATSUDAJIN https://t.co/UUOapU9kSS",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E7Bd646VcAAbx1P.jpg",
+        "width": 1108,
+        "height": 1478
+      }
+    ],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": null,
+      "members": [
+        "松田迅"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1419220880111153156",
+    "url": "https://x.com/official__ini/status/1419220880111153156",
+    "postedAt": "2021-07-25T18:00:00+09:00",
+    "author": "official__INI",
+    "text": "✨OFFICIAL FANCLUB✨\nコンテンツ更新情報\n\n「Member Diary」が公開されました！\n\n🔽見せたいもの\n\nサイト内［Member Diary］より、\nチェックしてください。\n\nhttps://t.co/lh66d4ct0a\n\n#INI #MemberDiary #尾崎匠海",
+    "media": [],
+    "detected": {
+      "type": "member_diary",
+      "reason": "fc_member_diary",
+      "title": "見せたいもの",
+      "members": [
+        "尾崎匠海"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1419244808468504582",
+    "url": "https://x.com/official__ini/status/1419244808468504582",
+    "postedAt": "2021-07-25T19:35:05+09:00",
+    "author": "official__INI",
+    "text": "[#佐野雄大]\nぴろりろり〜ん⏳\nゆうだいの時間です！\nオレンマニエヨ〜🕺\n最近は電気を消してカーテンを閉め真っ暗の中フードを被ってアニメを観るのにドハマリだす🥰ちなみに刃牙というアニメにハマってます🤤\nみんなのオススメのアニメ教えて〜🙌\nそれではみなさん素敵な1日を〜🧖🏻\n\n#INI #SANOYUDAI https://t.co/dejwt1halp",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E7IroP4UcAkqYgd.jpg",
+        "width": 472,
+        "height": 1024
+      },
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E7IroP4VEAghfKC.jpg",
+        "width": 472,
+        "height": 1024
+      }
+    ],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": null,
+      "members": [
+        "佐野雄大"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
   }
 ]
