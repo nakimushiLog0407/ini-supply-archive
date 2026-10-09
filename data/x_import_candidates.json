@@ -4689,11 +4689,12 @@
       "groupKey": null
     },
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
-      "targetId": null,
-      "note": null
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
+      "targetId": "x-1419668009531052034",
+      "note": null,
+      "confirmedAt": "2026-10-09T17:05:40+09:00"
     }
   },
   {
@@ -4720,11 +4721,12 @@
       "groupKey": null
     },
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
+      "status": "confirmed",
+      "action": "exclude",
+      "targetType": "excluded",
       "targetId": null,
-      "note": null
+      "note": "FC Member Diary更新告知のため対象外",
+      "confirmedAt": "2026-10-09T17:05:40+09:00"
     }
   },
   {
@@ -4758,11 +4760,12 @@
       "groupKey": null
     },
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
-      "targetId": null,
-      "note": null
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
+      "targetId": "x-1419972133371871236",
+      "note": null,
+      "confirmedAt": "2026-10-09T17:05:40+09:00"
     }
   },
   {
@@ -4796,11 +4799,12 @@
       "groupKey": null
     },
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
+      "status": "confirmed",
+      "action": "exclude",
+      "targetType": "excluded",
       "targetId": null,
-      "note": null
+      "note": "FC Radio更新告知のため対象外",
+      "confirmedAt": "2026-10-09T17:05:40+09:00"
     }
   },
   {
@@ -4834,11 +4838,12 @@
       "groupKey": null
     },
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
-      "targetId": null,
-      "note": null
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
+      "targetId": "x-1420333272228265984",
+      "note": null,
+      "confirmedAt": "2026-10-09T17:05:40+09:00"
     }
   },
   {
@@ -4865,11 +4870,12 @@
       "groupKey": null
     },
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
+      "status": "confirmed",
+      "action": "exclude",
+      "targetType": "excluded",
       "targetId": null,
-      "note": null
+      "note": "FC Member Diary更新告知のため対象外",
+      "confirmedAt": "2026-10-09T17:05:40+09:00"
     }
   },
   {
@@ -4904,11 +4910,12 @@
       "groupKey": null
     },
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
-      "targetId": null,
-      "note": null
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
+      "targetId": "x-1420734646698995712",
+      "note": null,
+      "confirmedAt": "2026-10-09T17:05:40+09:00"
     }
   },
   {
@@ -4933,11 +4940,12 @@
       "groupKey": null
     },
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
+      "status": "confirmed",
+      "action": "exclude",
+      "targetType": "excluded",
       "targetId": null,
-      "note": null
+      "note": "番組配信の告知のみのため対象外",
+      "confirmedAt": "2026-10-09T17:05:40+09:00"
     }
   },
   {
@@ -4971,11 +4979,12 @@
       "groupKey": null
     },
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
-      "targetId": null,
-      "note": null
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
+      "targetId": "x-1421014010258857984",
+      "note": null,
+      "confirmedAt": "2026-10-09T17:05:40+09:00"
     }
   },
   {
@@ -5011,11 +5020,12 @@
       "groupKey": null
     },
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
+      "status": "confirmed",
+      "action": "exclude",
+      "targetType": "excluded",
       "targetId": null,
-      "note": null
+      "note": "FC Movie更新告知のため対象外",
+      "confirmedAt": "2026-10-09T17:05:40+09:00"
     }
   },
   {
@@ -5047,11 +5057,12 @@
       "groupKey": null
     },
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
-      "targetId": null,
-      "note": null
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
+      "targetId": "x-1421304609830625284",
+      "note": null,
+      "confirmedAt": "2026-10-09T17:05:40+09:00"
     }
   },
   {
@@ -5078,11 +5089,12 @@
       "groupKey": null
     },
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
+      "status": "confirmed",
+      "action": "exclude",
+      "targetType": "excluded",
       "targetId": null,
-      "note": null
+      "note": "FC Member Diary更新告知のため対象外",
+      "confirmedAt": "2026-10-09T17:05:40+09:00"
     }
   },
   {
@@ -5116,11 +5128,12 @@
       "groupKey": null
     },
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
-      "targetId": null,
-      "note": null
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
+      "targetId": "x-1421425490074558468",
+      "note": null,
+      "confirmedAt": "2026-10-09T17:05:40+09:00"
     }
   },
   {
@@ -5154,11 +5167,12 @@
       "groupKey": null
     },
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
-      "targetId": null,
-      "note": null
+      "status": "confirmed",
+      "action": "new_x_content",
+      "targetType": "x",
+      "targetId": "x-1421701410098343936",
+      "note": null,
+      "confirmedAt": "2026-10-09T17:05:40+09:00"
     }
   },
   {
@@ -5185,11 +5199,12 @@
       "groupKey": null
     },
     "review": {
-      "status": "pending",
-      "action": null,
-      "targetType": null,
+      "status": "confirmed",
+      "action": "exclude",
+      "targetType": "excluded",
       "targetId": null,
-      "note": null
+      "note": "FC Member Diary更新告知のため対象外",
+      "confirmedAt": "2026-10-09T17:05:40+09:00"
     }
   }
 ]
