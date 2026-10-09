@@ -5716,5 +5716,484 @@
       "note": null,
       "confirmedAt": "2026-10-09T21:06:14+09:00"
     }
+  },
+  {
+    "postId": "1424717224749666306",
+    "url": "https://x.com/official__ini/status/1424717224749666306",
+    "postedAt": "2021-08-09T22:00:31+09:00",
+    "author": "official__INI",
+    "text": "[#髙塚大夢]\nみなさんこんばんは！髙塚です！\n京介とゲームして遊びました🎮\n\n最近は天気が不安定なので、足元には気をつけて…💦\n傘忘れないようにしてくださいね😅\n今週も1週間一緒に頑張りましょう〜！！\n\n#INI #TAKATSUKAHIROMU https://t.co/ZXhWE7S8VY",
+    "media": [
+      {
+        "type": "video",
+        "thumbnailUrl": "https://pbs.twimg.com/ext_tw_video_thumb/1424717164137762817/pu/img/a3F1jKyj0tozdA_n.jpg",
+        "videoUrl": "https://video.twimg.com/ext_tw_video/1424717164137762817/pu/vid/540x960/Qftz5zqBiGFBBKKP.mp4?tag=12",
+        "width": 540,
+        "height": 960,
+        "durationMillis": 3366
+      }
+    ],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": null,
+      "members": [
+        "髙塚大夢"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1424747298714787846",
+    "url": "https://x.com/official__ini/status/1424747298714787846",
+    "postedAt": "2021-08-10T00:00:01+09:00",
+    "author": "official__INI",
+    "text": "▲▼━━━━━━━━━\n #HAPPYKYOSUKEDAY\n ━━━━━━━━━ ▲▼\n\n    HAPPY BIRTHDAY \n           KYOSUKE\n           20210810\n\n#INI #藤牧京介 \n#FUJIMAKIKYOSUKE https://t.co/zIGBZ9h9N9",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E8WSbazVIAM9LIh.jpg",
+        "width": 1080,
+        "height": 1080
+      }
+    ],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": null,
+      "members": [
+        "藤牧京介"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1425019089299419136",
+    "url": "https://x.com/official__ini/status/1425019089299419136",
+    "postedAt": "2021-08-10T18:00:01+09:00",
+    "author": "official__INI",
+    "text": "✨OFFICIAL FANCLUB✨\nコンテンツ更新情報\n\n「Member Diary」が公開されました！\n\n🔽22歳の京介です！\n\nサイト内［#MemberDiary］より、\nご確認ください。\nhttps://t.co/lh66d4ct0a\n\nBDメッセージも募集中！\nお祝いメッセージをくれた方には\n後日本人からメッセージをお届けします！\n\n#INI #藤牧京介",
+    "media": [],
+    "detected": {
+      "type": "member_diary",
+      "reason": "fc_member_diary",
+      "title": "22歳の京介です！",
+      "members": [
+        "藤牧京介"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1425049307246338052",
+    "url": "https://x.com/official__ini/status/1425049307246338052",
+    "postedAt": "2021-08-10T20:00:05+09:00",
+    "author": "official__INI",
+    "text": "[#佐野雄大]\nパンパカパーン\nゆうだいですぅ〜🐒\n今日はみんな大好き京ちゃんの誕生日でございますイェイ👏🎊\n誕生日だから京ちゃんが朝からテンション高め小僧となっております笑笑\nめちゃ可愛いです😂\nみなさんも素敵な1日を〜✨💫\n\n#INI #SANOYUDAI https://t.co/xjxjxJ4fXp",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E8bKybiUYAQbUDa.jpg",
+        "width": 1128,
+        "height": 1504
+      }
+    ],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": null,
+      "members": [
+        "佐野雄大"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1425301218264375305",
+    "url": "https://x.com/official__ini/status/1425301218264375305",
+    "postedAt": "2021-08-11T12:41:05+09:00",
+    "author": "official__INI",
+    "text": "[#松田迅]\nやっほー！松田迅です😎\n最近めちゃくちゃ練習頑張ってます！\n皆さんにレベルアップしたMJを見せたいです😊\n\nメンバー全員毎日練習頑張ってるので\n楽しみに待っててください🥺\n\n頑張るぞ💪おおおおお\n\n#photobyりーくん\n#INI #MATSUDAJIN https://t.co/fFqRboqTQI",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E8ev5rLUYAMr6RF.jpg",
+        "width": 1108,
+        "height": 1478
+      }
+    ],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": null,
+      "members": [
+        "松田迅"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1425381473616490502",
+    "url": "https://x.com/official__ini/status/1425381473616490502",
+    "postedAt": "2021-08-11T18:00:00+09:00",
+    "author": "official__INI",
+    "text": "✨OFFICIAL FANCLUB✨\nコンテンツ更新情報\n\n「INI WEB RADIO」が公開されました！\n\nサイト内［Radio］より、\nチェックしてください。\n\nhttps://t.co/lh66d3URBA\n\n#INI #WebRadio_vol3 https://t.co/Btqz2Ikpp2",
+    "media": [
+      {
+        "type": "video",
+        "thumbnailUrl": "https://pbs.twimg.com/ext_tw_video_thumb/1425322313956823041/pu/img/pzDq0SET9hg1VJjZ.jpg",
+        "videoUrl": "https://video.twimg.com/ext_tw_video/1425322313956823041/pu/vid/960x540/DE2xVDKRKf1s4BNB.mp4?tag=12",
+        "width": 960,
+        "height": 540,
+        "durationMillis": 65942
+      }
+    ],
+    "detected": {
+      "type": "radio",
+      "reason": "fc_radio",
+      "title": "INI WEB RADIO",
+      "members": [],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1425766238999879681",
+    "url": "https://x.com/official__ini/status/1425766238999879681",
+    "postedAt": "2021-08-12T19:28:55+09:00",
+    "author": "official__INI",
+    "text": "[#田島将吾]\n京ちゃん改めて誕生日おめでとう💚\n22歳が素敵な1年になりますように！\n疲れた時はこの写真みて癒されてね笑\n今日も練習頑張ろう😎\n\n#INI #TAJIMASHOGO https://t.co/X5r9PuPWyG",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E8lW1c3VgAI2GON.jpg",
+        "width": 1280,
+        "height": 1280
+      }
+    ],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": null,
+      "members": [
+        "田島将吾"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1426019427556990978",
+    "url": "https://x.com/official__ini/status/1426019427556990978",
+    "postedAt": "2021-08-13T12:15:00+09:00",
+    "author": "official__INI",
+    "text": "INIのプライベートメール配信サービス\n「INI MAIL」本日よりスタート！\n\n活動の裏話や、オフショットなど、\nここでしか見られないメンバーの素顔が盛りだくさん！\n詳しくはHPをチェック\n\nhttps://t.co/pQOSOrch1D\n\n※メンバーのメール配信は、\n本日19時以降からとなります\n\n#INI #INIMAIL",
+    "media": [],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": "INI MAIL",
+      "members": [],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1426106254213017606",
+    "url": "https://x.com/official__ini/status/1426106254213017606",
+    "postedAt": "2021-08-13T18:00:01+09:00",
+    "author": "official__INI",
+    "text": "✨OFFICIAL FANCLUB✨\nコンテンツ更新情報\n\n「Member Diary」が公開されました！\n\n🔽幸せな時間\n\nサイト内［Member Diary］より、\nチェックしてください。\n\nhttps://t.co/lh66d3URBA\n\n#INI  #尾崎匠海",
+    "media": [],
+    "detected": {
+      "type": "member_diary",
+      "reason": "fc_member_diary",
+      "title": "幸せな時間",
+      "members": [
+        "尾崎匠海"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1426184861249773579",
+    "url": "https://x.com/official__ini/status/1426184861249773579",
+    "postedAt": "2021-08-13T23:12:22+09:00",
+    "author": "official__INI",
+    "text": "[#西洸人]\n毎日練習練習！！\n\n#INI #NISHIHIROTO https://t.co/xRP6KbgIrW",
+    "media": [
+      {
+        "type": "video",
+        "thumbnailUrl": "https://pbs.twimg.com/ext_tw_video_thumb/1426184826948751373/pu/img/yJ35rI_xtWwNVZSd.jpg",
+        "videoUrl": "https://video.twimg.com/ext_tw_video/1426184826948751373/pu/vid/540x960/cJRi4nkWTts5TZ8F.mp4?tag=12",
+        "width": 540,
+        "height": 960,
+        "durationMillis": 6000
+      }
+    ],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": null,
+      "members": [
+        "西洸人"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1426468638245236740",
+    "url": "https://x.com/official__ini/status/1426468638245236740",
+    "postedAt": "2021-08-14T18:00:00+09:00",
+    "author": "official__INI",
+    "text": "✨OFFICIAL FANCLUB✨\nコンテンツ更新情報\n\n「INI 10の質問」が公開されました！\n\nサイト内［Movie］より、\nチェックしてください。\n\nhttps://t.co/lh66d4ct0a\n\n#INI #INI10の質問 #佐野雄大 https://t.co/rEINozml11",
+    "media": [
+      {
+        "type": "video",
+        "thumbnailUrl": "https://pbs.twimg.com/ext_tw_video_thumb/1426110589676310529/pu/img/Yg8nJrTXjEcdGME0.jpg",
+        "videoUrl": "https://video.twimg.com/ext_tw_video/1426110589676310529/pu/vid/960x540/bQoK9dI1JKqBwuI3.mp4?tag=12",
+        "width": 960,
+        "height": 540,
+        "durationMillis": 67150
+      }
+    ],
+    "detected": {
+      "type": "movie",
+      "reason": "fc_movie",
+      "title": "INI 10の質問",
+      "members": [
+        "佐野雄大"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1426468683778461700",
+    "url": "https://x.com/official__ini/status/1426468683778461700",
+    "postedAt": "2021-08-14T18:00:11+09:00",
+    "author": "official__INI",
+    "text": "[#後藤威尊 ]\nこんばんは🕊💍⚪️\n\n昨日からプラメ始まりましたね！メンバーのさらにプライベートな部分が知れて凄くいいですよね☺️\n\n他のメンバーがどんなメールしてるか気になるな🤔笑\n\n俺はTwitterとブログには書かないこといっぱい送ろっかな~。今日の夜も送るから待っててね😉\n\n#INI #GOTOTAKERU https://t.co/LCOkVPnbiU",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E8vVsv9VUAEIVUO.jpg",
+        "width": 1538,
+        "height": 2048
+      }
+    ],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": null,
+      "members": [
+        "後藤威尊"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1426907282139275264",
+    "url": "https://x.com/official__ini/status/1426907282139275264",
+    "postedAt": "2021-08-15T23:03:01+09:00",
+    "author": "official__INI",
+    "text": "[#池﨑理人]\n理人です！！\n今日はこのハムスターみたいな大夢くんを犬にしました！🐶\nみんな練習頑張ってます！！\n今日もお疲れ様でした☺️\nおやすみなさい🐹\n\n#INI #IKEZAKIRIHITO https://t.co/XJ3onlRZeP",
+    "media": [
+      {
+        "type": "video",
+        "thumbnailUrl": "https://pbs.twimg.com/ext_tw_video_thumb/1426907251772588032/pu/img/9FPtX2-xcRZiOIbq.jpg",
+        "videoUrl": "https://video.twimg.com/ext_tw_video/1426907251772588032/pu/vid/540x960/_dumvPFFkjbdUd93.mp4?tag=12",
+        "width": 540,
+        "height": 960,
+        "durationMillis": 6000
+      }
+    ],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": null,
+      "members": [
+        "池﨑理人"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
   }
 ]
