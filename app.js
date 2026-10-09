@@ -1802,7 +1802,8 @@ function normalizeXPosts(
 
 function renderXMedia(
   media,
-  container
+  container,
+  postUrl
 ) {
   if (
     !container ||
@@ -1822,7 +1823,7 @@ function renderXMedia(
           ) ||
           (
             item.type === "video" &&
-            item.videoUrl
+            item.thumbnailUrl
           )
         )
     );
@@ -1853,23 +1854,28 @@ function renderXMedia(
         return;
       }
 
-      const video =
-        document.createElement("video");
+      const image =
+        document.createElement("img");
 
-      video.className =
-        "detail-x-media-video";
-      video.src = item.videoUrl;
+      image.className =
+        "detail-x-media-image";
+      image.src = item.thumbnailUrl;
+      image.alt = "X投稿の動画サムネイル";
+      image.loading = "lazy";
 
-      if (item.thumbnailUrl) {
-        video.poster =
-          item.thumbnailUrl;
-      }
+      const link =
+        document.createElement("a");
 
-      video.controls = true;
-      video.preload = "metadata";
-      video.playsInline = true;
+      link.href = postUrl;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      link.setAttribute(
+        "aria-label",
+        "Xの動画投稿を開く"
+      );
 
-      container.appendChild(video);
+      link.appendChild(image);
+      container.appendChild(link);
     }
   );
 
@@ -1935,7 +1941,8 @@ function renderXPosts(
 
       renderXMedia(
         post.media,
-        media
+        media,
+        post.url
       );
 
 
