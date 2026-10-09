@@ -5206,5 +5206,501 @@
       "note": "FC Member Diary更新告知のため対象外",
       "confirmedAt": "2026-10-09T17:05:40+09:00"
     }
+  },
+  {
+    "postId": "1422104885559021570",
+    "url": "https://x.com/official__ini/status/1422104885559021570",
+    "postedAt": "2021-08-02T17:00:00+09:00",
+    "author": "official__INI",
+    "text": "✨OFFICIAL FANCLUB✨\nコンテンツ更新情報\n\n新コンテンツ「相性診断」が\n公開されました！\n\nサイト内［INI Type Check］より、\nチェックしてください。\n\nhttps://t.co/lh66d4ct0a\n\n#INI #INI相性診断 #INI_TypeCheck https://t.co/8Fui7ATmnd",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E7xFSFvUUAIeE3t.jpg",
+        "width": 1886,
+        "height": 1108
+      }
+    ],
+    "detected": {
+      "type": "exclude",
+      "reason": "fanclub_content_update_notice",
+      "title": "相性診断",
+      "members": [],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "exclude",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1422215779555045380",
+    "url": "https://x.com/official__ini/status/1422215779555045380",
+    "postedAt": "2021-08-03T00:20:39+09:00",
+    "author": "official__INI",
+    "text": "[#佐野雄大]\nこんばんは🌝\nゆうだいです！\n遅くなってすみません😖\n今日はみなさんにご報告です🙌\n目が悪かった僕もついにメガネを買いました😎\nこれはたけるのメガネです笑\n可愛かったので借りてました笑\nそれではみなさん夢で会えたら〜\nおやすみ〜😘\n\n#INI #SANOYUDAI https://t.co/5npxNa6YMK",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E7y5tfEVkAUlNQT.jpg",
+        "width": 960,
+        "height": 1280
+      }
+    ],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": null,
+      "members": [
+        "佐野雄大"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1422482371358593034",
+    "url": "https://x.com/official__ini/status/1422482371358593034",
+    "postedAt": "2021-08-03T18:00:00+09:00",
+    "author": "official__INI",
+    "text": "✨OFFICIAL FANCLUB✨\nコンテンツ更新情報\n\n「Staff Report」が公開されました！\n\n🔽はじめての特番！\n\nサイト内［Staff Report］より、\nチェックしてください。\n\nhttps://t.co/lh66d3URBA\n\n#INI #StaffReport",
+    "media": [],
+    "detected": {
+      "type": "staff_report",
+      "reason": "fc_staff_report",
+      "title": "はじめての特番！",
+      "members": [],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1422497520970657796",
+    "url": "https://x.com/official__ini/status/1422497520970657796",
+    "postedAt": "2021-08-03T19:00:12+09:00",
+    "author": "official__INI",
+    "text": "🎉Special Thanks\n\n INI初YouTube企画\n INIクラス🏫 Part1\n\n\\\\ 1,000,000 Views //\n\nたくさんご覧いただき\nありがとうございます！！\n次回は番外編🤭！？\n\n今後ともINIを宜しくお願いします！\n\n#INI #アイエヌアイ #INIクラス https://t.co/VPeJj3phwh",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E725PTTVIAMOT75.jpg",
+        "width": 1280,
+        "height": 1280
+      }
+    ],
+    "detected": {
+      "type": "video",
+      "reason": "video_content",
+      "title": null,
+      "members": [],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1422573475269468166",
+    "url": "https://x.com/official__ini/status/1422573475269468166",
+    "postedAt": "2021-08-04T00:02:01+09:00",
+    "author": "official__INI",
+    "text": "[#西洸人]\nお待たせ！\nひろとです！\n\nところでみなさん僕との相性診断はしてくれましたか？\nもちろん相性100%だよね？\nね？\n\nおやすみ！\n\n#INI #NISHIHIROTO https://t.co/h6lJThRW8V",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E73_B84VUAAy3Ab.jpg",
+        "width": 2048,
+        "height": 2048
+      },
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E73_B81VcAYtV2y.jpg",
+        "width": 2048,
+        "height": 2048
+      }
+    ],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": null,
+      "members": [
+        "西洸人"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1422840983826337793",
+    "url": "https://x.com/official__ini/status/1422840983826337793",
+    "postedAt": "2021-08-04T17:45:00+09:00",
+    "author": "official__INI",
+    "text": "✨OFFICIAL FANCLUB✨\nコンテンツ更新情報\n\n「Member Diary」が公開されました！\n\n🔽王子様への道のりⅠ\n\nサイト内［Member Diary］より、\nチェックしてください。\n\nhttps://t.co/lh66d4ct0a\n\n#INI #MemberDiary #後藤威尊",
+    "media": [],
+    "detected": {
+      "type": "member_diary",
+      "reason": "fc_member_diary",
+      "title": "王子様への道のりⅠ",
+      "members": [
+        "後藤威尊"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1422859938351648770",
+    "url": "https://x.com/official__ini/status/1422859938351648770",
+    "postedAt": "2021-08-04T19:00:19+09:00",
+    "author": "official__INI",
+    "text": "INIよりご報告\n\n許豊凡のビザ取得手続きが完了しました。\n\nこれからメディアやSNSなど\nどんどん活動していきます！\n\nINIは11名でさらに成長していきますので、あらためて応援よろしくお願いします！！\n\n#INI #フェンファンおかえり https://t.co/vY6koXxTZg",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E78DkmcUYAAe6R1.jpg",
+        "width": 1280,
+        "height": 1280
+      }
+    ],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": null,
+      "members": [
+        "シュウ・フェンファン"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1423146834592112640",
+    "url": "https://x.com/official__ini/status/1423146834592112640",
+    "postedAt": "2021-08-05T14:00:20+09:00",
+    "author": "official__INI",
+    "text": "[#田島将吾]\nたじです！\n夏休みっていう響がもう懐かしいなー^^;\n夏休みのあのトキメキ感、みなさんに会える日を待ってる今の感覚に似てる気がします^ ^\n体調崩さず元気でいてくださいね！😎\n\n#INI #TAJIMASHOGO https://t.co/zgKyitNuQF",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E8AIgGKUYAUQc53.jpg",
+        "width": 1108,
+        "height": 1478
+      }
+    ],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": null,
+      "members": [
+        "田島将吾"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1423570393806249985",
+    "url": "https://x.com/official__ini/status/1423570393806249985",
+    "postedAt": "2021-08-06T18:03:25+09:00",
+    "author": "official__INI",
+    "text": "[🗣Q&amp;A]\n\nINI Official Instagramのストーリーにて\n許豊凡への質問を募集📩\n\nあなたの質問に許豊凡が答えます！\n\n#許豊凡 に質問する▼\nhttps://t.co/aU4F4K7QaC\n\n#INI",
+    "media": [],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": null,
+      "members": [
+        "シュウ・フェンファン"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1423615039496343553",
+    "url": "https://x.com/official__ini/status/1423615039496343553",
+    "postedAt": "2021-08-06T21:00:49+09:00",
+    "author": "official__INI",
+    "text": "[#池﨑理人]\nこんばんは！理人です！\n\n今日は金曜日！\n1週間お疲れ様です！\n\nもうすぐお盆ですね🎇\n皆さんは夏らしい事をしてますか〜？\n\n今日は京介くんとの写真です！\nめちゃくちゃ優しくて面白い最高の兄貴です😂\n\n楽しい週末を送って下さいね✨\nオヤスミーーーフォーーー‼\n\n️#INI #IKEZAKIRIHITO https://t.co/Awz6LkmXMu",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E8GyVDSVEAcmnIK.jpg",
+        "width": 1125,
+        "height": 1408
+      }
+    ],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": null,
+      "members": [
+        "池﨑理人",
+        "藤牧京介"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1423871523866218496",
+    "url": "https://x.com/official__ini/status/1423871523866218496",
+    "postedAt": "2021-08-07T14:00:00+09:00",
+    "author": "official__INI",
+    "text": "[🎞]YouTube UP!!!\n\nINI | INIクラス🏫 \n〜番外編 Part1〜\n(https://t.co/qAymL9felW)\n\n#INI #アイエヌアイ #INIクラス",
+    "media": [],
+    "detected": {
+      "type": "video",
+      "reason": "video_content",
+      "title": null,
+      "members": [],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1423931930303684611",
+    "url": "https://x.com/official__ini/status/1423931930303684611",
+    "postedAt": "2021-08-07T18:00:02+09:00",
+    "author": "official__INI",
+    "text": "✨OFFICIAL FANCLUB✨\nコンテンツ更新情報\n\n「Member Diary」が公開されました！\n\n🔽好きなお寿司のネタはサーモンです柾哉です🍣\n\nサイト内［Member Diary］より、\nチェックしてください。\n\nhttps://t.co/lh66d4ct0a\n\n#INI #MemberDiary #木村柾哉",
+    "media": [],
+    "detected": {
+      "type": "member_diary",
+      "reason": "fc_member_diary",
+      "title": "好きなお寿司のネタはサーモンです柾哉です🍣",
+      "members": [
+        "木村柾哉"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1423977277008666626",
+    "url": "https://x.com/official__ini/status/1423977277008666626",
+    "postedAt": "2021-08-07T21:00:13+09:00",
+    "author": "official__INI",
+    "text": "[#許豊凡]\nお久しぶりです！\n許豊凡です！\n\n長い間、ほんとにありがとうございました。\n心配させてごめんね…😭\nわかってますよ、言いたいこと、全部\n僕も皆さんと話したいこといっぱいあります^^\n\nこれからはいっぱい会いましょうね✨\n\n#INI #XUFENGFAN https://t.co/4ttb5gYzSl",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E8L7xqdVUAg826N.jpg",
+        "width": 1536,
+        "height": 2048
+      }
+    ],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": null,
+      "members": [
+        "シュウ・フェンファン"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1424258361617391621",
+    "url": "https://x.com/official__ini/status/1424258361617391621",
+    "postedAt": "2021-08-08T15:37:09+09:00",
+    "author": "official__INI",
+    "text": "[#尾崎匠海]\n匠海です！✨\n今日はゆうだいとー！📸\nINIクラス〜番外編 Part1〜\n見てくれたかなー？🙋‍♂️\n今回初のロケ撮影！\n東京ジョイポリスへ行ってきました！\nすごく楽しくてはしゃいじゃった🤤\n是非チェックしてみてください🌈\n\nhttps://t.co/qAymL8XCXm\n\n#INI #OZAKITAKUMI https://t.co/lVIrKcuQzo",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E8P7bOCVEAMaQaj.jpg",
+        "width": 1108,
+        "height": 1478
+      }
+    ],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": null,
+      "members": [
+        "尾崎匠海"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
   }
 ]
