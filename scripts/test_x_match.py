@@ -664,10 +664,9 @@ def detect_post_type(text, media=None):
             ),
         }
 
-    # FC内のコンテンツが更新・公開されたことだけを知らせる
-    # 告知投稿はX供給としては記録しない。
-    # 個別のMember Diary等を示す投稿は、この一般通知より
-    # 後段のFC判定に渡せるよう除外する。
+    # FCコンテンツの公開・更新を知らせる定型文は、
+    # 写真・動画の有無や個別コンテンツ名より優先して
+    # 対象外候補にする。最終判断はConfirmで行う。
     fc_content_labels = [
         "member diary",
         "staff report",
@@ -681,31 +680,32 @@ def detect_post_type(text, media=None):
         "［radio］",
     ]
 
-    is_specific_fc_content = any(
+    has_fc_content_label = any(
         label in normalized
         for label in fc_content_labels
     )
 
-    if (
-        "official fanclub"
-        in normalized
-        and not is_specific_fc_content
-        and (
-            "コンテンツ更新情報"
-            in normalized
-            or (
-                "contents"
-                in normalized
-                and any(
-                    word in normalized
-                    for word in [
-                        "公開されました",
-                        "更新しました",
-                        "更新情報",
-                    ]
-                )
+    is_fc_update_notice = (
+        "コンテンツ更新情報" in normalized
+        or (
+            (
+                "contents" in normalized
+                or has_fc_content_label
+            )
+            and any(
+                word in normalized
+                for word in [
+                    "公開されました",
+                    "更新しました",
+                    "更新情報",
+                ]
             )
         )
+    )
+
+    if (
+        "official fanclub" in normalized
+        and is_fc_update_notice
     ):
         return {
             "type": "exclude",
