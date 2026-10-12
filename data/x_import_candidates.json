@@ -6208,5 +6208,454 @@
       "note": null,
       "confirmedAt": "2026-10-09T22:05:11+09:00"
     }
+  },
+  {
+    "postId": "1427193415255695362",
+    "url": "https://x.com/official__ini/status/1427193415255695362",
+    "postedAt": "2021-08-16T18:00:00+09:00",
+    "author": "official__INI",
+    "text": "✨OFFICIAL FANCLUB✨\nコンテンツ更新情報\n\n「Member Diary」が公開されました！\n\n🔽最近タンブラーを買って気分が良いたじです\n\nサイト内［Member Diary］より、\nチェックしてください。\n\nhttps://t.co/lh66d4ct0a\n\n#INI #田島将吾",
+    "media": [],
+    "detected": {
+      "type": "exclude",
+      "reason": "fanclub_content_update_notice",
+      "title": "Member Diary",
+      "members": [
+        "田島将吾"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "exclude",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1427261648406859778",
+    "url": "https://x.com/official__ini/status/1427261648406859778",
+    "postedAt": "2021-08-16T22:31:08+09:00",
+    "author": "official__INI",
+    "text": "[#許豊凡]\nこんばんは💫\n許豊凡です！\n\n今日もみんなで練習頑張ってきました！早く皆さんに会いたいな～✨\n\nところで、皆さん10問10答の動画を見てくれましたか？こっそり誰かのワイプが追加されていますよ！笑\n\nぜひチェックしてみてくださいね〜\n\nそれでは、おやすみなさい💤\n\n#INI #XUFENGFAN https://t.co/DDprxV3ISp",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E86m5p0VoAQWJn5.jpg",
+        "width": 1222,
+        "height": 1222
+      },
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E86m5p4VoAYngNT.jpg",
+        "width": 1213,
+        "height": 1213
+      }
+    ],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": null,
+      "members": [
+        "シュウ・フェンファン"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1427571013148020739",
+    "url": "https://x.com/official__ini/status/1427571013148020739",
+    "postedAt": "2021-08-17T19:00:27+09:00",
+    "author": "official__INI",
+    "text": "[#木村柾哉]\n皆さんこんばんは！柾哉です！✊🏻\nFCのINIラジオvol.1でドライブの話がちらっと出たんですがこの前3人で移動中、車の上の窓を開けてドライブ気分で移動してました😂\nドライブっていいですね！！🚗\n自分は免許持ってないから誰かに運転してもらわないと。笑\n\n#INI #KIMURAMASAYA https://t.co/ZyhjUtphb9",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E8_AQmsUcAE9G0y.jpg",
+        "width": 1280,
+        "height": 1280
+      }
+    ],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": null,
+      "members": [
+        "木村柾哉"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1428004559016792079",
+    "url": "https://x.com/official__ini/status/1428004559016792079",
+    "postedAt": "2021-08-18T23:43:12+09:00",
+    "author": "official__INI",
+    "text": "[#藤牧京介]\nこんばんはーーーーー！京介です！\n\n夏といえばアイスですが、アイスを食べた時に頭がキーンとなる現象を「アイスクリーム頭痛」って言うらしいですよ🧊\n\nこれは知っている人も多いかもしれないですね！\n\nということで今日も一日お疲れ様です！\nおやすみなさい！😴\n\n#INI #FUJIMAKIKYOSUKE https://t.co/mtD3jgcHzY",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E9FKkqfUcAYGqBb.jpg",
+        "width": 1478,
+        "height": 1043
+      }
+    ],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": "アイスクリーム頭痛",
+      "members": [
+        "藤牧京介"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1428273029067333632",
+    "url": "https://x.com/official__ini/status/1428273029067333632",
+    "postedAt": "2021-08-19T17:30:00+09:00",
+    "author": "official__INI",
+    "text": "✨OFFICIAL FANCLUB✨\nコンテンツ更新情報\n\n「Member Diary」が公開されました！\n\n🔽息抜き\n\nサイト内［Member Diary］より、\nチェックしてください。\n\nhttps://t.co/lh66d3URBA\n\n#INI #西洸人",
+    "media": [],
+    "detected": {
+      "type": "exclude",
+      "reason": "fanclub_content_update_notice",
+      "title": "Member Diary",
+      "members": [
+        "西洸人"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "exclude",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1428280583826853889",
+    "url": "https://x.com/official__ini/status/1428280583826853889",
+    "postedAt": "2021-08-19T18:00:02+09:00",
+    "author": "official__INI",
+    "text": "[🎞]YouTube UP!!!\n\nINI | INIクラス🏫 \n〜番外編 Part2〜\n(https://t.co/MM6ddHzTqg)\n\n#INI #アイエヌアイ #INIクラス",
+    "media": [],
+    "detected": {
+      "type": "video",
+      "reason": "video_content",
+      "title": null,
+      "members": [],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1428306984445509633",
+    "url": "https://x.com/official__ini/status/1428306984445509633",
+    "postedAt": "2021-08-19T19:44:56+09:00",
+    "author": "official__INI",
+    "text": "[#佐野雄大]\nやっほーーー👶\nゆうだいです！！！\nみなさん最近天気がすごく変化しやすいですが大丈夫ですか？\n\n僕は最近自分の雰囲気が子供っぽすぎるかなと…なので大人っぽくなりたいと思い雰囲気を変えてみよう！\nと思っています笑笑\n\nやったるで！！！\nほなまたね〜🕺\n\n#INI #SANOYUDAI https://t.co/kN4YEf0bDT",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E9JdnZhVgAI24J1.jpg",
+        "width": 580,
+        "height": 806
+      }
+    ],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": null,
+      "members": [
+        "佐野雄大"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1428522169135415298",
+    "url": "https://x.com/official__ini/status/1428522169135415298",
+    "postedAt": "2021-08-20T10:00:00+09:00",
+    "author": "official__INI",
+    "text": "INIがアディダス2021秋冬コレクション\n「着やすいを、着こなそう」\nイメージキャラクターに就任✨\n\n8月20日からアディダス取扱店\n（アディダス直営店を除く）の\n店舗とオンラインストアにて順次展開！\n※許豊凡を除く10名でのスタートになります\n\n是非Checkしてください！\n\n#adidas\n#INI #アイエヌアイ https://t.co/YAB04PBqsg",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E9KX48dVEAMQl2f.jpg",
+        "width": 1920,
+        "height": 1080
+      }
+    ],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": "着やすいを、着こなそう",
+      "members": [
+        "シュウ・フェンファン"
+      ],
+      "eventDates": [
+        "2021-08-20"
+      ],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1428642969167532037",
+    "url": "https://x.com/official__ini/status/1428642969167532037",
+    "postedAt": "2021-08-20T18:00:01+09:00",
+    "author": "official__INI",
+    "text": "✨OFFICIAL FANCLUB✨\nコンテンツ更新情報\n\n「INI 10の質問」が公開されました！\n\nサイト内［Movie］より、\nチェックしてください。\n\nhttps://t.co/lh66d4ct0a\n\n#INI #INI10の質問 #許豊凡 https://t.co/QkaiEgjkBE",
+    "media": [
+      {
+        "type": "video",
+        "thumbnailUrl": "https://pbs.twimg.com/ext_tw_video_thumb/1428581788457132032/pu/img/wp3x4IV1sZDSmllL.jpg",
+        "videoUrl": "https://video.twimg.com/ext_tw_video/1428581788457132032/pu/vid/960x540/PgCSpDxNwRgd6g-7.mp4?tag=12",
+        "width": 960,
+        "height": 540,
+        "durationMillis": 57733
+      }
+    ],
+    "detected": {
+      "type": "exclude",
+      "reason": "fanclub_content_update_notice",
+      "title": "INI 10の質問",
+      "members": [
+        "シュウ・フェンファン"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "exclude",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1428731227922599944",
+    "url": "https://x.com/official__ini/status/1428731227922599944",
+    "postedAt": "2021-08-20T23:50:43+09:00",
+    "author": "official__INI",
+    "text": "[#池﨑理人]\n理人でーす！！\n遅くなってごめんなさい！笑\n僕たちがイメージキャラクターを務めるadidasさんの広告ビジュアルが続々と公開され始めてるみたいで、僕たちもウキウキです！\n是非チェックしてくださいね♪\n今週も1週間お疲れ様でした！\nおやすみ！\n\n#ふぉとばいMJ\n#INI #IKEZAKIRIHITO https://t.co/ms2YGpIT7J",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E9Pfel4VUAIJ2Jm.jpg",
+        "width": 947,
+        "height": 1263
+      }
+    ],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": null,
+      "members": [
+        "池﨑理人"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1428946333650485257",
+    "url": "https://x.com/official__ini/status/1428946333650485257",
+    "postedAt": "2021-08-21T14:05:29+09:00",
+    "author": "official__INI",
+    "text": "[#尾崎匠海]\n皆さんこんにちは！！\n匠海です！\nadidasさんの広告ビジュアル\nみてくれたかな？🤤\n感想聞かせてね😚\nそして今日は西くんとー！📸\n\n#INI #OZAKITAKUMI https://t.co/Ge9bj8kav0",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E9SjHJeVIAMseFh.jpg",
+        "width": 955,
+        "height": 955
+      }
+    ],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": null,
+      "members": [
+        "尾崎匠海"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
+  },
+  {
+    "postId": "1429404133031702530",
+    "url": "https://x.com/official__ini/status/1429404133031702530",
+    "postedAt": "2021-08-22T20:24:37+09:00",
+    "author": "official__INI",
+    "text": "[#髙塚大夢]\nみなさんどうもこんばんは\n最近朝の目覚めがとても悪い髙塚です！\nもうそろそろ夏も終わりますね🌻\n皆さん今年はどんな夏でしたか？？\n僕は夏の夕方から夜の空気感が大好きです☺️\n蚊に刺されるのは嫌だけどね笑\n\n明日からまた1週間、頑張っていきましょ〜う！！\n\n#INI #TAKATSUKAHIROMU https://t.co/KkgZwN2fqJ",
+    "media": [
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E9ZDeoGVgAUug51.jpg",
+        "width": 1108,
+        "height": 1478
+      },
+      {
+        "type": "photo",
+        "url": "https://pbs.twimg.com/media/E9ZDeoHVoAAAXWO.jpg",
+        "width": 1108,
+        "height": 1478
+      }
+    ],
+    "detected": {
+      "type": "unknown",
+      "reason": "no_rule",
+      "title": null,
+      "members": [
+        "髙塚大夢"
+      ],
+      "eventDates": [],
+      "scheduleNames": []
+    },
+    "suggestion": {
+      "action": "new_x_content",
+      "targetType": null,
+      "targetId": null,
+      "groupKey": null
+    },
+    "review": {
+      "status": "pending",
+      "action": null,
+      "targetType": null,
+      "targetId": null,
+      "note": null
+    }
   }
 ]
