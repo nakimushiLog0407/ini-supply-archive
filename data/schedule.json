@@ -64982,6 +64982,20 @@
     "detailText": "2026.11.15\n[Sun]\nLive／Event\n2026 INI 5TH ANNIVERSARY DOME TOUR [CITY OF LIGHTS]@京セラドーム大阪\n〈公演日程〉\n「2026 INI 5TH ANNIVERSARY DOME TOUR [CITY OF LIGHTS]」\n[東京・東京ドーム]\n2026/09/16（水） 開場16:30 / 開演18:30\n2026/09/17（木） 開場12:30 / 開演14:30\n[大阪・京セラドーム大阪]\n2026/11/14（土） 開場16:30 / 開演18:30\n2026/11/15（日） 開場12:30 / 開演14:30\n※公演内容、公演日程、出演者等は急遽変更になる場合がございます。あらかじめご了承ください。"
   },
   {
+    "id": "schedule-4496",
+    "scheduleId": "4496",
+    "type": "schedule",
+    "group": "schedule",
+    "category": "live_event",
+    "categoryLabel": "Live／Event",
+    "date": "2026-11-20",
+    "title": "2026 MAMA AWARDS",
+    "url": "https://ini-official.com/schedule/detail/4496",
+    "members": [],
+    "externalLinks": [],
+    "detailText": "2026.11.20\n[Fri]\nLive／Event\n2026 MAMA AWARDS\n▪️日時\n2026年11月20日（金）\n▪️場所\n京セラドーム大阪 & Mnet Plus"
+  },
+  {
     "id": "schedule-4383",
     "scheduleId": "4383",
     "type": "schedule",
