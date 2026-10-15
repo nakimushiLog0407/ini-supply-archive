@@ -2088,15 +2088,6 @@
     "url": "https://ini-official.com/movies/detail/589"
   },
   {
-    "id": "movie-598",
-    "type": "movie",
-    "group": "fc",
-    "date": "2026-08-28",
-    "title": "『藤牧京介FCイベント〜きょうすけらじお公開収録〜 』BEHIND",
-    "thumbnail": "https://ini-official.com/static2/prod/new_movie/thumbnail/337/72a30e320922cf0038264f04979054a940caca92204c441ddb5065b079fa3167_t.png",
-    "url": "https://ini-official.com/movies/detail/598"
-  },
-  {
     "id": "movie-603",
     "type": "movie",
     "group": "fc",
@@ -2140,5 +2131,14 @@
     "title": "HIROMU's 10,000days Birthday SHOOTING BEHIND",
     "thumbnail": "https://ini-official.com/static2/prod/new_movie/thumbnail/337/f175eb90d528b8e9bc99569cde2984aa93c00f9d8ea9aa39b1b01f229bc53997_t.png",
     "url": "https://ini-official.com/movies/detail/624"
+  },
+  {
+    "id": "movie-625",
+    "type": "movie",
+    "group": "fc",
+    "date": "2026-10-14",
+    "title": "INIの控え室 vol.2",
+    "thumbnail": "https://ini-official.com/static2/prod/new_movie/thumbnail/337/2077ab99f5bd696a67a5558c769b660fd147307e277f8c5e631e9b7871a6018b_t.png",
+    "url": "https://ini-official.com/movies/detail/625"
   }
 ]
