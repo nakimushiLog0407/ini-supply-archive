@@ -64552,7 +64552,7 @@
         "url": "https://www.aichi-nagoya2026.org/"
       }
     ],
-    "detailText": "2026.10.04\n[Sun]\nLive／Event\n第20 回アジア競技大会 閉会式 WARM-UP STAGE\n◼︎日程\n10月4日（日）\n本人確認開始 13:00/開門 13:30\nWARM-UP STAGE開始 16:00\n※WARM-UP STAGE開始後(16:30～)は入場規制がございます。\n◾️会場\n愛知・名古屋市瑞穂公園陸上競技場(パロマ瑞穂スタジアム)\n◾️公式サイト\nhttps://www.aichi-nagoya2026.org/\n木村柾哉が出演いたします。"
+    "detailText": "2026.10.04\n[Sun]\nLive／Event\n第20 回アジア競技大会 閉会式 WARM-UP STAGE\n◾️日程\n10月4日（日）\n本人確認開始 13:00/開門 13:30\nWARM-UP STAGE開始 16:00\n※WARM-UP STAGE開始後(16:30～)は入場規制がございます。\n◾️会場\n愛知・名古屋市瑞穂公園陸上競技場(パロマ瑞穂スタジアム)\n◾️公式サイト\nhttps://www.aichi-nagoya2026.org/\n木村柾哉が出演いたします。"
   },
   {
     "id": "schedule-4487",
@@ -64735,15 +64735,37 @@
     "detailText": "2026.10.13\n[Tue]\nBirthday\n田島 将吾's Birthday！"
   },
   {
-    "id": "schedule-4449",
-    "scheduleId": "4449",
+    "id": "schedule-4502",
+    "scheduleId": "4502",
+    "type": "schedule",
+    "group": "schedule",
+    "category": "live_event",
+    "categoryLabel": "Live／Event",
+    "date": "2026-10-16",
+    "title": "「SATURDAY AMUSIC ISLANDS -MORNING EDITION-」番組公開収録",
+    "url": "https://ini-official.com/schedule/detail/4502",
+    "members": [
+      "尾崎匠海",
+      "後藤威尊"
+    ],
+    "externalLinks": [
+      {
+        "label": "https://funky802.com/saiam/",
+        "url": "https://funky802.com/saiam/"
+      }
+    ],
+    "detailText": "2026.10.16\n[Fri]\nLive／Event\n「SATURDAY AMUSIC ISLANDS -MORNING EDITION-」番組公開収録\n■日程\n10月16日(金) 18:30スタート (約30分予定)\n■会場\nあべのキューズモール3階 スカイコート\n■公式\nサイト\nhttps://funky802.com/saiam/\n尾崎匠海、後藤威尊が出演いたします。"
+  },
+  {
+    "id": "schedule-4504",
+    "scheduleId": "4504",
     "type": "schedule",
     "group": "schedule",
     "category": "radio",
     "categoryLabel": "Radio",
     "date": "2026-10-17",
     "title": "FM802『SATURDAY AMUSIC ISLANDS -MORNING EDITION-』7:00-12:00",
-    "url": "https://ini-official.com/schedule/detail/4449",
+    "url": "https://ini-official.com/schedule/detail/4504",
     "members": [
       "尾崎匠海",
       "後藤威尊"
@@ -64797,6 +64819,25 @@
       }
     ],
     "detailText": "2026.10.22\n[Thu]\nMagazine\nJUNON 2026年12月号 特別版\nhttps://www.shufu.co.jp/tax_magazine_kind/junon/\n尾崎匠海、後藤威尊、佐野雄大 表紙&インタビュー"
+  },
+  {
+    "id": "schedule-4501",
+    "scheduleId": "4501",
+    "type": "schedule",
+    "group": "schedule",
+    "category": "tv",
+    "categoryLabel": "TV",
+    "date": "2026-10-23",
+    "title": "EX『ミュージックステーション 40周年SP』20:00-21:48",
+    "url": "https://ini-official.com/schedule/detail/4501",
+    "members": [],
+    "externalLinks": [
+      {
+        "label": "https://www.tv-asahi.co.jp/music/",
+        "url": "https://www.tv-asahi.co.jp/music/"
+      }
+    ],
+    "detailText": "2026.10.23\n[Fri]\nTV\nEX『ミュージックステーション 40周年SP』20:00-21:48\n▼番組名\nEX『ミュージックステーション 40周年SP』\n▼放送日時\n2026年11月23日（金）20:00-21:48\n▼番組HP\nhttps://www.tv-asahi.co.jp/music/"
   },
   {
     "id": "schedule-4445",
@@ -64992,8 +65033,13 @@
     "title": "2026 MAMA AWARDS",
     "url": "https://ini-official.com/schedule/detail/4496",
     "members": [],
-    "externalLinks": [],
-    "detailText": "2026.11.20\n[Fri]\nLive／Event\n2026 MAMA AWARDS\n▪️日時\n2026年11月20日（金）\n▪️場所\n京セラドーム大阪 & Mnet Plus"
+    "externalLinks": [
+      {
+        "label": "https://mnetjp.com/mama/2026/",
+        "url": "https://mnetjp.com/mama/2026/"
+      }
+    ],
+    "detailText": "2026.11.20\n[Fri]\nLive／Event\n2026 MAMA AWARDS\n▪️日時\n2026年11月20日（金）\n▪️場所\n京セラドーム大阪 & Mnet Plus\n▪️公式サイト\nhttps://mnetjp.com/mama/2026/"
   },
   {
     "id": "schedule-4383",
