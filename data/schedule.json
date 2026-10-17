@@ -64840,6 +64840,28 @@
     "detailText": "2026.10.23\n[Fri]\nTV\nEX『ミュージックステーション 40周年SP』20:00-21:48\n▼番組名\nEX『ミュージックステーション 40周年SP』\n▼放送日時\n2026年11月23日（金）20:00-21:48\n▼番組HP\nhttps://www.tv-asahi.co.jp/music/"
   },
   {
+    "id": "schedule-4505",
+    "scheduleId": "4505",
+    "type": "schedule",
+    "group": "schedule",
+    "category": "radio",
+    "categoryLabel": "Radio",
+    "date": "2026-10-24",
+    "title": "J-WAVE『DIVE TO THE NEW WORLD』23:00-23:54",
+    "url": "https://ini-official.com/schedule/detail/4505",
+    "members": [
+      "池﨑理人",
+      "シュウ・フェンファン"
+    ],
+    "externalLinks": [
+      {
+        "label": "https://www.j-wave.co.jp/original/divetothenewworld/",
+        "url": "https://www.j-wave.co.jp/original/divetothenewworld/"
+      }
+    ],
+    "detailText": "2026.10.24\n[Sat]\nRadio\nJ-WAVE『DIVE TO THE NEW WORLD』23:00-23:54\n▼番組名\nJ-WAVE『DIVE TO THE NEW WORLD』\n▼放送日時\n2026年10月24日（土）23:00-23:54\n▼番組HP\nhttps://www.j-wave.co.jp/original/divetothenewworld/\n池﨑理人、シュウ・フェンファンが出演いたします。"
+  },
+  {
     "id": "schedule-4445",
     "scheduleId": "4445",
     "type": "schedule",
