@@ -65083,6 +65083,25 @@
     "detailText": "2026.11.22\n[Sun]\nLive／Event\n15th Anniversary テレビ朝日ドリームフェスティバル2026\n■日程\n2026年11月22日（日）開場13:30 / 開演15:00（予定）\n■\n会場\nKアリーナ横浜（〒220-8507 横浜市西区みなとみらい6-2-14）\n◾️公式HP\nhttps://dreamfestival.jp/"
   },
   {
+    "id": "schedule-4510",
+    "scheduleId": "4510",
+    "type": "schedule",
+    "group": "schedule",
+    "category": "live_event",
+    "categoryLabel": "Live／Event",
+    "date": "2026-12-12",
+    "title": "2026 MUSIC BANK GLOBAL FESTIVAL IN JAPAN",
+    "url": "https://ini-official.com/schedule/detail/4510",
+    "members": [],
+    "externalLinks": [
+      {
+        "label": "https://music-bank.jp/",
+        "url": "https://music-bank.jp/"
+      }
+    ],
+    "detailText": "2026.12.12\n[Sat]\nLive／Event\n2026 MUSIC BANK GLOBAL FESTIVAL IN JAPAN\n◾️日程\n12月12日(土) 開場15:00（予定）/ 開演17:00（予定）★\n12月13日(日) 開場15:00（予定）/ 開演17:00（予定）\n★INIは12/12(土)に出演いたします。\n◾️会場\nMUFGスタジアム（国立競技場）\n◾️番組HP\nhttps://music-bank.jp/"
+  },
+  {
     "id": "schedule-4299",
     "scheduleId": "4299",
     "type": "schedule",
