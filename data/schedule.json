@@ -65087,6 +65087,28 @@
     "detailText": "2026.11.01\n[Sun]\nLive／Event\nOTRN [ Sound Lab ]\n◾️日程\n2026年10月31日(土) 開場16:30 / 開演17:30\n2026年11月1日(日) 開場14:00 / 開演15:00\n※西洸人は11月1日(日)に出演いたします。\n◾️会場\nYOKOHAMA BUNTAI（〒231-0032 神奈川県横浜市中区不老町２丁目７番１）\n◾️公式HP\nhttps://jetmusic-official.com/"
   },
   {
+    "id": "schedule-4506",
+    "scheduleId": "4506",
+    "type": "schedule",
+    "group": "schedule",
+    "category": "radio",
+    "categoryLabel": "Radio",
+    "date": "2026-11-03",
+    "title": "J-WAVE『J-WAVE HOLIDAY SPECIAL Juchheim presents TURN IT OVER！』9:00-17:55",
+    "url": "https://ini-official.com/schedule/detail/4506",
+    "members": [
+      "シュウ・フェンファン",
+      "髙塚大夢"
+    ],
+    "externalLinks": [
+      {
+        "label": "https://www.j-wave.co.jp/holiday/20261103/",
+        "url": "https://www.j-wave.co.jp/holiday/20261103/"
+      }
+    ],
+    "detailText": "2026.11.03\n[Tue]\nRadio\nJ-WAVE『J-WAVE HOLIDAY SPECIAL Juchheim presents TURN IT OVER！』9:00-17:55\n▼番組名\nJ-WAVE『J-WAVE HOLIDAY SPECIAL Juchheim presents TURN IT OVER！』\n▼放送日時\n2026年11月3日（火）9:00-17:55\n▼番組HP\nhttps://www.j-wave.co.jp/holiday/20261103/\nシュウ・フェンファン、髙塚大夢が出演いたします。"
+  },
+  {
     "id": "schedule-4399",
     "scheduleId": "4399",
     "type": "schedule",
