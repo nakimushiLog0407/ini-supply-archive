@@ -64987,6 +64987,25 @@
     "detailText": "2026.10.25\n[Sun]\nRadio\nFM802『802 BINTAN GARDEN 「Log in to us ! INI 5th Anniversary RADIO」』21:00-22:00\n▼番組名\nFM802『802 BINTAN GARDEN 「Log in to us ! INI 5th Anniversary RADIO」』\n▼放送日時\n2026年10月25日（日）21:00-22:00\n▼番組HP\nhttps://funky802.com/\n尾崎匠海、後藤威尊が出演いたします。"
   },
   {
+    "id": "schedule-4533",
+    "scheduleId": "4533",
+    "type": "schedule",
+    "group": "schedule",
+    "category": "release",
+    "categoryLabel": "Release",
+    "date": "2026-10-27",
+    "title": "DIGITAL RELEASE『My Way』",
+    "url": "https://ini-official.com/schedule/detail/4533",
+    "members": [],
+    "externalLinks": [
+      {
+        "label": "https://lnk.to/INI_HIROTO_MyWay",
+        "url": "https://lnk.to/INI_HIROTO_MyWay"
+      }
+    ],
+    "detailText": "2026.10.27\n[Tue]\nRelease\nDIGITAL RELEASE『My Way』\n■アーティスト\nHIROTO (INI)\n■楽曲名\nMy Way\n■配信開始日\n2026年10月27日（火）18:00〜\n■配信URL\nhttps://lnk.to/INI_HIROTO_MyWay"
+  },
+  {
     "id": "schedule-4398",
     "scheduleId": "4398",
     "type": "schedule",
