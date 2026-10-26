@@ -65106,6 +65106,28 @@
     "detailText": "2026.11.01\n[Sun]\nLive／Event\nOTRN [ Sound Lab ]\n◾️日程\n2026年10月31日(土) 開場16:30 / 開演17:30\n2026年11月1日(日) 開場14:00 / 開演15:00\n※西洸人は11月1日(日)に出演いたします。\n◾️会場\nYOKOHAMA BUNTAI（〒231-0032 神奈川県横浜市中区不老町２丁目７番１）\n◾️公式HP\nhttps://jetmusic-official.com/"
   },
   {
+    "id": "schedule-4534",
+    "scheduleId": "4534",
+    "type": "schedule",
+    "group": "schedule",
+    "category": "tv",
+    "categoryLabel": "TV",
+    "date": "2026-11-01",
+    "title": "TVO『やすとものどこいこ』15:00-16:00",
+    "url": "https://ini-official.com/schedule/detail/4534",
+    "members": [
+      "池﨑理人",
+      "後藤威尊"
+    ],
+    "externalLinks": [
+      {
+        "label": "https://www.tv-osaka.co.jp/ip4/yasutomo/",
+        "url": "https://www.tv-osaka.co.jp/ip4/yasutomo/"
+      }
+    ],
+    "detailText": "2026.11.01\n[Sun]\nTV\nTVO『やすとものどこいこ』15:00-16:00\n▼番組名\nTVO『やすとものどこいこ』\n▼放送日時\n2026年11月1日（日）15:00-16:00\n▼番組HP\nhttps://www.tv-osaka.co.jp/ip4/yasutomo/\n池﨑理人、後藤威尊が出演いたします。"
+  },
+  {
     "id": "schedule-4506",
     "scheduleId": "4506",
     "type": "schedule",
