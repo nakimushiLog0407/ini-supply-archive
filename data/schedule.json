@@ -65128,6 +65128,28 @@
     "detailText": "2026.11.01\n[Sun]\nTV\nTVO『やすとものどこいこ』15:00-16:00\n▼番組名\nTVO『やすとものどこいこ』\n▼放送日時\n2026年11月1日（日）15:00-16:00\n▼番組HP\nhttps://www.tv-osaka.co.jp/ip4/yasutomo/\n池﨑理人、後藤威尊が出演いたします。"
   },
   {
+    "id": "schedule-4536",
+    "scheduleId": "4536",
+    "type": "schedule",
+    "group": "schedule",
+    "category": "tv",
+    "categoryLabel": "TV",
+    "date": "2026-11-01",
+    "title": "TX『ポケモンとどこいく！？』7:30-8:30",
+    "url": "https://ini-official.com/schedule/detail/4536",
+    "members": [
+      "シュウ・フェンファン",
+      "松田迅"
+    ],
+    "externalLinks": [
+      {
+        "label": "https://www.tv-tokyo.co.jp/anime/pokedoko/",
+        "url": "https://www.tv-tokyo.co.jp/anime/pokedoko/"
+      }
+    ],
+    "detailText": "2026.11.01\n[Sun]\nTV\nTX『ポケモンとどこいく！？』7:30-8:30\n▼番組名\nTX『ポケモンとどこいく！？』\n▼放送日時\n2026年11月1日（日）7:30-8:30\n▼番組HP\nhttps://www.tv-tokyo.co.jp/anime/pokedoko/\nシュウ・フェンファン、松田迅が出演いたします。"
+  },
+  {
     "id": "schedule-4506",
     "scheduleId": "4506",
     "type": "schedule",
@@ -65188,6 +65210,25 @@
       }
     ],
     "detailText": "2026.11.07\n[Sat]\nLive／Event\nAGESTOCK2026 in 早稲田祭\n◾️日程\n2026年11月7日(土)\n開場15:15 / 開演16:00(予定)\n◾️会場\n早稲田大学 15号館 101教室\n◾️チケット\n全席指定：2,000円(税込)\n◾️主催\nAGESTOCK2026実行委員会\n◾️イベントHP\nhttp://agestock.jp/gakusai2026/"
+  },
+  {
+    "id": "schedule-4538",
+    "scheduleId": "4538",
+    "type": "schedule",
+    "group": "schedule",
+    "category": "tv",
+    "categoryLabel": "TV",
+    "date": "2026-11-11",
+    "title": "YTV『ベストヒット歌謡祭2026』19:00-22:00",
+    "url": "https://ini-official.com/schedule/detail/4538",
+    "members": [],
+    "externalLinks": [
+      {
+        "label": "https://www.ytv.co.jp/besthits/",
+        "url": "https://www.ytv.co.jp/besthits/"
+      }
+    ],
+    "detailText": "2026.11.11\n[Wed]\nTV\nYTV『ベストヒット歌謡祭2026』19:00-22:00\n▼番組名\nYTV『ベストヒット歌謡祭2026』\n▼放送日時\n2026年11月11日（水）19:00-22:00\n▼番組HP\nhttps://www.ytv.co.jp/besthits/"
   },
   {
     "id": "schedule-4025",
