@@ -65066,23 +65066,23 @@
     "detailText": "2026.10.30\n[Fri]\nBirthday\n松田 迅's Birthday！"
   },
   {
-    "id": "schedule-4446",
-    "scheduleId": "4446",
+    "id": "schedule-4547",
+    "scheduleId": "4547",
     "type": "schedule",
     "group": "schedule",
-    "category": "radio",
-    "categoryLabel": "Radio",
+    "category": "tv",
+    "categoryLabel": "TV",
     "date": "2026-10-31",
-    "title": "TOKYO FM/JFN『From INI』毎週金曜日深夜25:00-27:00",
-    "url": "https://ini-official.com/schedule/detail/4446",
+    "title": "CX『STARフェス』13:30-14:30",
+    "url": "https://ini-official.com/schedule/detail/4547",
     "members": [],
     "externalLinks": [
       {
-        "label": "https://audee.jp/program/show/59121",
-        "url": "https://audee.jp/program/show/59121"
+        "label": "https://www.starfes.jp",
+        "url": "https://www.starfes.jp"
       }
     ],
-    "detailText": "2026.10.31\n[Sat]\nRadio\nTOKYO FM/JFN『From INI』毎週金曜日深夜25:00-27:00\n▼番組名\nTOKYO FM/JFN『From INI』\n▼放送日時\n2026年10月30日（金）25:00-27:00\n▼番組HP\nhttps://audee.jp/program/show/59121"
+    "detailText": "2026.10.31\n[Sat]\nTV\nCX『STARフェス』13:30-14:30\n▼番組名\nCX『STARフェス』\n▼放送日時\n2026年10月31日（土）13:30-14:30\n▼番組HP\nhttps://www.starfes.jp"
   },
   {
     "id": "schedule-4486",
@@ -65257,6 +65257,67 @@
     "members": [],
     "externalLinks": [],
     "detailText": "2026.11.15\n[Sun]\nLive／Event\n2026 INI 5TH ANNIVERSARY DOME TOUR [CITY OF LIGHTS]@京セラドーム大阪\n〈公演日程〉\n「2026 INI 5TH ANNIVERSARY DOME TOUR [CITY OF LIGHTS]」\n[東京・東京ドーム]\n2026/09/16（水） 開場16:30 / 開演18:30\n2026/09/17（木） 開場12:30 / 開演14:30\n[大阪・京セラドーム大阪]\n2026/11/14（土） 開場16:30 / 開演18:30\n2026/11/15（日） 開場12:30 / 開演14:30\n※公演内容、公演日程、出演者等は急遽変更になる場合がございます。あらかじめご了承ください。"
+  },
+  {
+    "id": "schedule-4550",
+    "scheduleId": "4550",
+    "type": "schedule",
+    "group": "schedule",
+    "category": "tv",
+    "categoryLabel": "TV",
+    "date": "2026-11-15",
+    "title": "MTV『MTV VMAJ 2026』19:30-23:00",
+    "url": "https://ini-official.com/schedule/detail/4550",
+    "members": [],
+    "externalLinks": [
+      {
+        "label": "https://www.mtvjapan.com/music/programs/202611-066",
+        "url": "https://www.mtvjapan.com/music/programs/202611-066"
+      }
+    ],
+    "detailText": "2026.11.15\n[Sun]\nTV\nMTV『MTV VMAJ 2026』19:30-23:00\n▼番組名\nMTV『MTV VMAJ 2026』\n▼放送日時\n2026年11月15日（日）19:30-23:00\n▼番組HP\nhttps://www.mtvjapan.com/music/programs/202611-066\n同時刻にTELASAでも独占配信いたします。"
+  },
+  {
+    "id": "schedule-4548",
+    "scheduleId": "4548",
+    "type": "schedule",
+    "group": "schedule",
+    "category": "radio",
+    "categoryLabel": "Radio",
+    "date": "2026-11-16",
+    "title": "TOKYO FM/JFN『SCHOOL OF LOCK!』22:00-23:00",
+    "url": "https://ini-official.com/schedule/detail/4548",
+    "members": [
+      "髙塚大夢"
+    ],
+    "externalLinks": [
+      {
+        "label": "https://www.tfm.co.jp/lock/",
+        "url": "https://www.tfm.co.jp/lock/"
+      }
+    ],
+    "detailText": "2026.11.16\n[Mon]\nRadio\nTOKYO FM/JFN『SCHOOL OF LOCK!』22:00-23:00\n▼番組名\nTOKYO FM/JFN『SCHOOL OF LOCK!』\n▼放送日時\n2026年11月16日（木）22:00-23:00\n▼番組HP\nhttps://www.tfm.co.jp/lock/\n髙塚大夢が生出演いたします。"
+  },
+  {
+    "id": "schedule-4549",
+    "scheduleId": "4549",
+    "type": "schedule",
+    "group": "schedule",
+    "category": "radio",
+    "categoryLabel": "Radio",
+    "date": "2026-11-19",
+    "title": "TOKYO FM/JFN『SCHOOL OF LOCK!』22:00-23:00",
+    "url": "https://ini-official.com/schedule/detail/4549",
+    "members": [
+      "髙塚大夢"
+    ],
+    "externalLinks": [
+      {
+        "label": "https://www.tfm.co.jp/lock/",
+        "url": "https://www.tfm.co.jp/lock/"
+      }
+    ],
+    "detailText": "2026.11.19\n[Thu]\nRadio\nTOKYO FM/JFN『SCHOOL OF LOCK!』22:00-23:00\n▼番組名\nTOKYO FM/JFN『SCHOOL OF LOCK!』\n▼放送日時\n2026年11月19日（木）22:00-23:00\n▼番組HP\nhttps://www.tfm.co.jp/lock/\n髙塚大夢が生出演いたします。"
   },
   {
     "id": "schedule-4496",
@@ -65449,5 +65510,24 @@
       }
     ],
     "detailText": "2027.02.07\n[Sun]\nLive／Event\nLAPOSTA 2027＠KYOCERA DOME OSAKA\n〈タイトル〉\nLAPOSTA 2027\n〈公演日程〉\n[東京・東京ドーム]\n2027/1/23（土）開場16:00 / 開演18:00\n2027/1/24（日）開場15:00 / 開演17:00\n[大阪・京セラドーム大阪]\n2027/2/6（土）開場16:00 / 開演18:00\n2027/2/7（日）開場14:00 / 開演16:00\n〈特設ページ〉\nhttps://lapone.jp/feature/laposta2027"
+  },
+  {
+    "id": "schedule-4551",
+    "scheduleId": "4551",
+    "type": "schedule",
+    "group": "schedule",
+    "category": "live_event",
+    "categoryLabel": "Live／Event",
+    "date": "2027-02-10",
+    "title": "Thank YOU From INI ～5th Anniversary Fan Meeting～",
+    "url": "https://ini-official.com/schedule/detail/4551",
+    "members": [],
+    "externalLinks": [
+      {
+        "label": "https://www.tfm.co.jp/5th_fromini/",
+        "url": "https://www.tfm.co.jp/5th_fromini/"
+      }
+    ],
+    "detailText": "2027.02.10\n[Wed]\nLive／Event\nThank YOU From INI ～5th Anniversary Fan Meeting～\n◾️日程\n2027年2月10日（水）\n18:00開場 19:00開演\n※公演内容、公演日程、出演者等は急遽変更になる場合がございます。あらかじめご了承ください。\n◾️会場\n有明アリーナ\n◾️番組HP\nhttps://www.tfm.co.jp/5th_fromini/"
   }
 ]
