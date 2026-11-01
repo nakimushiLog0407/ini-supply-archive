@@ -65113,7 +65113,7 @@
     "category": "tv",
     "categoryLabel": "TV",
     "date": "2026-11-01",
-    "title": "TVO『やすとものどこいこ』15:00-16:00",
+    "title": "TVO『やすとものどこいこ！？』15:00-16:00",
     "url": "https://ini-official.com/schedule/detail/4534",
     "members": [
       "池﨑理人",
@@ -65125,7 +65125,7 @@
         "url": "https://www.tv-osaka.co.jp/ip4/yasutomo/"
       }
     ],
-    "detailText": "2026.11.01\n[Sun]\nTV\nTVO『やすとものどこいこ』15:00-16:00\n▼番組名\nTVO『やすとものどこいこ』\n▼放送日時\n2026年11月1日（日）15:00-16:00\n▼番組HP\nhttps://www.tv-osaka.co.jp/ip4/yasutomo/\n池﨑理人、後藤威尊が出演いたします。"
+    "detailText": "2026.11.01\n[Sun]\nTV\nTVO『やすとものどこいこ！？』15:00-16:00\n▼番組名\nTVO『やすとものどこいこ！？』\n▼放送日時\n2026年11月1日（日）15:00-16:00\n▼番組HP\nhttps://www.tv-osaka.co.jp/ip4/yasutomo/\n池﨑理人、後藤威尊が出演いたします。"
   },
   {
     "id": "schedule-4536",
@@ -65170,6 +65170,27 @@
       }
     ],
     "detailText": "2026.11.03\n[Tue]\nRadio\nJ-WAVE『J-WAVE HOLIDAY SPECIAL Juchheim presents TURN IT OVER！』9:00-17:55\n▼番組名\nJ-WAVE『J-WAVE HOLIDAY SPECIAL Juchheim presents TURN IT OVER！』\n▼放送日時\n2026年11月3日（火）9:00-17:55\n▼番組HP\nhttps://www.j-wave.co.jp/holiday/20261103/\nシュウ・フェンファン、髙塚大夢が出演いたします。"
+  },
+  {
+    "id": "schedule-4553",
+    "scheduleId": "4553",
+    "type": "schedule",
+    "group": "schedule",
+    "category": "tv",
+    "categoryLabel": "TV",
+    "date": "2026-11-04",
+    "title": "NTV『DayDay.』9:00-11:10",
+    "url": "https://ini-official.com/schedule/detail/4553",
+    "members": [
+      "シュウ・フェンファン"
+    ],
+    "externalLinks": [
+      {
+        "label": "https://www.ntv.co.jp/dayday/",
+        "url": "https://www.ntv.co.jp/dayday/"
+      }
+    ],
+    "detailText": "2026.11.04\n[Wed]\nTV\nNTV『DayDay.』9:00-11:10\n▼番組名\nNTV『DayDay.』\n▼放送日時\n2026年11月4日（水）9:00-11:10\n▼番組HP\nhttps://www.ntv.co.jp/dayday/\nシュウ・フェンファンが出演いたします。"
   },
   {
     "id": "schedule-4399",
