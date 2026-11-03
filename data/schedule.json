@@ -65417,6 +65417,25 @@
     "detailText": "2026.11.22\n[Sun]\nTV\nCSテレ朝チャンネル1『＜独占生中継＞15th Anniversary テレビ朝日ドリームフェスティバル2026』15:00〜\n▼番組名\nCSテレ朝チャンネル1『＜独占生中継＞15th Anniversary テレビ朝日ドリームフェスティバル2026』\n▼放送日時\n2026年11月22日（日）15:00〜\n▼番組HP\nhttps://www.tv-asahi.co.jp/ch/contents/variety/0901/\n※全ての演目が放送されるわけではございません\n※スカパー！番組配信はございません\n※放送日時、及び内容は編成の都合により、予告なく変更になる場合があります"
   },
   {
+    "id": "schedule-4542",
+    "scheduleId": "4542",
+    "type": "schedule",
+    "group": "schedule",
+    "category": "tv",
+    "categoryLabel": "TV",
+    "date": "2026-12-09",
+    "title": "フジテレビ系列『2026 FNS 歌謡祭 第2夜』18:30-21:54",
+    "url": "https://ini-official.com/schedule/detail/4542",
+    "members": [],
+    "externalLinks": [
+      {
+        "label": "https://www.fujitv.co.jp/FNS/",
+        "url": "https://www.fujitv.co.jp/FNS/"
+      }
+    ],
+    "detailText": "2026.12.09\n[Wed]\nTV\nフジテレビ系列『2026 FNS 歌謡祭 第2夜』18:30-21:54\n▼番組名\nフジテレビ系列『2026 FNS 歌謡祭 第2夜』\n▼放送日時\n2026年12月9日（水）18:30-21:54\n▼番組HP\nhttps://www.fujitv.co.jp/FNS/"
+  },
+  {
     "id": "schedule-4510",
     "scheduleId": "4510",
     "type": "schedule",
