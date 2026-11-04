@@ -2140,5 +2140,14 @@
     "title": "INIの控え室 vol.2",
     "thumbnail": "https://ini-official.com/static2/prod/new_movie/thumbnail/337/2077ab99f5bd696a67a5558c769b660fd147307e277f8c5e631e9b7871a6018b_t.png",
     "url": "https://ini-official.com/movies/detail/625"
+  },
+  {
+    "id": "movie-632",
+    "type": "movie",
+    "group": "fc",
+    "date": "2026-11-03",
+    "title": "【メンバーよりコメント到着！】デビュー5周年コメント",
+    "thumbnail": "https://ini-official.com/static2/prod/new_movie/thumbnail/337/be83e494062cefa75bee75df4d6e106f2d75c7472d94a19521297b30b6db284a_t.png",
+    "url": "https://ini-official.com/movies/detail/632"
   }
 ]
