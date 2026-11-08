@@ -65233,6 +65233,27 @@
     "detailText": "2026.11.07\n[Sat]\nLive／Event\nAGESTOCK2026 in 早稲田祭\n◾️日程\n2026年11月7日(土)\n開場15:15 / 開演16:00(予定)\n◾️会場\n早稲田大学 15号館 101教室\n◾️チケット\n全席指定：2,000円(税込)\n◾️主催\nAGESTOCK2026実行委員会\n◾️イベントHP\nhttp://agestock.jp/gakusai2026/"
   },
   {
+    "id": "schedule-4562",
+    "scheduleId": "4562",
+    "type": "schedule",
+    "group": "schedule",
+    "category": "tv",
+    "categoryLabel": "TV",
+    "date": "2026-11-09",
+    "title": "NTV『DayDay.』9:00-11:10",
+    "url": "https://ini-official.com/schedule/detail/4562",
+    "members": [
+      "シュウ・フェンファン"
+    ],
+    "externalLinks": [
+      {
+        "label": "https://www.ntv.co.jp/dayday/",
+        "url": "https://www.ntv.co.jp/dayday/"
+      }
+    ],
+    "detailText": "2026.11.09\n[Mon]\nTV\nNTV『DayDay.』9:00-11:10\n▼番組名\nNTV『DayDay.』\n▼放送日時\n2026年11月9日（月）9:00-11:10\n▼番組HP\nhttps://www.ntv.co.jp/dayday/\nシュウ・フェンファンが出演いたします。"
+  },
+  {
     "id": "schedule-4538",
     "scheduleId": "4538",
     "type": "schedule",
@@ -65250,6 +65271,25 @@
       }
     ],
     "detailText": "2026.11.11\n[Wed]\nTV\nYTV『ベストヒット歌謡祭2026』19:00-22:00\n▼番組名\nYTV『ベストヒット歌謡祭2026』\n▼放送日時\n2026年11月11日（水）19:00-22:00\n▼番組HP\nhttps://www.ytv.co.jp/besthits/"
+  },
+  {
+    "id": "schedule-4489",
+    "scheduleId": "4489",
+    "type": "schedule",
+    "group": "schedule",
+    "category": "web_media",
+    "categoryLabel": "Web Media",
+    "date": "2026-11-12",
+    "title": "Lemino『INI 1×1 DINER #4』19:00～",
+    "url": "https://ini-official.com/schedule/detail/4489",
+    "members": [],
+    "externalLinks": [
+      {
+        "label": "https://lemino.docomo.ne.jp/ft/0000026/",
+        "url": "https://lemino.docomo.ne.jp/ft/0000026/"
+      }
+    ],
+    "detailText": "2026.11.12\n[Thu]\nWeb Media\nLemino『INI 1×1 DINER #4』19:00～\n▼番組名\nLemino『INI 1×1 DINER\n#4\n』\n▼放送日時\n2026年11月12日（木）19:00〜\n▼番組HP\nhttps://lemino.docomo.ne.jp/ft/0000026/"
   },
   {
     "id": "schedule-4025",
@@ -65415,6 +65455,27 @@
       }
     ],
     "detailText": "2026.11.22\n[Sun]\nTV\nCSテレ朝チャンネル1『＜独占生中継＞15th Anniversary テレビ朝日ドリームフェスティバル2026』15:00〜\n▼番組名\nCSテレ朝チャンネル1『＜独占生中継＞15th Anniversary テレビ朝日ドリームフェスティバル2026』\n▼放送日時\n2026年11月22日（日）15:00〜\n▼番組HP\nhttps://www.tv-asahi.co.jp/ch/contents/variety/0901/\n※全ての演目が放送されるわけではございません\n※スカパー！番組配信はございません\n※放送日時、及び内容は編成の都合により、予告なく変更になる場合があります"
+  },
+  {
+    "id": "schedule-4563",
+    "scheduleId": "4563",
+    "type": "schedule",
+    "group": "schedule",
+    "category": "magazine",
+    "categoryLabel": "Magazine",
+    "date": "2026-11-24",
+    "title": "ON VOICE Vol.6",
+    "url": "https://ini-official.com/schedule/detail/4563",
+    "members": [
+      "木村柾哉"
+    ],
+    "externalLinks": [
+      {
+        "label": "https://ongakutohito.com/magazines/",
+        "url": "https://ongakutohito.com/magazines/"
+      }
+    ],
+    "detailText": "2026.11.24\n[Tue]\nMagazine\nON VOICE Vol.6\nhttps://ongakutohito.com/magazines/\n木村柾哉 インタビュー"
   },
   {
     "id": "schedule-4542",
