@@ -14534,5 +14534,37 @@
     "publishedAt": "2026-11-16T18:34:13+09:00",
     "title": "#INI | 'ONE' MASAYA × TAKERU #INI_ONE #INI_DOME_TOUR#INI_CITY_OF_LIGHTS",
     "videoId": "Nc1B4S3OW6I"
+  },
+  {
+    "id": "youtube-IAo8rlBTLmc",
+    "type": "youtube",
+    "date": "2026-11-17",
+    "publishedAt": "2026-11-17T16:35:15+09:00",
+    "title": "#INI | 'RUNWAY' TAKUMI × KYOSUKE #INI_RUNWAY #INI_DOME_TOUR #INI_CITY_OF_LIGHTS",
+    "videoId": "IAo8rlBTLmc"
+  },
+  {
+    "id": "youtube-RzDrK20ML9M",
+    "type": "youtube",
+    "date": "2026-11-17",
+    "publishedAt": "2026-11-17T19:07:25+09:00",
+    "title": "もう包んで離さないからな #INI #INI_Present",
+    "videoId": "RzDrK20ML9M"
+  },
+  {
+    "id": "youtube-ZlMqZfbH41E",
+    "type": "youtube",
+    "date": "2026-11-17",
+    "publishedAt": "2026-11-17T20:33:50+09:00",
+    "title": "#INI | 'ONE' FENGFAN × HIROTO #INI_ONE #INI_DOME_TOUR #INI_CITY_OF_LIGHTS",
+    "videoId": "ZlMqZfbH41E"
+  },
+  {
+    "id": "youtube-THT1HSZRjA4",
+    "type": "youtube",
+    "date": "2026-11-17",
+    "publishedAt": "2026-11-17T21:36:15+09:00",
+    "title": "#INI | 'RUNWAY' RIHITO × SHOGO #INI_RUNWAY #INI_DOME_TOUR  #INI_CITY_OF_LIGHTS",
+    "videoId": "THT1HSZRjA4"
   }
 ]
