@@ -65233,6 +65233,25 @@
     "detailText": "2026.11.07\n[Sat]\nLive／Event\nAGESTOCK2026 in 早稲田祭\n◾️日程\n2026年11月7日(土)\n開場15:15 / 開演16:00(予定)\n◾️会場\n早稲田大学 15号館 101教室\n◾️チケット\n全席指定：2,000円(税込)\n◾️主催\nAGESTOCK2026実行委員会\n◾️イベントHP\nhttp://agestock.jp/gakusai2026/"
   },
   {
+    "id": "schedule-4543",
+    "scheduleId": "4543",
+    "type": "schedule",
+    "group": "schedule",
+    "category": "radio",
+    "categoryLabel": "Radio",
+    "date": "2026-11-07",
+    "title": "TOKYO FM/JFN『From INI』毎週金曜日深夜25:00-27:00",
+    "url": "https://ini-official.com/schedule/detail/4543",
+    "members": [],
+    "externalLinks": [
+      {
+        "label": "https://audee.jp/program/show/59121",
+        "url": "https://audee.jp/program/show/59121"
+      }
+    ],
+    "detailText": "2026.11.07\n[Sat]\nRadio\nTOKYO FM/JFN『From INI』毎週金曜日深夜25:00-27:00\n▼番組名\nTOKYO FM/JFN『From INI』\n▼放送日時\n2026年11月6日（金）25:00-27:00\n▼番組HP\nhttps://audee.jp/program/show/59121"
+  },
+  {
     "id": "schedule-4562",
     "scheduleId": "4562",
     "type": "schedule",
@@ -65306,6 +65325,25 @@
     "detailText": "2026.11.14\n[Sat]\nLive／Event\n2026 INI 5TH ANNIVERSARY DOME TOUR [CITY OF LIGHTS]@京セラドーム大阪\n〈公演日程〉\n「2026 INI 5TH ANNIVERSARY DOME TOUR [CITY OF LIGHTS]」\n[東京・東京ドーム]\n2026/09/16（水） 開場16:30 / 開演18:30\n2026/09/17（木） 開場12:30 / 開演14:30\n[大阪・京セラドーム大阪]\n2026/11/14（土） 開場16:30 / 開演18:30\n2026/11/15（日） 開場12:30 / 開演14:30\n※公演内容、公演日程、出演者等は急遽変更になる場合がございます。あらかじめご了承ください。"
   },
   {
+    "id": "schedule-4544",
+    "scheduleId": "4544",
+    "type": "schedule",
+    "group": "schedule",
+    "category": "radio",
+    "categoryLabel": "Radio",
+    "date": "2026-11-14",
+    "title": "TOKYO FM/JFN『From INI』毎週金曜日深夜25:00-27:00",
+    "url": "https://ini-official.com/schedule/detail/4544",
+    "members": [],
+    "externalLinks": [
+      {
+        "label": "https://audee.jp/program/show/59121",
+        "url": "https://audee.jp/program/show/59121"
+      }
+    ],
+    "detailText": "2026.11.14\n[Sat]\nRadio\nTOKYO FM/JFN『From INI』毎週金曜日深夜25:00-27:00\n▼番組名\nTOKYO FM/JFN『From INI』\n▼放送日時\n2026年11月13日（金）25:00-27:00\n▼番組HP\nhttps://audee.jp/program/show/59121"
+  },
+  {
     "id": "schedule-4026",
     "scheduleId": "4026",
     "type": "schedule",
@@ -65357,7 +65395,49 @@
         "url": "https://www.tfm.co.jp/lock/"
       }
     ],
-    "detailText": "2026.11.16\n[Mon]\nRadio\nTOKYO FM/JFN『SCHOOL OF LOCK!』22:00-23:00\n▼番組名\nTOKYO FM/JFN『SCHOOL OF LOCK!』\n▼放送日時\n2026年11月16日（木）22:00-23:00\n▼番組HP\nhttps://www.tfm.co.jp/lock/\n髙塚大夢が生出演いたします。"
+    "detailText": "2026.11.16\n[Mon]\nRadio\nTOKYO FM/JFN『SCHOOL OF LOCK!』22:00-23:00\n▼番組名\nTOKYO FM/JFN『SCHOOL OF LOCK!』\n▼放送日時\n2026年11月16日（月）22:00-23:00\n▼番組HP\nhttps://www.tfm.co.jp/lock/\n髙塚大夢が生出演いたします。"
+  },
+  {
+    "id": "schedule-4575",
+    "scheduleId": "4575",
+    "type": "schedule",
+    "group": "schedule",
+    "category": "radio",
+    "categoryLabel": "Radio",
+    "date": "2026-11-17",
+    "title": "TOKYO FM/JFN『SCHOOL OF LOCK!』22:00-23:00",
+    "url": "https://ini-official.com/schedule/detail/4575",
+    "members": [
+      "髙塚大夢"
+    ],
+    "externalLinks": [
+      {
+        "label": "https://www.tfm.co.jp/lock/",
+        "url": "https://www.tfm.co.jp/lock/"
+      }
+    ],
+    "detailText": "2026.11.17\n[Tue]\nRadio\nTOKYO FM/JFN『SCHOOL OF LOCK!』22:00-23:00\n▼番組名\nTOKYO FM/JFN『SCHOOL OF LOCK!』\n▼放送日時\n2026年11月17日（火）22:00-23:00\n▼番組HP\nhttps://www.tfm.co.jp/lock/\n髙塚大夢が生出演いたします。"
+  },
+  {
+    "id": "schedule-4576",
+    "scheduleId": "4576",
+    "type": "schedule",
+    "group": "schedule",
+    "category": "radio",
+    "categoryLabel": "Radio",
+    "date": "2026-11-18",
+    "title": "TOKYO FM/JFN『SCHOOL OF LOCK!』22:00-23:00",
+    "url": "https://ini-official.com/schedule/detail/4576",
+    "members": [
+      "髙塚大夢"
+    ],
+    "externalLinks": [
+      {
+        "label": "https://www.tfm.co.jp/lock/",
+        "url": "https://www.tfm.co.jp/lock/"
+      }
+    ],
+    "detailText": "2026.11.18\n[Wed]\nRadio\nTOKYO FM/JFN『SCHOOL OF LOCK!』22:00-23:00\n▼番組名\nTOKYO FM/JFN『SCHOOL OF LOCK!』\n▼放送日時\n2026年11月18日（水）22:00-23:00\n▼番組HP\nhttps://www.tfm.co.jp/lock/\n髙塚大夢が生出演いたします。"
   },
   {
     "id": "schedule-4549",
@@ -65419,6 +65499,25 @@
     "detailText": "2026.11.21\n[Sat]\nTV\nTBSチャンネル1『CDTV ライブ！ライブ！秋の大感謝祭2026』21:00-24:30\n▼番組名\nTBSチャンネル1『CDTV ライブ！ライブ！秋の大感謝祭2026』\n▼放送日時\n2026年11月21日（土）21:00-24:30\n▼番組HP\nhttps://www.tbs.co.jp/tbs-ch/information/2026_1019_2100.html"
   },
   {
+    "id": "schedule-4546",
+    "scheduleId": "4546",
+    "type": "schedule",
+    "group": "schedule",
+    "category": "radio",
+    "categoryLabel": "Radio",
+    "date": "2026-11-21",
+    "title": "TOKYO FM/JFN『From INI』毎週金曜日深夜25:00-27:00",
+    "url": "https://ini-official.com/schedule/detail/4546",
+    "members": [],
+    "externalLinks": [
+      {
+        "label": "https://audee.jp/program/show/59121",
+        "url": "https://audee.jp/program/show/59121"
+      }
+    ],
+    "detailText": "2026.11.21\n[Sat]\nRadio\nTOKYO FM/JFN『From INI』毎週金曜日深夜25:00-27:00\n▼番組名\nTOKYO FM/JFN『From INI』\n▼放送日時\n2026年11月20日（金）25:00-27:00\n▼番組HP\nhttps://audee.jp/program/show/59121"
+  },
+  {
     "id": "schedule-4383",
     "scheduleId": "4383",
     "type": "schedule",
@@ -65476,6 +65575,27 @@
       }
     ],
     "detailText": "2026.11.24\n[Tue]\nMagazine\nON VOICE Vol.6\nhttps://ongakutohito.com/magazines/\n木村柾哉 インタビュー"
+  },
+  {
+    "id": "schedule-4573",
+    "scheduleId": "4573",
+    "type": "schedule",
+    "group": "schedule",
+    "category": "magazine",
+    "categoryLabel": "Magazine",
+    "date": "2026-11-25",
+    "title": "smart 2027年1月号",
+    "url": "https://ini-official.com/schedule/detail/4573",
+    "members": [
+      "後藤威尊"
+    ],
+    "externalLinks": [
+      {
+        "label": "https://tkj.jp/smart/",
+        "url": "https://tkj.jp/smart/"
+      }
+    ],
+    "detailText": "2026.11.25\n[Wed]\nMagazine\nsmart 2027年1月号\nhttps://tkj.jp/smart/\n後藤威尊 インタビュー"
   },
   {
     "id": "schedule-4569",
@@ -65562,6 +65682,27 @@
       }
     ],
     "detailText": "2026.12.16\n[Wed]\nRelease\n『LEGEND』\n西洸人feat.参加曲「Let you go feat. HIROTO (INI)」が収録された\nちゃんみなさんの最新アルバム『LEGEND』が本日11月11日（水）より音源配信スタートいたしました。\nなお、CDアルバムの発売は12月16日（水）を予定しています。ぜひお聴きください。\n▼作品情報\nちゃんみな NEW ALBUM 『LEGEND』\nhttps://chanmina.lnk.to/LEGEND_ST_PKG\n©NO LABEL MUSIC / Sony Music Labels Inc.\n[配信アルバム]\n2026年11月11日（水）配信スタート\nhttps://NOLABEL.lnk.to/LEGEND_paps\n[CD]\n2026年12月16日（水）発売\nhttps://chanmina.lnk.to/LEGEND_PKG"
+  },
+  {
+    "id": "schedule-4574",
+    "scheduleId": "4574",
+    "type": "schedule",
+    "group": "schedule",
+    "category": "magazine",
+    "categoryLabel": "Magazine",
+    "date": "2026-12-23",
+    "title": "ViVi 2027年2月号",
+    "url": "https://ini-official.com/schedule/detail/4574",
+    "members": [
+      "西洸人"
+    ],
+    "externalLinks": [
+      {
+        "label": "https://www.vivi.tv/magazine/",
+        "url": "https://www.vivi.tv/magazine/"
+      }
+    ],
+    "detailText": "2026.12.23\n[Wed]\nMagazine\nViVi 2027年2月号\nhttps://www.vivi.tv/magazine/\n西洸人 表紙&インタビュー"
   },
   {
     "id": "schedule-4299",
