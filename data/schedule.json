@@ -65617,6 +65617,27 @@
     "detailText": "2026.11.25\n[Wed]\nRelease\nDIGITAL RELEASE『STRAWBERRY』\n■アーティスト\nHIROTO (INI)\n■楽曲名\nSTRAWBERRY\n■配信開始日\n2026年11月25日（水）00:00〜\n■配信URL\nhttps://lnk.to/INI_HIROTO_STRAWBERRY"
   },
   {
+    "id": "schedule-4583",
+    "scheduleId": "4583",
+    "type": "schedule",
+    "group": "schedule",
+    "category": "radio",
+    "categoryLabel": "Radio",
+    "date": "2026-11-25",
+    "title": "FM大阪『iDoBuddy』11:30-15:00",
+    "url": "https://ini-official.com/schedule/detail/4583",
+    "members": [
+      "尾崎匠海"
+    ],
+    "externalLinks": [
+      {
+        "label": "https://www.fmosaka.net/_sites/16783751",
+        "url": "https://www.fmosaka.net/_sites/16783751"
+      }
+    ],
+    "detailText": "2026.11.25\n[Wed]\nRadio\nFM大阪『iDoBuddy』11:30-15:00\n▼番組名\nFM大阪『iDoBuddy』\n▼放送日時\n2026年11月25日（水）11:30-15:00\n▼番組HP\nhttps://www.fmosaka.net/_sites/16783751\n尾崎匠海が生出演いたします。\n※14:00頃の出演を予定しております。"
+  },
+  {
     "id": "schedule-4573",
     "scheduleId": "4573",
     "type": "schedule",
@@ -65638,6 +65659,25 @@
     "detailText": "2026.11.25\n[Wed]\nMagazine\nsmart 2027年1月号\nhttps://tkj.jp/smart/\n後藤威尊 インタビュー"
   },
   {
+    "id": "schedule-4545",
+    "scheduleId": "4545",
+    "type": "schedule",
+    "group": "schedule",
+    "category": "radio",
+    "categoryLabel": "Radio",
+    "date": "2026-11-28",
+    "title": "TOKYO FM/JFN『From INI』毎週金曜日深夜25:00-27:00",
+    "url": "https://ini-official.com/schedule/detail/4545",
+    "members": [],
+    "externalLinks": [
+      {
+        "label": "https://audee.jp/program/show/59121",
+        "url": "https://audee.jp/program/show/59121"
+      }
+    ],
+    "detailText": "2026.11.28\n[Sat]\nRadio\nTOKYO FM/JFN『From INI』毎週金曜日深夜25:00-27:00\n▼番組名\nTOKYO FM/JFN『From INI』\n▼放送日時\n2026年11月27日（金）25:00-27:00\n▼番組HP\nhttps://audee.jp/program/show/59121"
+  },
+  {
     "id": "schedule-4569",
     "scheduleId": "4569",
     "type": "schedule",
@@ -65657,6 +65697,22 @@
     "detailText": "2026.12.05\n[Sat]\nTV\nCX『めちゃイケ誕生30周年記念番組 めちゃ×2メチャってるッ！』18:30-23:10\n▼番組名\nCX『めちゃイケ誕生30周年記念番組 めちゃ×2メチャってるッ！』\n▼放送日時\n2026年12月5日（土）18:30-23:10\n▼番組HP\nhttps://www.fujitv.co.jp/mecha3/"
   },
   {
+    "id": "schedule-4582",
+    "scheduleId": "4582",
+    "type": "schedule",
+    "group": "schedule",
+    "category": "live_event",
+    "categoryLabel": "Live／Event",
+    "date": "2026-12-07",
+    "title": "映画『高校生家族』公開記念プレミアイベント",
+    "url": "https://ini-official.com/schedule/detail/4582",
+    "members": [
+      "木村柾哉"
+    ],
+    "externalLinks": [],
+    "detailText": "2026.12.07\n[Mon]\nLive／Event\n映画『高校生家族』公開記念プレミアイベント\n◾️日程\n2026年12月7日（月）夕刻\n◾️会場\n東京都内・某所\n木村柾哉が登壇いたします。"
+  },
+  {
     "id": "schedule-4542",
     "scheduleId": "4542",
     "type": "schedule",
@@ -65664,7 +65720,7 @@
     "category": "tv",
     "categoryLabel": "TV",
     "date": "2026-12-09",
-    "title": "フジテレビ系列『2026 FNS 歌謡祭 第2夜』18:30-21:54",
+    "title": "CX『2026 FNS 歌謡祭 第2夜』18:30-21:54",
     "url": "https://ini-official.com/schedule/detail/4542",
     "members": [],
     "externalLinks": [
@@ -65673,7 +65729,7 @@
         "url": "https://www.fujitv.co.jp/FNS/"
       }
     ],
-    "detailText": "2026.12.09\n[Wed]\nTV\nフジテレビ系列『2026 FNS 歌謡祭 第2夜』18:30-21:54\n▼番組名\nフジテレビ系列『2026 FNS 歌謡祭 第2夜』\n▼放送日時\n2026年12月9日（水）18:30-21:54\n▼番組HP\nhttps://www.fujitv.co.jp/FNS/"
+    "detailText": "2026.12.09\n[Wed]\nTV\nCX『2026 FNS 歌謡祭 第2夜』18:30-21:54\n▼番組名\nCX『2026 FNS 歌謡祭 第2夜』\n▼放送日時\n2026年12月9日（水）18:30-21:54\n▼番組HP\nhttps://www.fujitv.co.jp/FNS/"
   },
   {
     "id": "schedule-4510",
