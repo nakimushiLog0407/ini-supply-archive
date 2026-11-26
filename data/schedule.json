@@ -65659,6 +65659,25 @@
     "detailText": "2026.11.25\n[Wed]\nMagazine\nsmart 2027年1月号\nhttps://tkj.jp/smart/\n後藤威尊 インタビュー"
   },
   {
+    "id": "schedule-4599",
+    "scheduleId": "4599",
+    "type": "schedule",
+    "group": "schedule",
+    "category": "web_media",
+    "categoryLabel": "Web Media",
+    "date": "2026-11-27",
+    "title": "U-NEXT『INIのAJITOラボ 特別配信DAY1』19:30～",
+    "url": "https://ini-official.com/schedule/detail/4599",
+    "members": [],
+    "externalLinks": [
+      {
+        "label": "https://t.unext.jp/r/ini_ajito",
+        "url": "https://t.unext.jp/r/ini_ajito"
+      }
+    ],
+    "detailText": "2026.11.27\n[Fri]\nWeb Media\nU-NEXT『INIのAJITOラボ 特別配信DAY1』19:30～\n▼番組名\nU-NEXT『INIのAJITOラボ 特別配信DAY1』\n▼放送日時\n2026年11月27日（金）19:30〜\n▼番組HP\nhttps://t.unext.jp/r/ini_ajito"
+  },
+  {
     "id": "schedule-4545",
     "scheduleId": "4545",
     "type": "schedule",
@@ -65676,6 +65695,25 @@
       }
     ],
     "detailText": "2026.11.28\n[Sat]\nRadio\nTOKYO FM/JFN『From INI』毎週金曜日深夜25:00-27:00\n▼番組名\nTOKYO FM/JFN『From INI』\n▼放送日時\n2026年11月27日（金）25:00-27:00\n▼番組HP\nhttps://audee.jp/program/show/59121"
+  },
+  {
+    "id": "schedule-4600",
+    "scheduleId": "4600",
+    "type": "schedule",
+    "group": "schedule",
+    "category": "web_media",
+    "categoryLabel": "Web Media",
+    "date": "2026-12-04",
+    "title": "U-NEXT『INIのAJITOラボ 特別配信DAY2』19:30～",
+    "url": "https://ini-official.com/schedule/detail/4600",
+    "members": [],
+    "externalLinks": [
+      {
+        "label": "https://t.unext.jp/r/ini_ajito",
+        "url": "https://t.unext.jp/r/ini_ajito"
+      }
+    ],
+    "detailText": "2026.12.04\n[Fri]\nWeb Media\nU-NEXT『INIのAJITOラボ 特別配信DAY2』19:30～\n▼番組名\nU-NEXT『INIのAJITOラボ 特別配信DAY1』\n▼放送日時\n2026年12月4日（金）19:30〜\n▼番組HP\nhttps://t.unext.jp/r/ini_ajito"
   },
   {
     "id": "schedule-4569",
