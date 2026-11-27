@@ -65697,6 +65697,22 @@
     "detailText": "2026.11.28\n[Sat]\nRadio\nTOKYO FM/JFN『From INI』毎週金曜日深夜25:00-27:00\n▼番組名\nTOKYO FM/JFN『From INI』\n▼放送日時\n2026年11月27日（金）25:00-27:00\n▼番組HP\nhttps://audee.jp/program/show/59121"
   },
   {
+    "id": "schedule-4602",
+    "scheduleId": "4602",
+    "type": "schedule",
+    "group": "schedule",
+    "category": "magazine",
+    "categoryLabel": "Magazine",
+    "date": "2026-12-01",
+    "title": "J Movie Magazine Vol.137",
+    "url": "https://ini-official.com/schedule/detail/4602",
+    "members": [
+      "木村柾哉"
+    ],
+    "externalLinks": [],
+    "detailText": "2026.12.01\n[Tue]\nMagazine\nJ Movie Magazine Vol.137\n木村柾哉 インタビュー"
+  },
+  {
     "id": "schedule-4600",
     "scheduleId": "4600",
     "type": "schedule",
@@ -65789,6 +65805,27 @@
     "detailText": "2026.12.12\n[Sat]\nLive／Event\n2026 MUSIC BANK GLOBAL FESTIVAL IN JAPAN\n◾️日程\n12月12日(土) 開場15:00（予定）/ 開演17:00（予定）★\n12月13日(日) 開場15:00（予定）/ 開演17:00（予定）\n★INIは12/12(土)に出演いたします。\n◾️会場\nMUFGスタジアム（国立競技場）\n◾️番組HP\nhttps://music-bank.jp/"
   },
   {
+    "id": "schedule-4605",
+    "scheduleId": "4605",
+    "type": "schedule",
+    "group": "schedule",
+    "category": "magazine",
+    "categoryLabel": "Magazine",
+    "date": "2026-12-15",
+    "title": "キネマ旬報 NEXT Vol.74",
+    "url": "https://ini-official.com/schedule/detail/4605",
+    "members": [
+      "木村柾哉"
+    ],
+    "externalLinks": [
+      {
+        "label": "https://www.kinejunshop.com",
+        "url": "https://www.kinejunshop.com"
+      }
+    ],
+    "detailText": "2026.12.15\n[Tue]\nMagazine\nキネマ旬報 NEXT Vol.74\nhttps://www.kinejunshop.com\n木村柾哉 インタビュー"
+  },
+  {
     "id": "schedule-4566",
     "scheduleId": "4566",
     "type": "schedule",
@@ -65837,6 +65874,43 @@
       }
     ],
     "detailText": "2026.12.23\n[Wed]\nMagazine\nViVi 2027年2月号\nhttps://www.vivi.tv/magazine/\n西洸人 表紙&インタビュー"
+  },
+  {
+    "id": "schedule-4603",
+    "scheduleId": "4603",
+    "type": "schedule",
+    "group": "schedule",
+    "category": "magazine",
+    "categoryLabel": "Magazine",
+    "date": "2026-12-23",
+    "title": "モデルプレスカウントダウンマガジン vol.14",
+    "url": "https://ini-official.com/schedule/detail/4603",
+    "members": [
+      "木村柾哉"
+    ],
+    "externalLinks": [],
+    "detailText": "2026.12.23\n[Wed]\nMagazine\nモデルプレスカウントダウンマガジン vol.14\n木村柾哉 インタビュー"
+  },
+  {
+    "id": "schedule-4604",
+    "scheduleId": "4604",
+    "type": "schedule",
+    "group": "schedule",
+    "category": "magazine",
+    "categoryLabel": "Magazine",
+    "date": "2026-12-25",
+    "title": "BARFOUT! SPECIAL EDITION MIDWINTER 2026",
+    "url": "https://ini-official.com/schedule/detail/4604",
+    "members": [
+      "木村柾哉"
+    ],
+    "externalLinks": [
+      {
+        "label": "https://barfout.jp/culture/5783/",
+        "url": "https://barfout.jp/culture/5783/"
+      }
+    ],
+    "detailText": "2026.12.25\n[Fri]\nMagazine\nBARFOUT! SPECIAL EDITION MIDWINTER 2026\nhttps://barfout.jp/culture/5783/\n木村柾哉 インタビュー"
   },
   {
     "id": "schedule-4299",
